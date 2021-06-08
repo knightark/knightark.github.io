@@ -1,0 +1,629 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>命令和查询职责分离——CQRS | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="命令和查询职责分离——CQRS           从资源库中查询所有需要显示的数据是困难的，特别是在需要显示来自不同聚合类型与实例的数据时。领域越复杂，这种困难程度越大。 ​    因此，我们并不期望单单使用资源库来解决这个问题。因为我们需要从不同的资源库获取聚合实例，然后再将这些实例数据组装成一个数据传输对象（DTO）。或者，我们可以在同一个查询中使用特殊的查找方法将不同资源库的数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="命令和查询职责分离——CQRS">
+<meta property="og:url" content="https://knightark.github.io/2020/12/22/%E5%91%BD%E4%BB%A4%E5%92%8C%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E2%80%94%E2%80%94CQRS/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="命令和查询职责分离——CQRS           从资源库中查询所有需要显示的数据是困难的，特别是在需要显示来自不同聚合类型与实例的数据时。领域越复杂，这种困难程度越大。 ​    因此，我们并不期望单单使用资源库来解决这个问题。因为我们需要从不同的资源库获取聚合实例，然后再将这些实例数据组装成一个数据传输对象（DTO）。或者，我们可以在同一个查询中使用特殊的查找方法将不同资源库的数据">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/412213/201601/412213-20160124173124718-716558884.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="article:published_time" content="2020-12-22T01:13:45.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:12.232Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/412213/201601/412213-20160124173124718-716558884.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/22/命令和查询职责分离——CQRS/" title="命令和查询职责分离——CQRS" itemprop="url">命令和查询职责分离——CQRS</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-22T01:13:45.000Z" itemprop="datePublished"> Published 2020-12-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%92%8C%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E2%80%94%E2%80%94CQRS"><span class="toc-number">1.</span> <span class="toc-text">     命令和查询职责分离——CQRS        </span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="命令和查询职责分离——CQRS"><a href="#命令和查询职责分离——CQRS" class="headerlink" title="     命令和查询职责分离——CQRS        "></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sad-bird/articles/5167059.html">     命令和查询职责分离——CQRS        </a></h1><p>   从资源库中查询所有需要显示的数据是困难的，特别是在需要显示来自不同聚合类型与实例的数据时。领域越复杂，这种困难程度越大。</p>
+<p>​    因此，我们并不期望单单使用资源库来解决这个问题。因为我们需要从不同的资源库获取聚合实例，然后再将这些实例数据组装成一个数据传输对象（DTO）。或者，我们可以在同一个查询中使用特殊的查找方法将不同资源库的数据组合在一起。如果这些办法都不合适，我们可能需要在用户体验上做出妥协，使界面显示生硬地服从于模型的聚合边界。然而，很多人都认为，这种机械式的用户界面从长远看来是不够的。</p>
+<p>   那么，有没有一种完全不同的方法可以将领域数据映射到界面显示中呢？答案是CQRS。CQRS是紧缩对象（或者组件）设计原则和命令-查询分离应用在架构模式中的结果。</p>
+<p>   Bertrand Meyer对CQRS模式有以下评述：</p>
+<p>   一个方法要么是执行某种动作的命令，要么是返回数据的查询，而不能两者皆是。换句话说，问题不应该对答案进行修改。更正式的解释是，一个方法只有在具有参考透明性时才能返回数据，此时该方法不会产生副作用。</p>
+<p>   在对象层面，这意味着：</p>
+<ol>
+<li><p>如果一个方法修改了对象的状态，该方法便是一个命令，它不应该返回数据。在Java和C#中，这样的方法应该声明为void。</p>
+</li>
+<li><p>如果一个方法返回了数据，该方法便是一个查询，此时它不应该通过直接的或间接的手段修改对象的状态。在Java和C#中，这样的方法应该以其返回的数据类型进行声明。</p>
+<p>这样的指导原则是非常直接明了的，同时具有实践和理论基础作为支撑。但是，在DDD的架构模式中，我们为什么应该使用CQRS呢，又如何使用呢？</p>
+</li>
+</ol>
+<p>​    在领域模型中——比如限界上下文中所讨论的领域模型——我们通常会看到同时包含有命令和查询的聚合。同时，我们也经常在资源库中看到不同的查找方法，这些方法对对象属性进行过滤。但是在CQRS中，我们将忽略这些看似常态的情形，我们将通过不同的方式来查询用于显示的数据。</p>
+<p>​    现在，对于同一个模型，考虑将那些纯粹的查询功能从命令功能中分离出来。聚合将不再有查询方法，而只有命令方法。资源库也将变成只有add()或save()方法（分别支持创建和更新操作），同时只有一个查询方法，比如fromId()。这个唯一的查询方法将聚合的身份标识作为参数，然后返回该聚合实例。资源库不能使用其他方法来查询聚合，比如对属性进行过滤等。在将所有查询方法移除之后，我们将此时的模型称为<strong>命令模型（也被称为写模型）</strong>。但是我们仍然需要向用户显示数据，为此我们将创建第二个模型，该模型专门用于优化查询，我们称这为<strong>查询模型（也被称为读模型）</strong>。</p>
+<p><strong>这不是增加了复杂性吗？</strong></p>
+<p>   <em>你可能会认为：这种架构风格需要大量的额外工作，我们解决了一些问题，但同时又带来了另外的问题，并且我们需要编写更多的代码。</em></p>
+<p>   <em>但无论如何，不要急于否定这种架构。在某些情况下，新增的复杂性是合理的。请记住，CQRS旨在解决数据显示复杂性问题，而不是什么绚丽的新风格以使你的简历增光添彩。</em></p>
+<p>   因此，领域模型将被一分为二，命令模型和查询模型分开进行存储。最终，我们得到的组件系统如图所示：</p>
+<p><img src="https://images2015.cnblogs.com/blog/412213/201601/412213-20160124173124718-716558884.png" alt="img"></p>
+<p><strong>CQRS的各个方面</strong></p>
+<p>   接下来，让我们依次了解CQRS模式的各个方面。我们先从客户端和查询模型开始，再了解命令模型。</p>
+<p><strong>客户端和查询处理器</strong></p>
+<p>   客户端则可以是Web浏览器，也可以是定制开发的桌面应用程序。它们将使用运行在服务器端的一组查询处理器。图中并没有显示服务器的架构层次。不管使用什么样的架构层，查询处理器都表示一个只知道如何向数据库执行基本查询（比如SQL）的简单组件。</p>
+<p>   这里并不存在多么复杂的分层，查询组件至多是对数据存储（比如数据库）进行查询，然后可能将查询结果以某种格式进行序列化。如果客户端运行的是C#，那么它可以直接对数据库进行查询。然而，这可能需要大量的数据库连接，此时使用数据库连接池则是最佳办法。</p>
+<p>​    如果客户端可以处理数据库结果集，此时我们可能不需要对查询结果进行序列化，但我依然建议使用。这里存在两种不同的观点。一种观点是客户直接处理结果集，或者是一些非常基本的序列化数据，比如XML和JSON。另一种观点认为应该将返回数据转换成DTO让客户端处理。这可能只是一个偏好问题，但是任何时候我们引入DTO和DTO组装器，系统的复杂性都会随之增加。因此，每个团队应该选择最适合自身的方法。</p>
+<p><strong>查询模型（读模型）</strong></p>
+<p>​    查询模型是一种非规范化数据模型，它并不反映领域行为，只是用于数据显示（也有可能是生成数据报告）。如果数据模型是SQL数据库，那么每张数据库表便是一种数据显示视图。它可以包含很多列，甚至是所显示数据的一个超集。表视图可以通过多张表进行创建，此时每张表代表整个显示数据的一个逻辑子集。</p>
+<p><strong>创建足够多的视图</strong></p>
+<p>   值得一提的是，创建CQRS数据视图可以是非常廉价的，特别是在使用单种形式的事件源时，此时所有的事件都将被持久化，这样在任何时候我们都可以重新发布显示数据，我们也可以从头重建单个显示视图，或者将整个查询模型转向另外的持久化机制。事件源使我们可以简单地创建和维护显示视图以响应UI变化，这样我们可以在不考虑数据库表结构的前提下获得更直观的用户体验。</p>
+<p>​    比如，要在用户界面上显示用户、经理和管理者等信息，我们纵然可以只创建一张数据库表来包含所有这些信息。但是，如果为每种类型的用户分别创建一个显式（专门的）视图，我们便可以将每种安全角色的数据进行分离，由此以用户类型为单位来显示安全信息。要显示常规用户信息，我们可以选择该常规用户所对应数据库表视图的所有列；要显示经理信息，我们则可以选择经理所对应数据库表视图的所有列。这样一来，常规用户将不能看到经理用户的数据信息。</p>
+<p>   此时的选择语句只需要提供数据库表视图的主键即可。下面的SQL语句表示了一个查询处理器选择一种产品的某个常规用户的所有数据列：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from vw_usr_product where id = ?</span><br></pre></td></tr></table></figure>
+
+<p>​    顺便提一下，这里使用的表视图命令规范并不值得推荐，但这并不是我们的重点。这里的主键表示某种聚合类型或者多聚合组合类型的唯一标识。在本例中，主键id表示命令模型中某个Product的唯一标识。数据模型的设计应该遵循“一张表对应一种用户界面显示类型（对应的是某种类型的，而不是一个）”的原则，不同的安全角色应该对应有不同的表视图。但是，我们应该从实际出发，具体情况具体分析。</p>
+<p><strong>具体情况具体分析</strong></p>
+<p>   <em>如果存在25个证券营销人，但是根据SEC规则，他们相互之间都不能看到彼此的销售信息，那么此时我们应该创建25个表视图吗？这里使用一个过滤器可能更加合适，否则我们需要创建太多的表视图。</em></p>
+<p>   具体实施起来这可能是困难的，因为我们可能需要将多张表或者多个表视图联合起来查询。联合查询可能是有必要的，或者至少比过滤器更加实用，特别是当领域中存在大量的安全角色时。</p>
+<p><strong>数据库的表视图不是会造成重复吗？</strong></p>
+<p>​    在执行更新时，一个基本的数据库表视图是不会产生重复的。一个视图只对应于一个查询，在本例中甚至连联合查询都不会用到。只有具体化视图（视图中存有数据）才存在更新重复，因为此时的视图数据需要复制到另外的地方以供选择查询语句使用。在设计数据库表和视图时我们应该多留意，以使对查询模型的更新达到最优化。</p>
+<p><strong>客户端驱动命令处理</strong></p>
+<p>​    用户界面客户端向服务器发送命令（或者间接地执行应用服务）以在聚合上执行相应的行为操作，此时的聚合即属于命令模型。提交的命令包含了行为操作的名称和所需参数。命令数据包是一个序列化的方法调用。由于命令模型拥有设计良好的契约和行为，将命令匹配到相应的契约是很直接的事情。</p>
+<p>​    要达到这样的目的，用户界面客户端必须收集到足够的数据以完成命令调用。这表明我们需要慎重考虑用户体验设计，因为用户体验设计需要引导用户如何正确地提交命令。此时最好的方法是使用一种诱导式的，任务驱动式的用户界面设计，这种方法会把不必要的数据过滤掉，然后执行准确的命令调用。因此，设计出一种演绎式的，能够生成显式命令的用户界面是可能的。</p>
+<p><strong>命令处理器</strong></p>
+<p>   客户端提交的命令将被命令处理器所接收。命令处理器可以有不同的类型风格，这里我们将分别讨论它们的优缺点。</p>
+<p>   我们可以使用分类风格，此时多个命令处理器位于同一个应用服务中。在这种风格中，我们根据命令类别来实现应用服务。每一个应用服务都拥有多个方法，每个方法处理某种类型的命令。该风格最大的优点是简单。分类风格命令处理器易于理解，创建简单，维护方便。</p>
+<p>   我们也可以使用专属风格，此时每种命令都对应于某个单独的类，并且该类只有一个方法。这种风格的优点是：每个处理器的职责是单一的，命令处理器之间相互独立，我们可以通过增加处理器种类来处理更多的命令。</p>
+<p>​    专属风格可能发展成为消息风格，其中每个命令将通过异步的消息发送到某个命令处理器。消息风格使得每个命令处理器可以处理某种特殊的消息类型，同时我们可以通过增加单种处理器的数量来缓解消息负载。但是，消息风格并不能作为默认的命令处理方式，因为它的设计比其他两种都复杂。因此，我们应该首先考虑使用前两种同步方式的命令处理器，只有在有伸缩性需要的情况下才采用异步方式。可能有人会认为，异步方式可以在不同系统间进行解耦，因此系统具有更高的弹性。这种偏见往往容易导致消息风格命令处理器的产生。</p>
+<p>   无论采用哪种风格的命令处理器，我们都应该在不同的处理器间进行解耦，不能使一个处理器依赖于另一个处理器。这样，对一种处理器的重新部署不会影响到其他处理器。</p>
+<p>   命令处理器通常只完成有限的功能。如果处理器拥有创建功能，那么它会创建一个新的聚合实例，然后将该实例添加到资源库中。通常地，命令处理器将从资源库中获取聚合实例，再调用该实例的行为方法：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void CommitBacklogItemToSprint(string aTenantId,string aBacklogItemId,string aSprintId)</span><br><span class="line">&#123;</span><br><span class="line">    TenantId tenantId = new TenantId(aTenantId);</span><br><span class="line">    BacklogItem backlogItem = backlogItemRepository.backlogItemOfId(tenantId,new BacklogItemId(aBacklogItemId));</span><br><span class="line">    Sprint sprint = sprintRepository.sprintOfId(tenantId,new SprintId(aSprintId));</span><br><span class="line">    backlogItem.CommiTo(sprint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>​    当该命令处理器执行结束后，一个聚合实例将被更新，同时命令模型还将发布一个领域事件。对于更新查询模型来说，这样的领域事件是至关重要的。值得注意的是，就像在领域事件和聚合中所讲，所发布的领域事件还可能导致另一些受同一个命令所影响的聚合实例的同步更新，最终，这些聚合实例都将与本次事务所修改的聚合实例保持最终一致性。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/12/22/%E5%91%BD%E4%BB%A4%E5%92%8C%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E2%80%94%E2%80%94CQRS/" data-title="命令和查询职责分离——CQRS | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/22/How to Use Anonymous Pipes for Local Interprocess Communication/" title="使用匿名管道技术进行本地进程间通信">
+  <strong>上一篇：</strong><br/>
+  <span>
+  使用匿名管道技术进行本地进程间通信</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/12/22/Oxyplot实时绘图学习笔记/"  title="Oxyplot实时绘图学习笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>Oxyplot实时绘图学习笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%92%8C%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E2%80%94%E2%80%94CQRS"><span class="toc-number">1.</span> <span class="toc-text">     命令和查询职责分离——CQRS        </span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

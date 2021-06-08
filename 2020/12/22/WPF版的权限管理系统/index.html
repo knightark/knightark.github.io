@@ -1,0 +1,621 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>WPF版的权限管理系统 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="WPF版的权限管理系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPF版的权限管理系统">
+<meta property="og:url" content="https://knightark.github.io/2020/12/22/WPF%E7%89%88%E7%9A%84%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="WPF版的权限管理系统">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/48022/201307/22203657-e4e965d05a8b4158bdc5f34f7291ac5f.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/48022/201307/22212916-55e8c9d4e6214880bc2ae7acd374f5d6.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/48022/201307/22222736-c874553a7d7b49fcbe0af0ef53d14451.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/48022/201307/22221524-2747954f1275493885d82c9d9d56cdc0.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/48022/201307/22221607-ede5c36caf5d461db2c41c33fbb17f8a.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/48022/201307/22221655-dc8dee60c0c441e3a0fbb70868709e26.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/48022/201307/22223948-a45b97b126c444228d9e3b8b82ce91a5.png">
+<meta property="article:published_time" content="2020-12-22T01:08:06.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:11:13.131Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="WPF">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="权限管理">
+<meta property="article:tag" content="SoA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images0.cnblogs.com/blog/48022/201307/22203657-e4e965d05a8b4158bdc5f34f7291ac5f.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/22/WPF版的权限管理系统/" title="WPF版的权限管理系统" itemprop="url">WPF版的权限管理系统</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-22T01:08:06.000Z" itemprop="datePublished"> Published 2020-12-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WPF%E7%89%88%E7%9A%84%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">     WPF版的权限管理系统        </span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="WPF版的权限管理系统"><a href="#WPF版的权限管理系统" class="headerlink" title="     WPF版的权限管理系统        "></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xcj26/p/3206556.html">     WPF版的权限管理系统        </a></h1><p>好多技术人员都有一个通病，不关注用户的需求，产品的可用性，只看使用的技术的新不新，潮不潮，这就是所谓的技术发烧友。</p>
+<p>这段时间，断断续续的开发一个WPF的软件，也拿出来Show一下。要不放在硬盘里就发霉了。</p>
+<p><strong>热点一：SOA的分布式理念</strong></p>
+<p>　　现在的开发理念，不管是企业级的ERP，还是网站式的应用，都涉及到了SOA的分布式。就拿一个比较典型的网站来说吧，做网站的童鞋们对CAS，SSO这些关键字并不陌生吧，实质就是应用了SOA的理念，把一个网站平台的认证授权单独抽取出来独立成一个系统，其它业务网站的认证授权都以这个为基础，实现了单点的登录，授权。其实在企业级的ERP中，我们也是这么干的，我们把认证授权提取成一个独立的基础平台（这个甚而平台有可能包括：公共基础数据系统，消息系统，工作流，报表）的一个子系统，其它业务系统都围绕着这个基础平台进行开发。如下图所示，把每个业务系统的权限都提取出来，放在基础平台。</p>
+<p> <a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/48022/201307/22203657-e4e965d05a8b4158bdc5f34f7291ac5f.png"><img src="https://images0.cnblogs.com/blog/48022/201307/22203657-e4e965d05a8b4158bdc5f34f7291ac5f.png" alt="img"></a></p>
+<p>因为这是一个基础开发平台，所以必须为别的应用程序留下服务接口，方便的与别的应用程序通信，实现其软件的价值。</p>
+<p><strong>热点二：WCF的安全机制（拦截器）</strong></p>
+<p>我们把通用的功能都提取出来组成了一个基础开发平台，以后的业务系统都只关心业务固然是好。不过有点乌托邦了。你想想，业务系统与基础系统怎样通信？怎和样保证通信的安全，这个问题曾经困扰了我好久。系统之间的通信，大家不约而同的可能都想到了Web Service或者WCF吧，不过怎样保证Web Service,WCF的安全呢？我还看到过有人用javascript来调用web  Service（Web Service做的是CRUD的操作），这是把自己的衣服脱了赤裸裸的让别人来攻击，给我吓出了一身冷汗呀！</p>
+<p>那我们怎样来保证Web Service 或者WCF的安全呢？最笨的方法可以为每个WCF或者Web  Service定义两个参数（一个用户名，一个加密码的密码），  或者再改进一下定义一个Token的参数（这个方法我这样做过，鄙视自己一下），有的为了代码看起来更优雅一些，在请求服务时把这个Token写在Header里。然后在执行Web Service 或者  WCF的主体之前，根据传过来的参数在数据库里查询一下，判断这个请求是否有权限。不过一些中大型的系统，一般都会有上百甚至几千个Web  Service，每个服务都定义一个参数，或者在Header里定义一个键值对，是不是显得代码很臃肿呢？我们针对这样的问题，我们采用WCF特别的机制拦截器。 WCF中的拦截器其实就是AOP的一个实现，当然这个实现我们也可以自己来写。</p>
+<p> <a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/48022/201307/22212916-55e8c9d4e6214880bc2ae7acd374f5d6.png"><img src="https://images0.cnblogs.com/blog/48022/201307/22212916-55e8c9d4e6214880bc2ae7acd374f5d6.png" alt="img"></a></p>
+<p>在调用每个Web Service或者WCF之前，我都加一个Token在Header里，这个动作，我们完全可以公用，就是采用AOP技术。</p>
+<p>在公共基础平台接收到请求的时候，同样可以用AOP的技术，判断Token是否有效。具全实现看源码。</p>
+<p><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/48022/201307/22222736-c874553a7d7b49fcbe0af0ef53d14451.png"><img src="https://images0.cnblogs.com/blog/48022/201307/22222736-c874553a7d7b49fcbe0af0ef53d14451.png" alt="img"></a></p>
+<p><strong>热点三：WPF</strong></p>
+<p>在bs结构的系统中，HTML5的UI比较有前景，在cs结构的UI中，我想WPF应该有她独特的优势，在这儿我们暂时不讨论平台的好坏，技术优劣。且看我怎样用WPF来实现一个软件的UI。</p>
+<p>1)个性化的菜单：</p>
+<p><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/48022/201307/22221524-2747954f1275493885d82c9d9d56cdc0.png"><img src="https://images0.cnblogs.com/blog/48022/201307/22221524-2747954f1275493885d82c9d9d56cdc0.png" alt="img"></a></p>
+<p>2）炫耀的表单验证</p>
+<p><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/48022/201307/22221607-ede5c36caf5d461db2c41c33fbb17f8a.png"><img src="https://images0.cnblogs.com/blog/48022/201307/22221607-ede5c36caf5d461db2c41c33fbb17f8a.png" alt="img"></a></p>
+<p>3）自定义，动态生成xaml的模板</p>
+<p><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/48022/201307/22221655-dc8dee60c0c441e3a0fbb70868709e26.png"><img src="https://images0.cnblogs.com/blog/48022/201307/22221655-dc8dee60c0c441e3a0fbb70868709e26.png" alt="img"></a></p>
+<p>4）目前正在用mvvmlight改写原有的代码。</p>
+<p>这些亮点都不得不让我用WPF，这是一个技术爱好者的执着追求，是我的理念。</p>
+<p><strong>热点四：Code First</strong></p>
+<p>我们什么SOA, AOP, IOC等热点技术都用上了，千万不要拉下了ORM，ORM有Ibatis,  hibernate,daper等，但是从性能，可使用性上来说各有千秋，没有优劣，但是我感觉在.net平台上，只有entity  framework才是真正的可用orm。entity framework有三种模式，mode first, database first,  code first。我为什么在这个项目中选择code first是有原因的。因为我定义的实体，<strong>既想作为生成数据库的定义，又想作为WCF中数据传输的数据契约</strong>。往往单方面从一个技术角度来看并不难，但是技术与技术叠加，就会出现很多稀奇的问题。我上一段代码片段：</p>
+<p><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/48022/201307/22223948-a45b97b126c444228d9e3b8b82ce91a5.png"><img src="https://images0.cnblogs.com/blog/48022/201307/22223948-a45b97b126c444228d9e3b8b82ce91a5.png" alt="img"></a></p>
+<p>其中红色的是WCF数据契约的标识，蓝色的是Code First的数据定义。把这两种定义都集中在Model上，减少了业务层代码，业务层重点放在了处理业务上。</p>
+<p><strong>总结：</strong></p>
+<p>此软件在用户操作体验，代码结构上都有待改进的地方，在上文的介绍中，你对某个东西感兴趣可以在博客园发短消息联系我，一起探讨，共同进步。</p>
+<p>如果想获取源码，可以请我喝一杯，毕竟辛苦了好久，支持我一下。^_^ <a target="_blank" rel="noopener" href="http://pan.baidu.com/share/link?shareid=1781262032&uk=3808544480">源码下载</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/WPF/">WPF</a><a href="/tags/C/">C#</a><a href="/tags/权限管理/">权限管理</a><a href="/tags/SoA/">SoA</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/12/22/WPF%E7%89%88%E7%9A%84%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" data-title="WPF版的权限管理系统 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/22/Oxyplot实时绘图学习笔记/" title="Oxyplot实时绘图学习笔记">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Oxyplot实时绘图学习笔记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/12/22/WPF三维立体效果3D/"  title="WPF三维立体效果3D">
+ <strong>下一篇：</strong><br/> 
+ <span>WPF三维立体效果3D
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WPF%E7%89%88%E7%9A%84%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">     WPF版的权限管理系统        </span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

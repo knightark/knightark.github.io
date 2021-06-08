@@ -1,0 +1,720 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>WPF编程，曲线控件DynamicDataDisplay的使用方法（三） | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="使用DynamicDataDisplay绘制折线图。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPF编程，曲线控件DynamicDataDisplay的使用方法（三）">
+<meta property="og:url" content="https://knightark.github.io/2020/11/25/WPF%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%9B%B2%E7%BA%BF%E6%8E%A7%E4%BB%B6DynamicDataDisplay%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="使用DynamicDataDisplay绘制折线图。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190111144746405.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818083147461.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMzA3OTM0,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818083925649.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818085854159.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818090844386.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818091713885.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818092545196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMzA3OTM0,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818092741843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMzA3OTM0,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200818092953407.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdn.net/20170515143342161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzE4NzUzMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20170515143712432?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzE4NzUzMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20181021103731118?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20181021105901831?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180902133915884?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/2018090213415353?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180902134513604?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180902134734249?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="article:published_time" content="2020-11-25T01:39:10.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:13:02.282Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="WPF">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="chart">
+<meta property="article:tag" content="DynamicDataDisplay">
+<meta property="article:tag" content="图表">
+<meta property="article:tag" content="折线图">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190111144746405.gif">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/11/25/WPF编程，曲线控件DynamicDataDisplay的使用方法（三）/" title="WPF编程，曲线控件DynamicDataDisplay的使用方法（三）" itemprop="url">WPF编程，曲线控件DynamicDataDisplay的使用方法（三）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-11-25T01:39:10.000Z" itemprop="datePublished"> Published 2020-11-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DynamicDataDisplay%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%E4%BA%8C"><span class="toc-number">1.</span> <span class="toc-text">DynamicDataDisplay学习之路(二)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%8C%E7%BB%98%E5%9B%BE%E4%BB%AA%E7%9A%84%E4%B8%BBX%E3%80%81Y%E8%BD%B4"><span class="toc-number">1.0.1.</span> <span class="toc-text">1，绘图仪的主X、Y轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%8C%E6%A0%87%E9%A2%98"><span class="toc-number">1.0.2.</span> <span class="toc-text">2，标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%8C%E5%B8%B8%E6%95%B0%E7%BA%BF"><span class="toc-number">1.0.3.</span> <span class="toc-text">3，常数线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%EF%BC%8C%E5%8D%81%E5%AD%97%E5%85%89%E6%A0%87%E3%80%90CursorCoordinateGraph-%E3%80%91"><span class="toc-number">1.0.4.</span> <span class="toc-text">4，十字光标【CursorCoordinateGraph 】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%EF%BC%8C%E8%BD%B4%E7%BA%BF%E4%B8%8A%E6%98%BE%E7%A4%BA%E5%85%89%E6%A0%87%E4%BD%8D%E7%BD%AE%E3%80%90AxisCursorGraph-%E3%80%91"><span class="toc-number">1.0.5.</span> <span class="toc-text">5，轴线上显示光标位置【AxisCursorGraph 】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%EF%BC%8C%E6%95%B0%E6%8D%AE%E8%B7%9F%E9%9A%8F%E5%9B%BE%E3%80%90DataFollowChart%E3%80%91"><span class="toc-number">1.0.6.</span> <span class="toc-text">6，数据跟随图【DataFollowChart】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.0.7.</span> <span class="toc-text"></span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WPF%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%9B%B2%E7%BA%BF%E6%8E%A7%E4%BB%B6DynamicDataDisplay%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%88%E4%B8%89%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">WPF编程，曲线控件DynamicDataDisplay的使用方法（三）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E4%B8%8B%E4%BB%A3%E7%A0%81%E6%98%AF%E5%9F%BA%E4%BA%8E0-3-0-0%E7%89%88%E6%9C%AC%E7%9A%84DLL%EF%BC%8C%E6%9C%80%E6%96%B0%E7%9A%84DLL%E6%9F%90%E4%BA%9B%E6%96%B9%E6%B3%95%E5%B7%B2%E4%B8%8D%E9%80%82%E7%94%A8%E3%80%82"><span class="toc-number">2.0.1.</span> <span class="toc-text">以下代码是基于0.3.0.0版本的DLL，最新的DLL某些方法已不适用。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">常用设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E9%9A%90%E8%97%8F%E5%8F%B3%E4%B8%8A%E8%A7%92%E7%9A%84%E5%9B%BE%E4%BE%8B"><span class="toc-number">3.0.1.</span> <span class="toc-text">1、隐藏右上角的图例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E9%9A%90%E8%97%8F%E5%9D%90%E6%A0%87%E7%9A%84%E7%BD%91%E6%A0%BC%E7%BA%BF"><span class="toc-number">3.0.2.</span> <span class="toc-text">2、隐藏坐标的网格线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E5%8F%96%E6%B6%88%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95"><span class="toc-number">3.0.3.</span> <span class="toc-text">3、取消右键菜单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E7%A6%81%E6%AD%A2%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%9D%90%E6%A0%87%E6%97%B6%E5%8F%AF%E6%8B%96%E5%8A%A8%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">3.0.4.</span> <span class="toc-text">4、禁止鼠标点击坐标时可拖动的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81%E9%9A%90%E8%97%8F%E5%9D%90%E6%A0%87%E8%BD%B4"><span class="toc-number">3.0.5.</span> <span class="toc-text">5、隐藏坐标轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%E3%80%81%E9%9A%90%E8%97%8F%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9F%AD%E5%88%BB%E5%BA%A6%E7%BA%BF"><span class="toc-number">3.0.6.</span> <span class="toc-text">6、隐藏坐标轴短刻度线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%E3%80%81%E4%BF%9D%E5%AD%98%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE"><span class="toc-number">3.0.7.</span> <span class="toc-text">7、保存屏幕截图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%E3%80%81%E5%9D%90%E6%A0%87%E6%98%BE%E7%A4%BA%E7%9A%84%E5%88%BB%E5%BA%A6%E6%A0%B7%E5%BC%8F"><span class="toc-number">3.0.8.</span> <span class="toc-text">8、坐标显示的刻度样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%E3%80%81%E5%8D%81%E5%AD%97%E5%85%89%E6%A0%87%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-number">3.0.9.</span> <span class="toc-text">9、十字光标的相关的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E3%80%81%E5%9C%A8%E5%9D%90%E6%A0%87%E4%B8%8A%E6%98%BE%E7%A4%BA%E5%8D%81%E5%AD%97%E5%85%89%E6%A0%87%E7%BA%BF%E5%AF%B9%E5%BA%94%E7%9A%84%E5%88%BB%E5%BA%A6%E7%BA%BF"><span class="toc-number">3.0.10.</span> <span class="toc-text">10、在坐标上显示十字光标线对应的刻度线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11%E3%80%81%E6%98%BE%E7%A4%BA%E6%96%B9%E5%BD%A2%E5%8C%BA%E5%9F%9F"><span class="toc-number">3.0.11.</span> <span class="toc-text">11、显示方形区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12%E3%80%81%E7%BA%BF%E6%AE%B5"><span class="toc-number">3.0.12.</span> <span class="toc-text">12、线段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13%E3%80%81%E6%B0%B4%E5%B9%B3%E6%9D%A1%E8%8C%83%E5%9B%B4%E6%9D%A1"><span class="toc-number">3.0.13.</span> <span class="toc-text">13、水平条范围条</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14%E3%80%81%E5%85%B6%E5%AE%83"><span class="toc-number">3.0.14.</span> <span class="toc-text">14、其它</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DynamicDataDisplay-%E5%AE%9E%E6%97%B6%E6%9B%B2%E7%BA%BF%E5%9B%BE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%B2%BF%E8%BD%B4%E7%A7%BB%E5%8A%A8%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">4.</span> <span class="toc-text">DynamicDataDisplay 实时曲线图的使用和沿轴移动的效果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WPF-%E4%BD%BF%E7%94%A8DynamicDataDisplay-%E8%BF%87%E7%A8%8B%E5%8F%8A%E8%8E%B7%E5%8F%96x-y%E8%BD%B4%E5%9D%90%E6%A0%87"><span class="toc-number">5.</span> <span class="toc-text">WPF 使用DynamicDataDisplay 过程及获取x,y轴坐标</span></a></li></ol>
+		
+		</div>
+		
+		<p>DynamicDataDisplay取消y轴放大和缩小</p>
+<p>如题，由于项目需要，X轴是时间轴，比较长，而Y轴值相对固定，而DynamicDataDisplay提供的Zoom方法是实现同时缩放的。只好研究DynamicDataDisplay提供的源代码了。</p>
+<p>不难发现，源代码CoordinateUtilities中，提供了单独缩放X轴的方法，RectExtensions中也是都提供了相应的调用，但是发现缩放实现时都只调用了Zoom的方法。</p>
+<p>1、于是将Zoom的调用</p>
+<p> public static Rect Zoom(this Rect rect, Point to, double ratio)<br>  {<br>  return CoordinateUtilities.RectZoom(rect, to, ratio);<br>  }<br> 直接改为（不需要放大Y轴）</p>
+<p> public static Rect Zoom(this Rect rect, Point to, double ratio)<br>  {<br>       //贾世义取消y轴缩放<br>  return CoordinateUtilities.RectZoomX(rect, to, ratio);<br>  }<br> 测试发现，虽然Y轴不再放大了，但是图像的高度还是随着放大。继续研究源码</p>
+<p>2、发现IViewport2DExtensions接口中定义了Zoom方法，</p>
+<p>于是试着将Vector halfSize = new Vector(visible.Width * factor / 2, visible.Height* factor / 2)</p>
+<p>改为      Vector halfSize = new Vector(visible.Width * factor / 2, visible.Height / 2);//* factor 贾世义取消y轴缩放</p>
+<p>问题解决。</p>
+<h1 id="DynamicDataDisplay学习之路-二"><a href="#DynamicDataDisplay学习之路-二" class="headerlink" title="DynamicDataDisplay学习之路(二)"></a>DynamicDataDisplay学习之路(二)</h1><h3 id="1，绘图仪的主X、Y轴"><a href="#1，绘图仪的主X、Y轴" class="headerlink" title="1，绘图仪的主X、Y轴"></a>1，绘图仪的主X、Y轴</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--主X轴刻度[默认显示]--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:ChartPlotter.MainHorizontalAxis</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        常规刻度[默认显示]</span></span><br><span class="line"><span class="comment">            Visibility:是否显示刻度轴[Visible,Hidden]</span></span><br><span class="line"><span class="comment">            ShowMinorTicks:是否显示短刻度线</span></span><br><span class="line"><span class="comment">            Height:刻度轴高度，0就相当于隐藏刻度轴</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">d3:HorizontalAxis</span> <span class="attr">Visibility</span>=<span class="string">&quot;Visible&quot;</span>  <span class="attr">ShowMinorTicks</span>=<span class="string">&quot;False&quot;</span> <span class="attr">Height</span>=<span class="string">&quot;20&quot;</span>/&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!--整数刻度--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;d3:HorizontalIntegerAxis/&gt;--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--时间轴[年月日时分秒]刻度--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;d3:HorizontalDateTimeAxis/&gt;</span></span><br><span class="line"><span class="comment">    &lt;!--&lt;d3:HorizontalTimeSpanAxis/&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">d3:ChartPlotter.MainHorizontalAxis</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">&lt;!--主Y轴刻度[默认显示]--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:ChartPlotter.MainVerticalAxis</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">d3:VerticalAxis</span> <span class="attr">Visibility</span>=<span class="string">&quot;Hidden&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">d3:ChartPlotter.MainVerticalAxis</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2，标题"><a href="#2，标题" class="headerlink" title="2，标题"></a>2，标题</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--绘图仪主标题--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:Header</span> <span class="attr">TextBlock.FontSize</span>=<span class="string">&quot;20&quot;</span>&gt;</span>Very simple chart<span class="tag">&lt;/<span class="name">d3:Header</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--Y轴标题--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:VerticalAxisTitle</span>&gt;</span>Sine value<span class="tag">&lt;/<span class="name">d3:VerticalAxisTitle</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--X轴标题--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:HorizontalAxisTitle</span>&gt;</span>Sine argument<span class="tag">&lt;/<span class="name">d3:HorizontalAxisTitle</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3，常数线"><a href="#3，常数线" class="headerlink" title="3，常数线"></a>3，常数线</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    垂直于Y轴</span></span><br><span class="line"><span class="comment">        Value:对应的Y轴刻度值</span></span><br><span class="line"><span class="comment">        Stroke:画线的颜色</span></span><br><span class="line"><span class="comment">        StrokeThickness:画线的厚度</span></span><br><span class="line"><span class="comment">        StrokeDashArray:画虚线</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:HorizontalLine</span> <span class="attr">Value</span>=<span class="string">&quot;1&quot;</span> <span class="attr">Stroke</span>=<span class="string">&quot;Aqua&quot;</span> <span class="attr">StrokeThickness</span>=<span class="string">&quot;1&quot;</span> <span class="attr">StrokeDashArray</span>=<span class="string">&quot;4,5&quot;</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--垂直于X轴--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:VerticalLine</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4，十字光标【CursorCoordinateGraph-】"><a href="#4，十字光标【CursorCoordinateGraph-】" class="headerlink" title="4，十字光标【CursorCoordinateGraph 】"></a>4，十字光标【CursorCoordinateGraph 】</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    十字光标                   </span></span><br><span class="line"><span class="comment">        AutoHide: 鼠标离开绘图仪时是否自动隐藏光标行。[默认：True]</span></span><br><span class="line"><span class="comment">        Position: 光标的位置(在AutoHide=False的时候有效)</span></span><br><span class="line"><span class="comment">        FollowMouse: 是否跟随鼠标光标位置。[默认：True]</span></span><br><span class="line"><span class="comment">        CustomXFormat: X标签的自定义格式字符串。</span></span><br><span class="line"><span class="comment">        CustomYFormat: Y标签的自定义格式字符串。</span></span><br><span class="line"><span class="comment">        XTextMapping: x label-函数的文本映射，该函数方法根据数据中鼠标的x坐标生成文本。</span></span><br><span class="line"><span class="comment">        YTextMapping: y label-函数的文本映射，该函数方法根据数据中鼠标的x坐标生成文本。</span></span><br><span class="line"><span class="comment">        ShowHorizontalLine: 是否显示水平线</span></span><br><span class="line"><span class="comment">        ShowVerticalLine: 是否显示竖线</span></span><br><span class="line"><span class="comment">        LineStroke: 光标线的颜色</span></span><br><span class="line"><span class="comment">        LineStrokeThickness: 光标线的粗细</span></span><br><span class="line"><span class="comment">        LineStrokeDashArray:创建虚线</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:CursorCoordinateGraph</span>  <span class="attr">AutoHide</span>=<span class="string">&quot;False&quot;</span>  <span class="attr">CustomXFormat</span>=<span class="string">&quot;a&quot;</span> <span class="attr">LineStroke</span>=<span class="string">&quot;Aqua&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>CursorCoordinateGraph 显示时间：可借鉴：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocochow/p/6078393.html">在cs类中更改显示字符串</a> ，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/pigwing/archive/2010/11/22/1883832.html">修改源代码来实现 横坐标显示日期</a> </p>
+<h3 id="5，轴线上显示光标位置【AxisCursorGraph-】"><a href="#5，轴线上显示光标位置【AxisCursorGraph-】" class="headerlink" title="5，轴线上显示光标位置【AxisCursorGraph 】"></a>5，轴线上显示光标位置【AxisCursorGraph 】</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    两条轴上的线，显示当前光标位置</span></span><br><span class="line"><span class="comment">        ShowHorizontalLine:是否显示在X轴上光标的位置</span></span><br><span class="line"><span class="comment">        ShowVerticalLine:是否显示在Y轴上光标的位置</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:AxisCursorGraph</span> <span class="attr">ShowHorizontalLine</span>=<span class="string">&quot;True&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6，数据跟随图【DataFollowChart】"><a href="#6，数据跟随图【DataFollowChart】" class="headerlink" title="6，数据跟随图【DataFollowChart】"></a>6，数据跟随图【DataFollowChart】</h3><p>在源代码示例 【LineTestSample】中有演示跟代码</p>
+<h3 id><a href="#" class="headerlink" title></a><img src="https://img-blog.csdnimg.cn/20190111144746405.gif" alt="DataFollowChart"></h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    [Gets or sets]</span></span><br><span class="line"><span class="comment">        PointSource:数据点源</span></span><br><span class="line"><span class="comment">        DataTemplate:创建标记的模板[MarkerTemplate]</span></span><br><span class="line"><span class="comment">    [Gets]</span></span><br><span class="line"><span class="comment">        MarkerPosition:标点位置</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:ChartPlotter</span> <span class="attr">Name</span>=<span class="string">&quot;plotter&quot;</span> <span class="attr">Margin</span>=<span class="string">&quot;0,5,0,0&quot;</span>&gt;</span>                </span><br><span class="line">    <span class="tag">&lt;<span class="name">d3:LineGraph</span> <span class="attr">Name</span>=<span class="string">&quot;lineGraph&quot;</span> <span class="attr">Stroke</span>=<span class="string">&quot;OrangeRed&quot;</span> <span class="attr">StrokeThickness</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">d3:VerticalLine</span> <span class="attr">x:Name</span>=<span class="string">&quot;vLine1&quot;</span> <span class="attr">Value</span>=<span class="string">&quot;&#123;Binding ElementName=dataFollowChart, Path=MarkerPosition.X&#125;&quot;</span> <span class="attr">StrokeThickness</span>=<span class="string">&quot;2&quot;</span> <span class="attr">Stroke</span>=<span class="string">&quot;Violet&quot;</span> <span class="attr">StrokeDashArray</span>=<span class="string">&quot;4,5&quot;</span> <span class="attr">IsEnabled</span>=<span class="string">&quot;False&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">d3:HorizontalLine</span> <span class="attr">x:Name</span>=<span class="string">&quot;hLine1&quot;</span> <span class="attr">Value</span>=<span class="string">&quot;&#123;Binding ElementName=dataFollowChart, Path=MarkerPosition.Y&#125;&quot;</span> <span class="attr">StrokeThickness</span>=<span class="string">&quot;2&quot;</span> <span class="attr">Stroke</span>=<span class="string">&quot;Violet&quot;</span> <span class="attr">StrokeDashArray</span>=<span class="string">&quot;4,5&quot;</span> <span class="attr">IsEnabled</span>=<span class="string">&quot;False&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">d3:DataFollowChart</span> <span class="attr">Name</span>=<span class="string">&quot;dataFollowChart&quot;</span> <span class="attr">PointSource</span>=<span class="string">&quot;&#123;Binding ElementName=lineGraph&#125;&quot;</span> &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">DataTemplate</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">Grid</span> <span class="attr">d3:ViewportPanel.ScreenOffsetY</span>=<span class="string">&quot;16&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">Grid.RowDefinitions</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">RowDefinition</span> <span class="attr">Height</span>=<span class="string">&quot;Auto&quot;</span>/&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">RowDefinition</span> <span class="attr">Height</span>=<span class="string">&quot;Auto&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">Grid.RowDefinitions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">Rectangle</span> <span class="attr">RadiusX</span>=<span class="string">&quot;3&quot;</span> <span class="attr">RadiusY</span>=<span class="string">&quot;3&quot;</span> <span class="attr">Stroke</span>=<span class="string">&quot;LightGray&quot;</span> <span class="attr">Fill</span>=<span class="string">&quot;#99FFFFFF&quot;</span> <span class="attr">Grid.Row</span>=<span class="string">&quot;0&quot;</span> <span class="attr">Grid.RowSpan</span>=<span class="string">&quot;2&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">Ellipse</span> <span class="attr">Width</span>=<span class="string">&quot;10&quot;</span> <span class="attr">Height</span>=<span class="string">&quot;10&quot;</span> <span class="attr">Fill</span>=<span class="string">&quot;LightGreen&quot;</span> <span class="attr">Stroke</span>=<span class="string">&quot;Green&quot;</span> <span class="attr">Grid.Row</span>=<span class="string">&quot;0&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">TextBlock</span> <span class="attr">Name</span>=<span class="string">&quot;tb&quot;</span> <span class="attr">Margin</span>=<span class="string">&quot;2,15,2,0&quot;</span> <span class="attr">Grid.Row</span>=<span class="string">&quot;1&quot;</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">TextBlock</span> <span class="attr">Text</span>=<span class="string">&quot;&#123;Binding Position.X, StringFormat=G3&#125;&quot;</span>/&gt;</span>;</span><br><span class="line">                    <span class="tag">&lt;<span class="name">TextBlock</span> <span class="attr">Text</span>=<span class="string">&quot;&#123;Binding Position.Y, StringFormat=G3&#125;&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">TextBlock</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">Grid</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">DataTemplate</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">d3:DataFollowChart</span>&gt;</span>               </span><br><span class="line"><span class="tag">&lt;/<span class="name">d3:ChartPlotter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="WPF编程，曲线控件DynamicDataDisplay的使用方法（三）"><a href="#WPF编程，曲线控件DynamicDataDisplay的使用方法（三）" class="headerlink" title="WPF编程，曲线控件DynamicDataDisplay的使用方法（三）"></a>WPF编程，曲线控件DynamicDataDisplay的使用方法（三）</h1><p><img src="https://img-blog.csdnimg.cn/20200818083147461.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMzA3OTM0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="以下代码是基于0-3-0-0版本的DLL，最新的DLL某些方法已不适用。"><a href="#以下代码是基于0-3-0-0版本的DLL，最新的DLL某些方法已不适用。" class="headerlink" title="以下代码是基于0.3.0.0版本的DLL，最新的DLL某些方法已不适用。"></a>以下代码是基于0.3.0.0版本的DLL，最新的DLL某些方法已不适用。</h3><h1 id="常用设置"><a href="#常用设置" class="headerlink" title="常用设置"></a>常用设置</h1><h3 id="1、隐藏右上角的图例"><a href="#1、隐藏右上角的图例" class="headerlink" title="1、隐藏右上角的图例"></a>1、隐藏右上角的图例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plotter.LegendVisible = <span class="literal">false</span>;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、隐藏坐标的网格线"><a href="#2、隐藏坐标的网格线" class="headerlink" title="2、隐藏坐标的网格线"></a>2、隐藏坐标的网格线</h3><blockquote>
+<p>以下两种写法都可以，个人使用的版本是0.3.0.0</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">       plotter.AxisGrid.Visibility = Visibility.Hidden;</span><br><span class="line">       plotter.AxisGrid.Remove();</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、取消右键菜单"><a href="#3、取消右键菜单" class="headerlink" title="3、取消右键菜单"></a>3、取消右键菜单</h3><p><img src="https://img-blog.csdnimg.cn/20200818083925649.png#pic_center" alt="在这里插入图片描述"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plotter.Children.Remove(plotter.DefaultContextMenu);</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、禁止鼠标点击坐标时可拖动的功能"><a href="#4、禁止鼠标点击坐标时可拖动的功能" class="headerlink" title="4、禁止鼠标点击坐标时可拖动的功能"></a>4、禁止鼠标点击坐标时可拖动的功能</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plotter.Children.Remove(plotter.MouseNavigation);</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、隐藏坐标轴"><a href="#5、隐藏坐标轴" class="headerlink" title="5、隐藏坐标轴"></a>5、隐藏坐标轴</h3><p>其中vAxis是XAML中坐标轴的名称</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vAxis.Visibility = Visibility.Hidden;</span><br><span class="line">//这是只是隐藏了，之前轴宽度多少就会留白多少</span><br><span class="line">//想要不留白直接 vAxis.Width = 0 或者 hAxis.Height= 0;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、隐藏坐标轴短刻度线"><a href="#6、隐藏坐标轴短刻度线" class="headerlink" title="6、隐藏坐标轴短刻度线"></a>6、隐藏坐标轴短刻度线</h3><p>其中vAxis是XAML中坐标轴的名称<br> <img src="https://img-blog.csdnimg.cn/20200818085854159.png#pic_center" alt="在这里插入图片描述"><br> 有的Dll版本是用下面这个属性</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vAxis.AxisControl.DrawTicks = <span class="literal">false</span>;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>有的是用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vAxis.ShowMinorTicks = <span class="literal">false</span>;</span><br><span class="line">或者</span><br><span class="line">vAxis.AxisControl.ShowMinorTicks = <span class="literal">false</span>;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<h3 id="7、保存屏幕截图"><a href="#7、保存屏幕截图" class="headerlink" title="7、保存屏幕截图"></a>7、保存屏幕截图</h3><p>需要：using Microsoft.Win32;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SaveFileDialog dlg = <span class="keyword">new</span> SaveFileDialog(); <span class="comment">//文件选择弹出框</span></span><br><span class="line">dlg.Filter = <span class="string">&quot;PNG (*.png)|*.png|JPEG (*.jpg)|*.jpg|BMP (*.bmp)|*.bmp|GIF (*.gif)|*.gif&quot;</span>;</span><br><span class="line">dlg.FilterIndex = <span class="number">1</span>;</span><br><span class="line">dlg.AddExtension = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">if</span> (dlg.ShowDialog().GetValueOrDefault(<span class="literal">false</span>))</span><br><span class="line">&#123;</span><br><span class="line">    string filePath = dlg.FileName;</span><br><span class="line">    plotter.SaveScreenshot(filePath);<span class="comment">//filePath：取得保存的目录</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8、坐标显示的刻度样式"><a href="#8、坐标显示的刻度样式" class="headerlink" title="8、坐标显示的刻度样式"></a>8、坐标显示的刻度样式</h3><p><img src="https://img-blog.csdnimg.cn/20200818090844386.png#pic_center" alt="在这里插入图片描述"><br> info.Tick 代表刻度值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这将使最X轴以百分比形式显示刻度。</span></span><br><span class="line">hAxis.LabelProvider = <span class="keyword">new</span> ToStringLabelProvider();</span><br><span class="line"><span class="comment">//标签字符串格式</span></span><br><span class="line">hAxis.LabelProvider.LabelStringFormat = <span class="string">&quot;&#123;0&#125;%&quot;</span>;</span><br><span class="line"><span class="comment">//设置自定义格式设置工具</span></span><br><span class="line">hAxis.LabelProvider.SetCustomFormatter(<span class="function"><span class="params">info</span> =&gt;</span> (info.Tick * <span class="number">100</span>).ToString());</span><br></pre></td></tr></table></figure>
+
+<h3 id="9、十字光标的相关的属性"><a href="#9、十字光标的相关的属性" class="headerlink" title="9、十字光标的相关的属性"></a>9、十字光标的相关的属性</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    十字光标                   </span></span><br><span class="line"><span class="comment">        AutoHide: 鼠标离开绘图仪时是否自动隐藏光标行。[默认：True]</span></span><br><span class="line"><span class="comment">        Position: 光标的位置(在AutoHide=False的时候有效)</span></span><br><span class="line"><span class="comment">        FollowMouse: 是否跟随鼠标光标位置。[默认：True]</span></span><br><span class="line"><span class="comment">        CustomXFormat: X标签的自定义格式字符串。</span></span><br><span class="line"><span class="comment">        CustomYFormat: Y标签的自定义格式字符串。</span></span><br><span class="line"><span class="comment">        XTextMapping: x label-函数的文本映射，该函数方法根据数据中鼠标的x坐标生成文本。</span></span><br><span class="line"><span class="comment">        YTextMapping: y label-函数的文本映射，该函数方法根据数据中鼠标的x坐标生成文本。</span></span><br><span class="line"><span class="comment">        ShowHorizontalLine: 是否显示水平线</span></span><br><span class="line"><span class="comment">        ShowVerticalLine: 是否显示竖线</span></span><br><span class="line"><span class="comment">        LineStroke: 光标线的颜色</span></span><br><span class="line"><span class="comment">        LineStrokeThickness: 光标线的粗细</span></span><br><span class="line"><span class="comment">        LineStrokeDashArray:创建虚线</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:CursorCoordinateGraph</span>  <span class="attr">AutoHide</span>=<span class="string">&quot;False&quot;</span>  <span class="attr">CustomXFormat</span>=<span class="string">&quot;a&quot;</span> <span class="attr">LineStroke</span>=<span class="string">&quot;Aqua&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="10、在坐标上显示十字光标线对应的刻度线"><a href="#10、在坐标上显示十字光标线对应的刻度线" class="headerlink" title="10、在坐标上显示十字光标线对应的刻度线"></a>10、在坐标上显示十字光标线对应的刻度线</h3><p><img src="https://img-blog.csdnimg.cn/20200818091713885.png#pic_center" alt="在这里插入图片描述"></p>
+<p>如图中红线</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    两条轴上的线，显示当前光标位置</span></span><br><span class="line"><span class="comment">        ShowHorizontalLine:是否显示在X轴上光标的位置</span></span><br><span class="line"><span class="comment">        ShowVerticalLine:是否显示在Y轴上光标的位置</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">d3:AxisCursorGraph</span> <span class="attr">ShowHorizontalLine</span>=<span class="string">&quot;True&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="11、显示方形区域"><a href="#11、显示方形区域" class="headerlink" title="11、显示方形区域"></a>11、显示方形区域</h3><p><img src="https://img-blog.csdnimg.cn/20200818092545196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMzA3OTM0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;d3:RectangleHighlight Bounds=<span class="string">&quot;0.1, 0.6, 0.15, 0.2&quot;</span> StrokeThickness=<span class="string">&quot;2&quot;</span> Fill=<span class="string">&quot;MidnightBlue&quot;</span>/&gt;：</span><br></pre></td></tr></table></figure>
+
+<h3 id="12、线段"><a href="#12、线段" class="headerlink" title="12、线段"></a>12、线段</h3><p><img src="https://img-blog.csdnimg.cn/20200818092741843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMzA3OTM0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;d3:Segment StartPoint=<span class="string">&quot;0.3, 0.45&quot;</span> EndPoint=<span class="string">&quot;0.5, 0.65&quot;</span> Stroke=<span class="string">&quot;Green&quot;</span> StrokeThickness=<span class="string">&quot;2&quot;</span> StrokeDashArray=<span class="string">&quot;2&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="13、水平条范围条"><a href="#13、水平条范围条" class="headerlink" title="13、水平条范围条"></a>13、水平条范围条</h3><p><img src="https://img-blog.csdnimg.cn/20200818092953407.png#pic_center" alt="在这里插入图片描述"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;d3:HorizontalRange Value1=<span class="string">&quot;0.1&quot;</span></span><br><span class="line">                    Value2=<span class="string">&quot;0.15&quot;</span></span><br><span class="line">                    Fill=<span class="string">&quot;Green&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>同理，垂直范围条</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;d3:VerticalRange Value1=<span class="string">&quot;0.1&quot;</span> Value2=<span class="string">&quot;0.12&quot;</span> Fill=<span class="string">&quot;Fuchsia&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="14、其它"><a href="#14、其它" class="headerlink" title="14、其它"></a>14、其它</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;d3:NumericAxis Name=<span class="string">&quot;doubleSelector&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="DynamicDataDisplay-实时曲线图的使用和沿轴移动的效果"><a href="#DynamicDataDisplay-实时曲线图的使用和沿轴移动的效果" class="headerlink" title="DynamicDataDisplay 实时曲线图的使用和沿轴移动的效果"></a>DynamicDataDisplay 实时曲线图的使用和沿轴移动的效果</h1><p> 由于项目需要，最近在找关于绘制实时曲线图的文章，但看了很多自己实现的话太慢，所以使用了第三方控件来实现（由于是项目中使用所以我比较倾向与开源的项目，如果出问题的话可以很好的找到根源）。这里记录是让我以后可以回顾，也可以让志同道合的程序猿减少搜索时间。</p>
+<p>​    下面我们就介绍一下DynamicDataDisplay中实时曲线图的功能（其他没有时间去研究），由于在网上能找到类似的配置文章。</p>
+<p>首先我们要去官网下载dll(或者直接NuGet,这里没有用过就不介绍了），<a target="_blank" rel="noopener" href="http://dynamicdatadisplay.codeplex.com/">DynamicDataDisplay</a>找到需要的DynamicDataDisplay.dll并在项目中引用</p>
+<p>然后在项目中配置命名空间 xmlns:d3=”<a target="_blank" rel="noopener" href="http://research.microsoft.com/DynamicDataDisplay/1.0&quot;%EF%BC%8C%E5%86%8D%E5%9C%A8%E5%86%85%E5%AE%B9%E4%B8%AD%E6%B7%BB%E5%8A%A0">http://research.microsoft.com/DynamicDataDisplay/1.0&quot;，再在内容中添加</a><a href="d3:ChartPlotter">d3:ChartPlotter</a>基本配置问题就已经解决。</p>
+<p>   CPU的使用率的实时显示问题，CPU所使用的api可以自己去查找，我这里就不说明了。</p>
+<p>   下面我们来直接贴代码</p>
+<p>MainWindow.xaml文件内容如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Window</span> <span class="attr">xmlns:dxga</span>=<span class="string">&quot;http://schemas.devexpress.com/winfx/2008/xaml/gauges&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns</span>=<span class="string">&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:x</span>=<span class="string">&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">x:Class</span>=<span class="string">&quot;LinechartApplication.MainWindow&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">Title</span>=<span class="string">&quot;MainWindow&quot;</span> <span class="attr">Height</span>=<span class="string">&quot;400&quot;</span> <span class="attr">Width</span>=<span class="string">&quot;650&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:d3</span>=<span class="string">&quot;http://research.microsoft.com/DynamicDataDisplay/1.0&quot;</span> <span class="attr">Loaded</span>=<span class="string">&quot;Window_Loaded&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Grid</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Grid.RowDefinitions</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">RowDefinition</span> <span class="attr">Height</span>=<span class="string">&quot;Auto&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">RowDefinition</span> <span class="attr">Height</span>=<span class="string">&quot;*&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Grid.RowDefinitions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">StackPanel</span> <span class="attr">Orientation</span>=<span class="string">&quot;Horizontal&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">Button</span> <span class="attr">Content</span>=<span class="string">&quot;滚屏or不滚屏&quot;</span>  <span class="attr">Click</span>=<span class="string">&quot;Button_Click&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">StackPanel</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">d3:ChartPlotter</span> <span class="attr">x:Name</span>=<span class="string">&quot;plotter&quot;</span> <span class="attr">Margin</span>=<span class="string">&quot;10,10,20,10&quot;</span> <span class="attr">Grid.Row</span>=<span class="string">&quot;1&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:ChartPlotter.VerticalAxis</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">d3:VerticalIntegerAxis</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">d3:ChartPlotter.VerticalAxis</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:ChartPlotter.HorizontalAxis</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">d3:HorizontalIntegerAxis</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">d3:ChartPlotter.HorizontalAxis</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:Header</span> <span class="attr">Content</span>=<span class="string">&quot;CPU 实时性能&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:VerticalAxisTitle</span> <span class="attr">Content</span>=<span class="string">&quot;百分比&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">d3:ChartPlotter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Grid</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Window</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Globalization;</span><br><span class="line"><span class="keyword">using</span> System.IO;</span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"><span class="keyword">using</span> System.Windows;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Threading;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Media;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Research.DynamicDataDisplay;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Research.DynamicDataDisplay.DataSources;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">namespace</span> <span class="title">LinechartApplication</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> MainWindow.xaml 的交互逻辑</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">MainWindow</span> : <span class="title">Window</span></span><br><span class="line">    &#123;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">ObservableDataSource</span>&lt;<span class="title">Point</span>&gt; dataSource</span> = <span class="keyword">new</span> ObservableDataSource&lt;Point&gt;();</span><br><span class="line">        <span class="keyword">private</span> PerformanceCounter performanceCounter = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">        <span class="keyword">private</span> DispatcherTimer dispatcherTimer = <span class="keyword">new</span> DispatcherTimer();</span><br><span class="line">        <span class="keyword">private</span> <span class="built_in">int</span> currentSecond = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">        <span class="built_in">bool</span> buttonbool = <span class="literal">false</span>;<span class="comment">//标志是否滚屏</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MainWindow</span>(<span class="params"></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line"> </span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Window_Loaded</span>(<span class="params"><span class="built_in">object</span> sender, RoutedEventArgs e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            plotter.AddLineGraph(dataSource, Colors.Red, <span class="number">2</span>, <span class="string">&quot;百分比&quot;</span>);</span><br><span class="line">            plotter.LegendVisible = <span class="literal">true</span>;</span><br><span class="line">            dispatcherTimer.Interval = TimeSpan.FromSeconds(<span class="number">1</span>);</span><br><span class="line">            dispatcherTimer.Tick += timer_Tick;</span><br><span class="line">            dispatcherTimer.IsEnabled = <span class="literal">true</span>;</span><br><span class="line">            plotter.Viewport.FitToView();</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="built_in">int</span> xaxis = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">int</span> yaxis = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">int</span> <span class="keyword">group</span> = <span class="number">20</span>;<span class="comment">//默认组距</span></span><br><span class="line"> </span><br><span class="line">        Queue q = <span class="keyword">new</span> Queue();</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">timer_Tick</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            performanceCounter.CategoryName = <span class="string">&quot;Processor&quot;</span>;</span><br><span class="line">            performanceCounter.CounterName = <span class="string">&quot;% Processor Time&quot;</span>;</span><br><span class="line">            performanceCounter.InstanceName = <span class="string">&quot;_Total&quot;</span>;</span><br><span class="line">            <span class="built_in">double</span> x = currentSecond;</span><br><span class="line">            <span class="built_in">double</span> y = performanceCounter.NextValue();</span><br><span class="line">            Point point = <span class="keyword">new</span> Point(x, y);</span><br><span class="line">            dataSource.AppendAsync(<span class="keyword">base</span>.Dispatcher, point);</span><br><span class="line">            <span class="keyword">if</span> (wendu)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (q.Count &lt; <span class="keyword">group</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    q.Enqueue((<span class="built_in">int</span>)y);<span class="comment">//入队</span></span><br><span class="line">                    yaxis  = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">foreach</span> (<span class="built_in">int</span> c <span class="keyword">in</span> q)</span><br><span class="line">                        <span class="keyword">if</span> (c &gt; yaxis)</span><br><span class="line">                            yaxis = c;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    q.Dequeue();<span class="comment">//出队</span></span><br><span class="line">                    q.Enqueue((<span class="built_in">int</span>)y);<span class="comment">//入队</span></span><br><span class="line">                    yaxis = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">foreach</span> (<span class="built_in">int</span> c <span class="keyword">in</span> q)</span><br><span class="line">                        <span class="keyword">if</span> (c &gt; yaxis)</span><br><span class="line">                            yaxis = c;</span><br><span class="line">                &#125;</span><br><span class="line"> </span><br><span class="line">                <span class="keyword">if</span> (currentSecond - <span class="keyword">group</span> &gt; <span class="number">0</span>)</span><br><span class="line">                    xaxis = currentSecond - <span class="keyword">group</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    xaxis = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">                Debug.Write(<span class="string">&quot;&#123;0&#125;\n&quot;</span>, yaxis.ToString());</span><br><span class="line">                plotter.Viewport.Visible = <span class="keyword">new</span> System.Windows.Rect(xaxis, <span class="number">0</span>, <span class="keyword">group</span>, yaxis);<span class="comment">//主要注意这里一行</span></span><br><span class="line">            &#125;</span><br><span class="line">            currentSecond++;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Button_Click</span>(<span class="params"><span class="built_in">object</span> sender, RoutedEventArgs e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (wendu)</span><br><span class="line">            &#123;</span><br><span class="line">                wendu = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                wendu = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>DynamicDataDisplay实现实时显示曲线的功能有很多但没有看到x轴移动的功能所以下面就是主要内容（如何沿着x轴移动）<br> 在使用DynamicDataDisplay时候我发现会出现图像缩放的情况（就是x轴一直被缩放，所有数据都会被压缩在一块，很不方便）。使用plotter.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group,  yaxis);这行代码就可以解决按照x轴移动的功能。这个就像一个窗口，我们定义窗口位置和大小就能想看到我们所需要的数据。第一和第二个参数是原点坐标，第三个参数是X轴长度，第四个参数是Y长度。定义好了之后所有在这个区间的内容都会被显示，多余的参数不显示。随着窗口的移动也就是X轴移动的功能。</p>
+<p>代码中，使用了队列，队列的长度就等于显示窗口的长度也就是X轴的长度。队列的作用是取该队列中最大的值来确定窗口的高度。</p>
+<p> 不滚屏时图像（我们可以看到X轴都挤到一块）</p>
+<p><img src="https://img-blog.csdn.net/20170515143342161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzE4NzUzMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<p> 滚屏时图像（我们可以看到X起始点和结束点）</p>
+<p><img src="https://img-blog.csdn.net/20170515143712432?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzE4NzUzMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<h1 id="WPF-使用DynamicDataDisplay-过程及获取x-y轴坐标"><a href="#WPF-使用DynamicDataDisplay-过程及获取x-y轴坐标" class="headerlink" title="WPF 使用DynamicDataDisplay 过程及获取x,y轴坐标"></a>WPF 使用DynamicDataDisplay 过程及获取x,y轴坐标</h1><p>一、使用过程</p>
+<p>1、下载DynamicDataDisplay.dll文件，并引用到wpf工程中</p>
+<p><img src="https://img-blog.csdn.net/20181021103731118?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>添加</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.Research.DynamicDataDisplay;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Research.DynamicDataDisplay.DataSources;</span><br></pre></td></tr></table></figure>
+
+<p>2、 前端</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Window</span> <span class="attr">x:Class</span>=<span class="string">&quot;testdanamic.MainWindow&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns</span>=<span class="string">&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:x</span>=<span class="string">&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:d3</span>=<span class="string">&quot;http://research.microsoft.com/DynamicDataDisplay/1.0&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">Title</span>=<span class="string">&quot;MainWindow&quot;</span> <span class="attr">Height</span>=<span class="string">&quot;350&quot;</span> <span class="attr">Width</span>=<span class="string">&quot;525&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Grid</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">d3:ChartPlotter</span> <span class="attr">x:Name</span>=<span class="string">&quot;plotter&quot;</span> <span class="attr">Grid.Row</span>=<span class="string">&quot;0&quot;</span> <span class="attr">Grid.ColumnSpan</span>=<span class="string">&quot;5&quot;</span> <span class="attr">Margin</span>=<span class="string">&quot;0,91,8,10&quot;</span> <span class="attr">Grid.RowSpan</span>=<span class="string">&quot;3&quot;</span>  <span class="attr">Grid.Column</span>=<span class="string">&quot;1&quot;</span> &gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:ChartPlotter.HorizontalAxis</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">d3:HorizontalAxis</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">d3:ChartPlotter.HorizontalAxis</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:ChartPlotter.VerticalAxis</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">d3:VerticalAxis</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">d3:ChartPlotter.VerticalAxis</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:Header</span> <span class="attr">x:Name</span>=<span class="string">&quot;headerx&quot;</span> <span class="attr">Content</span>=<span class="string">&quot; &quot;</span> <span class="attr">FontSize</span>=<span class="string">&quot;14&quot;</span> <span class="attr">HorizontalAlignment</span>=<span class="string">&quot;Right&quot;</span> <span class="attr">Height</span>=<span class="string">&quot;17&quot;</span> <span class="attr">Margin</span>=<span class="string">&quot;0,0,314,0&quot;</span> <span class="attr">RenderTransformOrigin</span>=<span class="string">&quot;0.338,1.591&quot;</span> <span class="attr">Width</span>=<span class="string">&quot;673&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">d3:VerticalAxisTitle</span> <span class="attr">Content</span>=<span class="string">&quot;Intensity&quot;</span> <span class="attr">FontSize</span>=<span class="string">&quot;14&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">d3:ChartPlotter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Grid</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Window</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>3、后端简单使用</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">testdanamic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> MainWindow.xaml 的交互逻辑</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">MainWindow</span> : <span class="title">Window</span></span><br><span class="line">    &#123;</span><br><span class="line">        ObservableDataSource&lt;Point&gt; currentDataFrame = <span class="keyword">new</span> ObservableDataSource&lt;Point&gt;();</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MainWindow</span>(<span class="params"></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Window_Loaded_1</span>(<span class="params"><span class="built_in">object</span> sender, RoutedEventArgs e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            LineGraph graphAcc_x = <span class="keyword">new</span> LineGraph();</span><br><span class="line">            graphAcc_x = plotter.AddLineGraph(currentDataFrame, Colors.Red, <span class="number">1</span>, <span class="string">&quot;AD_data&quot;</span>);  <span class="comment">//注册绘图图线，配置粗细颜色以及显示名称</span></span><br><span class="line">            ShowLine();</span><br><span class="line">   </span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ShowLine</span>(<span class="params"></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            Point point = <span class="keyword">new</span> Point(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">512</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                point.X = i;</span><br><span class="line">                point.Y = i + <span class="number">100</span>;</span><br><span class="line">                currentDataFrame.AppendAsync(<span class="keyword">base</span>.Dispatcher, point);</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">        &#125; </span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 效果：</p>
+<p><img src="https://img-blog.csdn.net/20181021105901831?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>这种出图的方式是，每连接一个点，画面刷新一次，适合于页面刷新速度要求不高的情况，如果数据量大，页面频繁的刷新，会导致CPU占用率很高，程序卡死。</p>
+<p>二、如图所示要通过移动鼠标获取x,y的坐标。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/jsyhello/article/details/7212993">https://blog.csdn.net/jsyhello/article/details/7212993</a></p>
+<p><img src="https://img-blog.csdn.net/20180902133915884?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>二、实现方法</p>
+<p>1、chartplotter绑定鼠标移动事件</p>
+<p><img src="https://img-blog.csdn.net/2018090213415353?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>2、后台鼠标移动事件获取坐标位置，并显示</p>
+<p><img src="https://img-blog.csdn.net/20180902134513604?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>三、实测效果</p>
+<p>实测之后发现只有图放大之后，获得的鼠标坐标精确，不放大的情况的误差比较大。</p>
+<p><img src="https://img-blog.csdn.net/20180902134734249?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlbmppYW5xaTE2NDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/WPF/">WPF</a><a href="/tags/C/">C#</a><a href="/tags/chart/">chart</a><a href="/tags/DynamicDataDisplay/">DynamicDataDisplay</a><a href="/tags/图表/">图表</a><a href="/tags/折线图/">折线图</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/11/25/WPF%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%9B%B2%E7%BA%BF%E6%8E%A7%E4%BB%B6DynamicDataDisplay%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%88%E4%B8%89%EF%BC%89/" data-title="WPF编程，曲线控件DynamicDataDisplay的使用方法（三） | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/11/25/关于C#的GetHashCode/" title="关于C#的GetHashCode">
+  <strong>上一篇：</strong><br/>
+  <span>
+  关于C#的GetHashCode</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/09/15/Jira-kanban开发方法/"  title="Jira-kanban开发方法">
+ <strong>下一篇：</strong><br/> 
+ <span>Jira-kanban开发方法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DynamicDataDisplay%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%E4%BA%8C"><span class="toc-number">1.</span> <span class="toc-text">DynamicDataDisplay学习之路(二)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%8C%E7%BB%98%E5%9B%BE%E4%BB%AA%E7%9A%84%E4%B8%BBX%E3%80%81Y%E8%BD%B4"><span class="toc-number">1.0.1.</span> <span class="toc-text">1，绘图仪的主X、Y轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%8C%E6%A0%87%E9%A2%98"><span class="toc-number">1.0.2.</span> <span class="toc-text">2，标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%8C%E5%B8%B8%E6%95%B0%E7%BA%BF"><span class="toc-number">1.0.3.</span> <span class="toc-text">3，常数线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%EF%BC%8C%E5%8D%81%E5%AD%97%E5%85%89%E6%A0%87%E3%80%90CursorCoordinateGraph-%E3%80%91"><span class="toc-number">1.0.4.</span> <span class="toc-text">4，十字光标【CursorCoordinateGraph 】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%EF%BC%8C%E8%BD%B4%E7%BA%BF%E4%B8%8A%E6%98%BE%E7%A4%BA%E5%85%89%E6%A0%87%E4%BD%8D%E7%BD%AE%E3%80%90AxisCursorGraph-%E3%80%91"><span class="toc-number">1.0.5.</span> <span class="toc-text">5，轴线上显示光标位置【AxisCursorGraph 】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%EF%BC%8C%E6%95%B0%E6%8D%AE%E8%B7%9F%E9%9A%8F%E5%9B%BE%E3%80%90DataFollowChart%E3%80%91"><span class="toc-number">1.0.6.</span> <span class="toc-text">6，数据跟随图【DataFollowChart】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.0.7.</span> <span class="toc-text"></span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WPF%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%9B%B2%E7%BA%BF%E6%8E%A7%E4%BB%B6DynamicDataDisplay%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%88%E4%B8%89%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">WPF编程，曲线控件DynamicDataDisplay的使用方法（三）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E4%B8%8B%E4%BB%A3%E7%A0%81%E6%98%AF%E5%9F%BA%E4%BA%8E0-3-0-0%E7%89%88%E6%9C%AC%E7%9A%84DLL%EF%BC%8C%E6%9C%80%E6%96%B0%E7%9A%84DLL%E6%9F%90%E4%BA%9B%E6%96%B9%E6%B3%95%E5%B7%B2%E4%B8%8D%E9%80%82%E7%94%A8%E3%80%82"><span class="toc-number">2.0.1.</span> <span class="toc-text">以下代码是基于0.3.0.0版本的DLL，最新的DLL某些方法已不适用。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">常用设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E9%9A%90%E8%97%8F%E5%8F%B3%E4%B8%8A%E8%A7%92%E7%9A%84%E5%9B%BE%E4%BE%8B"><span class="toc-number">3.0.1.</span> <span class="toc-text">1、隐藏右上角的图例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E9%9A%90%E8%97%8F%E5%9D%90%E6%A0%87%E7%9A%84%E7%BD%91%E6%A0%BC%E7%BA%BF"><span class="toc-number">3.0.2.</span> <span class="toc-text">2、隐藏坐标的网格线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E5%8F%96%E6%B6%88%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95"><span class="toc-number">3.0.3.</span> <span class="toc-text">3、取消右键菜单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E7%A6%81%E6%AD%A2%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%9D%90%E6%A0%87%E6%97%B6%E5%8F%AF%E6%8B%96%E5%8A%A8%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">3.0.4.</span> <span class="toc-text">4、禁止鼠标点击坐标时可拖动的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81%E9%9A%90%E8%97%8F%E5%9D%90%E6%A0%87%E8%BD%B4"><span class="toc-number">3.0.5.</span> <span class="toc-text">5、隐藏坐标轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%E3%80%81%E9%9A%90%E8%97%8F%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9F%AD%E5%88%BB%E5%BA%A6%E7%BA%BF"><span class="toc-number">3.0.6.</span> <span class="toc-text">6、隐藏坐标轴短刻度线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%E3%80%81%E4%BF%9D%E5%AD%98%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE"><span class="toc-number">3.0.7.</span> <span class="toc-text">7、保存屏幕截图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%E3%80%81%E5%9D%90%E6%A0%87%E6%98%BE%E7%A4%BA%E7%9A%84%E5%88%BB%E5%BA%A6%E6%A0%B7%E5%BC%8F"><span class="toc-number">3.0.8.</span> <span class="toc-text">8、坐标显示的刻度样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%E3%80%81%E5%8D%81%E5%AD%97%E5%85%89%E6%A0%87%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-number">3.0.9.</span> <span class="toc-text">9、十字光标的相关的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E3%80%81%E5%9C%A8%E5%9D%90%E6%A0%87%E4%B8%8A%E6%98%BE%E7%A4%BA%E5%8D%81%E5%AD%97%E5%85%89%E6%A0%87%E7%BA%BF%E5%AF%B9%E5%BA%94%E7%9A%84%E5%88%BB%E5%BA%A6%E7%BA%BF"><span class="toc-number">3.0.10.</span> <span class="toc-text">10、在坐标上显示十字光标线对应的刻度线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11%E3%80%81%E6%98%BE%E7%A4%BA%E6%96%B9%E5%BD%A2%E5%8C%BA%E5%9F%9F"><span class="toc-number">3.0.11.</span> <span class="toc-text">11、显示方形区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12%E3%80%81%E7%BA%BF%E6%AE%B5"><span class="toc-number">3.0.12.</span> <span class="toc-text">12、线段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13%E3%80%81%E6%B0%B4%E5%B9%B3%E6%9D%A1%E8%8C%83%E5%9B%B4%E6%9D%A1"><span class="toc-number">3.0.13.</span> <span class="toc-text">13、水平条范围条</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14%E3%80%81%E5%85%B6%E5%AE%83"><span class="toc-number">3.0.14.</span> <span class="toc-text">14、其它</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DynamicDataDisplay-%E5%AE%9E%E6%97%B6%E6%9B%B2%E7%BA%BF%E5%9B%BE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%B2%BF%E8%BD%B4%E7%A7%BB%E5%8A%A8%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">4.</span> <span class="toc-text">DynamicDataDisplay 实时曲线图的使用和沿轴移动的效果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WPF-%E4%BD%BF%E7%94%A8DynamicDataDisplay-%E8%BF%87%E7%A8%8B%E5%8F%8A%E8%8E%B7%E5%8F%96x-y%E8%BD%B4%E5%9D%90%E6%A0%87"><span class="toc-number">5.</span> <span class="toc-text">WPF 使用DynamicDataDisplay 过程及获取x,y轴坐标</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,692 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>dotnetcore 使用nacos | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="使用nacos管理dotnet微服务。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dotnetcore 使用nacos">
+<meta property="og:url" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="使用nacos管理dotnet微服务。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/1584969641240.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/1585019248636.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/1585019452630.png">
+<meta property="article:published_time" content="2020-05-26T05:53:35.000Z">
+<meta property="article:modified_time" content="2021-06-08T04:41:13.834Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="dotnetcore">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="nacos">
+<meta property="article:tag" content="服务发现">
+<meta property="article:tag" content="服务治理">
+<meta property="article:tag" content="配置中心">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/1584969641240.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/05/26/dotnetcore 使用nacos/" title="dotnetcore 使用nacos" itemprop="url">dotnetcore 使用nacos</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-26T05:53:35.000Z" itemprop="datePublished"> Published 2020-05-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#dotnetcore-%E4%BD%BF%E7%94%A8nacos"><span class="toc-number">1.</span> <span class="toc-text">dotnetcore 使用nacos</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8nacos-server"><span class="toc-number">1.1.</span> <span class="toc-text">1 启动nacos server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">服务发现</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="dotnetcore-使用nacos"><a href="#dotnetcore-使用nacos" class="headerlink" title="dotnetcore 使用nacos"></a>dotnetcore 使用nacos</h1><h2 id="1-启动nacos-server"><a href="#1-启动nacos-server" class="headerlink" title="1 启动nacos server"></a>1 启动nacos server</h2><p>第一种方式，使用docker</p>
+<p>下载docker镜像</p>
+<blockquote>
+<p>docker pull nacos:1.1.3</p>
+</blockquote>
+<img src="/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/1584969641240.png" alt="1584969641240" style="zoom:67%;">
+
+<p>创建映射卷</p>
+<blockquote>
+<p>sudo mkdir -p ~/docker/nacos/logs</p>
+</blockquote>
+<p>运行nacos</p>
+<blockquote>
+<p>docker run -d -e TZ=”Asia/Shanghai” -p 8848:8848 –expose=8848 –name mynacos -v $PWD/logs:/home/king/docker/nacos/logs -e MODE=standalone nacos/nacos-server:1.1.3</p>
+</blockquote>
+<p>然后访问端口8848</p>
+<p>![1584969849323](dotnetcore 使用nacos.assets\1584969849323.png)</p>
+<p>第二种方式</p>
+<p>创建应用</p>
+<p>在配置中有几个比较重要的概念需要先了解一下。</p>
+<ul>
+<li>tenant  租户信息，对应 Nacos 的命名空间字段。</li>
+<li>dataId  配置ID。</li>
+<li>group   配置分组。</li>
+</ul>
+<p>先添加下面这个nuget包，然后看一下这个配置要怎么玩。</p>
+<p>创建一个WebApp core 3.1应用【WebAppNacos】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet add package nacos-sdk-csharp-unofficial</span><br></pre></td></tr></table></figure>
+
+<p>修改Startup.cs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices(IServiceCollection services)</span><br><span class="line">&#123;</span><br><span class="line">    services.AddControllers();    </span><br><span class="line">    // configuration</span><br><span class="line">    services.AddNacos(configure =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        // default timeout</span><br><span class="line">        configure.DefaultTimeOut = 8;</span><br><span class="line">        // nacos&#x27;s endpoint</span><br><span class="line">        configure.ServerAddresses = new System.Collections.Generic.List&lt;string&gt; &#123; &quot;192.168.8.11:8848&quot; &#125;;</span><br><span class="line">        // namespace</span><br><span class="line">        configure.Namespace = &quot;&quot;;</span><br><span class="line">        // listen interval</span><br><span class="line">        configure.ListenInterval = 1000;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);</span><br><span class="line">    services.AddHostedService&lt;ListenConfigurationBgTask&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.</span><br><span class="line">public void Configure(IApplicationBuilder app, IWebHostEnvironment env)</span><br><span class="line">&#123;</span><br><span class="line">    if (env.IsDevelopment())</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage();</span><br><span class="line">    &#125;</span><br><span class="line">    app.UseRouting();</span><br><span class="line">    app.UseAuthorization();</span><br><span class="line">    app.UseEndpoints(endpoints =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        endpoints.MapControllers();</span><br><span class="line">    &#125;);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加一个配置的controller，【ConfigController】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Nacos;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace WebAppNacos.Controllers</span><br><span class="line">&#123;</span><br><span class="line">    [Route(&quot;api/[controller]&quot;)]</span><br><span class="line">    [ApiController]</span><br><span class="line">    public class ConfigController : ControllerBase</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly INacosConfigClient _configClient;</span><br><span class="line"></span><br><span class="line">        public ConfigController(INacosConfigClient configClient)</span><br><span class="line">        &#123;</span><br><span class="line">            _configClient = configClient;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // GET api/config?key=demo1</span><br><span class="line">        [HttpGet(&quot;&quot;)]</span><br><span class="line">        public async Task&lt;string&gt; Get([FromQuery]string key)</span><br><span class="line">        &#123;</span><br><span class="line">            var res = await _configClient.GetConfigAsync(new GetConfigRequest</span><br><span class="line">            &#123;</span><br><span class="line">                DataId = key,</span><br><span class="line">                Group = &quot;DEFAULT_GROUP&quot;,</span><br><span class="line">                //Tenant = &quot;tenant&quot;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            return string.IsNullOrWhiteSpace(res) ? &quot;Not Found&quot; : res;</span><br><span class="line">        &#125;</span><br><span class="line">        [HttpGet(&quot;add&quot;)]</span><br><span class="line">        public async Task&lt;string&gt; Add([FromQuery]string key, [FromQuery]string value)</span><br><span class="line">        &#123;</span><br><span class="line">            var res = await _configClient.PublishConfigAsync(new PublishConfigRequest</span><br><span class="line">            &#123;</span><br><span class="line">                DataId = key,</span><br><span class="line">                Group = &quot;DEFAULT_GROUP&quot;,</span><br><span class="line">                //Tenant = &quot;tenant&quot;</span><br><span class="line">                Content = value</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            return res.ToString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问<a target="_blank" rel="noopener" href="http://192.168.8.6:8059/api/config/add?key=deom1&amp;value=123%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1">http://192.168.8.6:8059/api/config/add?key=deom1&amp;value=123添加一个服务</a></p>
+<p>访问<a target="_blank" rel="noopener" href="http://192.168.8.6:8059/api/config?key=demo1%E8%8E%B7%E5%8F%96%E6%B7%BB%E5%8A%A0%E7%9A%84%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%80%BC">http://192.168.8.6:8059/api/config?key=demo1获取添加的服务的值</a></p>
+<p>上面获取配置的这个获取配置的方法，大意就是 读取默认命名空间(public)下面的<code>DEFAULT_GROUP</code>这个配置分组下面的，名为key的配置Id的值。</p>
+<p>如果我们输入的key，在Nacos上面没有，那个这个方法就会返回 <code>Not Found</code>给调用方，如果有，那就会返回具体的配置值。</p>
+<p>由于我们是刚运行起行，什么都没有操作，所以肯定是没有任何配置信息的。</p>
+<p>同样在上面的控制器中加入下面的发布配置的方法，同样也是通过<code>INacosConfigClient</code>来添加配置。</p>
+<img src="/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/1585019248636.png" alt="1585019248636" style="zoom:67%;">
+
+<p>下面通过控制台去修改一下配置的内容。</p>
+<img src="/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/1585019452630.png" alt="1585019452630" style="zoom:67%;">
+
+<p>然后再去访问<a target="_blank" rel="noopener" href="http://192.168.8.6:8059/api/config?key=demo1%E5%8F%91%E7%8E%B0%E5%80%BC%E6%B2%A1%E6%9C%89%E6%94%B9%E5%8F%98">http://192.168.8.6:8059/api/config?key=demo1发现值没有改变</a></p>
+<p>发现是获取不到我们刚才更新的内容的。</p>
+<p>这个是因为，从Nacos读取配置成功后，会写入配置信息到本地缓存中，后面访问的话会优先去读缓存的内容。</p>
+<p>那么要怎么做到有人修改了配置内容后，它能实时生效呢？其实很简单，只需要添加一下对配置的监听就可以了。</p>
+<p>这个得益于Nacos允许我们监听配置，以便实时感知配置变更。如果配置变更，则用获取配置接口获取配置的最新值，动态刷新本地缓存。</p>
+<p>下面是一个简单的示例，这里用的是<code>BackgroundService</code>来处理的。</p>
+<p>添加一个配置文件【ListenConfigurationBgTask】类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">public class ListenConfigurationBgTask : BackgroundService</span><br><span class="line">&#123;</span><br><span class="line">    private readonly ILogger _logger;</span><br><span class="line">    private readonly INacosConfigClient _configClient;</span><br><span class="line"></span><br><span class="line">    public ListenConfigurationBgTask(ILoggerFactory loggerFactory, INacosConfigClient configClient)</span><br><span class="line">    &#123;</span><br><span class="line">        _logger = loggerFactory.CreateLogger&lt;ListenConfigurationBgTask&gt;();</span><br><span class="line">        _configClient = configClient;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected override async Task ExecuteAsync(CancellationToken stoppingToken)</span><br><span class="line">    &#123;</span><br><span class="line">        // Add listener</span><br><span class="line">        await _configClient.AddListenerAsync(new AddListenerRequest</span><br><span class="line">        &#123;</span><br><span class="line">            DataId = &quot;demo1&quot;,</span><br><span class="line">            //Group = &quot;DEFAULT_GROUP&quot;,</span><br><span class="line">            //Tenant = &quot;tenant&quot;,</span><br><span class="line">            Callbacks = new List&lt;Action&lt;string&gt;&gt;</span><br><span class="line">        	&#123;</span><br><span class="line">            	x =&gt;</span><br><span class="line">                &#123;_logger.LogInformation($&quot; We found something changed!!! &#123;DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss.fff&quot;)&#125;  [&#123;x&#125;]&quot;);</span><br><span class="line">                &#125;,</span><br><span class="line">        	&#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override async Task StopAsync(CancellationToken cancellationToken)</span><br><span class="line">    &#123;</span><br><span class="line">        // Remove listener</span><br><span class="line">        await _configClient.RemoveListenerAsync(new RemoveListenerRequest</span><br><span class="line">        &#123;</span><br><span class="line">            DataId = &quot;demo1&quot;,</span><br><span class="line">            Callbacks = new List&lt;Action&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            () =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                 _logger.LogInformation($&quot; Removed listerner  &quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        await base.StopAsync(cancellationToken);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里其实没有什么内容，就是在程序启动的时候添加一下监听，然后在程序退出的时候，同样也退出监听。</p>
+<p>不要忘记在Startup中加下面的代码，这样配置的监听才会生效！</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.AddHostedService&lt;ListenConfigurationBgTask&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>当我们添加监听之后，修改了配置文件的内容，它就可以动态的更新加载了。</p>
+<p>同样的，控制台里面也有监听的记录，可以在<strong>监听查询</strong>里面找到。</p>
+<p>配置的每一次修改，都会有历史记录，可以从历史版本里面找到。 </p>
+<p>除了能看历史的记录，还可以回滚到指定的版本，这是个很有用的功能。</p>
+<p>在数据库中，配置信息的保存是这样的</p>
+<p>还有一个删除配置的方法，这里就不介绍了，都是差不多的用法，不过正常情况下是不应该删除配置的，除非是多余的。</p>
+<p>关于Nacos配置管理的介绍就先到这里了，有兴趣的朋友可以继续去深究。</p>
+<p>下面我们就来看看Nacos的服务发现。</p>
+<h2 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h2><p>关于服务注册和发现，听的比较多的大概就是，consul, eureka, etcd , k8s 等等。</p>
+<p>思路其实都差不多，在服务启动的时候，把当前服务的相关信息注册上去，然后要调用某个服务的时候，就获取这个服务下面的列表，然后选一个可用的进行访问。最后就是当服务停止的时候，我们要注销当前的服务。</p>
+<p>目前这个SDK提供了两种形式，一种是原始的API，一种是对原始API进行了封装，可以直接注册和发现相应的下游服务。</p>
+<p>原始的API在一个名为<code>INacosNamingClient</code>的Client接口中提供，这个接口里面的所有内容都是服务发现相关的。</p>
+<p>不过在这里只介绍封装过后的使用方法，当然也可以自己根据原始的API进行封装处理。</p>
+<p>首先要添加下面这个nuget包。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet add package nacos-sdk-csharp-unofficial.AspNetCore</span><br></pre></td></tr></table></figure>
+
+<p>先起来一个服务【BaseService1】。</p>
+<p>创建一个Asp .net core web应用，访问地址为<a target="_blank" rel="noopener" href="http://192.168.8.6:8041/api/values">http://192.168.8.6:8041/api/values</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class ValuesController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line">    // GET api/values</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public ActionResult&lt;IEnumerable&lt;string&gt;&gt; Get()</span><br><span class="line">    &#123;</span><br><span class="line">        return new string[] &#123; &quot;base2222222&quot; &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先在配置文件<code>appsettings.json</code>中添加下面的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;nacos&quot;: &#123;</span><br><span class="line">    &quot;ServerAddresses&quot;: [ &quot;192.168.8.11:8848&quot; ],</span><br><span class="line">    &quot;DefaultTimeOut&quot;: 15,</span><br><span class="line">    &quot;Namespace&quot;: &quot;&quot;,</span><br><span class="line">    &quot;ListenInterval&quot;: 1000,</span><br><span class="line">    &quot;ServiceName&quot;: &quot;BaseService&quot;,</span><br><span class="line">    &quot;Weight&quot;: 10</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改startup</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices(IServiceCollection services)</span><br><span class="line">&#123;</span><br><span class="line">    services.AddControllers();</span><br><span class="line">    services.AddNacosAspNetCore(Configuration);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.</span><br><span class="line">public void Configure(IApplicationBuilder app, IWebHostEnvironment env)</span><br><span class="line">&#123;</span><br><span class="line">    if (env.IsDevelopment())</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.UseRouting();</span><br><span class="line"></span><br><span class="line">    app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">    app.UseEndpoints(endpoints =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        endpoints.MapControllers();</span><br><span class="line">    &#125;);</span><br><span class="line">    app.UseNacosAspNetCore();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同理再起一个服务【BaseService2】。</p>
+<p>创建一个Asp .net core web应用，访问地址为<a target="_blank" rel="noopener" href="http://192.168.8.6:8042/api/values">http://192.168.8.6:8042/api/values</a></p>
+<p>创建一个发现服务的服务【ApiGate】</p>
+<p>创建一个Asp .net core web应用，访问地址为<a target="_blank" rel="noopener" href="http://192.168.8.6:8051/api/values">http://192.168.8.6:8051/api/values</a></p>
+<p>Startup中的内容都是差不多的，不同的是，如果确定服务不被内部其它应用调用的话，可以不注册到Nacos上面。</p>
+<p>修改Startup</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices(IServiceCollection services)</span><br><span class="line">&#123;</span><br><span class="line">    services.AddControllers();</span><br><span class="line">    services.AddNacosAspNetCore(Configuration);</span><br><span class="line">    services.AddMvc();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加一个【ValuesController】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public class ValuesController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line">    private readonly INacosServerManager _serverManager;</span><br><span class="line">    private readonly IHttpClientFactory _clientFactory;</span><br><span class="line"></span><br><span class="line">    public ValuesController(INacosServerManager serverManager, IHttpClientFactory clientFactory)</span><br><span class="line">    &#123;</span><br><span class="line">        _serverManager = serverManager;</span><br><span class="line">        _clientFactory = clientFactory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // GET api/values</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public async Task&lt;string&gt; GetAsync()</span><br><span class="line">    &#123;</span><br><span class="line">        var result = await GetResultAsync();</span><br><span class="line">        if (string.IsNullOrWhiteSpace(result))</span><br><span class="line">        &#123;</span><br><span class="line">            result = &quot;ERROR!!!&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private async Task&lt;string&gt; GetResultAsync()</span><br><span class="line">    &#123;</span><br><span class="line">        var baseUrl = await _serverManager.GetServerAsync(&quot;BaseService&quot;);</span><br><span class="line">        if (string.IsNullOrWhiteSpace(baseUrl))</span><br><span class="line">        &#123;</span><br><span class="line">            return &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        var url = $&quot;&#123;baseUrl&#125;/api/values&quot;;</span><br><span class="line">        var client = _clientFactory.CreateClient();</span><br><span class="line">        var result = await client.GetAsync(url);</span><br><span class="line">        return await result.Content.ReadAsStringAsync();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>INacosServerManager</code>里面提供了一个只根据服务名来获取健康的实例的地址信息。不足的地方就是忽略了命名空间和集群这些参数，会考虑在后面的版本中加上吧。</p>
+<p>这里获取到的地址信息是随机取出来的，最简单的轮训算法。。获取到一次所有的实例地址信息后会缓存10秒钟，这10秒钟里面就会直接从缓存中的地址信息取一个。</p>
+<p>在两个实例的健康状态都是true的时候，会随机调用一个实例。</p>
+<p>当把其中一个实例停掉的时候，这个实例的健康状态就会被标识为false，这个时候就不会调用到这个false的实例。</p>
+<p>当把这个实例重新运行之后，又恢复到随机调用的情况。</p>
+<p>Nacos的服务发现除了上面介绍的，还有系统开关，数据指标，集群信息等功能，有待去深入挖掘。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/dotnetcore/">dotnetcore</a><a href="/tags/微服务/">微服务</a><a href="/tags/nacos/">nacos</a><a href="/tags/服务发现/">服务发现</a><a href="/tags/服务治理/">服务治理</a><a href="/tags/配置中心/">配置中心</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/05/26/dotnetcore%20%E4%BD%BF%E7%94%A8nacos/" data-title="dotnetcore 使用nacos | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/05/26/dotnetcore 架构/" title="dotnetcore 架构">
+  <strong>上一篇：</strong><br/>
+  <span>
+  dotnetcore 架构</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/05/26/C# dotnet 认证授权/"  title="C# dotnet 认证授权">
+ <strong>下一篇：</strong><br/> 
+ <span>C# dotnet 认证授权
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#dotnetcore-%E4%BD%BF%E7%94%A8nacos"><span class="toc-number">1.</span> <span class="toc-text">dotnetcore 使用nacos</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8nacos-server"><span class="toc-number">1.1.</span> <span class="toc-text">1 启动nacos server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">服务发现</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

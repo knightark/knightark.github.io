@@ -1,0 +1,693 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Jira-kanban开发方法 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="看板方法，敏捷。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jira-kanban开发方法">
+<meta property="og:url" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="看板方法，敏捷。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Files/Jira-kanban开发方法/1200">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Files/Jira-kanban开发方法/image-20200915104008339.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915104124369.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915104139742.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915104250566.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915104331207.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915111510529.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915111610421.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915160816137.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915160910582.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915162525485.png">
+<meta property="og:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20200915162549056.png">
+<meta property="article:published_time" content="2020-09-15T02:39:43.000Z">
+<meta property="article:modified_time" content="2021-06-08T05:44:53.899Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="jira">
+<meta property="article:tag" content="kanban">
+<meta property="article:tag" content="事务追踪">
+<meta property="article:tag" content="敏捷">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Files/Jira-kanban开发方法/1200">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/09/15/Jira-kanban开发方法/" title="Jira-kanban开发方法" itemprop="url">Jira-kanban开发方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-09-15T02:39:43.000Z" itemprop="datePublished"> Published 2020-09-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">Jira-kanban开发方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Project%E5%92%8CIssue"><span class="toc-number">1.1.</span> <span class="toc-text">1. Project和Issue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Field"><span class="toc-number">1.2.</span> <span class="toc-text">2. Field</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Workflow%E5%92%8CWorkflow-Scheme"><span class="toc-number">1.3.</span> <span class="toc-text">3. Workflow和Workflow Scheme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Screen"><span class="toc-number">1.4.</span> <span class="toc-text">4. Screen</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scrum%E8%A7%92%E8%89%B2"><span class="toc-number">2.</span> <span class="toc-text">Scrum角色</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sprint%E5%91%A8%E6%9C%9F"><span class="toc-number">3.</span> <span class="toc-text">Sprint周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Story-amp-Task"><span class="toc-number">4.</span> <span class="toc-text">Story &amp; Task</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%B0%E7%AE%97"><span class="toc-number">5.</span> <span class="toc-text">估算</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Jira-kanban开发方法"><a href="#Jira-kanban开发方法" class="headerlink" title="Jira-kanban开发方法"></a>Jira-kanban开发方法</h1><p>jira基本概念</p>
+<p>JIRA的界面操作挺复杂，但是JIRA的逻辑并不复杂。想要了解如何使用JIRA，弄清下面几个基本概念就差不多了：</p>
+<ul>
+<li>Project 项目</li>
+<li>Issue 事务（有的译作“问题”）</li>
+<li>Field 字段</li>
+<li>Workflow 工作流</li>
+<li>Screen 视图</li>
+</ul>
+<h2 id="1-Project和Issue"><a href="#1-Project和Issue" class="headerlink" title="1. Project和Issue"></a>1. Project和Issue</h2><p>Project这个概念很简单，就是一个“项目”。开发一个App是一个项目，开发一个微信小程序也是一个项目，公司办公室搬迁也可以是一个项目。可以说，在项目管理范畴内可以看作“项目”的，都是Jira中的项目。Project是Issue的容器。在创建项目时，JIRA会要求你指定“KEY”，这个KEY加上数字，就是Issue的唯一ID了。比如新建一个项目，KEY设置为<code>WEB</code>，那么项目下的第一条Issue就是<code>WEB-1</code>，第二条Issue是<code>WEB-2</code>，依此类推。</p>
+<p>而Issue则是Jira核心中的核心，它分为以下几种类型：</p>
+<ul>
+<li>Story 故事（即敏捷开发中的“用户故事”）</li>
+<li>Epic 史诗</li>
+<li>Improvement 提升</li>
+<li>New Feature 新特性</li>
+<li>Bug 缺陷</li>
+<li>Task 任务</li>
+<li>Sub-Task 子任务</li>
+</ul>
+<p>以上几种类型，除Sub-Task和Epic之外并无本质区别。对于敏捷开发团队来说，“用户可以编辑并修改个人资料”可以建一个Story；对职能部门来说，“月底向供应商支付货款”可以建一个Task。如果想反过来，把前者叫Task把后者叫Story，Jira也不会干涉你，无非会让其他人觉得奇怪而已。</p>
+<p>Epic中文叫“史诗”，人话版的翻译是“包含很多故事的大故事”。比如“用户可以在App上收听音乐”，就是一个很大的故事，还需要细分为更多小故事才可以进行开发。</p>
+<p>除了Sub-Task之外，所有的Issue类型都可以创建Sub-Task。比如“用户可以编辑并修改个人资料”就可以拆分为以下几个子任务：</p>
+<ul>
+<li>设计UI界面</li>
+<li>开发前端页面</li>
+<li>提供后端API接口<br> 以上所有子任务完成之后，这个Story才能算完成。</li>
+</ul>
+<h2 id="2-Field"><a href="#2-Field" class="headerlink" title="2. Field"></a>2. Field</h2><p>一个Story会有属性：名称、详细描述、提交人、提交时间、优先级、状态等等。这些属性就是Field字段。而所谓的Story，也是Type属性为“Story”的Issue而已，把Type属性改成“Epic”，那这个Story就会变成Epic了。</p>
+<h2 id="3-Workflow和Workflow-Scheme"><a href="#3-Workflow和Workflow-Scheme" class="headerlink" title="3. Workflow和Workflow Scheme"></a>3. Workflow和Workflow Scheme</h2><p>我们知道，任务会有不同的状态：待办，进行中，已完成；需求也会有不同的状态：刚提交，待评审，暂缓，已拒绝，开发中，已完成，等等。Workflow就是用来定义定义Issue的状态。</p>
+<p>Workflow由两部分组成：</p>
+<ul>
+<li>Status 状态</li>
+<li>Transition 转换动作</li>
+</ul>
+<p>下图中的按钮样式就是Status，从一种状态转换为另一种状态的箭头就是Transition。</p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Files\Jira-kanban开发方法\1200" alt="img"></p>
+<p>一个典型工作流</p>
+<p>从一种状态切换到另外一种状态必须借助Transition。JIRA提供了方便的配置项，可以自动生成Transition（允许所有状态切换到当前状态）。</p>
+<p>为什么做得这么麻烦，像Tower或者Worktile之类的清单不好吗？答案就是Transition有专门的配置项，可以调起webhook以及执行一些post-function比如发送邮件等等。而且严格的Transition可以避免人为的误操作。</p>
+<p>当有了Workflow之后还不够。一个Project内会有不同类型的Issue，这时候就需要指定哪种Issue Type采用哪种Workflow，于是就产生了Workflow Scheme。比如下面就是一个Workflow Scheme：</p>
+<ul>
+<li>Story：To Do - In Progress - In Review - Done（Workflow 1）</li>
+<li>Task： To Do - In Progress - Done （Workflow 2）</li>
+<li>……</li>
+</ul>
+<p>显然，每个Project只能采用一种Workflow Scheme。</p>
+<p>注意，整个JIRA中的Status都是共用的。当你在编辑某个Workflow时修改了一个已有Status的名称，其他Workflow中同样的Status也会被修改。</p>
+<h2 id="4-Screen"><a href="#4-Screen" class="headerlink" title="4. Screen"></a>4. Screen</h2><p>Screen（视图）还会衍生Screen Scheme和Issue Type Screen Scheme两个概念。Screen这个概念就像空气一样，理所当然，可是对于不懂化学的人来说又无法描述。所以这个我们后面再详细介绍。只要知道，我们在新建Issue、编辑Issue、查看Issue详情时，其实是通过“新建视图”、“编辑视图”、“详情视图”完成的就好了。</p>
+<p>敏捷开发也存在需求、设计、编码、测试4种职能，不过敏捷开发并不是小型瀑布流，4种职能之间是紧密结合、彼此交融、相互依赖的，不存在瀑布流的“职能筒仓”问题。文档、开发、测试往往是同步进行的。基于敏捷开发的理念，衍生出来精益开发、极限编程、测试驱动开发（TDD）等等具体方法，而Jira所支持的Scrum就是其中的方法之一。</p>
+<p>Scrum在英语是橄榄球运动中列阵争球的意思。就我看过为数不多的球赛里面，2012年欧洲杯决赛西班牙队4：0血虐意大利队的战术，也有不少scrum的意思，小步快传，全队皆锋。</p>
+<h1 id="Scrum角色"><a href="#Scrum角色" class="headerlink" title="Scrum角色"></a>Scrum角色</h1><p>在Scrum团队中有3种角色：</p>
+<p>1、产品负责人Product Owner，定义需求列表及优先级、验收标准，代表业务需求方，也就是我们常说的产品经理。不过产品经理往往身兼更多职责如项目管理、交互设计、用户调研等。</p>
+<p>2、敏捷教练Scrum Master，保证团队按Scrum的方式良好运转下去，在没有专职人员的情况下，一般由研发经理担任比较合适。如果由产品经理负责，需要对软件开发技术有一定的了解，并且能够清晰剥离出自己Product Owner与Scrum Master的职责，在正确的时机做正确的事，因为这两个角色之间的关系基本是相互对抗的。</p>
+<p>3、团队成员Team Member，真正做编码和测试的人员，对故事和任务工作量做估算，并交付最终可用的产品。</p>
+<h1 id="Sprint周期"><a href="#Sprint周期" class="headerlink" title="Sprint周期"></a>Sprint周期</h1><p>Sprint（冲刺）周期是执行Scrum的基本节奏。每一个Sprint周期都是一个固定的时间盒。在这个时间盒内，要做的故事和任务（也就是产品需求）是确定的。当周期结束时，不管需求有没有全部完成，这个时间盒都会结束，并准备启动下一个时间盒。如此循环，通过快节奏的迭代冲刺，不断交付有价值的产品并且不断修正产品。</p>
+<p>在一个Sprint周期中，有几个主要会议：</p>
+<p>1、Sprint规划会议，在会上产品负责人、敏捷教练、团队成员会坐在一起，共同决定这次的Sprint要完成哪些用户故事，并将故事分拆为任务，然后对任务进行估算。</p>
+<p>2、Scrum日会/站会，找一个每天固定的时间，团队成员站在一起，每个人轮流陈述上一次日会之后已完成的内容、下一次日会之前期望完成的内容，然后对比前一次日会的“期望”与本次例会的“完成”，如果不符合，可以立即发现并寻找原因加以解决。</p>
+<p>3、Sprint评审/演示，在Sprint结束的时候对完成的内容进行演示，或者叫验收。团队成员从用户的角度演示本期Sprint交付的故事如何被使用。这里有个经验，对于无法演示的内容，比如提高页面的平均加载速度至3s以内，拿出相应的证据进行“演示”即可。</p>
+<p>4、回顾总结，可能都觉得没什么用，甚至团队成员在会上不知道说什么。我拿实际经验告诉你，坚持下去，很有用！对团队来讲长期收益巨大！团队会慢慢变得更有干劲、更有效率，输出的代码质量也会提高。如果没人发言，一定要逼着他们说。</p>
+<h1 id="Story-amp-Task"><a href="#Story-amp-Task" class="headerlink" title="Story &amp; Task"></a>Story &amp; Task</h1><p>说了这么多，终于到了跟Jira高度相关的部分了。在（一）中我们只简单提了Story是用户故事，现在是时候详细说明一下了。</p>
+<p>用户故事，是从业务及用户角度出发，描述产品可以完成哪些事情的简要说明，每一条用户故事都应具备用户价值。书写正确的用户故事，是进行敏捷开发的重要一步。缺乏经验的产品负责人往往把用户故事当成团队成员要做的事情，而不是用户要做的事情。</p>
+<p>举个例子，一个不合格的用户故事：</p>
+<blockquote>
+<p>“在数据库中增加一个卖家联系方式字段并展示在前台页面上”</p>
+</blockquote>
+<p>这个做了给谁用的？怎么用？有什么用？</p>
+<p>对比一下合格的写法：</p>
+<blockquote>
+<p>“卖家可以在管理后台填写联系方式，让使用App的买家在遇到问题时能及时联系专家”。</p>
+</blockquote>
+<p>在这个合格的用户故事中，包含了3个要素：用户、行为、目标/价值。“某人可以做某事以达到某种目标”，或者“某人可以做某事以创造某种价值”。</p>
+<p>用户故事言简意赅、目标清晰即可，不需要、也不应该写得非常详细。只要能达到目标/创建价值，在细节上采取什么方式都不重要，团队成员要做的是以用户故事作为指引，协力找出投入产出比最高的解决方案。太详细的用户故事，只会限制团队的创造力，并把团队的注意力吸引到“执行命令”而非“创造用户价值”上。</p>
+<p>Task则是将用户故事分解之后得出的任务。比如刚刚举的用户故事的例子，就可以分拆成以下几个任务：</p>
+<ol>
+<li>后端增加联系方式字段，并提供API供前端读写</li>
+<li>Web前端增加填写联系方式的表单</li>
+<li>App中显示相应卖家的联系方式</li>
+</ol>
+<p>一些不涉及用户故事，但对团队有价值的工作，也可以列为“技术”任务。如“编写测试环境部署脚本，让测试人员可以主动选择测试分支”。</p>
+<h1 id="估算"><a href="#估算" class="headerlink" title="估算"></a>估算</h1><p>把估算单独拿出来说，是因为在通过Jira实践Scrum敏捷开发时，估算是相当重要却又很容易被误用的一环。</p>
+<p>对任务做估算的目的是为了对工作量有大致的预判，从而在有限的时间内交付尽可能多的用户价值（而不是开发工作量），更不是为了对项目的时间节点进行精确的控制。团队的生产速率基本是固定的，而具体到每个开发任务的工作量也都是基本固定的，所以只要团队都在持续且高效的输出价值就足够了。妄图以强制的deadline让团队成员持续加班，结果只能是幸福感降低，然后是效率降低，然后要么是交付物的质量下降要么是交付物的范围缩减，最后团队分崩离析。</p>
+<p>估算一般有3种方法：小时数，点数，任务数。小时数过于精细，而且容易陷入精打细算的误区；任务数过于笼统，对任务分拆的粒度有较高的要求；点数即Jira中的Story Points，也是实践下来比较推荐的估算方法。</p>
+<p>点数的是为了比较出开发任务之间的相对大小。随便选一个看起来工作量比较小的任务作为1，然后看其他任务是这个任务的几倍，遇到比这个任务还要小的就算0.5。在估算点数的时候，只能在0.5/1/2/3/5/8/15/20/30中选择，甚至30都不应该被使用，当一个任务的工作量是另一个任务的30倍的时候，这个任务一定可以被分解成更具体的任务。这么规定的原因还是因为我们要比的是相对大小，在估算时一个任务是18点还是19点，没有什么区别。</p>
+<p>可以看到点数只是一个相对值，没有单位。在实践中，团队成员刚开始进行估算时很容易陷入1点 = xx小时的误区，先估计小时数，然后再把小时数换算成点数。作为Scrum Master，要么努力纠正这种误区并引导建立正确的观念，要么就让团队成员用人天当单位估算吧。</p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Files\Jira-kanban开发方法\image-20200915104008339.png" alt="image-20200915104008339"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915104124369.png" alt="image-20200915104124369"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915104139742.png" alt="image-20200915104139742"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915104250566.png" alt="image-20200915104250566"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915104331207.png" alt="image-20200915104331207"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915111510529.png" alt="image-20200915111510529"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915111610421.png" alt="image-20200915111610421"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915160816137.png" alt="image-20200915160816137"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915160910582.png" alt="image-20200915160910582"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915162525485.png" alt="image-20200915162525485"></p>
+<p><img src="/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20200915162549056.png" alt="image-20200915162549056"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/">软件开发过程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/jira/">jira</a><a href="/tags/kanban/">kanban</a><a href="/tags/事务追踪/">事务追踪</a><a href="/tags/敏捷/">敏捷</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/09/15/Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95/" data-title="Jira-kanban开发方法 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/11/25/WPF编程，曲线控件DynamicDataDisplay的使用方法（三）/" title="WPF编程，曲线控件DynamicDataDisplay的使用方法（三）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  WPF编程，曲线控件DynamicDataDisplay的使用方法（三）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/09/14/迁移docker到其他路径/"  title="迁移docker到其他路径">
+ <strong>下一篇：</strong><br/> 
+ <span>迁移docker到其他路径
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Jira-kanban%E5%BC%80%E5%8F%91%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">Jira-kanban开发方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Project%E5%92%8CIssue"><span class="toc-number">1.1.</span> <span class="toc-text">1. Project和Issue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Field"><span class="toc-number">1.2.</span> <span class="toc-text">2. Field</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Workflow%E5%92%8CWorkflow-Scheme"><span class="toc-number">1.3.</span> <span class="toc-text">3. Workflow和Workflow Scheme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Screen"><span class="toc-number">1.4.</span> <span class="toc-text">4. Screen</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scrum%E8%A7%92%E8%89%B2"><span class="toc-number">2.</span> <span class="toc-text">Scrum角色</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sprint%E5%91%A8%E6%9C%9F"><span class="toc-number">3.</span> <span class="toc-text">Sprint周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Story-amp-Task"><span class="toc-number">4.</span> <span class="toc-text">Story &amp; Task</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%B0%E7%AE%97"><span class="toc-number">5.</span> <span class="toc-text">估算</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

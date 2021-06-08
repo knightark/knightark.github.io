@@ -1,0 +1,785 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Windows包管理工具：Scoop 介绍 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="软件安装工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows包管理工具：Scoop 介绍">
+<meta property="og:url" content="https://knightark.github.io/2020/05/26/Windows%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%9AScoop%20%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="软件安装工具">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-26T05:53:59.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:08:58.692Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="scoop">
+<meta property="article:tag" content="Windows包管理工具">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/05/26/Windows包管理工具：Scoop 介绍/" title="Windows包管理工具：Scoop 介绍" itemprop="url">Windows包管理工具：Scoop 介绍</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-26T05:53:59.000Z" itemprop="datePublished"> Published 2020-05-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			
+		
+		</div>
+		
+		<p>Windows包管理工具：Scoop </p>
+<p>介绍<br>原创 EdisonLeejt 最后发布于2019-07-06 14:10:27 阅读数 1975 收藏<br>展开</p>
+<p>文章目录</p>
+<pre><code>前言
+安装要求
+自定义软件安装位置
+Scoop 安装
+Scoop 语法
+软件安装
+Scoop 软件安装位置
+检查更新
+其他
+参考
+</code></pre>
+<p>前言</p>
+<p>平时在 Windows 下，安装软件都是在各种网站上下载，运气好的话在官网上直接可以找到正版软件，运气不好的话找半天还下载了一些乱七八糟的软件，容易中病毒还浪费时间。并且下载好后的软件，一方面要指定它的安装位置（如果自己没有指定一个固定位置的话使用默认位置，每个软件的默认位置还不一定一样），另一方面还要配置环境变量之类的信息更麻烦了，最最最后，如果你要删除该软件，使用 Windows 卸载/删除程序还不一定能删除干净。总而言之，在 Windows上缺乏一个像Ubuntu 的apt-get之类的包管理工具。</p>
+<p>正好，最近发现了一款不错的包管理工具： Scoop</p>
+<p>Scoop有如下优点：</p>
+<pre><code>集搜索、下载、安装、更新软件于一体：极大的降低了安装维护一个软件的成本，我们甚至不必在软件本身的复杂菜单中寻找那个更新按钮来更新软件自己
+将软件干干净净的安装到电脑的「用户文件夹」下：这样既不会污染路径也不会请求不必要的权限（UAC）
+在卸载软件的时候，能够尽量清空软件在电脑上存储的任何数据和痕迹
+</code></pre>
+<p>通过这款工具，我们可以轻松方便的管理Windows上的软件了?<br>安装要求</p>
+<pre><code>Windows 版本不低于 Windows 7
+你能 正常、快速 的访问 GitHub 并下载上面的资源
+Windows 用户名为英文（Windows 用户环境变量中路径值不支持中文字符）
+保证电脑有 Powershell 5.0 （Win10），如果是 Win7或者其他版本可能需要旧版 Powershell
+可以在你的 Powershell 终端下输入如下命令查看当前版本：
+
+$psversiontable.psversion.major # should be &gt;= 5.0
+
+1
+
+确保Powershell 在你的当前 Windows 账户下是可用的，并且输入如下脚本：
+
+set-executionpolicy remotesigned -scope currentuser
+
+1
+</code></pre>
+<p>其中remotesigned当然可以换成Unrestricted，但是安全性不那么高，如果不确定的话最好还是使用remotesigned<br>自定义软件安装位置</p>
+<pre><code># config env
+$env:SCOOP=&#39;D:\scoop&#39;
+[environment]::setEnvironmentVariable(&#39;SCOOP&#39;,&#39;D:\scoop&#39;,&#39;User&#39;)
+
+1
+2
+3
+</code></pre>
+<p>全局安装目录配置：</p>
+<pre><code># config app install dir
+[environment]::setEnvironmentVariable(&#39;SCOOP_GLOBAL&#39;,&#39;D:\software&#39;,&#39;Machine&#39;)
+$env:SCOOP_GLOBAL=&#39;D:\software&#39;
+
+1
+2
+3
+</code></pre>
+<p>Scoop 安装</p>
+<p>在 Powershell 命令行内执行如下脚本：</p>
+<pre><code>iex (new-object net.webclient).downloadstring(&#39;https://get.scoop.sh&#39;)
+
+1
+</code></pre>
+<p>然后静待脚本执行完成即可，安装成功后，可以在终端内输入scoop，如果如下所示则说明安装成功<br>在这里插入图片描述<br>Scoop 语法</p>
+<p>使用Scoop的命令十分简单，它的语法组成是：</p>
+<pre><code>scoop + 动作 + 对象
+
+1
+</code></pre>
+<p>安装软件的方法很简单，例如需要安装’firefox和git`等软件，只需要</p>
+<pre><code>scoop install firefox git
+
+1
+</code></pre>
+<p>可以一次性安装多个软件，只需要使用空格隔开</p>
+<p>如果需要安装在全局位置，则需添加-g参数，即：</p>
+<pre><code>scoop install -g firefox git
+
+1
+</code></pre>
+<p>基础语法如下：<br>命令     动作<br>⭕search     搜索软件名<br>⭕install     安装软件<br>update     更新软件<br>status     查看软件状态<br>uninstall     卸载软件<br>info     查看软件详情<br>home     打开软件主页<br>list     显示已安装软件<br>cleanup     清理旧版软件</p>
+<p>其中最常用的就是search和install了<br>软件安装</p>
+<p>软件安装正如上所说，只需要scoop install <name>即可</name></p>
+<p>但是可能安装的软件有多个版本，安装前应该使用scoop search <name>查看各种版本，选择需要的版本</name></p>
+<p>如果search不到软件，可能实在scoop中没有该软件，需要额外手动添加到scoop的bucket里，添加命令如下：</p>
+<pre><code>scoop bucket add &lt;name&gt;
+
+1
+</code></pre>
+<p>因为scoop自带的下载APP比较少，如果每遇到一个找不到的软件就自己重新添加实在是太麻烦，正巧官方已经提供了需要额外的app列表，里面涵盖了大量常用的软件，只需要执行如下命令将其全部添加到scoop中：</p>
+<pre><code># 需要提前安装 git
+scoop bucket add extras https://github.com/lukesampson/scoop-extras.git
+
+1
+2
+</code></pre>
+<p>安装好后如果需要安装该软件，只需要在软件名字前添加一个extra，比如安装Firefox</p>
+<pre><code>scoop install extras/firefox
+
+1
+</code></pre>
+<p>更多的库：lukesampson/scoop/blob/master/buckets</p>
+<pre><code>&#123;
+&quot;main&quot;: &quot;https://github.com/ScoopInstaller/Main&quot;,
+&quot;extras&quot;: &quot;https://github.com/lukesampson/scoop-extras&quot;,
+&quot;versions&quot;: &quot;https://github.com/ScoopInstaller/Versions&quot;,
+&quot;nightlies&quot;: &quot;https://github.com/ScoopInstaller/Nightlies&quot;,
+&quot;nirsoft&quot;: &quot;https://github.com/kodybrown/scoop-nirsoft&quot;,
+&quot;php&quot;: &quot;https://github.com/ScoopInstaller/PHP&quot;,
+&quot;nerd-fonts&quot;: &quot;https://github.com/matthewjberger/scoop-nerd-fonts&quot;,
+&quot;nonportable&quot;: &quot;https://github.com/oltolm/scoop-nonportable&quot;,
+&quot;java&quot;: &quot;https://github.com/ScoopInstaller/Java&quot;,
+&quot;games&quot;: &quot;https://github.com/Calinou/scoop-games&quot;,
+&quot;jetbrains&quot;: &quot;https://github.com/Ash258/Scoop-JetBrains&quot;
+</code></pre>
+<p>}</p>
+<pre><code>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</code></pre>
+<p>以及Github上一个收集了大量bucket及打分情况的项目，如果需要安装更多软件，可以在这里寻找需要的bucket。</p>
+<p>添加自己的bucket:</p>
+<pre><code>新建一个自己的GitHub仓库，例如名为my-bucket
+在你的bucket中添加一些你需要安装的app
+
+git clone https://github.com/&lt;your-username&gt;/my-bucket
+cd my-bucket
+&#39;&#123; version: &quot;1.0&quot;, url: &quot;https://gist.github.com/lukesampson/6446238/raw/hello.ps1&quot;, bin: &quot;hello.ps1&quot; &#125;&#39; &gt; hello.json
+git add .
+git commit -m &quot;add hello app&quot;
+git push
+
+1
+2
+3
+4
+5
+6
+
+配置Scoop
+
+scoop bucket add my-bucket https://github.com/&lt;your-username&gt;/my-bucket
+
+1
+
+检查是否成功
+
+scoop bucket list # -&gt; you should see &#39;my-bucket&#39;
+scoop search hello # -&gt; you should see hello listed under, &#39;my-bucket bucket:&#39;
+scoop install hello
+hello # -&gt; you should see &#39;Hello, &lt;windows-username&gt;!&#39;
+
+1
+2
+3
+4
+</code></pre>
+<p>Scoop 软件安装位置</p>
+<p>Scoop默认在用户根目录(C:\Users\用户名)下，创建一个名为 scoop 的文件夹，并默认将软件下载安装到该文件下。<br>将软件安装到一个相对隔离的环境下（Each program you install is isolated and independent），从而保证环境的统一和路径不被污染。</p>
+<p>scoop 文件夹下的 apps 存放有安装的所有应用。值得一提的是：scoop 是通过 shim 来软链接一些应用，这样的设计让应用之间不会互相干扰，十分方便。<br>在这里插入图片描述<br>检查更新</p>
+<p>需要不时检查scoop的版本状态，使用scoop status命令，如果出现</p>
+<pre><code>WARN  Scoop is out of date. Run &#39;scoop update&#39; to get the latest changes.
+
+1
+</code></pre>
+<p>则需要运行scoop update更新版本</p>
+<pre><code>scoop updata &lt;name&gt;
+scoop updata *     # 更新所有软件
+
+1
+2
+</code></pre>
+<p>对于其他已安装的软件的更新，需要运行如下脚本：<br>其他</p>
+<pre><code>好多软件是从官网，github，amazon下载的，网速比较渣，可以先安装aria2 (scoop install aira2)，安装后 scoop 会优先调用 aria2 来下载软件；
+aria2 一些配置：
+
+aria2-enabled (default: true)
+aria2-retry-wait (default: 2)
+aria2-split (default: 5)
+aria2-max-connection-per-server (default: 5)
+aria2-min-split-size (default: 5M)
+
+1
+2
+3
+4
+5
+6
+
+安装之后一般系统环境变量是设置好了的，但是有些软件的文件关联，右键菜单之类需要手动添加，可以先scoop info ，看看有没有相关配置说明参考。
+</code></pre>
+<p>————————————————<br>版权声明：本文为CSDN博主「EdisonLeejt」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Edisonleeee/article/details/94748703">https://blog.csdn.net/Edisonleeee/article/details/94748703</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/工具/">工具</a><a href="/tags/scoop/">scoop</a><a href="/tags/Windows包管理工具/">Windows包管理工具</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/05/26/Windows%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%9AScoop%20%E4%BB%8B%E7%BB%8D/" data-title="Windows包管理工具：Scoop 介绍 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/05/26/SuperSocket学习/" title="SuperSocket学习">
+  <strong>上一篇：</strong><br/>
+  <span>
+  SuperSocket学习</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/05/26/NetWorkComms通信框架/"  title="NetWorkComms通信框架">
+ <strong>下一篇：</strong><br/> 
+ <span>NetWorkComms通信框架
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

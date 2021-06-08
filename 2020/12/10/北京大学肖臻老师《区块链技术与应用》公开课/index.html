@@ -1,0 +1,1054 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>北京大学肖臻老师《区块链技术与应用》公开课 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="北京大学肖臻老师《区块链技术与应用》公开课01-课程简介信息获取：区块链白皮书，黄皮书，以太坊源码 02-BTC-密码学原理1.特性哈希碰撞 hinding puzzle friendly 03-BTC-数据结构Merkel tree 在MT中存储交易  04 BTC-协议防范 交易的合法性 block header  block body version hash of presvious bl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="北京大学肖臻老师《区块链技术与应用》公开课">
+<meta property="og:url" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="北京大学肖臻老师《区块链技术与应用》公开课01-课程简介信息获取：区块链白皮书，黄皮书，以太坊源码 02-BTC-密码学原理1.特性哈希碰撞 hinding puzzle friendly 03-BTC-数据结构Merkel tree 在MT中存储交易  04 BTC-协议防范 交易的合法性 block header  block body version hash of presvious bl">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Files/区块链技术与应用/image-20201211092757296.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201215094307323.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201215094832034.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201215095707083.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201215095905994.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216084816244.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216084945674.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216085129968.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216154823385.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216154838484.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216154856212.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216160027200.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216160348413.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216160529898.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216160625802.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216160733116.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216160902574.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161044861.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161108719.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161117467.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161133973.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161255918.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161351342.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161453104.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161614732.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161627681.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216161708407.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216162328635.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201216162415437.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218170511641.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218170739358.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218170835525.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218170850100.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218171155028.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218172304843.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218173247709.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218173537720.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218175453066.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201218175524835.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230090529189.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230090949828.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230091222201.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230091234180.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230091721588.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230091943412.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230092834389.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230093038205.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230093057732.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094004126.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094800804.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094906621.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094916688.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094923360.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094933320.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094942212.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094949359.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230094957658.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20201230095133492.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210111172601512.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210111172739954.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210111173042219.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210111174744086.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210111180136850.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210111180232905.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210111180244030.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112082641403.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112082705472.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112082734978.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112082820522.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112082827995.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112082914809.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112083805403.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112083827779.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112084246347.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112084326814.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112084341593.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112084401127.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112084410384.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112091827977.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112092529772.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112092547673.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112092625994.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112092714897.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112092806945.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112092835803.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093203614.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093240845.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093249185.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093357566.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093516403.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093623802.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093740678.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093847071.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210112093920042.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113133859467.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113133923679.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113134022523.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113134029853.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113135521676.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113140331175.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113141933863.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113141946710.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113142056461.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113142151020.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113142334266.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113142652517.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113142740511.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113143149016.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113143329583.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113145046785.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113150157032.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113150220037.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113150338422.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113150818701.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113150954779.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113152504556.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113152737718.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113152903576.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113153048776.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113153852918.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113164028149.png">
+<meta property="og:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users/knigh/AppData/Roaming/Typora/typora-user-images/image-20210113164340953.png">
+<meta property="article:published_time" content="2020-12-10T00:32:14.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:12.204Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Files/区块链技术与应用/image-20201211092757296.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/10/北京大学肖臻老师《区块链技术与应用》公开课/" title="北京大学肖臻老师《区块链技术与应用》公开课" itemprop="url">北京大学肖臻老师《区块链技术与应用》公开课</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-10T00:32:14.000Z" itemprop="datePublished"> Published 2020-12-10</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE"><span class="toc-number">1.</span> <span class="toc-text">北京大学肖臻老师《区块链技术与应用》公开课</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#01-%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">01-课程简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#02-BTC-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">02-BTC-密码学原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%89%B9%E6%80%A7"><span class="toc-number">3.1.</span> <span class="toc-text">1.特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#03-BTC-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">03-BTC-数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#04-BTC-%E5%8D%8F%E8%AE%AE"><span class="toc-number">5.</span> <span class="toc-text">04 BTC-协议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#05-BTC-%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.</span> <span class="toc-text">05 BTC-实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#06-BTC-%E7%BD%91%E7%BB%9C"><span class="toc-number">7.</span> <span class="toc-text">06 BTC-网络</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#07-BTC-%E6%8C%96%E7%9F%BF%E9%9A%BE%E5%BA%A6"><span class="toc-number">8.</span> <span class="toc-text">07 BTC-挖矿难度</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#08-BTC-%E6%8C%96%E7%9F%BF"><span class="toc-number">9.</span> <span class="toc-text">08 BTC-挖矿</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#09-BTC-%E8%84%9A%E6%9C%AC"><span class="toc-number">10.</span> <span class="toc-text">09 BTC-脚本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-BTC-%E5%88%86%E5%8F%89"><span class="toc-number">11.</span> <span class="toc-text">10 BTC-分叉</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#state-fork"><span class="toc-number">11.1.</span> <span class="toc-text">state fork</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#protocol-fork"><span class="toc-number">11.2.</span> <span class="toc-text">protocol fork</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-BTC-%E9%97%AE%E7%AD%94"><span class="toc-number">12.</span> <span class="toc-text">11 BTC-问答</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16-ETH-%E7%8A%B6%E6%80%81%E6%A0%91"><span class="toc-number">13.</span> <span class="toc-text">16 ETH-状态树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#17-EHT-%E4%BA%A4%E6%98%93%E6%A0%91%E5%92%8C%E6%94%B6%E6%8D%AE%E6%A0%91"><span class="toc-number">14.</span> <span class="toc-text">17 EHT 交易树和收据树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#18-ETH-GHost%E5%8D%8F%E8%AE%AE"><span class="toc-number">15.</span> <span class="toc-text">18 ETH-GHost协议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#19-ETH-%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%9A%84%E6%8C%96%E7%9F%BF%E7%AE%97%E6%B3%95"><span class="toc-number">16.</span> <span class="toc-text">19 ETH-以太坊的挖矿算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#20-ETH-%E9%9A%BE%E5%BA%A6%E8%B0%83%E6%95%B4"><span class="toc-number">17.</span> <span class="toc-text">20 ETH-难度调整</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#21-ETH-%E6%9D%83%E7%9B%8A%E8%AF%81%E6%98%8E"><span class="toc-number">18.</span> <span class="toc-text">21 ETH-权益证明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#22-ETH-%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6"><span class="toc-number">19.</span> <span class="toc-text">22 ETH-智能合约</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#23-ETH-The-DAO"><span class="toc-number">20.</span> <span class="toc-text">23 ETH- The DAO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#24-ETH-%E5%8F%8D%E6%80%9D"><span class="toc-number">21.</span> <span class="toc-text">24 ETH-反思</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#25-ETH-%E7%BE%8E%E9%93%BE"><span class="toc-number">22.</span> <span class="toc-text">25 ETH-美链</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#26-ETH-%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93"><span class="toc-number">23.</span> <span class="toc-text">26 ETH-课程总结</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="北京大学肖臻老师《区块链技术与应用》公开课"><a href="#北京大学肖臻老师《区块链技术与应用》公开课" class="headerlink" title="北京大学肖臻老师《区块链技术与应用》公开课"></a>北京大学肖臻老师《区块链技术与应用》公开课</h1><h1 id="01-课程简介"><a href="#01-课程简介" class="headerlink" title="01-课程简介"></a>01-课程简介</h1><p>信息获取：区块链白皮书，黄皮书，以太坊源码</p>
+<h1 id="02-BTC-密码学原理"><a href="#02-BTC-密码学原理" class="headerlink" title="02-BTC-密码学原理"></a>02-BTC-密码学原理</h1><h2 id="1-特性"><a href="#1-特性" class="headerlink" title="1.特性"></a>1.特性</h2><p>哈希碰撞</p>
+<p>hinding</p>
+<p>puzzle friendly</p>
+<h1 id="03-BTC-数据结构"><a href="#03-BTC-数据结构" class="headerlink" title="03-BTC-数据结构"></a>03-BTC-数据结构</h1><p>Merkel tree</p>
+<p>在MT中存储交易</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Files\区块链技术与应用\image-20201211092757296.png" alt="image-20201211092757296"></p>
+<h1 id="04-BTC-协议"><a href="#04-BTC-协议" class="headerlink" title="04 BTC-协议"></a>04 BTC-协议</h1><p>防范</p>
+<p>交易的合法性</p>
+<p>block header </p>
+<p>block body</p>
+<p>version</p>
+<p>hash of presvious block header</p>
+<p>merkle root hash</p>
+<p>target</p>
+<p>nonce</p>
+<p>transation list</p>
+<p>full node—&gt; fully validating node</p>
+<p>light node </p>
+<p>distributed consensus</p>
+<p>distributed hash table</p>
+<p>impossibility result</p>
+<p>FLP:在一个异步系统，网络的一个成员有</p>
+<p>CAP</p>
+<p>Paxos</p>
+<p>consensus in bit coin</p>
+<p>hyperledger fabric</p>
+<p>membership</p>
+<p>H(block header)≤target</p>
+<p>4B</p>
+<p>longest valid chain</p>
+<p>forking attack</p>
+<p>orphan block</p>
+<p>block reward</p>
+<p>coinbase transaction</p>
+<p>hash rate</p>
+<p>sybil attack</p>
+<p>digital gold</p>
+<p>miner</p>
+<p>mining</p>
+<h1 id="05-BTC-实现"><a href="#05-BTC-实现" class="headerlink" title="05 BTC-实现"></a>05 BTC-实现</h1><p>transaction based ledger</p>
+<p>UTXO : unspent transaction Output</p>
+<p>transaction  fee</p>
+<p>21万X10分钟/60X24X365约等于4年</p>
+<p>account based ledger</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201215094307323.png" alt="image-20201215094307323"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201215094832034.png" alt="image-20201215094832034"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201215095707083.png" alt="image-20201215095707083"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201215095905994.png" alt="image-20201215095905994"></p>
+<p>bernoullli trial： a random experiment with binary outcome</p>
+<p>Bernoulli process： a sequence of independent Bernoulli trials</p>
+<p>memoryless</p>
+<p>poisson process</p>
+<p>exponential distribution</p>
+<p>21万X50 + 21万X25+。。。=21X50X2=2100万</p>
+<p>bitcoin is secured by mining</p>
+<p>six confirmation默认等待一个小时</p>
+<p>zero confirmation</p>
+<p>selfish mining能够自己先挖，增加铸币机会</p>
+<h1 id="06-BTC-网络"><a href="#06-BTC-网络" class="headerlink" title="06 BTC-网络"></a>06 BTC-网络</h1><p>seed node</p>
+<p>super node</p>
+<p>master node</p>
+<p>application layer： bit-coin block chain   </p>
+<p>network layer： P2P</p>
+<p>设计原则： simple ，robust ，but not efficient</p>
+<p>flooding</p>
+<h1 id="07-BTC-挖矿难度"><a href="#07-BTC-挖矿难度" class="headerlink" title="07 BTC-挖矿难度"></a>07 BTC-挖矿难度</h1><p>SHA-256</p>
+<p>2<sup>256</sup></p>
+<p>difficulty=difficulty-1-target/target</p>
+<p>中心思想：10分钟能够有效减少51%攻击的成功概率</p>
+<p>每个 2016X10/60X24=14天改变一次难度</p>
+<p>time spent mining the last 2016 block</p>
+<p>target=targetX actual time/expected time</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216084816244.png" alt="image-20201216084816244"></p>
+<h1 id="08-BTC-挖矿"><a href="#08-BTC-挖矿" class="headerlink" title="08 BTC-挖矿"></a>08 BTC-挖矿</h1><p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216084945674.png" alt="image-20201216084945674"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216085129968.png" alt="image-20201216085129968"></p>
+<p>挖矿的设备</p>
+<p>通用—&gt;专用</p>
+<p>CPU / GPU /  ASIC:Application Specific Integrated ciral</p>
+<p>矿池pool manager</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216154823385.png" alt="image-20201216154823385"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216154838484.png" alt="image-20201216154838484"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216154856212.png" alt="image-20201216154856212"></p>
+<p>boycott</p>
+<p>封锁某个账户</p>
+<p>不可能盗币</p>
+<p>矿池的出现</p>
+<p>好处：收益好</p>
+<p>坏处：容易51%攻击</p>
+<h1 id="09-BTC-脚本"><a href="#09-BTC-脚本" class="headerlink" title="09 BTC-脚本"></a>09 BTC-脚本</h1><p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216160027200.png" alt="image-20201216160027200"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216160348413.png" alt="image-20201216160348413"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216160529898.png" alt="image-20201216160529898"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216160625802.png" alt="image-20201216160625802"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216160733116.png" alt="image-20201216160733116"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216160902574.png" alt="image-20201216160902574"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161044861.png" alt="image-20201216161044861"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161108719.png" alt="image-20201216161108719"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161117467.png" alt="image-20201216161117467"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161133973.png" alt="image-20201216161133973"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161255918.png" alt="image-20201216161255918"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161351342.png" alt="image-20201216161351342"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161453104.png" alt="image-20201216161453104"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161614732.png" alt="image-20201216161614732"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161627681.png" alt="image-20201216161627681"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216161708407.png" alt="image-20201216161708407"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216162328635.png" alt="image-20201216162328635"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201216162415437.png" alt="image-20201216162415437"></p>
+<p>多重签名</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218170511641.png" alt="image-20201218170511641"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218170739358.png" alt="image-20201218170739358"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218170835525.png" alt="image-20201218170835525"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218170850100.png" alt="image-20201218170850100"></p>
+<p>AltCoin(Alternative Coin)</p>
+<p>digital commitment：完成往区块链中放入一些内容。</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218171155028.png" alt="image-20201218171155028"></p>
+<p>比特币语言</p>
+<p>每个都需要OP前缀。</p>
+<p>OP_Checksig</p>
+<p>OP_DUP</p>
+<p>针对比特币做了很好的优化</p>
+<h1 id="10-BTC-分叉"><a href="#10-BTC-分叉" class="headerlink" title="10 BTC-分叉"></a>10 BTC-分叉</h1><p>fork</p>
+<h2 id="state-fork"><a href="#state-fork" class="headerlink" title="state fork"></a>state fork</h2><p>forking attack</p>
+<p>deliverate fork</p>
+<h2 id="protocol-fork"><a href="#protocol-fork" class="headerlink" title="protocol fork"></a>protocol fork</h2><p>hard fork</p>
+<ol>
+<li><p>block size limit 一个区块能够有4000个交易，7笔每秒</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218172304843.png" alt="image-20201218172304843"></p>
+<p>1M–&gt;4M</p>
+<p>分裂后就能后两边用钱了</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218173247709.png" alt="image-20201218173247709"></p>
+</li>
+</ol>
+<p>soft fork</p>
+<p>1M—》 0.5M</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218173537720.png" alt="image-20201218173537720"></p>
+<p>没有办法算一个账户多少钱，没有确认</p>
+<p>P2SH:Pay to script hash</p>
+<p>redeem script</p>
+<h1 id="11-BTC-问答"><a href="#11-BTC-问答" class="headerlink" title="11 BTC-问答"></a>11 BTC-问答</h1><p>1 收账者不在线有问题么</p>
+<p>2 </p>
+<p>3 账户私钥丢失怎么办</p>
+<p>Mt . Goxt</p>
+<p>4 私钥泄露怎么办</p>
+<p>把账户的钱转移</p>
+<p>4 转账错误怎么办</p>
+<p>没办法取消</p>
+<p>5 OP_Return无条件错误，怎么能够写道区块链中去</p>
+<p>只有在下一次的交易的时候才会验证。</p>
+<p>6 矿工偷nonce。</p>
+<p>不能偷答案</p>
+<p>7交易费该给那个矿工</p>
+<p>total input&gt; total output</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218175453066.png" alt="image-20201218175453066"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201218175524835.png" alt="image-20201218175524835"></p>
+<h1 id="16-ETH-状态树"><a href="#16-ETH-状态树" class="headerlink" title="16 ETH-状态树"></a>16 ETH-状态树</h1><p>Merkel tree的构建</p>
+<p>Merkel tree需要排序</p>
+<p>查找和</p>
+<p>addr –》 state</p>
+<p>添加是简单的</p>
+<p>删除是难的</p>
+<p>trie  （retrieval）</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230090529189.png" alt="image-20201230090529189"></p>
+<p>优点</p>
+<p>局部性好</p>
+<p>缺点</p>
+<p>1存储开销大</p>
+<p>Patricia tree（压缩前缀树）</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230090949828.png" alt="image-20201230090949828"></p>
+<p>优点</p>
+<p>缺点</p>
+<p>什么场景下好</p>
+<p>键值稀疏的情况下，路径压缩比较好</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230091222201.png" alt="image-20201230091222201"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230091234180.png" alt="image-20201230091234180"></p>
+<p>地址空间 2<sup>160</sup></p>
+<p>稀疏，碰撞空间大，碰撞几率小</p>
+<p>MPT(Merkel Patricial tree)</p>
+<p>modified MPT</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230091721588.png" alt="image-20201230091721588"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230091943412.png" alt="image-20201230091943412"></p>
+<p>分叉是常态</p>
+<p>回滚：便于回滚</p>
+<p>以太坊的智能合约是图灵完备的</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230092834389.png" alt="image-20201230092834389"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230093038205.png" alt="image-20201230093038205"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230093057732.png" alt="image-20201230093057732"></p>
+<p>序列化</p>
+<p>RLP： recursive length profix</p>
+<p>protocal buffer</p>
+<p>nested array of bytes</p>
+<h1 id="17-EHT-交易树和收据树"><a href="#17-EHT-交易树和收据树" class="headerlink" title="17 EHT 交易树和收据树"></a>17 EHT 交易树和收据树</h1><p>MPT</p>
+<p>bloom filter 集合中是否存在某个元素</p>
+<p>false positive</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094004126.png" alt="image-20201230094004126"></p>
+<p>不支持删除操作</p>
+<p>快速查找</p>
+<p>transaction-driven state machine交易驱动状态机</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094800804.png" alt="image-20201230094800804"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094906621.png" alt="image-20201230094906621"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094916688.png" alt="image-20201230094916688"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094923360.png" alt="image-20201230094923360"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094933320.png" alt="image-20201230094933320"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094942212.png" alt="image-20201230094942212"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094949359.png" alt="image-20201230094949359"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230094957658.png" alt="image-20201230094957658"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20201230095133492.png" alt="image-20201230095133492"></p>
+<h1 id="18-ETH-GHost协议"><a href="#18-ETH-GHost协议" class="headerlink" title="18 ETH-GHost协议"></a>18 ETH-GHost协议</h1><p>更容易分叉</p>
+<p>矿工容易白干活</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210111172601512.png" alt="image-20210111172601512"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210111172739954.png" alt="image-20210111172739954"></p>
+<p>mining centralization</p>
+<p>centralization bias(不成比例的优势)</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210111173042219.png" alt="image-20210111173042219"></p>
+<p>Uncle block</p>
+<p>每个uncle block 可以得到 reward(uncle block)= <sup>7</sup>&frasl;<sub>8</sub> × 3个奖励 </p>
+<p>每个block可以得到 reward(block)= <sup>1</sup>&frasl;<sub>32</sub> × 3+3个奖励</p>
+<p>最多包含2个uncle block ，最多得到  reward(block)max=2× <sup>1</sup>&frasl;<sub>32</sub> × 3+3</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210111174744086.png" alt="image-20210111174744086"></p>
+<p>最多6个辈分</p>
+<p>block reward</p>
+<p>gas fee</p>
+<p>tx fee（trsanction fee）</p>
+<p>只有分叉的第一个区块能得到奖励，防止分叉攻击</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210111180136850.png" alt="image-20210111180136850"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210111180232905.png" alt="image-20210111180232905"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210111180244030.png" alt="image-20210111180244030"></p>
+<h1 id="19-ETH-以太坊的挖矿算法"><a href="#19-ETH-以太坊的挖矿算法" class="headerlink" title="19 ETH-以太坊的挖矿算法"></a>19 ETH-以太坊的挖矿算法</h1><p>block chain is secured by mining.</p>
+<p>bug bounty</p>
+<p>bounty hunter(赏金猎人)</p>
+<p>one cpu , one vote</p>
+<p>ASIC Resistance</p>
+<p>memory hard mining puzzle</p>
+<p>LiteCoin: scrypt</p>
+<p>time-memory trade off(时间换空间)</p>
+<p>puzzle的设计原则：difficult to solve ,but easy to verify.</p>
+<p>莱特币：实际使用的过程不友好。</p>
+<p>冷启动问题：早期容易受到攻击。</p>
+<p>比特币：良性循环。</p>
+<p>莱特币：出币时间为2.5min</p>
+<p>16M cache</p>
+<p>1G dataset DAG</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112082641403.png" alt="image-20210112082641403"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112082705472.png" alt="image-20210112082705472"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112082734978.png" alt="image-20210112082734978"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112082820522.png" alt="image-20210112082820522"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112082827995.png" alt="image-20210112082827995"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112082914809.png" alt="image-20210112082914809"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112083805403.png" alt="image-20210112083805403"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112083827779.png" alt="image-20210112083827779"></p>
+<p>pre-mining</p>
+<p>pre-sale  预卖</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112084246347.png" alt="image-20210112084246347"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112084326814.png" alt="image-20210112084326814"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112084341593.png" alt="image-20210112084341593"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112084401127.png" alt="image-20210112084401127"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112084410384.png" alt="image-20210112084410384"></p>
+<p>ASIC一统天下理论</p>
+<h1 id="20-ETH-难度调整"><a href="#20-ETH-难度调整" class="headerlink" title="20 ETH-难度调整"></a>20 ETH-难度调整</h1><p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112091827977.png" alt="image-20210112091827977"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112092529772.png" alt="image-20210112092529772"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112092547673.png" alt="image-20210112092547673"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112092625994.png" alt="image-20210112092625994"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112092714897.png" alt="image-20210112092714897"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112092806945.png" alt="image-20210112092806945"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112092835803.png" alt="image-20210112092835803"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093203614.png" alt="image-20210112093203614"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093240845.png" alt="image-20210112093240845"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093249185.png" alt="image-20210112093249185"></p>
+<p>BIP: bit coin  improvement  proposal</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093357566.png" alt="image-20210112093357566"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093516403.png" alt="image-20210112093516403"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093623802.png" alt="image-20210112093623802"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093740678.png" alt="image-20210112093740678"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093847071.png" alt="image-20210112093847071"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210112093920042.png" alt="image-20210112093920042"></p>
+<h1 id="21-ETH-权益证明"><a href="#21-ETH-权益证明" class="headerlink" title="21 ETH-权益证明"></a>21 ETH-权益证明</h1><p>Proof of stake</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113133859467.png" alt="image-20210113133859467"></p>
+<p>TWh=10</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113133923679.png" alt="image-20210113133923679"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113134022523.png" alt="image-20210113134022523"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113134029853.png" alt="image-20210113134029853"></p>
+<p>virtual mining</p>
+<p>AltCoin Infanticaide</p>
+<p>proof of deposit:币会锁定一段时间，然后才能够使用作为工作证明</p>
+<p>nothing at stake：权益证明在分叉时能够两边都使用。</p>
+<p>以太坊使用的权益证明：Casper</p>
+<p>Casper the Friendly Finality Gadget(FFG)</p>
+<p>validatetor</p>
+<p>epoch</p>
+<p>two-phase commit</p>
+<p>prepare message</p>
+<p>commit message</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113135521676.png" alt="image-20210113135521676"></p>
+<p>EOS加密货币</p>
+<p>使用的时DPOS: delegated Proof of stake</p>
+<p>思维，加密货币的使用的电能能将电能转化成金融。</p>
+<h1 id="22-ETH-智能合约"><a href="#22-ETH-智能合约" class="headerlink" title="22 ETH-智能合约"></a>22 ETH-智能合约</h1><p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113140331175.png" alt="image-20210113140331175"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113141933863.png" alt="image-20210113141933863"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113141946710.png" alt="image-20210113141946710"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113142056461.png" alt="image-20210113142056461"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113142151020.png" alt="image-20210113142151020"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113142334266.png" alt="image-20210113142334266"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113142652517.png" alt="image-20210113142652517"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113142740511.png" alt="image-20210113142740511"></p>
+<p>Halting Problem</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113143149016.png" alt="image-20210113143149016"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113143329583.png" alt="image-20210113143329583"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113145046785.png" alt="image-20210113145046785"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113150157032.png" alt="image-20210113150157032"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113150220037.png" alt="image-20210113150220037"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113150338422.png" alt="image-20210113150338422"></p>
+<p>可以转账的函数</p>
+<p>transfer连环回滚</p>
+<p>call会发送所有的gas</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113150818701.png" alt="image-20210113150818701"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113150954779.png" alt="image-20210113150954779"></p>
+<p>code is law：合约有问题是没有办法改的</p>
+<p>测试没有问题后才能发布</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113152504556.png" alt="image-20210113152504556"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113152737718.png" alt="image-20210113152737718"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113152903576.png" alt="image-20210113152903576"></p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113153048776.png" alt="image-20210113153048776"></p>
+<h1 id="23-ETH-The-DAO"><a href="#23-ETH-The-DAO" class="headerlink" title="23 ETH- The DAO"></a>23 ETH- The DAO</h1><p>DAO： Decentralized Autonomous Organization</p>
+<p>DAC： Decentralized Autonomous Corporation</p>
+<p>split DAO</p>
+<p>child DAO</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113153852918.png" alt="image-20210113153852918"></p>
+<p>too big  to fail</p>
+<h1 id="24-ETH-反思"><a href="#24-ETH-反思" class="headerlink" title="24 ETH-反思"></a>24 ETH-反思</h1><ol>
+<li>Smart contract is anything but smart。</li>
+<li>Irrevocable is a double edged sword.</li>
+<li>Nothing is irrevocable.</li>
+<li>Is solidity the right programming language？</li>
+<li>What does decentralization mean？</li>
+<li>decentralized≠distributed</li>
+</ol>
+<p>Ocaml编程语言</p>
+<p>formal verification</p>
+<p>Many eyeball fallacy。</p>
+<p>分叉是民主的体现</p>
+<p>state machine使用场景：mission critical application。airtraffic control</p>
+<p>stock exchange</p>
+<p>space shutlle</p>
+<p>智能合约主要是控制逻辑的控制。</p>
+<h1 id="25-ETH-美链"><a href="#25-ETH-美链" class="headerlink" title="25 ETH-美链"></a>25 ETH-美链</h1><p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113164028149.png" alt="image-20210113164028149"></p>
+<p>ICO</p>
+<p>IPO</p>
+<p>Initial</p>
+<p>Coin</p>
+<p>offering</p>
+<p>EOS：DPOS</p>
+<p>ERC：Ethereum Request for Comments</p>
+<p><img src="/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/Users\knigh\AppData\Roaming\Typora\typora-user-images\image-20210113164340953.png" alt="image-20210113164340953"></p>
+<p>乘法溢出，溢出后就会出现一个0，但是转账仍是按照正常的没有溢出的数据计算的。</p>
+<h1 id="26-ETH-课程总结"><a href="#26-ETH-课程总结" class="headerlink" title="26 ETH-课程总结"></a>26 ETH-课程总结</h1><p>中心化和非中心化可以混用</p>
+<p>没有法律监管</p>
+<p>使用场景：</p>
+<p>国际化的支付 </p>
+<p>software will eating the world。</p>
+<p>Democracy is the worst form of Government except for all those other forms that have been tried from time to time。</p>
+<p>不是最不好的，但至少不是最不差的。</p>
+<p>10<sup>5</sup></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/12/10/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE/" data-title="北京大学肖臻老师《区块链技术与应用》公开课 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/14/MVVM light使用/" title="MVVM light使用">
+  <strong>上一篇：</strong><br/>
+  <span>
+  MVVM light使用</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/12/08/C#线程同步（4）- 通知＆EventWaitHandle一家/"  title="C#线程同步（4）- 通知＆EventWaitHandle一家">
+ <strong>下一篇：</strong><br/> 
+ <span>C#线程同步（4）- 通知＆EventWaitHandle一家
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%82%96%E8%87%BB%E8%80%81%E5%B8%88%E3%80%8A%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8%E3%80%8B%E5%85%AC%E5%BC%80%E8%AF%BE"><span class="toc-number">1.</span> <span class="toc-text">北京大学肖臻老师《区块链技术与应用》公开课</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#01-%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">01-课程简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#02-BTC-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">02-BTC-密码学原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%89%B9%E6%80%A7"><span class="toc-number">3.1.</span> <span class="toc-text">1.特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#03-BTC-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">03-BTC-数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#04-BTC-%E5%8D%8F%E8%AE%AE"><span class="toc-number">5.</span> <span class="toc-text">04 BTC-协议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#05-BTC-%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.</span> <span class="toc-text">05 BTC-实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#06-BTC-%E7%BD%91%E7%BB%9C"><span class="toc-number">7.</span> <span class="toc-text">06 BTC-网络</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#07-BTC-%E6%8C%96%E7%9F%BF%E9%9A%BE%E5%BA%A6"><span class="toc-number">8.</span> <span class="toc-text">07 BTC-挖矿难度</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#08-BTC-%E6%8C%96%E7%9F%BF"><span class="toc-number">9.</span> <span class="toc-text">08 BTC-挖矿</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#09-BTC-%E8%84%9A%E6%9C%AC"><span class="toc-number">10.</span> <span class="toc-text">09 BTC-脚本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-BTC-%E5%88%86%E5%8F%89"><span class="toc-number">11.</span> <span class="toc-text">10 BTC-分叉</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#state-fork"><span class="toc-number">11.1.</span> <span class="toc-text">state fork</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#protocol-fork"><span class="toc-number">11.2.</span> <span class="toc-text">protocol fork</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-BTC-%E9%97%AE%E7%AD%94"><span class="toc-number">12.</span> <span class="toc-text">11 BTC-问答</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16-ETH-%E7%8A%B6%E6%80%81%E6%A0%91"><span class="toc-number">13.</span> <span class="toc-text">16 ETH-状态树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#17-EHT-%E4%BA%A4%E6%98%93%E6%A0%91%E5%92%8C%E6%94%B6%E6%8D%AE%E6%A0%91"><span class="toc-number">14.</span> <span class="toc-text">17 EHT 交易树和收据树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#18-ETH-GHost%E5%8D%8F%E8%AE%AE"><span class="toc-number">15.</span> <span class="toc-text">18 ETH-GHost协议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#19-ETH-%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%9A%84%E6%8C%96%E7%9F%BF%E7%AE%97%E6%B3%95"><span class="toc-number">16.</span> <span class="toc-text">19 ETH-以太坊的挖矿算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#20-ETH-%E9%9A%BE%E5%BA%A6%E8%B0%83%E6%95%B4"><span class="toc-number">17.</span> <span class="toc-text">20 ETH-难度调整</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#21-ETH-%E6%9D%83%E7%9B%8A%E8%AF%81%E6%98%8E"><span class="toc-number">18.</span> <span class="toc-text">21 ETH-权益证明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#22-ETH-%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6"><span class="toc-number">19.</span> <span class="toc-text">22 ETH-智能合约</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#23-ETH-The-DAO"><span class="toc-number">20.</span> <span class="toc-text">23 ETH- The DAO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#24-ETH-%E5%8F%8D%E6%80%9D"><span class="toc-number">21.</span> <span class="toc-text">24 ETH-反思</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#25-ETH-%E7%BE%8E%E9%93%BE"><span class="toc-number">22.</span> <span class="toc-text">25 ETH-美链</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#26-ETH-%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93"><span class="toc-number">23.</span> <span class="toc-text">26 ETH-课程总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

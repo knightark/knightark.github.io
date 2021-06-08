@@ -1,0 +1,669 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>websocket测试连通性 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="websoket学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="websocket测试连通性">
+<meta property="og:url" content="https://knightark.github.io/2020/12/22/websocket%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="websoket学习。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14483918-f7edeaaa19e53be7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14483918-6537ff261d8a2563.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/986">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/907596/201808/907596-20180821162614243-1749361344.jpg">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/907596/201808/907596-20180821162630256-29020146.jpg">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/907596/201808/907596-20180821163118288-999851871.png">
+<meta property="og:image" content="https://funyan.cn/medias/blogimages/loading.gif">
+<meta property="og:image" content="https://funyan.cn/medias/blogimages/loading.gif">
+<meta property="article:published_time" content="2020-12-22T02:24:12.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:00:47.382Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="websocket">
+<meta property="article:tag" content="npm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/14483918-f7edeaaa19e53be7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/22/websocket相关/" title="websocket测试连通性" itemprop="url">websocket测试连通性</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-22T02:24:12.000Z" itemprop="datePublished"> Published 2020-12-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#websocket%E7%9B%B8%E5%85%B3"><span class="toc-number">1.</span> <span class="toc-text">websocket相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%9F%BA%E4%BA%8Enodejs%E5%AE%9E%E7%8E%B0websocket%E4%BB%A3%E7%90%86%E5%9C%BA%E6%99%AF%E9%85%8D%E7%BD%AE%E6%BC%94%E7%A4%BA"><span class="toc-number">2.</span> <span class="toc-text">4.基于nodejs实现websocket代理场景配置演示</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1%E5%AE%89%E8%A3%85nodejs"><span class="toc-number">2.1.</span> <span class="toc-text">4.1安装nodejs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2%E5%AE%89%E8%A3%85npm"><span class="toc-number">2.2.</span> <span class="toc-text">4.2安装npm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3%E5%AE%89%E8%A3%85ws%E6%A8%A1%E5%9D%97"><span class="toc-number">2.3.</span> <span class="toc-text">4.3安装ws模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4%E5%AE%89%E8%A3%85wscat%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-number">2.4.</span> <span class="toc-text">4.4安装wscat测试工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E7%9B%91%E5%90%AC%E6%9C%8D%E5%8A%A1%E7%AB%AF-server-js"><span class="toc-number">2.5.</span> <span class="toc-text">4.5编写一个监听服务端:server.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6%E8%BF%90%E8%A1%8Cserver-js"><span class="toc-number">2.6.</span> <span class="toc-text">4.6运行server.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7Nginx%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="toc-number">2.7.</span> <span class="toc-text">4.7Nginx服务端配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-8%E4%BD%BF%E7%94%A8wscat%E6%B5%8B%E8%AF%95"><span class="toc-number">2.8.</span> <span class="toc-text">4.8使用wscat测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx%E6%94%AF%E6%8C%81WebSocket%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86-%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">     Nginx支持WebSocket反向代理-学习小结        </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WebSocket%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%98%AF%E5%90%A6%E5%8F%AA%E5%A4%84%E7%90%86GET%E8%AF%B7%E6%B1%82%EF%BC%9F-Should-WebSocket-server-only-handle-GET-requests"><span class="toc-number">4.</span> <span class="toc-text">WebSocket服务器是否只处理GET请求？(Should WebSocket server only handle GET requests?)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%A1%E6%84%8F%E7%AD%94%E6%A1%88"><span class="toc-number">4.1.</span> <span class="toc-text">满意答案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B5%8B%E8%AF%95WebSocket"><span class="toc-number">5.</span> <span class="toc-text">使用命令测试WebSocket</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">5.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BD%BF%E7%94%A8wscat%E6%B5%8B%E8%AF%95WebSocket%E8%BF%9E%E6%8E%A5%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8"><span class="toc-number">5.2.</span> <span class="toc-text">一、使用wscat测试WebSocket连接是否正常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8curl%E6%B5%8B%E8%AF%95WebSocket%E8%BF%9E%E6%8E%A5%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8"><span class="toc-number">5.3.</span> <span class="toc-text">二、使用curl测试WebSocket连接是否正常</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="websocket相关"><a href="#websocket相关" class="headerlink" title="websocket相关"></a>websocket相关</h1><h1 id="4-基于nodejs实现websocket代理场景配置演示"><a href="#4-基于nodejs实现websocket代理场景配置演示" class="headerlink" title="4.基于nodejs实现websocket代理场景配置演示"></a>4.基于nodejs实现websocket代理场景配置演示</h1><h2 id="4-1安装nodejs"><a href="#4-1安装nodejs" class="headerlink" title="4.1安装nodejs"></a>4.1安装nodejs</h2><p>yum install nodejs -y</p>
+<h2 id="4-2安装npm"><a href="#4-2安装npm" class="headerlink" title="4.2安装npm"></a>4.2安装npm</h2><p>yum install npm</p>
+<h2 id="4-3安装ws模块"><a href="#4-3安装ws模块" class="headerlink" title="4.3安装ws模块"></a>4.3安装ws模块</h2><p>npm install ws</p>
+<h2 id="4-4安装wscat测试工具"><a href="#4-4安装wscat测试工具" class="headerlink" title="4.4安装wscat测试工具"></a>4.4安装wscat测试工具</h2><p>npm install -g wscat</p>
+<h2 id="4-5编写一个监听服务端-server-js"><a href="#4-5编写一个监听服务端-server-js" class="headerlink" title="4.5编写一个监听服务端:server.js"></a>4.5编写一个监听服务端:server.js</h2><p><img src="https://upload-images.jianshu.io/upload_images/14483918-f7edeaaa19e53be7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200" alt="img"></p>
+<p>image.png</p>
+<h2 id="4-6运行server-js"><a href="#4-6运行server-js" class="headerlink" title="4.6运行server.js"></a>4.6运行server.js</h2><p><img src="https://upload-images.jianshu.io/upload_images/14483918-6537ff261d8a2563.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/986" alt="img"></p>
+<p>运行</p>
+<h2 id="4-7Nginx服务端配置"><a href="#4-7Nginx服务端配置" class="headerlink" title="4.7Nginx服务端配置"></a>4.7Nginx服务端配置</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">map $http_upgrade $connection_upgrade &#123;</span><br><span class="line">    default upgrade;</span><br><span class="line">    &#x27;&#x27; close;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">upstream websocket &#123;</span><br><span class="line">    server 127.0.0.1:<span class="number">8010</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    access_log  /var/log/nginx/test_websocket.access.log  main;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http:<span class="comment">//websocket;</span></span><br><span class="line">        proxy_http_version <span class="number">1.1</span>;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection $connection_upgrade;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-8使用wscat测试"><a href="#4-8使用wscat测试" class="headerlink" title="4.8使用wscat测试"></a>4.8使用wscat测试</h2><p>wscat –connect ws://127.0.0.1</p>
+<p>在线测试工具</p>
+<p><a target="_blank" rel="noopener" href="http://coolaf.com/tool/chattest">http://coolaf.com/tool/chattest</a></p>
+<h1 id="Nginx支持WebSocket反向代理-学习小结"><a href="#Nginx支持WebSocket反向代理-学习小结" class="headerlink" title="     Nginx支持WebSocket反向代理-学习小结        "></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kevingrace/p/9512287.html">     Nginx支持WebSocket反向代理-学习小结        </a></h1><p>WebSocket是目前比较成熟的技术了，WebSocket协议为创建客户端和服务器端需要实时双向通讯的webapp提供了一个选择。其为HTML5的一部分，WebSocket相较于原来开发这类app的方法来说，其能使开发更加地简单。大部分现在的浏览器都支持WebSocket，比如Firefox，IE，Chrome，Safari，Opera，并且越来越多的服务器框架现在也同样支持WebSocket。</p>
+<p>在实际的生产环境中，要求多个WebSocket服务器必须具有高性能和高可用，那么WebSocket协议就需要一个负载均衡层，NGINX从1.3版本开始支持WebSocket，其可以作为一个反向代理和为WebSocket程序做负载均衡。</p>
+<p>WebSocket协议与HTTP协议不同，但WebSocket握手与HTTP兼容，使用HTTP升级工具将连接从HTTP升级到WebSocket。这允许WebSocket应用程序更容易地适应现有的基础架构。例如，WebSocket应用程序可以使用标准HTTP端口80和443，从而允许使用现有的防火墙规则。</p>
+<p>WebSocket应用程序可以在客户端和服务器之间保持长时间运行的连接，从而有助于开发实时应用程序。用于将连接从HTTP升级到WebSocket的HTTP升级机制使用Upgrade和Connection头。反向代理服务器在支持WebSocket时面临一些挑战。一个是WebSocket是一个逐跳协议，因此当代理服务器拦截客户端的升级请求时，需要向后端服务器发送自己的升级请求，包括相应的头文件。此外，由于WebSocket连接长期存在，与HTTP使用的典型短期连接相反，反向代理需要允许这些连接保持打开状态，而不是关闭它们，因为它们似乎处于空闲状态。</p>
+<p>允许在客户机和后端服务器之间建立隧道，NGINX支持WebSocket。对于NGINX将升级请求从客户端发送到后台服务器，必须明确设置Upgrade和Connection标题。</p>
+<p><strong>Nginx开启websocket代理功能的配置如下：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1）编辑nginx.conf，在http区域内一定要添加下面配置：``map $http_upgrade $connection_upgrade &#123;``  ``default upgrade;``  ``&#x27;&#x27;` `close;``&#125;` `map指令的作用：``该作用主要是根据客户端请求中$http_upgrade 的值，来构造改变$connection_upgrade的值，即根据变量$http_upgrade的值创建新的变量$connection_upgrade，``创建的规则就是&#123;&#125;里面的东西。其中的规则没有做匹配，因此使用默认的，即 $connection_upgrade 的值会一直是 upgrade。然后如果 $http_upgrade为空字符串的话，``那值会是 close。` `2）编辑vhosts下虚拟主机的配置文件，在location匹配配置中添加如下内容：``proxy_http_version 1.1;``proxy_set_header Upgrade $http_upgrade;``proxy_set_header Connection ``&quot;Upgrade&quot;``;` `示例如下：``upstream socket.kevin.com &#123;``  ``hash` `$remote_addr consistent;``  ``server 10.0.12.108:9000;``  ``server 10.0.12.109:9000;``&#125;` ` ``location / &#123;``      ``proxy_pass http:``//socket``.kevin.com/;``      ``proxy_set_header Host $host:$server_port;``      ``proxy_http_version 1.1;``      ``proxy_set_header Upgrade $http_upgrade;``      ``proxy_set_header Connection ``&quot;upgrade&quot;``;``    ``&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>WebSocket 机制</strong><br>WebSocket是HTML5下一种新的协议。它实现了浏览器与服务器全双工通信，能更好的节省服务器资源和带宽并达到实时通讯的目的。它与HTTP一样通过已建立的TCP连接来传输数据，但是它和HTTP最大不同是：<br>1） WebSocket是一种双向通信协议。在建立连接后，WebSocket服务器端和客户端都能主动向对方发送或接收数据，就像Socket一样；<br>2）WebSocket需要像TCP一样，先建立连接，连接成功后才能相互通信。</p>
+<p>传统HTTP客户端与服务器请求响应模式如下图所示：</p>
+<p><img src="https://images2018.cnblogs.com/blog/907596/201808/907596-20180821162614243-1749361344.jpg" alt="img"></p>
+<p>WebSocket模式客户端与服务器请求响应模式如下图：</p>
+<p><img src="https://images2018.cnblogs.com/blog/907596/201808/907596-20180821162630256-29020146.jpg" alt="img"></p>
+<p>上图对比可以看出，相对于传统HTTP每次请求-应答都需要客户端与服务端建立连接的模式，WebSocket是类似Socket的TCP长连接通讯模式。一旦WebSocket连接建立后，后续数据都以帧序列的形式传输。在客户端断开WebSocket连接或Server端中断连接前，不需要客户端和服务端重新发起连接请求。在海量并发及客户端与服务器交互负载流量大的情况下，极大的节省了网络带宽资源的消耗，有明显的性能优势，且客户端发送和接受消息是在同一个持久连接上发起，实时性优势明显。</p>
+<p>相比HTTP长连接，WebSocket有以下特点：<br>1）是真正的全双工方式，建立连接后客户端与服务器端是完全平等的，可以互相主动请求。而HTTP长连接基于HTTP，是传统的客户端对服务器发起请求的模式。<br>2）HTTP长连接中，每次数据交换除了真正的数据部分外，服务器和客户端还要大量交换HTTP header，信息交换效率很低。Websocket协议通过第一个request建立了TCP连接之后，之后交换的数据都不需要发送 HTTP  header就能交换数据，这显然和原有的HTTP协议有区别所以它需要对服务器和客户端都进行升级才能实现（主流浏览器都已支持HTML5）。此外还有 multiplexing、不同的URL可以复用同一个WebSocket连接等功能。这些都是HTTP长连接不能做到的。</p>
+<p>总的来说：<br>WebSocket与Http相同点<br>- 都是一样基于TCP的，都是可靠性传输协议。<br>- 都是应用层协议。</p>
+<p>WebSocket与Http不同点<br>- WebSocket是双向通信协议，模拟Socket协议，可以双向发送或接受信息。HTTP是单向的。<br>- WebSocket是需要浏览器和服务器握手进行建立连接的。而http是浏览器发起向服务器的连接，服务器预先并不知道这个连接。</p>
+<p>WebSocket与Http联系<br>WebSocket在建立握手时，数据是通过HTTP传输的。但是建立之后，在真正传输时候是不需要HTTP协议的。</p>
+<p>在WebSocket中，只需要服务器和浏览器通过HTTP协议进行一个握手的动作，然后单独建立一条TCP的通信通道进行数据的传送。<br>WebSocket连接的过程是：<br>1）客户端发起http请求，经过3次握手后，建立起TCP连接；http请求里存放WebSocket支持的版本号等信息，如：Upgrade、Connection、WebSocket-Version等；<br>2）服务器收到客户端的握手请求后，同样采用HTTP协议回馈数据；<br>3）客户端收到连接成功的消息后，开始借助于TCP传输信道进行全双工通信。</p>
+<p>下面再通过客户端和服务端交互的报文对比WebSocket通讯与传统HTTP的不同点：<br>1）在客户端，new WebSocket实例化一个新的WebSocket客户端对象，请求类似 ws://yourdomain:port/path  的服务端WebSocket  URL，客户端WebSocket对象会自动解析并识别为WebSocket请求，并连接服务端端口，执行双方握手过程，客户端发送数据格式类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET ``/webfin/websocket/` `HTTP``/1``.1``Host: localhost``Upgrade: websocket``Connection: Upgrade``Sec-WebSocket-Key: xqBt3ImNzJbYqRINxEFlkg==``Origin: http:``//localhost``:8080``Sec-WebSocket-Version: 13</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，客户端发起的WebSocket连接报文类似传统HTTP报文，Upgrade：websocket参数值表明这是WebSocket类型请求，Sec-WebSocket-Key是WebSocket客户端发送的一个 base64编码的密文，要求服务端必须返回一个对应加密的Sec-WebSocket-Accept应答，否则客户端会抛出Error during WebSocket handshake错误，并关闭连接。<br>2）服务端收到报文后返回的数据格式类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HTTP``/1``.1 101 Switching Protocols``Upgrade: websocket``Connection: Upgrade``Sec-WebSocket-Accept: K7DJLdLooIwIG``/MOpvWFB3y3FE8``=</span><br></pre></td></tr></table></figure>
+
+<p><code>Sec-WebSocket-Accept</code>的值是服务端采用与客户端一致的密钥计算出来后返回客户端的，<code>HTTP/1.1 101 Switching Protocols</code>表示服务端接受WebSocket协议的客户端连接，经过这样的请求-响应处理后，两端的WebSocket连接握手成功, 后续就可以进行TCP通讯了。</p>
+<p>在开发方面，WebSocket API 也十分简单：只需要实例化 WebSocket，创建连接，然后服务端和客户端就可以相互发送和响应消息。在WebSocket 实现及案例分析部分可以看到详细的 WebSocket API 及代码实现。</p>
+<p>腾讯云公网有日租类型七层负载均衡转发部分支持Websocket，目前包括英魂之刃、银汉游戏等多家企业已接入使用。当出现不兼容问题时，请修改websocket配置，websocket server不校验下图中圈出的字段：</p>
+<p><img src="https://images2018.cnblogs.com/blog/907596/201808/907596-20180821163118288-999851871.png" alt="img"></p>
+<p>比如一个使用WebSocket应用于视频的业务思路如下：<br>1）使用心跳维护websocket链路，探测客户端端的网红/主播是否在线<br>2）设置负载均衡7层的proxy_read_timeout默认为60s<br>3）设置心跳为50s，即可长期保持Websocket不断开</p>
+<p><strong>Nginx代理webSocket经常中断的解决方法（也就是如何保持长连接）</strong></p>
+<p>现象描述：用nginx反代代理某个业务，发现平均1分钟左右，就会出现webSocket连接中断，然后查看了一下，是nginx出现的问题。<br>产生原因：nginx等待第一次通讯和第二次通讯的时间差，超过了它设定的最大等待时间，简单来说就是超时！</p>
+<p>解决方法1<br>其实只要配置nginx.conf的对应localhost里面的这几个参数就好<br>proxy_connect_timeout;<br>proxy_read_timeout;<br>proxy_send_timeout;</p>
+<p>解决方法2<br>发心跳包，原理就是在有效地再读时间内进行通讯，重新刷新再读时间</p>
+<p>配置示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &#123;``  ``server &#123;``    ``location / &#123;``      ``root  html;``      ``index index.html index.htm;``      ``proxy_pass http:``//webscoket``; ``      ``proxy_http_version 1.1; ``      ``proxy_connect_timeout 4s;        ``#配置点1``      ``proxy_read_timeout 60s;         ``#配置点2，如果没效，可以考虑这个时间配置长一点``      ``proxy_send_timeout 12s;         ``#配置点3``      ``proxy_set_header Upgrade $http_upgrade; ``      ``proxy_set_header Connection ``&quot;Upgrade&quot;``;  ``    ``&#125;``  ``&#125;``&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于上面配置2的解释<br>这个是服务器对你等待最大的时间，也就是说当你webSocket使用nginx转发的时候，用上面的配置2来说，如果60秒内没有通讯，依然是会断开的，所以，你可以按照你的需求来设定。比如说，我设置了10分钟，那么如果我10分钟内有通讯，或者10分钟内有做心跳的话，是可以保持连接不中断的，详细看个人需求</p>
+<p><strong>WebSocket与Socket的关系</strong><br>-   Socket其实并不是一个协议，而是为了方便使用TCP或UDP而抽象出来的一层，是位于应用层和传输控制层之间的一组接口。当两台主机通信时，必须通过Socket连接，Socket则利用TCP/IP协议建立TCP连接。TCP连接则更依靠于底层的IP协议，IP协议的连接则依赖于链路层等更低层次。<br>- WebSocket就像HTTP一样，则是一个典型的应用层协议。<br>总的来说：Socket是传输控制层接口，WebSocket是应用层协议。</p>
+<h1 id="WebSocket服务器是否只处理GET请求？-Should-WebSocket-server-only-handle-GET-requests"><a href="#WebSocket服务器是否只处理GET请求？-Should-WebSocket-server-only-handle-GET-requests" class="headerlink" title="WebSocket服务器是否只处理GET请求？(Should WebSocket server only handle GET requests?)"></a>WebSocket服务器是否只处理GET请求？(Should WebSocket server only handle GET requests?)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> 我有一个WebSocket服务器，它只处理GET请求的升级请求。 如果POST或任何其他类型的请求带有所需的头文件，它将由HTTP服务器处理。  </span><br><span class="line"> 在规范中没有明确说明WebSocket升级请求应该是GET请求。 如果升级请求不是GET请求，则服务器应该将其作为WebSocket升级请求处理，是否应该通过它由HTTP服务器处理，还是应该使用400 Bad Request等状态码来响应该400 Bad Request ？  </span><br><span class="line"> 这可能是服务器决定不处理非GET请求的方法的设计决定吗？ I have a WebSocket server written which only handles upgrade requests which are GET requests. If a POST or any other kind of request with the required headers comes it is handled by a HTTP server.  </span><br><span class="line">In the specification it is not stated explicitly that the WebSocket upgrade request should be a GET request. If the upgrade request is not a GET request should the server handle it as a WebSocket upgrade request, should it pass it to be handled by the HTTP server or should it respond to it with a status code like 400 Bad Request ? </span><br><span class="line">Could this be a design decision where the server decides not to handle methods which are not GET requests?原文：https://stackoverflow.com/questions/50386211</span><br></pre></td></tr></table></figure>
+
+<p>2020-01-09 12:41</p>
+<h2 id="满意答案"><a href="#满意答案" class="headerlink" title="满意答案"></a>满意答案</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"> 从webSocket规范的4.1节 （客户端要求），它说：  </span><br><span class="line"> </span><br><span class="line">  请求的方法必须是GET，并且HTTP版本必须至少为1.1  </span><br><span class="line"> </span><br><span class="line"> 然后，稍后在webSocket规范的第4.2.1节 （读取客户端的开放握手）中，它说：  </span><br><span class="line"> </span><br><span class="line">  客户端的开放握手由以下部分组成。 如果服务器在阅读握手过程中发现客户端没有发送符合以下描述的握手（请注意，根据[RFC2616]，标题字段的顺序并不重要），包括但不限于任何违规为握手组件指定的ABNF语法，服务器必须停止处理客户端的握手并返回带有适当错误代码（例如400错误请求）的HTTP响应。  </span><br><span class="line">  </span><br><span class="line">   一个HTTP / 1.1或更高版本的GET请求，包括一个“请求URI”[RFC2616]，应该被解释为/资源名称/在第3节定义（或绝对HTTP / HTTPS URI包含/资源名称/）。  </span><br><span class="line">  </span><br><span class="line"> </span><br><span class="line"> 所以，有很多地方说http请求必须是GET。  </span><br><span class="line"> </span><br><span class="line"> 至于你的具体问题：  </span><br><span class="line"> </span><br><span class="line">  WebSocket服务器是否只处理GET请求？  </span><br><span class="line"> </span><br><span class="line"> 是的，webSocket连接总是以GET请求开始，而不是POST或任何其他方法。  </span><br><span class="line"> </span><br><span class="line">  如果升级请求不是GET请求，则服务器应该将其作为WebSocket升级请求处理，是否应该通过它由HTTP服务器处理，还是应该使用400错误请求等状态码来响应该请求？  </span><br><span class="line"> </span><br><span class="line"> 正如在规范的上述参考部分中所描述的那样，服务器应该响应一个状态码，如400错误请求。  </span><br><span class="line"> </span><br><span class="line">  这可能是服务器决定不处理非GET请求的方法的设计决定吗？  </span><br><span class="line"> </span><br><span class="line"> 是。 From section 4.1 (Client Requirements) of the webSocket specification, it says this: </span><br><span class="line"> </span><br><span class="line"> The method of the request MUST be GET, and the HTTP version MUST be at least 1.1 </span><br><span class="line"> </span><br><span class="line">And, then later in section 4.2.1 (Reading the Client&#x27;s Opening Handshake) of the webSocket specification, it says this: </span><br><span class="line"> </span><br><span class="line"> The client&#x27;s opening handshake consists of the following parts. If the server, while reading the handshake, finds that the client did not send a handshake that matches the description below (note that as per [RFC2616], the order of the header fields is not important), including but not limited to any violations of the ABNF grammar specified for the components of the handshake, the server MUST stop processing the client&#x27;s handshake and return an HTTP response with an appropriate error code (such as 400 Bad Request). </span><br><span class="line">  </span><br><span class="line">  An HTTP/1.1 or higher GET request, including a &quot;Request-URI&quot; [RFC2616] that should be interpreted as a /resource name/ defined in Section 3 (or an absolute HTTP/HTTPS URI containing the /resource name/). </span><br><span class="line">  </span><br><span class="line"> </span><br><span class="line">So, there are multiple places where it says the http request must be a GET. </span><br><span class="line"> </span><br><span class="line">As for your specific questions: </span><br><span class="line"> </span><br><span class="line"> Should WebSocket server only handle GET requests? </span><br><span class="line"> </span><br><span class="line">Yes, a webSocket connection will always start with a GET request, not a POST or any other method. </span><br><span class="line"> </span><br><span class="line"> If the upgrade request is not a GET request should the server handle it as a WebSocket upgrade request, should it pass it to be handled by the HTTP server or should it respond to it with a status code like 400 Bad Request ? </span><br><span class="line"> </span><br><span class="line">As described in the above reference portion of the specfication, the server should respond with a status code like 400 Bad Request. </span><br><span class="line"> </span><br><span class="line"> Could this be a design decision where the server decides not to handle methods which are not GET requests? </span><br><span class="line"> </span><br><span class="line">Yes.</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="使用命令测试WebSocket"><a href="#使用命令测试WebSocket" class="headerlink" title="使用命令测试WebSocket"></a>使用命令测试WebSocket</h1><blockquote>
+<p>Linux环境下，分别使用curl和wscat命令测试websocket连接。</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>　　有时候我们需要从后台验证WebSocket连接是否正常，判断防火墙是否开通，反向代理是否配置正确等。我一般用下面两种方式进行快速简单的测试。</p>
+<h2 id="一、使用wscat测试WebSocket连接是否正常"><a href="#一、使用wscat测试WebSocket连接是否正常" class="headerlink" title="一、使用wscat测试WebSocket连接是否正常"></a>一、使用wscat测试WebSocket连接是否正常</h2><p>　　wscat是一个用来连接websocket的命令行工具，nodejs开发的。<br>　　故需要先使用npm安装，然后执行一下即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g wscat</span><br><span class="line">wscat -c ws://echo.websocket.org</span><br></pre></td></tr></table></figure>
+
+<p>　　正常情况下输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connected (press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://funyan.cn/medias/blogimages/loading.gif" alt="test_websocket_by_wscat.jpg"></p>
+<h2 id="二、使用curl测试WebSocket连接是否正常"><a href="#二、使用curl测试WebSocket连接是否正常" class="headerlink" title="二、使用curl测试WebSocket连接是否正常"></a>二、使用curl测试WebSocket连接是否正常</h2><p>　　curl-websocket.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl --include \</span><br><span class="line">     --no-buffer \</span><br><span class="line">     --header <span class="string">&quot;Connection: Upgrade&quot;</span> \</span><br><span class="line">     --header <span class="string">&quot;Upgrade: websocket&quot;</span> \</span><br><span class="line">     --header <span class="string">&quot;Host: echo.websocket.org&quot;</span> \</span><br><span class="line">     --header <span class="string">&quot;Origin: https://echo.websocket.org&quot;</span> \</span><br><span class="line">     --header <span class="string">&quot;Sec-WebSocket-Key: NVwjmQUcWCenfWu98asDmg==&quot;</span> \</span><br><span class="line">     --header <span class="string">&quot;Sec-WebSocket-Version: 13&quot;</span> \</span><br><span class="line">     http://echo.websocket.org</span><br></pre></td></tr></table></figure>
+
+<p>　　注意这里不需要特定的密钥（Sec-WebSocket-Key），所以随便取一个都可以。该头文件的作用是防止缓存websocket请求。<br>　　正常情况下输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 101 Web Socket Protocol Handshake</span><br><span class="line">Access-Control-Allow-Credentials: <span class="literal">true</span></span><br><span class="line">Access-Control-Allow-Headers: content-type</span><br><span class="line">Access-Control-Allow-Headers: authorization</span><br><span class="line">Access-Control-Allow-Headers: x-websocket-extensions</span><br><span class="line">Access-Control-Allow-Headers: x-websocket-version</span><br><span class="line">Access-Control-Allow-Headers: x-websocket-protocol</span><br><span class="line">Access-Control-Allow-Origin: https://echo.websocket.org</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Date: Tue, 09 Apr 2019 09:57:52 GMT</span><br><span class="line">Sec-WebSocket-Accept: oPhRcOTYgRvrC0D+cTPcN3XYC1k=</span><br><span class="line">Server: Kaazing Gateway</span><br><span class="line">Upgrade: websocket</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://funyan.cn/medias/blogimages/loading.gif" alt="test_websocket_by_curl.jpg"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nodejs/">nodejs</a><a href="/tags/websocket/">websocket</a><a href="/tags/npm/">npm</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/12/22/websocket%E7%9B%B8%E5%85%B3/" data-title="websocket测试连通性 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/22/Mac 安装wintogo/" title="Mac 安装wintogo">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Mac 安装wintogo</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/12/22/Macbook Air 2020款升级Big sur后导致触控ID不可用的解决办法/"  title="Macbook Air 2020款升级Big sur后导致触控ID不可用的解决办法">
+ <strong>下一篇：</strong><br/> 
+ <span>Macbook Air 2020款升级Big sur后导致触控ID不可用的解决办法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#websocket%E7%9B%B8%E5%85%B3"><span class="toc-number">1.</span> <span class="toc-text">websocket相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%9F%BA%E4%BA%8Enodejs%E5%AE%9E%E7%8E%B0websocket%E4%BB%A3%E7%90%86%E5%9C%BA%E6%99%AF%E9%85%8D%E7%BD%AE%E6%BC%94%E7%A4%BA"><span class="toc-number">2.</span> <span class="toc-text">4.基于nodejs实现websocket代理场景配置演示</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1%E5%AE%89%E8%A3%85nodejs"><span class="toc-number">2.1.</span> <span class="toc-text">4.1安装nodejs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2%E5%AE%89%E8%A3%85npm"><span class="toc-number">2.2.</span> <span class="toc-text">4.2安装npm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3%E5%AE%89%E8%A3%85ws%E6%A8%A1%E5%9D%97"><span class="toc-number">2.3.</span> <span class="toc-text">4.3安装ws模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4%E5%AE%89%E8%A3%85wscat%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-number">2.4.</span> <span class="toc-text">4.4安装wscat测试工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E7%9B%91%E5%90%AC%E6%9C%8D%E5%8A%A1%E7%AB%AF-server-js"><span class="toc-number">2.5.</span> <span class="toc-text">4.5编写一个监听服务端:server.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6%E8%BF%90%E8%A1%8Cserver-js"><span class="toc-number">2.6.</span> <span class="toc-text">4.6运行server.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7Nginx%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="toc-number">2.7.</span> <span class="toc-text">4.7Nginx服务端配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-8%E4%BD%BF%E7%94%A8wscat%E6%B5%8B%E8%AF%95"><span class="toc-number">2.8.</span> <span class="toc-text">4.8使用wscat测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx%E6%94%AF%E6%8C%81WebSocket%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86-%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">     Nginx支持WebSocket反向代理-学习小结        </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WebSocket%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%98%AF%E5%90%A6%E5%8F%AA%E5%A4%84%E7%90%86GET%E8%AF%B7%E6%B1%82%EF%BC%9F-Should-WebSocket-server-only-handle-GET-requests"><span class="toc-number">4.</span> <span class="toc-text">WebSocket服务器是否只处理GET请求？(Should WebSocket server only handle GET requests?)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%A1%E6%84%8F%E7%AD%94%E6%A1%88"><span class="toc-number">4.1.</span> <span class="toc-text">满意答案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B5%8B%E8%AF%95WebSocket"><span class="toc-number">5.</span> <span class="toc-text">使用命令测试WebSocket</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">5.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BD%BF%E7%94%A8wscat%E6%B5%8B%E8%AF%95WebSocket%E8%BF%9E%E6%8E%A5%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8"><span class="toc-number">5.2.</span> <span class="toc-text">一、使用wscat测试WebSocket连接是否正常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8curl%E6%B5%8B%E8%AF%95WebSocket%E8%BF%9E%E6%8E%A5%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8"><span class="toc-number">5.3.</span> <span class="toc-text">二、使用curl测试WebSocket连接是否正常</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

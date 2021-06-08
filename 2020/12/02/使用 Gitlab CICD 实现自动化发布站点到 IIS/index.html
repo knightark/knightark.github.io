@@ -1,0 +1,719 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>使用 Gitlab CICD 实现自动化发布站点到 IIS | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="使用 Gitlab CI&#x2F;CD 实现自动化发布站点到 IIS        说明这里先介绍下两个东西 CI&#x2F;CD、GitLab Runner，当然在此之前你需要对 git 有所了解，关于 git 这里不做说明，可以自行百度。 首先介绍 CI&#x2F;CD ：随着我们开发方式的转变，程序的发布变得非常频繁，而其这些发布操作都是重复的。CI&#x2F;CD 就是为了使这些操作能变得自动化，那它是怎么实现自动化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Gitlab CICD 实现自动化发布站点到 IIS">
+<meta property="og:url" content="https://knightark.github.io/2020/12/02/%E4%BD%BF%E7%94%A8%20Gitlab%20CICD%20%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8F%91%E5%B8%83%E7%AB%99%E7%82%B9%E5%88%B0%20IIS/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="使用 Gitlab CI&#x2F;CD 实现自动化发布站点到 IIS        说明这里先介绍下两个东西 CI&#x2F;CD、GitLab Runner，当然在此之前你需要对 git 有所了解，关于 git 这里不做说明，可以自行百度。 首先介绍 CI&#x2F;CD ：随着我们开发方式的转变，程序的发布变得非常频繁，而其这些发布操作都是重复的。CI&#x2F;CD 就是为了使这些操作能变得自动化，那它是怎么实现自动化">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img.alicdn.com/bao/uploaded/i2/O1CN01kBFBAT1fRsNBSN0uR_!!2-rate.png_800x800.jpg">
+<meta property="og:image" content="http://img.alicdn.com/imgextra/i1/2/O1CN01QLdMLo1fRsNEfDWgN_!!2-rate.png_800x800.jpg">
+<meta property="og:image" content="http://img.alicdn.com/imgextra/i2/2/O1CN01fyBZCh1fRsNCQOTa5_!!2-rate.png_800x800.jpg">
+<meta property="og:image" content="http://img.alicdn.com/imgextra/i2/2/O1CN01AwvLSW1fRsN9dT9vA_!!2-rate.png_800x800.jpg">
+<meta property="og:image" content="http://img.alicdn.com/imgextra/i2/2/O1CN01whCMsv1fRsNAqbkmq_!!2-rate.png_800x800.jpg">
+<meta property="og:image" content="http://img.alicdn.com/imgextra/i3/2/O1CN01e8O3JN1fRsNEvvDSj_!!2-rate.png_800x800.jpg">
+<meta property="og:image" content="http://img.alicdn.com/imgextra/i1/2/O1CN01GeStda1fRsNC9dy9H_!!2-rate.png_800x800.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERK22F.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERM4SS.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERBJ3Q.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERBJ3Q.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERySPK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERyodI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ER27ng.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERRegK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/10/ERfnTH.png">
+<meta property="article:published_time" content="2020-12-02T11:47:44.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:11.994Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.alicdn.com/bao/uploaded/i2/O1CN01kBFBAT1fRsNBSN0uR_!!2-rate.png_800x800.jpg">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/02/使用 Gitlab CICD 实现自动化发布站点到 IIS/" title="使用 Gitlab CICD 实现自动化发布站点到 IIS" itemprop="url">使用 Gitlab CICD 实现自动化发布站点到 IIS</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-02T11:47:44.000Z" itemprop="datePublished"> Published 2020-12-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Gitlab-CI-CD-%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8F%91%E5%B8%83%E7%AB%99%E7%82%B9%E5%88%B0-IIS"><span class="toc-number">1.</span> <span class="toc-text">     使用 Gitlab CI&#x2F;CD 实现自动化发布站点到 IIS        </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gitlab-CI-CD"><span class="toc-number">3.</span> <span class="toc-text">Gitlab CI&#x2F;CD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gitlab-%E8%AE%BE%E7%BD%AE%E4%B8%AD%E6%96%87%E7%95%8C%E9%9D%A2"><span class="toc-number">3.1.</span> <span class="toc-text">Gitlab 设置中文界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-Gitlab-Runner"><span class="toc-number">3.2.</span> <span class="toc-text">下载 Gitlab Runner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-Gitlab-Runner"><span class="toc-number">3.3.</span> <span class="toc-text">注册 Gitlab Runner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86-Shell-%E6%94%B9%E6%88%90-PowerShell"><span class="toc-number">3.4.</span> <span class="toc-text">将 Shell 改成 PowerShell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gitlab-ci-yml-%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E"><span class="toc-number">3.5.</span> <span class="toc-text">.gitlab-ci.yml 简单说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="toc-number">3.6.</span> <span class="toc-text">输出乱码问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E7%9A%84%E8%AF%B4%E6%98%8E"><span class="toc-number">3.7.</span> <span class="toc-text">变量作用的说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%88%B0-IIS"><span class="toc-number">3.8.</span> <span class="toc-text">自动化部署到 IIS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E9%A1%B9%E7%9B%AE%E5%8F%91%E5%B8%83"><span class="toc-number">3.9.</span> <span class="toc-text">模拟项目发布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%9A%84-gitlab-ci-yml"><span class="toc-number">3.10.</span> <span class="toc-text">完整的 .gitlab-ci.yml</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%96%87%E7%8C%AE"><span class="toc-number">5.</span> <span class="toc-text">相关文献</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="使用-Gitlab-CI-CD-实现自动化发布站点到-IIS"><a href="#使用-Gitlab-CI-CD-实现自动化发布站点到-IIS" class="headerlink" title="     使用 Gitlab CI/CD 实现自动化发布站点到 IIS        "></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html">     使用 Gitlab CI/CD 实现自动化发布站点到 IIS        </a></h1><h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>这里先介绍下两个东西 <code>CI/CD</code>、<code>GitLab Runner</code>，当然在此之前你需要对 <code>git</code> 有所了解，关于 git 这里不做说明，可以自行百度。</p>
+<p>首先介绍 CI/CD ：随着我们开发方式的转变，程序的发布变得非常频繁，而其这些发布操作都是重复的。<code>CI/CD</code> 就是为了使这些操作能变得自动化，那它是怎么实现自动化的呢？其实它做的就是当我们使用 <code>git push</code>（推送）代码的时候会执行 <code>任务</code>（task） 而这个 <code>任务</code> 里面其实又包含多个 <code>作业</code>（job），如对代码进行单元测试、部署项目等等，这些 <code>任务</code> 和 <code>作业</code> 在 gitlab 中其实是以一个 <code>.gitlab-ci.yml</code> 文件存在的，这个文件后面会说明。好了我们知道了 <code>CI/CD</code> 是什么（心虚~，你们可以自行百度查看更详细的说明。），那么到底是谁在执行这些 <code>任务</code> 和 <code>作业</code> 的呢？这就是下面要介绍的 <code>GitLab Runner</code>。</p>
+<p>GitLab Runner：<code>GitLab Runner</code> 就是用来运行我们定义好的 <code>任务</code> 和 <code>作业</code> 也就是 <code>.gitlab-ci.yml</code> 文件。Runner 分为 <code>Shared Runner</code>（共享型） 和 <code>Specific Runner</code>（专有型），<code>Shared Runner</code> 是所有的项目都能用，但只能由管理员创建，而 <code>Specific Runner</code>（专有型）只能为指定的项目服务。<code>Shared Runner</code> 一般是用在有多个项目的服务器上，<code>Specific Runner</code> 则是单个项目的服务器，或者是你自己的电脑上。</p>
+<p>下面列出我本次使用的环境：</p>
+<blockquote>
+<p>操作系统：Windows 10<br> 项目版本：.NET Core 2.2<br> 脚本执行环境：PowerShell 5.1.17763.316<br> Web服务器：IIS 10.0<br> Gitlab：使用 gitlab.com (*Gitlab 支持私有化部署 )</p>
+</blockquote>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://gitlab.com/WigorRunnerTest">https://gitlab.com/WigorRunnerTest</a></p>
+<p><img src="https://img.alicdn.com/bao/uploaded/i2/O1CN01kBFBAT1fRsNBSN0uR_!!2-rate.png_800x800.jpg" alt="Runner"></p>
+<h1 id="Gitlab-CI-CD"><a href="#Gitlab-CI-CD" class="headerlink" title="Gitlab CI/CD"></a>Gitlab CI/CD</h1><p>首先你需要在 <a target="_blank" rel="noopener" href="https://gitlab.com/users/sign_in">GitLab</a> 上注册个账号，这里需要使用你懂的工具上网，因为它使用了谷歌的 <code>reCAPTCHA</code>，如果你是自己部署的 gitlab 将没有这个问题。如果大家有需要请留下邮箱。</p>
+<h2 id="Gitlab-设置中文界面"><a href="#Gitlab-设置中文界面" class="headerlink" title="Gitlab 设置中文界面#"></a>Gitlab 设置中文界面<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#2706679984">#</a></h2><p>Gitlab 默认的界面是英文的，只需要点击头像行的 <code>Settings</code>，然后点击 <code>左侧导航栏</code> 的 <code>Preferences</code>，之后在滑到最底部找到 <code>Localization</code> 旁边的 <code>Language</code> 选择 <code>简体中文</code>，最后点击 <code>Save changes</code>，<code>F5</code> 刷新页面即可。</p>
+<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/AMortal/1.gif">查看设置中文教程</a></p>
+<p>设置好后我们可能更方便的操作 gitlab 了，接着我们需要创建一个项目，这里将使用一个 <code>DotNET Core</code> 项目为例。创建好项目后我们需要将它先 <code>clone</code> 到本地。</p>
+<h2 id="下载-Gitlab-Runner"><a href="#下载-Gitlab-Runner" class="headerlink" title="下载 Gitlab Runner#"></a>下载 Gitlab Runner<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#4283238394">#</a></h2><p>在我们定义 <code>任务</code> 和 <code>作业</code> 之前我们需要在我们的服务器或者是电脑上安装好 <code>Gitlab Runner</code>。</p>
+<p>官网下载地址：<a target="_blank" rel="noopener" href="https://docs.gitlab.com/runner/install/">https://docs.gitlab.com/runner/install/</a></p>
+<p>下面是我整理好的下载地址，本次使用的是 <code>Windows amd64</code>：</p>
+<blockquote>
+<p>Windows:  <a target="_blank" rel="noopener" href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-386.exe">下载x86</a>，<a target="_blank" rel="noopener" href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe">下载amd64</a></p>
+</blockquote>
+<p>下载好后，找到你下载的目录，将软件重命名为 <code>gitlab-runner.exe</code>。只用使用 cmd 进入到该目录，需要注意的是你需要以 <code>管理员</code> 的方式运行 cmd，否者后面执行命令的时候会报错。</p>
+<p><img src="http://img.alicdn.com/imgextra/i1/2/O1CN01QLdMLo1fRsNEfDWgN_!!2-rate.png_800x800.jpg" alt="快捷打开cmd"></p>
+<h2 id="注册-Gitlab-Runner"><a href="#注册-Gitlab-Runner" class="headerlink" title="注册 Gitlab Runner#"></a>注册 Gitlab Runner<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#1717029992">#</a></h2><p>接着在命令行中输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Copygitlab-runner register</span><br></pre></td></tr></table></figure>
+
+<p>这时会出现提示：<code>Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):</code></p>
+<p>它叫你输入协调器的地址，这个地址是在你 gitlab 项目的 <code>左侧导航栏</code> ，<code>设置</code> 下的 <code>CI/CD</code> 中，找到 <code>Runner</code> 点击展开，就会看到 <code>专有Runner</code> 和 <code>共享Runner</code> ,这里我们使用 <code>专有Runner</code> 做演示说明。红色框中的东西是我们后面需要用到的东西。</p>
+<p><img src="http://img.alicdn.com/imgextra/i2/2/O1CN01fyBZCh1fRsNCQOTa5_!!2-rate.png_800x800.jpg" alt="coordinator URL"></p>
+<p>好了我们有了 coordinator URL 把它复制下了，粘贴到刚刚的命令中回车。</p>
+<p>出现了另外一个提示：<code>Please enter the gitlab-ci token for this runner:</code>，需要你输入 token ，这个 token 就是你刚刚复制 URL 下面的 注册令牌。接着它要你输入这个 Runner 的描述，这个根据自己的情况填。</p>
+<p>之后又来一个提示：<code>Please enter the gitlab-ci tags for this runner (comma separated):</code>，需要我们输入 Runner 的标签，这里我使用 deploy。</p>
+<p>最后一个提示：<code>Please enter the executor: docker, virtualbox, shell,  ssh, docker+machine, docker-ssh+machine, kubernetes, docker-ssh,  parallels:</code>，需要我们填入脚本的执行环境，这里先填 <code>shell</code>，这时你的 gitlab-runner.exe 下会生成一个 <code>config.toml</code> 文件，里面保存着我们刚刚输入的信息。</p>
+<p><img src="http://img.alicdn.com/imgextra/i2/2/O1CN01AwvLSW1fRsN9dT9vA_!!2-rate.png_800x800.jpg" alt="执行过程"></p>
+<blockquote>
+<p>需要注意的是这个标签就是我们后面编写 <code>.gitlab-ci.yml</code> 里的 job 会用到，它根据 tags 来指派哪些 Runner 会执行该 <code>任务</code> 和 <code>作业</code>。</p>
+</blockquote>
+<p>之后我们回到 gitlab 可以看到这里已经有个激活的运行器了，这里的图标也变成了绿色。如果你这里显示的不是绿色，那么你刷新下页面看看，还不行的话那么你需要运行 <code>gitlab-runner restart</code> 命令来重启 Runner，接着可以使用 <code>gitlab-runner status</code> 查看 Runner 的运行状态。出现 <code>gitlab-runner: Service is running!</code> 那么表示你的服务已经运行成功了。 再次强调你的命令需要使用 <code>管理员</code> 身份运行。</p>
+<p><img src="http://img.alicdn.com/imgextra/i2/2/O1CN01whCMsv1fRsNAqbkmq_!!2-rate.png_800x800.jpg" alt="运行器"></p>
+<h2 id="将-Shell-改成-PowerShell"><a href="#将-Shell-改成-PowerShell" class="headerlink" title="将 Shell 改成 PowerShell#"></a>将 Shell 改成 PowerShell<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#3244614867">#</a></h2><p>上面选择脚本执行环境的时候我们选了 <code>shell</code>，但是本次我是在 Windows 环境下运行，所以需要将它改为 PowerShell，打开 <code>config.toml</code> 文件，在 <code>[[runners]]</code> 下加入 <code>shell = &quot;powershell&quot;</code> ，然后保存文件即可。<br> <img src="http://img.alicdn.com/imgextra/i3/2/O1CN01e8O3JN1fRsNEvvDSj_!!2-rate.png_800x800.jpg" alt="将 Shell 改成 PowerShell"></p>
+<h2 id="gitlab-ci-yml-简单说明"><a href="#gitlab-ci-yml-简单说明" class="headerlink" title=".gitlab-ci.yml 简单说明#"></a>.gitlab-ci.yml 简单说明<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#1795458502">#</a></h2><p>上面已经提过 <code>.gitlab-ci.yml</code> 使用来干什么的了，<code>.gitlab-ci.yml</code> 其实是本次自动化发布的核心，它是放在你 gitlab 上项目的根目录下。这里将对 <code>.gitlab-ci.yml</code> 该怎么配做一个简单说明，我只会介绍我用的东西更多的东西你可以查看我下面的「相关文档」。</p>
+<p>首先在项目根目录下建立一个 <code>.gitlab-ci.yml</code> 文件，代码如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Copybefore_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">src</span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># job</span></span><br><span class="line"><span class="attr">test:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="comment"># 将会执行的脚本</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">restore</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">build</span></span><br><span class="line">  <span class="comment"># 哪个分支会执行</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">    <span class="comment">#runner 注册时的 tag，这里指会触发的 runner</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">deploy</span></span><br></pre></td></tr></table></figure>
+
+<p>我们来一个个说明这些东西的作用：</p>
+<p><code>before_script</code> 在整个项目 clone 到 Runner 所处的服务器时会先执行这个里面的脚本，这里我是进入到了 src 目录，你还可以在这里面做一些包还原的操作。</p>
+<p><code>stages</code> 里放的是将会执行的 job。</p>
+<p><code>test</code> 是做作业（job），这个命名你可以根据自己的情况来。<code>test</code> 就是上面 <code>stages</code> 会执行的 job 的真正配置处。</p>
+<ol>
+<li><code>stage</code> 对应 <code>stages</code> 中的项，如果一个 job 没有指定 stage，那么这个任务会分配到test stage。</li>
+<li><code>script</code> 就是执行的脚本，构建自动化的核心也就是在此处。作为简单的演示，我就还原了包和生成项目。</li>
+<li><code>only</code> 是值该 job 会在被哪些分支 push 触发。</li>
+<li><code>tags</code> 上面在我们注册时有提到过，这个 <code>tags</code> 对应的是我们注册 <code>gitlab runner</code> 时所填的 <code>tages</code>，表示的是该 job 会触发哪些 Runner。</li>
+</ol>
+<p>OK，我们此时已经将一个最简单的 <code>.gitlab-ci.yml</code> 构建好了，在项目根目录下执行 <code>git commit -am &quot;[init] .gitlab-ci.yml&quot;</code>，<code>git push</code>，将配置好的文件 push（推送）到远端。回到 gitlab 中，我们点击 <code>CI/CD</code> 可以看到有一个流水线在运行。</p>
+<p><img src="http://img.alicdn.com/imgextra/i1/2/O1CN01GeStda1fRsNC9dy9H_!!2-rate.png_800x800.jpg" alt="job"></p>
+<p>点进去可以看到运行的日志，可以看到我们 <code>before_script</code>、<code>script</code> 中的命令在一条条的执行，当然如果你的脚本出现了错误，状态会是 <code>失败</code>，你需要检查你的脚本是否有误。如果你的状态一直处于 <code>等待中</code> 那么需要检查你的 <code>gitlab runner</code> 是否允许正常，以及上面提到的 <code>设置</code> 中的 <code>Runner</code> 是否处于激活状态（绿色图标）。</p>
+<p><img src="https://s2.ax1x.com/2019/05/10/ERK22F.png" alt="joblog"></p>
+<h2 id="输出乱码问题解决"><a href="#输出乱码问题解决" class="headerlink" title="输出乱码问题解决#"></a>输出乱码问题解决<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#4219421644">#</a></h2><p>你可能发现了这里怎么有一些奇怪的字符，这是因为我的操作系统是中文，乱码了解决办法是在 <code>before_script</code> 加入 <code> - chcp 65001</code> 脚本。</p>
+<p>再次提交代码，ok 这次的中文信息显示正确了。<br> <img src="https://s2.ax1x.com/2019/05/10/ERM4SS.png" alt="中文信息显示"></p>
+<h2 id="变量作用的说明"><a href="#变量作用的说明" class="headerlink" title="变量作用的说明#"></a>变量作用的说明<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#1517078669">#</a></h2><p><code>.gitlab-ci.yml</code> 是存放在我们项目的根目录下的，如果我们项目使开源的，那么我们将会暴露一些私密信息如token，密钥，项目发布所处服务器的路径，这些信息公开可能会使我们的项目存在安全隐患。亦或者我们需要部署多个项目但是它们的 <code>.gitlab-ci.yml</code> 文件十分相似那么我们就可以通过变量控制哪些可变的因素。</p>
+<p>那么到底怎么使用变量呢？第一步我们需要先声明变量，在 gitlab 的项目中找到 <code>设置</code> 下的 <code>CI/CD</code>，可以看到 <code>变量</code> 然后展开，这里就是可以声明我们需要用到的变量。<code>.gitlab-ci.yml</code> 只需要在脚本需要用到变量的方法使用 <code>$env:变量名</code> 的形式使用即可，需要注意的是：不同的系统使用变量的方法也不一样，这里我使用是 PowerShell。</p>
+<p><img src="https://s2.ax1x.com/2019/05/10/ERBJ3Q.png" alt="变量配置"></p>
+<p>常用的变量使用方法：</p>
+<table>
+<thead>
+<tr>
+<th>Shell</th>
+<th>使用方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bash/sh</td>
+<td><code>$variable</code></td>
+</tr>
+<tr>
+<td>windows batch</td>
+<td><code>%variable%</code></td>
+</tr>
+<tr>
+<td>PowerShell</td>
+<td><code>$env:variable</code></td>
+</tr>
+</tbody></table>
+<p>关于变量的更多说明可以参考官方的文档：<a target="_blank" rel="noopener" href="https://gitlab.com/help/ci/variables/README#variables">https://gitlab.com/help/ci/variables/README#variables</a></p>
+<h2 id="自动化部署到-IIS"><a href="#自动化部署到-IIS" class="headerlink" title="自动化部署到 IIS#"></a>自动化部署到 IIS<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#60190767">#</a></h2><p>前面已经介绍了构建一个自动化的流程，有了前面的基础其实自动化部署到 IIS 也就是编写的脚本发生了变化。</p>
+<p>再开干之前我们需要把我们的思路捋一捋，核心在于怎么通过命令的形式发布一个站点。</p>
+<ol>
+<li>首先需要编译项目，确保代码没有问题</li>
+<li>使用 <code>dotnet publish -c release -r win81-x64</code> 获取我们需要发布站点的部署文件</li>
+<li>IIS 停止运行需要发布的站点</li>
+<li>IIS 停止该站点的进程池</li>
+<li>备份原有项目（不是必须，但是最好不要省去该步骤）</li>
+<li>删除 IIS 上需要发布的站点的原有文件</li>
+<li>复制我们准备好发布的文件（也就是 publish 文件夹）到 IIS 站点下</li>
+<li>IIS 启动进程池</li>
+<li>IIS 启动该站点</li>
+</ol>
+<p>下面一步一步已脚本的形式来说明：</p>
+<ol>
+<li>首先确定整体的东西，这里我准备构建两个 job <code>test</code> 和 <code>deploy</code>，第一个 job 用于校验我们的代码是否正确，第二个是部署的 job。第一个 job 只有两行命令，还原和编译。</li>
+</ol>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Copybefore_script:</span></span><br><span class="line">  <span class="comment">#中文乱码问题</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">chcp</span> <span class="number">65001</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">src</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行的 job </span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 校验代码</span></span><br><span class="line"><span class="attr">test:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="comment"># 将会执行的脚本</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">restore</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">build</span></span><br><span class="line">  <span class="comment"># 哪个分支会执行</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">    <span class="comment">#runner 注册时的 tag，这里指会触发的 runner</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="comment"># 将会执行的脚本</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 哪个分支会执行</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">  <span class="comment">#runner 注册时的 tag，这里指会触发的 runner</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">deploy</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在进行编写剩下的脚本之前需要定义几个变量：<br> <code>ProjectName</code>：项目名称，用于 publish 用，如 VS 下一个解决方案可能存在多个项目，这时候就需要知道我们 publish 的项目使哪个。<br> <code>WebSiteName</code>：站点名称，用户关闭 IIS 站点和 IIS 对应进程池的，如果你的进程池和站点的名称不一致请在声明一个变量。<br> <code>WebSitePath</code>：站点的路径，用于备份、删除原有站点、新的项目复制到该路径下。</li>
+</ol>
+<p><img src="https://s2.ax1x.com/2019/05/10/ERBJ3Q.png" alt="变量配置"></p>
+<p>定义好这些变量后接着写我们 <code>deploy</code> 的脚本：<br> 可以看到这里使用了：<code>$env:ProjectName</code>、<code>$env:WebSitePath</code>、<code>$env:WebSiteName</code> 变量。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Copy#</span> <span class="string">部署</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="comment"># 将会执行的脚本</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 声明一个变量保存当前时间，用作备份数据文件夹名称</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">$datetime=Get-Date</span> <span class="string">-Format</span> <span class="string">&#x27;yyyy-MM-dd-HH-mm&#x27;</span></span><br><span class="line">    <span class="comment"># 编译打包项目</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">publish</span> <span class="string">-c</span> <span class="string">release</span> <span class="string">-r</span> <span class="string">win81-x64</span></span><br><span class="line">    <span class="comment"># 进入编译好的项目目录</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cd</span> <span class="string">$env:ProjectName\bin\Release\netcoreapp2.2\win81-x64\</span></span><br><span class="line">    <span class="comment"># 停止 IIS 对应站点</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">stop</span> <span class="string">site</span> <span class="string">$env:WebSiteName</span></span><br><span class="line">    <span class="comment"># 停止进程池</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">stop</span> <span class="string">apppool</span> <span class="string">/apppool.name:&quot;$env:WebSiteName&quot;</span></span><br><span class="line">    <span class="comment"># 备份原有项目文件，项目名_当前时间</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cp</span> <span class="string">&quot;$env:WebSitePath&quot;</span> <span class="string">&quot;$env:WebSitePath$datetime&quot;</span> <span class="string">-Recurse</span></span><br><span class="line">    <span class="comment"># 删除原有站点</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">del</span> <span class="string">&quot;$env:WebSitePath&quot;</span> <span class="string">-Recurse</span></span><br><span class="line">    <span class="comment">#复制 publish 文件到站点</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cp</span> <span class="string">&quot;publish&quot;</span> <span class="string">&quot;$env:WebSitePath&quot;</span> <span class="string">-Recurse</span></span><br><span class="line">    <span class="comment"># 启动进程池</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">start</span> <span class="string">apppool</span> <span class="string">/apppool.name:&quot;$env:WebSiteName&quot;</span></span><br><span class="line">    <span class="comment"># 启动 IIS 站点</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">start</span> <span class="string">site</span> <span class="string">$env:WebSiteName</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 哪个分支会执行</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">  <span class="comment">#runner 注册时的 tag，这里指会触发的 runner</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">deploy</span></span><br></pre></td></tr></table></figure>
+
+<p>到这一步整个自动化发布已经完成了，我们只要 push 代码到远端就会自动部署我们的项目到 IIS 中，需要注意的是你必须确保你的 IIS 中已经有这个站点了。</p>
+<p>回到 gitlab 中查看 <code>CI/CD</code> 可以看到这次我们的阶段有两个，因为我配置了两个 作业（job），一个 test一个 deploy。</p>
+<p><img src="https://s2.ax1x.com/2019/05/10/ERySPK.png" alt="阶段展示图"></p>
+<p>点击每个作业中看看执行的脚本是不是我们定义好的，需要提一下 powershell 脚本如果出错的话 gitlab-ci 返回的结果还是会显示成功，错误提示还是乱码的，坑啊。额~目前还找到解决的办法，如果是 docker 或者 linux 下应该没有这问题。</p>
+<p><img src="https://s2.ax1x.com/2019/05/10/ERyodI.png" alt="log"></p>
+<p>再看看 IIS 这边的效果，文件已经自动备份了，站点也正常运行了，一个自动化部署项目到 IIS 站点已经完成了。<br> <img src="https://s2.ax1x.com/2019/05/10/ER27ng.png" alt="文件"><br> <img src="https://s2.ax1x.com/2019/05/10/ERRegK.png" alt="站点"></p>
+<h2 id="模拟项目发布"><a href="#模拟项目发布" class="headerlink" title="模拟项目发布#"></a>模拟项目发布<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#3917279269">#</a></h2><p>下面修改代码然后 push 上去看看，看看我们的网站没有没有更新。<br> <img src="https://s2.ax1x.com/2019/05/10/ERfnTH.png" alt="img"></p>
+<h2 id="完整的-gitlab-ci-yml"><a href="#完整的-gitlab-ci-yml" class="headerlink" title="完整的 .gitlab-ci.yml#"></a>完整的 .gitlab-ci.yml<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html#3760641878">#</a></h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Copybefore_script:</span></span><br><span class="line">  <span class="comment">#中文乱码问题</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">chcp</span> <span class="number">65001</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">src</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行的 job </span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 校验代码</span></span><br><span class="line"><span class="attr">test:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="comment"># 将会执行的脚本</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">restore</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">build</span></span><br><span class="line">  <span class="comment"># 哪个分支会执行</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">    <span class="comment">#runner 注册时的 tag，这里指会触发的 runner</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="comment"># 将会执行的脚本</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="comment"># 声明一个变量保存当前时间，用作备份数据文件夹名称</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">$datetime=Get-Date</span> <span class="string">-Format</span> <span class="string">&#x27;yyyy-MM-dd-HH-mm&#x27;</span></span><br><span class="line">    <span class="comment"># 编译打包项目</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dotnet</span> <span class="string">publish</span> <span class="string">-c</span> <span class="string">release</span> <span class="string">-r</span> <span class="string">win81-x64</span></span><br><span class="line">    <span class="comment"># 进入编译好的项目目录</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cd</span> <span class="string">$env:ProjectName\bin\Release\netcoreapp2.2\win81-x64\</span></span><br><span class="line">    <span class="comment"># 停止 IIS 对应站点</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">stop</span> <span class="string">site</span> <span class="string">$env:WebSiteName</span></span><br><span class="line">    <span class="comment"># 停止进程池</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">stop</span> <span class="string">apppool</span> <span class="string">/apppool.name:&quot;$env:WebSiteName&quot;</span></span><br><span class="line">    <span class="comment"># 备份原有项目文件，项目名_当前时间</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cp</span> <span class="string">&quot;$env:WebSitePath&quot;</span> <span class="string">&quot;$env:WebSitePath$datetime&quot;</span> <span class="string">-Recurse</span></span><br><span class="line">    <span class="comment"># 删除原有站点</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">del</span> <span class="string">&quot;$env:WebSitePath&quot;</span> <span class="string">-Recurse</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cp</span> <span class="string">&quot;publish&quot;</span> <span class="string">&quot;$env:WebSitePath&quot;</span> <span class="string">-Recurse</span></span><br><span class="line">    <span class="comment"># 启动进程池</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">start</span> <span class="string">apppool</span> <span class="string">/apppool.name:&quot;$env:WebSiteName&quot;</span></span><br><span class="line">    <span class="comment"># 启动 IIS 站点</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">C:\Windows\System32\inetsrv\appcmd.exe</span> <span class="string">start</span> <span class="string">site</span> <span class="string">$env:WebSiteName</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 哪个分支会执行</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">  <span class="comment">#runner 注册时的 tag，这里指会触发的 runner</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">deploy</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>至此已经实现了 push 时项目自动发布到 IIS 。当然在这个过程中踩了 n 多的坑，总结要细心安装步骤一步一步认真的走。下一步准备对接钉钉的机器人。实现的效果是当我们项目发布时会自动通知，发布成功后也会自动通知。</p>
+<h1 id="相关文献"><a href="#相关文献" class="headerlink" title="相关文献"></a>相关文献</h1><blockquote>
+<p>《什么是 CI/CD？》：<a target="_blank" rel="noopener" href="https://linux.cn/article-9926-1.html">https://linux.cn/article-9926-1.html</a></p>
+<p>《GitLab-CI与GitLab-Runner》： <a target="_blank" rel="noopener" href="http://www.cnblogs.com/cnundefined/p/7095368.html">http://www.cnblogs.com/cnundefined/p/7095368.html</a></p>
+<p>《IIS 站点和进程池关闭》：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jmaly/p/9860606.html">https://www.cnblogs.com/jmaly/p/9860606.html</a></p>
+<p>《Gitlab-CI job 配置文件 .gitlab-ci.yml 配置方式(翻译)》：<a target="_blank" rel="noopener" href="https://blog.csdn.net/kunyus/article/details/81390330">https://blog.csdn.net/kunyus/article/details/81390330</a></p>
+<p>powershell论坛：<a target="_blank" rel="noopener" href="https://www.pstips.net/">https://www.pstips.net</a></p>
+<p>GitLab Runner 官方文档：<a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/ci/runners/README.html">https://docs.gitlab.com/ee/ci/runners/README.html</a></p>
+</blockquote>
+<p>作者：<a target="_blank" rel="noopener" href="https://wigor.club/">             Wigor         </a></p>
+<p>出处：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/p/10845783.html">https://www.cnblogs.com/AMortal/p/10845783.html</a></p>
+<p>本站使用「<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>」创作共享协议，转载请在文章明显位置注明作者及出处。</p>
+<p>​    分类:             <a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/category/1076663.html">编程</a>,             <a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/category/1187096.html">技术分享</a></p>
+<p>​    标签:             <a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/tag/CI%2FCD/">CI/CD</a>,             <a target="_blank" rel="noopener" href="https://www.cnblogs.com/AMortal/tag/GitLab/">GitLab</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/12/02/%E4%BD%BF%E7%94%A8%20Gitlab%20CICD%20%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8F%91%E5%B8%83%E7%AB%99%E7%82%B9%E5%88%B0%20IIS/" data-title="使用 Gitlab CICD 实现自动化发布站点到 IIS | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/08/C#线程同步（4）- 通知＆EventWaitHandle一家/" title="C#线程同步（4）- 通知＆EventWaitHandle一家">
+  <strong>上一篇：</strong><br/>
+  <span>
+  C#线程同步（4）- 通知＆EventWaitHandle一家</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/11/25/关于C#的GetHashCode/"  title="关于C#的GetHashCode">
+ <strong>下一篇：</strong><br/> 
+ <span>关于C#的GetHashCode
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Gitlab-CI-CD-%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8F%91%E5%B8%83%E7%AB%99%E7%82%B9%E5%88%B0-IIS"><span class="toc-number">1.</span> <span class="toc-text">     使用 Gitlab CI&#x2F;CD 实现自动化发布站点到 IIS        </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gitlab-CI-CD"><span class="toc-number">3.</span> <span class="toc-text">Gitlab CI&#x2F;CD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gitlab-%E8%AE%BE%E7%BD%AE%E4%B8%AD%E6%96%87%E7%95%8C%E9%9D%A2"><span class="toc-number">3.1.</span> <span class="toc-text">Gitlab 设置中文界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-Gitlab-Runner"><span class="toc-number">3.2.</span> <span class="toc-text">下载 Gitlab Runner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-Gitlab-Runner"><span class="toc-number">3.3.</span> <span class="toc-text">注册 Gitlab Runner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86-Shell-%E6%94%B9%E6%88%90-PowerShell"><span class="toc-number">3.4.</span> <span class="toc-text">将 Shell 改成 PowerShell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gitlab-ci-yml-%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E"><span class="toc-number">3.5.</span> <span class="toc-text">.gitlab-ci.yml 简单说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="toc-number">3.6.</span> <span class="toc-text">输出乱码问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E7%9A%84%E8%AF%B4%E6%98%8E"><span class="toc-number">3.7.</span> <span class="toc-text">变量作用的说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%88%B0-IIS"><span class="toc-number">3.8.</span> <span class="toc-text">自动化部署到 IIS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E9%A1%B9%E7%9B%AE%E5%8F%91%E5%B8%83"><span class="toc-number">3.9.</span> <span class="toc-text">模拟项目发布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%9A%84-gitlab-ci-yml"><span class="toc-number">3.10.</span> <span class="toc-text">完整的 .gitlab-ci.yml</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%96%87%E7%8C%AE"><span class="toc-number">5.</span> <span class="toc-text">相关文献</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,932 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>使用java建立微服务（2） | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="使用java建立微服务（2）微服务网关GateWay                                                       分布式配置中心和消息总线                                  消息总线       RabbitMQ                        消息驱动 五个维度，是什么，能干什么，去哪里下载，怎么玩，h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用java建立微服务（2）">
+<meta property="og:url" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="使用java建立微服务（2）微服务网关GateWay                                                       分布式配置中心和消息总线                                  消息总线       RabbitMQ                        消息驱动 五个维度，是什么，能干什么，去哪里下载，怎么玩，h">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/AppData/Roaming/Typora/typora-user-images/1585637055666.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637271079.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637313703.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637328134.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637404086.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637416427.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637442547.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637453042.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637516642.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637562691.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637698770.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637783534.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637826548.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637840813.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637878572.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637902794.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585637956344.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638120364.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638130412.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638163180.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638213431.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638236560.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638259272.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638363611.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638424425.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638713027.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638867080.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638896217.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585638958084.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585639043702.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585639857888.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585642915210.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585642941944.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643048048.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643060238.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643190600.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643207722.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643230726.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643290022.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643305669.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643437354.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643476616.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643501626.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643648396.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643882572.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643894920.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643915860.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585643960134.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585644006392.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585644143764.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585644978081.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645012066.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645142335.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645175592.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645287270.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645318750.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645370288.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645405106.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645424103.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645455478.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645581278.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645622429.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645808608.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585645889337.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585646429919.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585646444185.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585646688879.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585646704337.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585647427051.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585647454112.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585647595075.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585647624240.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585647634767.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585647949551.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648210195.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648326982.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648442864.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648469420.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648480783.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648562245.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648671713.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648716136.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648866257.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585648892922.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585649051695.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585649060196.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585649287444.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585649299092.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585701240261.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585703913666.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585703951999.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704037384.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704299068.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704317694.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704332653.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704356516.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704389485.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704470699.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704590824.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704609133.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704640513.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704695945.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704714767.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704900966.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704910509.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585704930160.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705017610.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705029561.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705059203.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705101566.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705473817.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705520006.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705533210.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705675220.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585705700624.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706011825.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706034090.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706073695.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706105468.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706148333.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706255420.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706308353.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706368620.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706384124.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706397696.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706429998.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706422718.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706444735.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706578511.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706586978.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706611087.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706624440.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706646151.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706655292.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706663643.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706857874.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706865598.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706902673.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706924630.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706934172.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706978026.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585706987977.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707022124.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707052407.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707102969.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707136597.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707173944.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707555262.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707622333.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707647200.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707787303.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707813034.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585707828246.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708032511.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708183409.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708209549.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708216792.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708289186.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708305546.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708345710.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708417243.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708547716.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708559317.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708588720.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708613942.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708836027.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585708980101.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709014855.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709081457.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709117714.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709145194.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709164171.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709202421.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709249337.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709271764.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709335401.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709369506.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709423879.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709468970.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/Documents/Files/使用java建立微服务（2）.assets/1585709527698.png">
+<meta property="article:published_time" content="2020-05-26T05:54:43.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:12.037Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users/Ark/AppData/Roaming/Typora/typora-user-images/1585637055666.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/05/26/使用java建立微服务（2）/" title="使用java建立微服务（2）" itemprop="url">使用java建立微服务（2）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-26T05:54:43.000Z" itemprop="datePublished"> Published 2020-05-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">使用java建立微服务（2）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3GateWay"><span class="toc-number">1.1.</span> <span class="toc-text">微服务网关GateWay</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E5%92%8C%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF"><span class="toc-number">1.2.</span> <span class="toc-text">分布式配置中心和消息总线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF"><span class="toc-number">1.3.</span> <span class="toc-text">消息总线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ"><span class="toc-number">1.3.1.</span> <span class="toc-text">RabbitMQ</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.4.</span> <span class="toc-text">消息驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E6%B6%88%E8%B4%B9%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.4.1.</span> <span class="toc-text">分组消费持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA"><span class="toc-number">1.5.</span> <span class="toc-text">分布式请求链路跟踪</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="使用java建立微服务（2）"><a href="#使用java建立微服务（2）" class="headerlink" title="使用java建立微服务（2）"></a>使用java建立微服务（2）</h1><h2 id="微服务网关GateWay"><a href="#微服务网关GateWay" class="headerlink" title="微服务网关GateWay"></a>微服务网关GateWay</h2><p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\AppData\Roaming\Typora\typora-user-images\1585637055666.png" alt="1585637055666"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637271079.png" alt="1585637271079"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637313703.png" alt="1585637313703"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637328134.png" alt="1585637328134"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637404086.png" alt="1585637404086"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637416427.png" alt="1585637416427"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637442547.png" alt="1585637442547"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637453042.png" alt="1585637453042"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637516642.png" alt="1585637516642"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637562691.png" alt="1585637562691"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637698770.png" alt="1585637698770"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637783534.png" alt="1585637783534"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637826548.png" alt="1585637826548">     <img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637840813.png" alt="1585637840813"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637878572.png" alt="1585637878572"></p>
+<img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637902794.png" alt="1585637902794" style="zoom:200%;">
+
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585637956344.png" alt="1585637956344"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638120364.png" alt="1585638120364"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638130412.png" alt="1585638130412"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638163180.png" alt="1585638163180"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638213431.png" alt="1585638213431"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638236560.png" alt="1585638236560"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638259272.png" alt="1585638259272"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638363611.png" alt="1585638363611"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638424425.png" alt="1585638424425"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638713027.png" alt="1585638713027"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638867080.png" alt="1585638867080"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638896217.png" alt="1585638896217"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585638958084.png" alt="1585638958084"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585639043702.png" alt="1585639043702"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585639857888.png" alt="1585639857888"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585642915210.png" alt="1585642915210"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585642941944.png" alt="1585642941944"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643048048.png" alt="1585643048048"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643060238.png" alt="1585643060238"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643190600.png" alt="1585643190600"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643207722.png" alt="1585643207722"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643230726.png" alt="1585643230726"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643290022.png" alt="1585643290022"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643305669.png" alt="1585643305669"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643437354.png" alt="1585643437354"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643476616.png" alt="1585643476616"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643501626.png" alt="1585643501626"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643648396.png" alt="1585643648396"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643882572.png" alt="1585643882572"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643894920.png" alt="1585643894920"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643915860.png" alt="1585643915860"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585643960134.png" alt="1585643960134"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585644006392.png" alt="1585644006392"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585644143764.png" alt="1585644143764"></p>
+<h2 id="分布式配置中心和消息总线"><a href="#分布式配置中心和消息总线" class="headerlink" title="分布式配置中心和消息总线"></a>分布式配置中心和消息总线</h2><p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585644978081.png" alt="1585644978081"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645012066.png" alt="1585645012066"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645142335.png" alt="1585645142335"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645175592.png" alt="1585645175592"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645287270.png" alt="1585645287270"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645318750.png" alt="1585645318750"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645370288.png" alt="1585645370288"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645405106.png" alt="1585645405106"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645424103.png" alt="1585645424103"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645455478.png" alt="1585645455478"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645581278.png" alt="1585645581278"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645622429.png" alt="1585645622429"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645808608.png" alt="1585645808608"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585645889337.png" alt="1585645889337"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585646429919.png" alt="1585646429919"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585646444185.png" alt="1585646444185"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585646688879.png" alt="1585646688879"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585646704337.png" alt="1585646704337"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585647427051.png" alt="1585647427051"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585647454112.png" alt="1585647454112"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585647595075.png" alt="1585647595075"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585647624240.png" alt="1585647624240"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585647634767.png" alt="1585647634767"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585647949551.png" alt="1585647949551"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648210195.png" alt="1585648210195"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648326982.png" alt="1585648326982"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648442864.png" alt="1585648442864"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648469420.png" alt="1585648469420"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648480783.png" alt="1585648480783"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648562245.png" alt="1585648562245"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648671713.png" alt="1585648671713"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648716136.png" alt="1585648716136"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648866257.png" alt="1585648866257"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585648892922.png" alt="1585648892922"></p>
+<h2 id="消息总线"><a href="#消息总线" class="headerlink" title="消息总线"></a>消息总线</h2><p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585649051695.png" alt="1585649051695"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585649060196.png" alt="1585649060196"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585649287444.png" alt="1585649287444"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585649299092.png" alt="1585649299092"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585701240261.png" alt="1585701240261"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585703913666.png" alt="1585703913666"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585703951999.png" alt="1585703951999"></p>
+<h3 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h3><p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704037384.png" alt="1585704037384"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704299068.png" alt="1585704299068"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704317694.png" alt="1585704317694"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704332653.png" alt="1585704332653"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704356516.png" alt="1585704356516"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704389485.png" alt="1585704389485"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704470699.png" alt="1585704470699"></p>
+<p> <img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704590824.png" alt="1585704590824"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704609133.png" alt="1585704609133"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704640513.png" alt="1585704640513"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704695945.png" alt="1585704695945"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704714767.png" alt="1585704714767"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704900966.png" alt="1585704900966"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704910509.png" alt="1585704910509"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585704930160.png" alt="1585704930160"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705017610.png" alt="1585705017610"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705029561.png" alt="1585705029561"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705059203.png" alt="1585705059203"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705101566.png" alt="1585705101566"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705473817.png" alt="1585705473817"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705520006.png" alt="1585705520006"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705533210.png" alt="1585705533210"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705675220.png" alt="1585705675220"></p>
+<h2 id="消息驱动"><a href="#消息驱动" class="headerlink" title="消息驱动"></a>消息驱动</h2><p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585705700624.png" alt="1585705700624"></p>
+<p>五个维度，是什么，能干什么，去哪里下载，怎么玩，hello world</p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706011825.png" alt="1585706011825"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706034090.png" alt="1585706034090"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706073695.png" alt="1585706073695"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706105468.png" alt="1585706105468"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706148333.png" alt="1585706148333"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706255420.png" alt="1585706255420"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706308353.png" alt="1585706308353"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706368620.png" alt="1585706368620"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706384124.png" alt="1585706384124"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706397696.png" alt="1585706397696"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706429998.png" alt="1585706429998"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706422718.png" alt="1585706422718"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706444735.png" alt="1585706444735"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706578511.png" alt="1585706578511"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706586978.png" alt="1585706586978"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706611087.png" alt="1585706611087"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706624440.png" alt="1585706624440"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706646151.png" alt="1585706646151"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706655292.png" alt="1585706655292"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706663643.png" alt="1585706663643"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706857874.png" alt="1585706857874"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706865598.png" alt="1585706865598"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706902673.png" alt="1585706902673"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706924630.png" alt="1585706924630"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706934172.png" alt="1585706934172"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706978026.png" alt="1585706978026"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585706987977.png" alt="1585706987977"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707022124.png" alt="1585707022124"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707052407.png" alt="1585707052407"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707102969.png" alt="1585707102969"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707136597.png" alt="1585707136597"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707173944.png" alt="1585707173944"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707555262.png" alt="1585707555262"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707622333.png" alt="1585707622333"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707647200.png" alt="1585707647200"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707787303.png" alt="1585707787303"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707813034.png" alt="1585707813034"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585707828246.png" alt="1585707828246"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708032511.png" alt="1585708032511"></p>
+<h3 id="分组消费持久化"><a href="#分组消费持久化" class="headerlink" title="分组消费持久化"></a>分组消费持久化</h3><p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708183409.png" alt="1585708183409"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708209549.png" alt="1585708209549"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708216792.png" alt="1585708216792"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708289186.png" alt="1585708289186"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708305546.png" alt="1585708305546"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708345710.png" alt="1585708345710"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708417243.png" alt="1585708417243"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708547716.png" alt="1585708547716"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708559317.png" alt="1585708559317"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708588720.png" alt="1585708588720"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708613942.png" alt="1585708613942"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708836027.png" alt="1585708836027"></p>
+<h2 id="分布式请求链路跟踪"><a href="#分布式请求链路跟踪" class="headerlink" title="分布式请求链路跟踪"></a>分布式请求链路跟踪</h2><p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585708980101.png" alt="1585708980101"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709014855.png" alt="1585709014855"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709081457.png" alt="1585709081457"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709117714.png" alt="1585709117714"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709145194.png" alt="1585709145194"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709164171.png" alt="1585709164171"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709202421.png" alt="1585709202421"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709249337.png" alt="1585709249337"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709271764.png" alt="1585709271764"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709335401.png" alt="1585709335401"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709369506.png" alt="1585709369506"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709423879.png" alt="1585709423879"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709468970.png" alt="1585709468970"></p>
+<p><img src="/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/Users\Ark\Documents\Files\使用java建立微服务（2）.assets\1585709527698.png" alt="1585709527698"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/05/26/%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89/" data-title="使用java建立微服务（2） | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/05/26/使用java建立微服务（高级）/" title="使用java建立微服务（高级）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  使用java建立微服务（高级）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/05/26/使用java建立微服务/"  title="使用java建立微服务">
+ <strong>下一篇：</strong><br/> 
+ <span>使用java建立微服务
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8java%E5%BB%BA%E7%AB%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%882%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">使用java建立微服务（2）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3GateWay"><span class="toc-number">1.1.</span> <span class="toc-text">微服务网关GateWay</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E5%92%8C%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF"><span class="toc-number">1.2.</span> <span class="toc-text">分布式配置中心和消息总线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF"><span class="toc-number">1.3.</span> <span class="toc-text">消息总线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ"><span class="toc-number">1.3.1.</span> <span class="toc-text">RabbitMQ</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.4.</span> <span class="toc-text">消息驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E6%B6%88%E8%B4%B9%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.4.1.</span> <span class="toc-text">分组消费持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA"><span class="toc-number">1.5.</span> <span class="toc-text">分布式请求链路跟踪</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

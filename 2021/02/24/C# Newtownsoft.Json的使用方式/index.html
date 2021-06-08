@@ -1,0 +1,843 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>C# Newtownsoft.Json的使用方式 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="主要记录一下使用newtownsoft的使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# Newtownsoft.Json的使用方式">
+<meta property="og:url" content="https://knightark.github.io/2021/02/24/C#%20Newtownsoft.Json%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="主要记录一下使用newtownsoft的使用方法。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/806042/201705/806042-20170526161849200-252576153.png">
+<meta property="og:image" content="https://images0.cnblogs.com/i/8867/201404/282228152051648.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/281434460338410.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/281443553617087.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/281448403619018.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/281508379087828.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/281510410171151.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/290700436652801.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/290707560092150.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/290710397909914.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/290743047903040.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/290750116036578.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/336693/201506/292128345097430.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/336693/201509/336693-20150910171743028-388882267.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/336693/201509/336693-20150910172109044-1714459886.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/336693/201512/336693-20151214101004068-161668511.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="article:published_time" content="2021-02-24T06:37:11.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:47:37.527Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="json">
+<meta property="article:tag" content="newtownsoft">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://common.cnblogs.com/images/copycode.gif">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/02/24/C# Newtownsoft.Json的使用方式/" title="C# Newtownsoft.Json的使用方式" itemprop="url">C# Newtownsoft.Json的使用方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-02-24T06:37:11.000Z" itemprop="datePublished"> Published 2021-02-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-Newtownsoft-Json%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">C# Newtownsoft.Json的使用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">3.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E9%87%8D%E8%BD%BD"><span class="toc-number">4.</span> <span class="toc-text">隐式类型重载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">常用的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%8D%E5%8E%86JObject"><span class="toc-number">6.</span> <span class="toc-text">遍历JObject</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Json-to-JObject%E8%BD%AC%E6%8D%A2%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">Json to JObject转换的使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E3%80%81JObject-%E5%92%8CJArray%E7%9A%84%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E3%80%81%E7%A7%BB%E9%99%A4"><span class="toc-number">7.0.0.0.1.</span> <span class="toc-text">一、JObject 和JArray的添加、修改、移除</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E4%B8%8A%E5%8F%82%E8%80%83"><span class="toc-number">8.</span> <span class="toc-text">网上参考</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Newtonsoft-Json%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="toc-number">9.</span> <span class="toc-text">     Newtonsoft.Json高级用法        </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Newtonsoft-Json%E4%BB%8B%E7%BB%8D"><span class="toc-number">10.</span> <span class="toc-text">Newtonsoft.Json介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="toc-number">11.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="toc-number">12.</span> <span class="toc-text">高级用法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">13.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">14.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86JToken%E6%B7%BB%E5%8A%A0%E5%88%B0JObject%EF%BC%9F"><span class="toc-number">15.</span> <span class="toc-text">如何将JToken添加到JObject？</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="C-Newtownsoft-Json的使用方式"><a href="#C-Newtownsoft-Json的使用方式" class="headerlink" title="C# Newtownsoft.Json的使用方式"></a>C# Newtownsoft.Json的使用方式</h1><p>参考资料</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bridgedotnet/Bridge.Newtonsoft.Json">源码</a> </p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">graph TD;</span><br><span class="line">    JContainer--&gt;JObject;    </span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>JToken是一个抽象类</p>
+<p>JToken 用于存放Linq to JSON查询后的结果</p>
+<p><strong>JObject用来生成一个JSON对象，简单来说就是生成”{}”，</strong><br><strong>JArray用来生成一个JSON数组，也就是”[]”，</strong><br><strong>JProperty用来生成一个JSON数据，格式为key/value的值，</strong><br><strong>JValue则直接生成一个JSON值</strong></p>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><h1 id="隐式类型重载"><a href="#隐式类型重载" class="headerlink" title="隐式类型重载"></a>隐式类型重载</h1><p>public static implicit operator JToken(Guid? value);<br>public static implicit operator JToken(short? value);<br>public static implicit operator JToken(ushort? value);<br>public static implicit operator JToken(uint? value);<br>public static implicit operator JToken(ulong? value);<br>public static implicit operator JToken(double value);<br>public static implicit operator JToken(float value);<br>public static implicit operator JToken(string? value);<br>public static implicit operator JToken(uint value);<br>public static implicit operator JToken(ulong value);<br>public static implicit operator JToken(byte[] value);<br>public static implicit operator JToken(Uri? value);<br>public static implicit operator JToken(TimeSpan value);<br>public static implicit operator JToken(TimeSpan? value);<br>public static implicit operator JToken(Guid value);<br>public static implicit operator JToken(decimal value);<br>public static implicit operator JToken(float? value);<br>public static implicit operator JToken(bool? value);<br>public static implicit operator JToken(DateTime value);<br>public static implicit operator JToken(long? value);<br>public static implicit operator JToken(DateTimeOffset value);<br>public static implicit operator JToken(byte value);<br>public static implicit operator JToken(byte? value);<br>public static implicit operator JToken(sbyte value);<br>public static implicit operator JToken(sbyte? value);<br>public static implicit operator JToken(long value);<br>public static implicit operator JToken(bool value);<br>public static implicit operator JToken(DateTimeOffset? value);<br>public static implicit operator JToken(decimal? value);<br>public static implicit operator JToken(double? value);<br>public static implicit operator JToken(short value);<br>public static implicit operator JToken(ushort value);<br>public static implicit operator JToken(int value);<br>public static implicit operator JToken(int? value);<br>public static implicit operator JToken(DateTime? value);</p>
+<p>这是一个定义隐式类型重载的方法<br>你可以有自己的一个类型,假设是MyCs这时候如果你转换成功的话<br>float aaa = 123.45;<br>MyCs mc = aaa;<br>就可以成功</p>
+<h1 id="常用的方法"><a href="#常用的方法" class="headerlink" title="常用的方法"></a>常用的方法</h1><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JToken <span class="title">SelectToken</span>(<span class="params"><span class="built_in">string</span> path</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查询路径中的节点的值</p>
+<p>一般是以点为分隔符</p>
+<p>比如</p>
+<p>{<br>    ‘post’:{<br>        ‘Title’:’修改JArray和JObject’,<br>        ‘Link’:’<a target="_blank" rel="noopener" href="http://write.blog.csdn.net&/#39;">http://write.blog.csdn.net&#39;</a>,<br>        ‘Description’:’这是一个修改JArray和JObject的演示案例’,<br>        ‘Item’:[]<br>    }<br>}</p>
+<p>链接的路径为post.Link</p>
+<h1 id="遍历JObject"><a href="#遍历JObject" class="headerlink" title="遍历JObject"></a>遍历JObject</h1><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">JObject jo = JObject.Parse(jsonStr);</span><br><span class="line">IEnumerable&lt;JProperty&gt; properties = jo.Properties();</span><br><span class="line"> <span class="keyword">foreach</span> (JProperty item <span class="keyword">in</span> properties)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//key = item.Name;</span></span><br><span class="line">    <span class="comment">//type = item.Value;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Json-to-JObject转换的使用方法"><a href="#Json-to-JObject转换的使用方法" class="headerlink" title="Json to JObject转换的使用方法"></a>Json to JObject转换的使用方法</h1><p>1、使用LINQ to JSON前，需要引用Newtonsoft.Json的dll和using  Newtonsoft.Json.Linq的命名空间。LINQ to JSON主要使用到JObject, JArray,  JProperty和JValue这四个对象，</p>
+<p>来点干货</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">BLL.addeditemgroup addeditemgroupBLL = <span class="keyword">new</span> BLL.addeditemgroup();</span><br><span class="line">            DataSet ds = addeditemgroupBLL.GetEditDataList(Id);</span><br><span class="line"></span><br><span class="line">            JArray ja = <span class="keyword">new</span> JArray();</span><br><span class="line">            <span class="keyword">if</span> (ds.Tables[<span class="number">0</span>].Rows.Count&gt;<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; ds.Tables[<span class="number">0</span>].Rows.Count; i++)</span><br><span class="line">                &#123;</span><br><span class="line"></span><br><span class="line">                   </span><br><span class="line">                    JObject jo = <span class="keyword">new</span> JObject(</span><br><span class="line">               　　　　　　　　　　     <span class="keyword">new</span> JProperty(<span class="string">&quot;id&quot;</span>,ds.Tables[<span class="number">0</span>].Rows[i][<span class="string">&quot;id&quot;</span>]),</span><br><span class="line">              　　　　　　　　　　      <span class="keyword">new</span> JProperty(<span class="string">&quot;itemtypename&quot;</span>, ds.Tables[<span class="number">0</span>].Rows[i][<span class="string">&quot;itemtypename&quot;</span>]),</span><br><span class="line">               　　　　　　　　　　     <span class="keyword">new</span> JProperty(<span class="string">&quot;addeditemgroupname&quot;</span>, ds.Tables[<span class="number">0</span>].Rows[i][<span class="string">&quot;addeditemgroupname&quot;</span>]),</span><br><span class="line">              　　　　　　　　　　      <span class="keyword">new</span> JProperty(<span class="string">&quot;bId&quot;</span>, ds.Tables[<span class="number">0</span>].Rows[i][<span class="string">&quot;bId&quot;</span>]),</span><br><span class="line">             　　　　　　　　　　       <span class="keyword">new</span> JProperty(<span class="string">&quot;addedItemItemName&quot;</span>, ds.Tables[<span class="number">0</span>].Rows[i][<span class="string">&quot;addedItemItemName&quot;</span>]),</span><br><span class="line">             　　　　　　　　　　       <span class="keyword">new</span> JProperty(<span class="string">&quot;bigName&quot;</span>, ds.Tables[<span class="number">0</span>].Rows[i][<span class="string">&quot;bigName&quot;</span>]));</span><br><span class="line">                    ja.Add(jo);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">              </span><br><span class="line">            JObject joReturn = <span class="keyword">new</span> JObject(<span class="keyword">new</span> JProperty(<span class="string">&quot;data&quot;</span>, ja),</span><br><span class="line">                                           <span class="keyword">new</span> JProperty(<span class="string">&quot;rsm&quot;</span>,<span class="number">1</span>),</span><br><span class="line">                                           <span class="keyword">new</span> JProperty(<span class="string">&quot;errno&quot;</span>,<span class="string">&quot;&quot;</span>),</span><br><span class="line">                                           <span class="keyword">new</span> JProperty(<span class="string">&quot;errEng&quot;</span>, <span class="string">&quot;Operation succeeded&quot;</span>),</span><br><span class="line">                                           <span class="keyword">new</span> JProperty(<span class="string">&quot;err&quot;</span>,<span class="string">&quot;&quot;</span>));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> joReturn.ToString();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">　　　　或者：</span><br><span class="line"></span><br><span class="line">　　　　</span><br><span class="line">JObject joReturn = <span class="keyword">new</span> JObject(<span class="keyword">new</span> JProperty(<span class="string">&quot;data&quot;</span>, <span class="keyword">new</span> JObject(<span class="keyword">new</span> JProperty(<span class="string">&quot;list&quot;</span>,ja))),</span><br><span class="line">　　　　　　　　　　　　　　　　　　<span class="keyword">new</span> JProperty(<span class="string">&quot;rsm&quot;</span>,<span class="number">1</span>),</span><br><span class="line">　　　　　　　　　　　　　　　　　　<span class="keyword">new</span> JProperty(<span class="string">&quot;errno&quot;</span>,<span class="string">&quot;&quot;</span>),</span><br><span class="line">　　　　　　　　　　　　　　　　　　<span class="keyword">new</span> JProperty(<span class="string">&quot;errEng&quot;</span>, <span class="string">&quot;Operation succeeded&quot;</span>),</span><br><span class="line">　　　　　　　　　　　　　　　　　　<span class="keyword">new</span> JProperty(<span class="string">&quot;err&quot;</span>,<span class="string">&quot;&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>最终生成Json 格式输出。</p>
+<h5 id="一、JObject-和JArray的添加、修改、移除"><a href="#一、JObject-和JArray的添加、修改、移除" class="headerlink" title="一、JObject 和JArray的添加、修改、移除"></a>一、JObject 和JArray的添加、修改、移除</h5><p>1.先添加一个json字符串，把json字符串加载到JObject中，然后转换成JObject.根据索引修改对象的属性值，移除属性，添加属性</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> 1 using System;  </span><br><span class="line"> 2 using System.Collections.Generic;  </span><br><span class="line"> 3 using System.Linq;  </span><br><span class="line"> 4 using System.Text;  </span><br><span class="line"> 5 using System.Data;  </span><br><span class="line"> 6 using System.Web;  </span><br><span class="line"> 7 using GongHuiNewtonsoft.Json.Linq;  </span><br><span class="line"> 8   </span><br><span class="line"> 9 namespace JSONDemo  </span><br><span class="line">10 &#123;  </span><br><span class="line">11     class Program  </span><br><span class="line">12     &#123;  </span><br><span class="line">13         static void Main(string[] args)  </span><br><span class="line">14         &#123;  </span><br><span class="line">15             string json = @&quot;&#123;  </span><br><span class="line">16                 &#x27;post&#x27;:&#123;  </span><br><span class="line">17                     &#x27;Title&#x27;:&#x27;修改JArray和JObject&#x27;,  </span><br><span class="line">18                     &#x27;Link&#x27;:&#x27;http://write.blog.csdn.net&#x27;,  </span><br><span class="line">19                     &#x27;Description&#x27;:&#x27;这是一个修改JArray和JObject的演示案例&#x27;,  </span><br><span class="line">20                     &#x27;Item&#x27;:[]  </span><br><span class="line">21                 &#125;  </span><br><span class="line">22             &#125;&quot;;  </span><br><span class="line">23   </span><br><span class="line">24             JObject o = JObject.Parse(json);  </span><br><span class="line">25             JObject post = (JObject)o[&quot;post&quot;];  </span><br><span class="line">26   </span><br><span class="line">27             post[&quot;Title&quot;] = ((string)post[&quot;Title&quot;]).ToUpper();  </span><br><span class="line">28             post[&quot;Link&quot;] = ((string)post[&quot;Link&quot;]).ToUpper();  </span><br><span class="line">29   </span><br><span class="line">30             post.Property(&quot;Description&quot;).Remove();  </span><br><span class="line">31   </span><br><span class="line">32             post.Property(&quot;Link&quot;).AddAfterSelf(new JProperty(&quot;New&quot;, &quot;新添加的属性&quot;));  </span><br><span class="line">33   </span><br><span class="line">34             JArray a = (JArray)post[&quot;Item&quot;];  </span><br><span class="line">35             a.Add(&quot;修改JArray&quot;);  </span><br><span class="line">36             a.Add(&quot;修改JObject&quot;);  </span><br><span class="line">37   </span><br><span class="line">38             Console.WriteLine(o.ToString());  </span><br><span class="line">39         &#125;  </span><br><span class="line">40     &#125;  </span><br><span class="line">41 &#125;  </span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>2.运行的结果</p>
+<p><img src="https://images2015.cnblogs.com/blog/806042/201705/806042-20170526161849200-252576153.png" alt="img"></p>
+<h1 id="网上参考"><a href="#网上参考" class="headerlink" title="网上参考"></a>网上参考</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html">高级用法</a></p>
+<h1 id="Newtonsoft-Json高级用法"><a href="#Newtonsoft-Json高级用法" class="headerlink" title="     Newtonsoft.Json高级用法        "></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html">     Newtonsoft.Json高级用法        </a></h1><p>　　手机端应用讲究速度快，体验好。刚好手头上的一个项目服务端接口有性能问题，需要进行优化。在接口多次修改中，实体添加了很多字段用于中间计算或者存储，然后最终用Newtonsoft.Json进行序列化返回数据，经过分析一个简单的列表接口每一行数据返回了16个字段，但是手机APP端只用到了其中7个字段，剩余9个字段的数据全部都是多余的，如果接口返回数据为40K大小，也就是说大约20K的数据为无效数据，3G网络下20K下载差不多需要1s，不返回无效数据至少可以节约1s的时间，大大提高用户体验。本篇将为大家介绍Newtonsoft.Json的一些高级用法，可以修改很少的代码解决上述问题。</p>
+<p><strong>阅读目录</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_label0">Newtonsoft.Json介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_label1">基本用法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_label2">高级用法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_label3">总结</a></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_labelTop">回到顶部</a></p>
+<h1 id="Newtonsoft-Json介绍"><a href="#Newtonsoft-Json介绍" class="headerlink" title="Newtonsoft.Json介绍"></a>Newtonsoft.Json介绍</h1><p>　　在做开发的时候，很多数据交换都是以json格式传输的。而使用Json的时候，我们很多时候会涉及到几个序列化对象的使用：<strong>DataContractJsonSerializer,*<em>JavaScriptSerializer*</em></strong> 和<a target="_blank" rel="noopener" href="http://json.codeplex.com/"> <em><strong>*Json.NET*</strong></em></a>即Newtonsoft.Json。大多数人都会选择性能以及通用性较好Json.NET，这个不是微软的类库，但是一个开源的世界级的Json操作类库，从下面的性能对比就可以看到它的其中之一的性能优点。</p>
+<p><img src="https://images0.cnblogs.com/i/8867/201404/282228152051648.png" alt="img"></p>
+<p>齐全的<a target="_blank" rel="noopener" href="http://www.newtonsoft.com/json/help/html/N_Newtonsoft_Json.htm">API</a>介绍，使用方式简单</p>
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/281434460338410.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_labelTop">回到顶部</a></p>
+<h1 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h1><p>　　Json.Net是支持序列化和反序列化DataTable,DataSet,Entity Framework和Entity的。下面分别举例说明序列化和反序列化。</p>
+<p><strong>DataTable：</strong></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//序列化DataTable</span><br><span class="line">DataTable dt = new DataTable();</span><br><span class="line">dt.Columns.Add(&quot;Age&quot;, Type.GetType(&quot;System.Int32&quot;));</span><br><span class="line">dt.Columns.Add(&quot;Name&quot;, Type.GetType(&quot;System.String&quot;));</span><br><span class="line">dt.Columns.Add(&quot;Sex&quot;, Type.GetType(&quot;System.String&quot;));</span><br><span class="line">dt.Columns.Add(&quot;IsMarry&quot;, Type.GetType(&quot;System.Boolean&quot;));</span><br><span class="line">for (int i = 0; i &lt; 4; i++)</span><br><span class="line">&#123;</span><br><span class="line">    DataRow dr = dt.NewRow();</span><br><span class="line">    dr[&quot;Age&quot;] = i + 1;</span><br><span class="line">    dr[&quot;Name&quot;] = &quot;Name&quot; + i;</span><br><span class="line">    dr[&quot;Sex&quot;] = i % 2 == 0 ? &quot;男&quot; : &quot;女&quot;;</span><br><span class="line">    dr[&quot;IsMarry&quot;] = i % 2 &gt; 0 ? true : false;</span><br><span class="line">    dt.Rows.Add(dr);</span><br><span class="line">&#125;</span><br><span class="line">Console.WriteLine(JsonConvert.SerializeObject(dt));</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/281443553617087.png" alt="img"></p>
+<p>利用上面字符串进行反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">string json = JsonConvert.SerializeObject(dt);</span><br><span class="line">dt=JsonConvert.DeserializeObject&lt;DataTable&gt;(json);</span><br><span class="line">foreach (DataRow dr in dt.Rows)</span><br><span class="line">&#123;</span><br><span class="line">　　Console.WriteLine(&quot;&#123;0&#125;\t&#123;1&#125;\t&#123;2&#125;\t&#123;3&#125;\t&quot;, dr[0], dr[1], dr[2], dr[3]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/281448403619018.png" alt="img"></p>
+<p>Entity序列化和DataTable一样，就不过多介绍了。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_labelTop">回到顶部</a></p>
+<h1 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h1><p>  1.忽略某些属性</p>
+<p>  2.默认值的处理</p>
+<p>  3.空值的处理</p>
+<p>  4.支持非公共成员</p>
+<p>  5.日期处理</p>
+<p>  6.自定义序列化的字段名称</p>
+<p>　 7.动态决定属性是否序列化</p>
+<p>  8.枚举值的自定义格式化问题</p>
+<p>　 9.自定义类型转换</p>
+<p> 10.全局序列化设置</p>
+<p> <strong>一.忽略某些属性</strong></p>
+<p>　　类似本问开头介绍的接口优化，实体中有些属性不需要序列化返回，可以使用该特性。首先介绍Json.Net序列化的模式:OptOut 和 OptIn</p>
+<table>
+<thead>
+<tr>
+<th>OptOut</th>
+<th>默认值,类中所有公有成员会被序列化,如果不想被序列化,可以用特性JsonIgnore</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OptIn</td>
+<td>默认情况下,所有的成员不会被序列化,类中的成员只有标有特性JsonProperty的才会被序列化,当类的成员很多,但客户端仅仅需要一部分数据时,很有用</td>
+</tr>
+</tbody></table>
+<p>　仅需要姓名属性</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[JsonObject(MemberSerialization.OptIn)]</span><br><span class="line">public class Person</span><br><span class="line">&#123;</span><br><span class="line">    public int Age &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    [JsonProperty]</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Sex &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public bool IsMarry &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public DateTime Birthday &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/281508379087828.png" alt="img"></p>
+<p> 不需要是否结婚属性</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[JsonObject(MemberSerialization.OptOut)]</span><br><span class="line">public class Person</span><br><span class="line">&#123;</span><br><span class="line">    public int Age &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Sex &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    [JsonIgnore]</span><br><span class="line">    public bool IsMarry &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public DateTime Birthday &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/281510410171151.png" alt="img"></p>
+<p> 通过上面的例子可以看到，要实现不返回某些属性的需求很简单。1.在实体类上加上[JsonObject(MemberSerialization.OptOut)] 2.在不需要返回的属性上加上 [JsonIgnore]说明。</p>
+<p><strong>二.默认值处理</strong></p>
+<p>  序列化时想忽略默认值属性可以通过JsonSerializerSettings.DefaultValueHandling来确定，该值为枚举值</p>
+<table>
+<thead>
+<tr>
+<th><code>DefaultValueHandling.Ignore </code></th>
+<th>序列化和反序列化时,忽略默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DefaultValueHandling.Include </code></td>
+<td>序列化和反序列化时,包含默认值</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[DefaultValue(10)]</span><br><span class="line">public int Age &#123; get; set; &#125;</span><br><span class="line">Person p = new Person &#123; Age = 10, Name = &quot;张三丰&quot;, Sex = &quot;男&quot;, IsMarry = false, Birthday = new DateTime(1991, 1, 2) &#125;;</span><br><span class="line">JsonSerializerSettings jsetting=new JsonSerializerSettings();</span><br><span class="line">jsetting.DefaultValueHandling=DefaultValueHandling.Ignore;</span><br><span class="line">Console.WriteLine(JsonConvert.SerializeObject(p, Formatting.Indented, jsetting));</span><br></pre></td></tr></table></figure>
+
+<p>最终结果如下：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/290700436652801.png" alt="img"></p>
+<p><strong>三.空值的处理</strong></p>
+<p>　　序列化时需要忽略值为NULL的属性，可以通过JsonSerializerSettings.NullValueHandling来确定，另外通过JsonSerializerSettings设置属性是对序列化过程中所有属性生效的，想单独对某一个属性生效可以使用JsonProperty，下面将分别展示两个方式</p>
+<p>　　1.JsonSerializerSettings</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Person p = new Person &#123; room=null,Age = 10, Name = &quot;张三丰&quot;, Sex = &quot;男&quot;, IsMarry = false, Birthday = new DateTime(1991, 1, 2) &#125;;</span><br><span class="line">JsonSerializerSettings jsetting=new JsonSerializerSettings();</span><br><span class="line">jsetting.NullValueHandling = NullValueHandling.Ignore;</span><br><span class="line">Console.WriteLine(JsonConvert.SerializeObject(p, Formatting.Indented, jsetting));</span><br></pre></td></tr></table></figure>
+
+<p>  <img src="https://images0.cnblogs.com/blog2015/336693/201506/290707560092150.png" alt="img"></p>
+<p>  2.JsonProperty</p>
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/290710397909914.png" alt="img"></p>
+<p>通过JsonProperty属性设置的方法，可以实现某一属性特别处理的需求，如默认值处理，空值处理，自定义属性名处理，格式化处理。上面空值处理实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]</span><br><span class="line">public Room room &#123; get; set; &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>四.支持非公共成员</strong></p>
+<p> 序列化时默认都是处理公共成员，如果需要处理非公共成员，就要在该成员上加特性”JsonProperty”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[JsonProperty]</span><br><span class="line">private int Height &#123; get; set; &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>五.日期处理</strong></p>
+<p>　　对于Dateime类型日期的格式化就比较麻烦了，系统自带的会格式化成iso日期标准<img src="https://images0.cnblogs.com/blog2015/336693/201506/290743047903040.png" alt="img">，但是实际使用过程中大多数使用的可能是yyyy-MM-dd 或者yyyy-MM-dd HH:mm:ss两种格式的日期，解决办法是可以将DateTime类型改成string类型自己格式化好，然后在序列化。如果不想修改代码，可以采用下面方案实现。</p>
+<p>   Json.Net提供了IsoDateTimeConverter日期转换这个类，可以通过JsnConverter实现相应的日期转换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[JsonConverter(typeof(IsoDateTimeConverter))]</span><br><span class="line">public DateTime Birthday &#123; get; set; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　但是IsoDateTimeConverter日期格式不是我们想要的，我们可以继承该类实现自己的日期</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class ChinaDateTimeConverter : DateTimeConverterBase</span><br><span class="line">&#123;</span><br><span class="line">    private static IsoDateTimeConverter dtConverter = new IsoDateTimeConverter &#123; DateTimeFormat = &quot;yyyy-MM-dd&quot; &#125;;</span><br><span class="line"></span><br><span class="line">    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)</span><br><span class="line">    &#123;</span><br><span class="line">        return dtConverter.ReadJson(reader, objectType, existingValue, serializer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)</span><br><span class="line">    &#123;</span><br><span class="line">        dtConverter.WriteJson(writer, value, serializer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>  自己实现了一个yyyy-MM-dd格式化转换类，可以看到只是初始化IsoDateTimeConverter时给的日期格式为yyyy-MM-dd即可，下面看下效果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[JsonConverter(typeof(ChinaDateTimeConverter))]</span><br><span class="line">public DateTime Birthday &#123; get; set; &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images0.cnblogs.com/blog2015/336693/201506/290750116036578.png" alt="img"></p>
+<p>  可以根据自己需求实现不同的转换类</p>
+<p><em><strong>*六.自定义序列化的字段名称*</strong></em></p>
+<p>  实体中定义的属性名可能不是自己想要的名称，但是又不能更改实体定义，这个时候可以自定义序列化字段名称。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[JsonProperty(PropertyName = &quot;CName&quot;)]</span><br><span class="line">public string Name &#123; get; set; &#125;</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>*七.动态决定属性是否序列化*</strong></em></p>
+<p>　　这个是为了实现@米粒儿提的需求特别增加的，根据某些场景，可能A场景输出A，B，C三个属性，B场景输出E，F属性。虽然实际中不一定存在这种需求，但是json.net依然可以支持该特性。</p>
+<p>　　继承默认的DefaultContractResolver类，传入需要输出的属性</p>
+<p>   重写修改了一下，大多数情况下应该是要排除的字段少于要保留的字段, 为了方便书写这里修改了构造函数加入retain表示props是需要保留的字段还是要排除的字段</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class LimitPropsContractResolver : DefaultContractResolver</span><br><span class="line">    &#123;</span><br><span class="line">        string[] props = null;</span><br><span class="line"></span><br><span class="line">        bool retain;</span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 构造函数</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;props&quot;&gt;传入的属性数组&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;retain&quot;&gt;true:表示props是需要保留的字段  false：表示props是要排除的字段&lt;/param&gt;</span><br><span class="line">        public LimitPropsContractResolver(string[] props, bool retain=true)</span><br><span class="line">        &#123;</span><br><span class="line">            //指定要序列化属性的清单</span><br><span class="line">            this.props = props;</span><br><span class="line"></span><br><span class="line">            this.retain = retain;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected override IList&lt;JsonProperty&gt; CreateProperties(Type type,</span><br><span class="line"></span><br><span class="line">        MemberSerialization memberSerialization)</span><br><span class="line">        &#123;</span><br><span class="line">            IList&lt;JsonProperty&gt; list =</span><br><span class="line">            base.CreateProperties(type, memberSerialization);</span><br><span class="line">            //只保留清单有列出的属性</span><br><span class="line">            return list.Where(p =&gt; &#123;</span><br><span class="line">                if (retain)</span><br><span class="line">                &#123;</span><br><span class="line">                    return props.Contains(p.PropertyName);</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    return !props.Contains(p.PropertyName);</span><br><span class="line">                &#125;      </span><br><span class="line">            &#125;).ToList();</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  public int Age &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">  [JsonIgnore]</span><br><span class="line">  public bool IsMarry &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">  public string Sex &#123; get; set; &#125;</span><br><span class="line">JsonSerializerSettings jsetting=new JsonSerializerSettings();</span><br><span class="line">jsetting.ContractResolver = new LimitPropsContractResolver(new string[] &#123; &quot;Age&quot;, &quot;IsMarry&quot; &#125;);</span><br><span class="line">Console.WriteLine(JsonConvert.SerializeObject(p, Formatting.Indented, jsetting));</span><br></pre></td></tr></table></figure>
+
+<p> 使用自定义的解析类，只输出”Age”, “IsMarry”两个属性，看下最终结果.只输出了Age属性，为什么IsMarry属性没有输出呢，因为标注了JsonIgnore</p>
+<p> <img src="https://images0.cnblogs.com/blog2015/336693/201506/292128345097430.png" alt="img"></p>
+<p> 看到上面的结果想要实现pc端序列化一部分，手机端序列化另一部分就很简单了吧，我们改下代码实现一下</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">string[] propNames = null;</span><br><span class="line">if (p.Age &gt; 10)</span><br><span class="line">&#123;</span><br><span class="line">　　propNames = new string[] &#123; &quot;Age&quot;, &quot;IsMarry&quot; &#125;;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    propNames = new string[] &#123; &quot;Age&quot;, &quot;Sex&quot; &#125;;</span><br><span class="line">&#125;</span><br><span class="line">jsetting.ContractResolver = new LimitPropsContractResolver(propNames);</span><br><span class="line">Console.WriteLine(JsonConvert.SerializeObject(p, Formatting.Indented, jsetting));</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><em><strong>*八.枚举值的自定义格式化问题*</strong></em></p>
+<p> 默认情况下对于实体里面的枚举类型系统是格式化成改枚举对应的整型数值,那如果需要格式化成枚举对应的字符怎么处理呢？Newtonsoft.Json也帮我们想到了这点，下面看实例</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public enum NotifyType</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Emil发送</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    Mail=0,</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 短信发送</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    SMS=1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class TestEnmu</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 消息发送类型</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public NotifyType Type &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line">JsonConvert.SerializeObject(new TestEnmu());</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>输出结果：<img src="https://images2015.cnblogs.com/blog/336693/201509/336693-20150910171743028-388882267.png" alt="img"> 现在改造一下，输出”Type”:”Mail”</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class TestEnmu</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 消息发送类型</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [JsonConverter(typeof(StringEnumConverter))]</span><br><span class="line">    public NotifyType Type &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>其它的都不变，在Type属性上加上了JsonConverter(typeof(StringEnumConverter))表示将枚举值转换成对应的字符串,而StringEnumConverter是Newtonsoft.Json内置的转换类型,最终输出结果</p>
+<p><img src="https://images2015.cnblogs.com/blog/336693/201509/336693-20150910172109044-1714459886.png" alt="img"></p>
+<p><em><strong>*九.自定义类型转换*</strong></em></p>
+<p>默认情况下对于实体里面的Boolean系统是格式化成true或者false,对于true转成”是” false转成”否”这种需求改怎么实现了？我们可以自定义类型转换实现该需求，下面看实例</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">public class BoolConvert : JsonConverter</span><br><span class="line">    &#123;</span><br><span class="line">        private string[] arrBString &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public BoolConvert()</span><br><span class="line">        &#123;</span><br><span class="line">            arrBString = &quot;是,否&quot;.Split(&#x27;,&#x27;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 构造函数</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;BooleanString&quot;&gt;将bool值转换成的字符串值&lt;/param&gt;</span><br><span class="line">        public BoolConvert(string BooleanString)</span><br><span class="line">        &#123;</span><br><span class="line">            if (string.IsNullOrEmpty(BooleanString))</span><br><span class="line">            &#123;</span><br><span class="line">                throw new ArgumentNullException();</span><br><span class="line">            &#125;</span><br><span class="line">            arrBString = BooleanString.Split(&#x27;,&#x27;);</span><br><span class="line">            if (arrBString.Length != 2)</span><br><span class="line">            &#123;</span><br><span class="line">                throw new ArgumentException(&quot;BooleanString格式不符合规定&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)</span><br><span class="line">        &#123;</span><br><span class="line">            bool isNullable = IsNullableType(objectType);</span><br><span class="line">            Type t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;</span><br><span class="line"></span><br><span class="line">            if (reader.TokenType == JsonToken.Null)</span><br><span class="line">            &#123;</span><br><span class="line">                if (!IsNullableType(objectType))</span><br><span class="line">                &#123;</span><br><span class="line">                    throw new Exception(string.Format(&quot;不能转换null value to &#123;0&#125;.&quot;, objectType));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                if (reader.TokenType == JsonToken.String)</span><br><span class="line">                &#123;</span><br><span class="line">                    string boolText = reader.Value.ToString();</span><br><span class="line">                    if (boolText.Equals(arrBString[0], StringComparison.OrdinalIgnoreCase))</span><br><span class="line">                    &#123;</span><br><span class="line">                        return true;</span><br><span class="line">                    &#125;</span><br><span class="line">                    else if (boolText.Equals(arrBString[1], StringComparison.OrdinalIgnoreCase))</span><br><span class="line">                    &#123;</span><br><span class="line">                        return false;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (reader.TokenType == JsonToken.Integer)</span><br><span class="line">                &#123;</span><br><span class="line">                    //数值</span><br><span class="line">                    return Convert.ToInt32(reader.Value) == 1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            catch (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                throw new Exception(string.Format(&quot;Error converting value &#123;0&#125; to type &#x27;&#123;1&#125;&#x27;&quot;, reader.Value, objectType));</span><br><span class="line">            &#125;</span><br><span class="line">            throw new Exception(string.Format(&quot;Unexpected token &#123;0&#125; when parsing enum&quot;, reader.TokenType));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 判断是否为Bool类型</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;objectType&quot;&gt;类型&lt;/param&gt;</span><br><span class="line">        /// &lt;returns&gt;为bool类型则可以进行转换&lt;/returns&gt;</span><br><span class="line">        public override bool CanConvert(Type objectType)</span><br><span class="line">        &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        public bool IsNullableType(Type t)</span><br><span class="line">        &#123;</span><br><span class="line">            if (t == null)</span><br><span class="line">            &#123;</span><br><span class="line">                throw new ArgumentNullException(&quot;t&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            return (t.BaseType.FullName==&quot;System.ValueType&quot; &amp;&amp; t.GetGenericTypeDefinition() == typeof(Nullable&lt;&gt;));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)</span><br><span class="line">        &#123;</span><br><span class="line">            if (value == null)</span><br><span class="line">            &#123;</span><br><span class="line">                writer.WriteNull();</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            bool bValue = (bool)value;</span><br><span class="line"></span><br><span class="line">            if (bValue)</span><br><span class="line">            &#123;</span><br><span class="line">                writer.WriteValue(arrBString[0]);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                writer.WriteValue(arrBString[1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 自定义了BoolConvert类型，继承自JsonConverter。构造函数参数BooleanString可以让我们自定义将true false转换成相应字符串。下面看实体里面怎么使用这个自定义转换类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Person</span><br><span class="line">&#123;</span><br><span class="line">    [JsonConverter(typeof(BoolConvert))]</span><br><span class="line">    public bool IsMarry &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2015.cnblogs.com/blog/336693/201512/336693-20151214101004068-161668511.png" alt="img">‘</p>
+<p>相应的有什么个性化的转换需求，都可以使用自定义转换类型的方式实现。</p>
+<p><em><strong>*十.全局序列化设置*</strong></em></p>
+<p>文章开头提出了Null值字段怎么不返回的问题，相应的在高级用法也给出了相应的解决方案使用jsetting.NullValueHandling = NullValueHandling.Ignore;  来设置不返回空值。这样有个麻烦的地方，每个不想返回空值的序列化都需设置一下。可以对序列化设置一些默认值方式么？下面将解答</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">　　Newtonsoft.Json.JsonSerializerSettings setting = new Newtonsoft.Json.JsonSerializerSettings();</span><br><span class="line">JsonConvert.DefaultSettings = new Func&lt;JsonSerializerSettings&gt;(() =&gt;</span><br><span class="line">&#123;　　　　//日期类型默认格式化处理</span><br><span class="line">　　setting.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;</span><br><span class="line">   setting.DateFormatString = &quot;yyyy-MM-dd HH:mm:ss&quot;;</span><br><span class="line">　　　 //空值处理</span><br><span class="line">   setting.NullValueHandling = NullValueHandling.Ignore;      //高级用法九中的Bool类型转换 设置</span><br><span class="line">   setting.Converters.Add(new BoolConvert(&quot;是,否&quot;));</span><br><span class="line"></span><br><span class="line">   return setting;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>这样设置以后，以后使用序列化的地方就不需要单独设置了，个人最喜欢设置的是空值处理这一块。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanweidie/p/4605212.html#_labelTop">回到顶部</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>　　Newtonsoft.Json序列化库替我们想了很多特性，也实现了很多特性，除了上面介绍的几种高级用法外，还有其它的特殊用法，可以去官网进行学习。当然这里我目前最喜欢的特性就是那个忽略部分属性序列化的功能，很小的代码改动实现了接口的优化，提升了用户体验。</p>
+<h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><h1 id="如何将JToken添加到JObject？"><a href="#如何将JToken添加到JObject？" class="headerlink" title="如何将JToken添加到JObject？"></a>如何将JToken添加到JObject？</h1><p>我正在尝试使用JSON.Net将一些文本中的JSON对象添加到现有JSON文件中。 例如，如果我具有以下JSON数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  &#123;</span><br><span class="line">  &quot;food&quot;: &#123;</span><br><span class="line">    &quot;fruit&quot;: &#123;</span><br><span class="line">      &quot;apple&quot;: &#123;</span><br><span class="line">        &quot;colour&quot;: &quot;red&quot;,</span><br><span class="line">        &quot;size&quot;: &quot;small&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;orange&quot;: &#123;</span><br><span class="line">        &quot;colour&quot;: &quot;orange&quot;,</span><br><span class="line">        &quot;size&quot;: &quot;large&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我一直在尝试这样做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var foodJsonObj = JObject.Parse(jsonText);</span><br><span class="line">var bananaJson = JObject.Parse(@&quot;&#123; &quot;&quot;banana&quot;&quot; : &#123; &quot;&quot;colour&quot;&quot;: &quot;&quot;yellow&quot;&quot;, &quot;&quot;size&quot;&quot;: &quot;&quot;medium&quot;&quot;&#125;&#125;&quot;);</span><br><span class="line">var bananaToken = bananaJson as JToken;</span><br><span class="line">foodJsonObj[&quot;food&quot;][&quot;fruit&quot;][&quot;orange&quot;].AddAfterSelf(bananaToken);</span><br></pre></td></tr></table></figure>
+
+<p>但这给出了错误：<code>&quot;Newtonsoft.Json.Linq.JProperty cannot have multiple values.&quot;</code></p>
+<p>实际上，我尝试了几种不同的方法，但似乎无济于事。 在我的示例中，我真正想做的就是将新项目添加到“水果”中。 请让我知道是否有更好的方法或更简单的库来使用。</p>
+<p>我认为您对JSON.Net中的内容感到困惑。</p>
+<ul>
+<li><code>JProperty</code>是任何类型的JSON值的通用表示。 它可以是字符串，对象，数组，属性等。</li>
+<li><code>JProperty</code>是与名称配对的单个<code>JProperty</code>值。 只能将其添加到<code>JObject</code>，其值不能是另一个<code>&#123;&quot;colour&quot;:&quot;orange&quot;,&quot;size&quot;:&quot;large&quot;&#125;</code>。</li>
+<li><code>JProperty</code>是<code>JProperty</code>的集合。它不能直接容纳任何其他类型的<code>JObject</code>。</li>
+</ul>
+<p>在您的代码中，您尝试将<code>JProperty</code>（包含“香蕉”数据的数据）添加到<code>JProperty</code>（“橙色”）中，该数据已具有值（包含<code>&#123;&quot;colour&quot;:&quot;orange&quot;,&quot;size&quot;:&quot;large&quot;&#125;</code>的<code>JObject</code>）。 如您所见，这将导致错误。</p>
+<p>您真正想要做的是在<code>JObject</code>中添加一个称为“香蕉”的<code>JProperty</code>，其中包含其他水果<code>JProperties</code>。这是修改后的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JObject foodJsonObj = JObject.Parse(jsonText);</span><br><span class="line">JObject fruits = foodJsonObj[&quot;food&quot;][&quot;fruit&quot;] as JObject;</span><br><span class="line">fruits.Add(&quot;banana&quot;, JObject.Parse(@&quot;&#123;&quot;&quot;colour&quot;&quot;:&quot;&quot;yellow&quot;&quot;,&quot;&quot;size&quot;&quot;:&quot;&quot;medium&quot;&quot;&#125;&quot;));</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/json/">json</a><a href="/tags/newtownsoft/">newtownsoft</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/02/24/C#%20Newtownsoft.Json%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F/" data-title="C# Newtownsoft.Json的使用方式 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/05/31/hello-world/" title="Hello World">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hello World</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/02/19/【黑苹果】ThinkPad X250支持安装 MacOS 10.15.5 Catalina EFI分享/"  title="【黑苹果】ThinkPad X250支持安装 MacOS 10.15.5 Catalina EFI分享">
+ <strong>下一篇：</strong><br/> 
+ <span>【黑苹果】ThinkPad X250支持安装 MacOS 10.15.5 Catalina EFI分享
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-Newtownsoft-Json%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">C# Newtownsoft.Json的使用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">3.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E9%87%8D%E8%BD%BD"><span class="toc-number">4.</span> <span class="toc-text">隐式类型重载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">常用的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%8D%E5%8E%86JObject"><span class="toc-number">6.</span> <span class="toc-text">遍历JObject</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Json-to-JObject%E8%BD%AC%E6%8D%A2%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">Json to JObject转换的使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E3%80%81JObject-%E5%92%8CJArray%E7%9A%84%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E3%80%81%E7%A7%BB%E9%99%A4"><span class="toc-number">7.0.0.0.1.</span> <span class="toc-text">一、JObject 和JArray的添加、修改、移除</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E4%B8%8A%E5%8F%82%E8%80%83"><span class="toc-number">8.</span> <span class="toc-text">网上参考</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Newtonsoft-Json%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="toc-number">9.</span> <span class="toc-text">     Newtonsoft.Json高级用法        </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Newtonsoft-Json%E4%BB%8B%E7%BB%8D"><span class="toc-number">10.</span> <span class="toc-text">Newtonsoft.Json介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="toc-number">11.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="toc-number">12.</span> <span class="toc-text">高级用法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">13.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">14.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86JToken%E6%B7%BB%E5%8A%A0%E5%88%B0JObject%EF%BC%9F"><span class="toc-number">15.</span> <span class="toc-text">如何将JToken添加到JObject？</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

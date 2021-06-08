@@ -1,0 +1,814 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>NetWorkComms通信框架 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="C#网络通信，networkcomms.net 来自英国的网络通信框架 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NetWorkComms通信框架">
+<meta property="og:url" content="https://knightark.github.io/2020/05/26/NetWorkComms%E9%80%9A%E4%BF%A1%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="C#网络通信，networkcomms.net 来自英国的网络通信框架 。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://www.cnphp6.com/wp-content/uploads/article/2015-02-11/74912/1.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/586310/201502/110943249018396.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/586310/201502/111228281988816.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/251429/201906/251429-20190604104841346-202884002.jpg">
+<meta property="article:published_time" content="2020-05-26T05:53:59.000Z">
+<meta property="article:modified_time" content="2021-06-08T05:53:50.239Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="通信框架">
+<meta property="article:tag" content="消息通信">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.cnphp6.com/wp-content/uploads/article/2015-02-11/74912/1.jpg">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/05/26/NetWorkComms通信框架/" title="NetWorkComms通信框架" itemprop="url">NetWorkComms通信框架</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-26T05:53:59.000Z" itemprop="datePublished"> Published 2020-05-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#c-%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E6%A1%86%E6%9E%B6networkcomms%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B8%80-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%81"><span class="toc-number">1.</span> <span class="toc-text">c#网络通信框架networkcomms内核解析之一 消息传送</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B8%80-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%812"><span class="toc-number">2.</span> <span class="toc-text">内核解析之一 消息传送2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B8%89-%E6%B6%88%E6%81%AF%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">内核解析之三 消息同步调用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E5%85%AD-%E5%A4%84%E7%90%86%E6%8E%A5%E6%94%B6%E5%88%B0%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">内核解析之六 处理接收到的二进制数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B9%9D-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">内核解析之九 自定义处理方法的运行机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E4%B9%8B%E5%90%8C%E6%AD%A5%E6%94%B6%E5%8F%91%E6%95%B0%E6%8D%AE"><span class="toc-number">6.</span> <span class="toc-text">NetworkComms V3 之同步收发数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E4%B9%8B%E6%94%AF%E6%8C%81TCP%E8%BF%9E%E6%8E%A5%E5%92%8CUDP%E8%BF%9E%E6%8E%A5"><span class="toc-number">7.</span> <span class="toc-text">NetworkComms V3 之支持TCP连接和UDP连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E5%BA%8F%E5%88%97%E5%8C%96%E5%99%A8%E4%B9%8BProtobuf-net%E5%92%8C-JSONSerializer"><span class="toc-number">8.</span> <span class="toc-text">NetworkComms V3 序列化器之Protobuf.net和 JSONSerializer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#networkComms-%E9%80%9A%E4%BF%A1%E6%A1%86%E6%9E%B6%E4%B9%8B-%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">9.</span> <span class="toc-text">networkComms 通信框架之 消息处理器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E4%B9%8B%E5%90%8C%E6%97%B6%E7%9B%91%E5%90%AC%E5%A4%9A%E7%AB%AF%E5%8F%A3"><span class="toc-number">10.</span> <span class="toc-text">NetworkComms V3 之同时监听多端口</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="c-网络通信框架networkcomms内核解析之一-消息传送"><a href="#c-网络通信框架networkcomms内核解析之一-消息传送" class="headerlink" title="c#网络通信框架networkcomms内核解析之一 消息传送"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Jeely/p/10971592.html">c#网络通信框架networkcomms内核解析之一 消息传送</a></h1><p>networkcomms.net 来自英国的网络通信框架 官方网址 <a target="_blank" rel="noopener" href="http://www.networkcomms.net/">www.networkcomms.net</a> 中文网址<a target="_blank" rel="noopener" href="http://www.networkcomms.cn/">www.networkcomms.cn</a></p>
+<p>在网络通信程序中，本地的类或者对象，要传输到通信的另一端，在网络上传输的时候是二进制流的形式。</p>
+<p>那么在发送消息的时候要把对象序列化为二进制流</p>
+<p>对方接收到二进制数据流要还原成对象。</p>
+<p>我们知道使用Tcp协议传输消息的时候有消息边界问题，要解决这个问题，方法有很多，比如：</p>
+<p>（1）固定尺寸的消息</p>
+<p>(2) 使用消息尺寸信息</p>
+<p>(3) 使用消息标记</p>
+<p>我们看一下networkComms通信框架中是如何解决消息边界问题的，用一张图来说明：</p>
+<p><img src="http://www.cnphp6.com/wp-content/uploads/article/2015-02-11/74912/1.jpg" alt="img"></p>
+<p>NetworkComms框架在把Packet对象序列化二进制数据时</p>
+<p>如上图 ，第一个字节存放 PacketHeader的长度，接收端根据第一个字节存放的数据包包头长度，解析出数据包包头，然后根据数据包包头中含有的数据部分的长度，解析出数据部分。</p>
+<p>消息序列化二进制数据流时，需要使用序列化器，networkcomms框架默认使用网上流行的protobuf.net 序列化器。当然您也可以使用.net自带的 </p>
+<p>BinaryFormatter进行序列化，或者其他的序列化器，只要您在序列化的时候指定一下序列化器即</p>
+<h1 id="内核解析之一-消息传送2"><a href="#内核解析之一-消息传送2" class="headerlink" title="内核解析之一 消息传送2"></a>内核解析之一 消息传送2</h1><p>在网络通信程序中，本地的类或者对象，要传输到通信的另一端，在网络上传输的时候是二进制流的形式。</p>
+<p>那么在发送消息的时候要把对象序列化为二进制流</p>
+<p>对方接收到二进制数据流要还原成对象。</p>
+<p>我们知道使用Tcp协议传输消息的时候有消息边界问题，要解决这个问题，方法有很多，比如：</p>
+<p>（1）固定尺寸的消息</p>
+<p> (2) 使用消息尺寸信息</p>
+<p> (3) 使用消息标记</p>
+<p>我们看一下networkComms通信框架中是如何解决消息边界问题的，用一张图来说明：</p>
+<p>  <img src="https://images0.cnblogs.com/blog/586310/201502/110943249018396.jpg" alt="img"></p>
+<p>NetworkComms框架在把Packet对象序列化二进制数据时</p>
+<p>如上图 ，第一个字节存放 PacketHeader的长度，接收端根据第一个字节存放的数据包包头长度，解析出数据包包头，然后根据数据包包头中含有的数据部分的长度，解析出数据部分。</p>
+<p>消息序列化二进制数据流时，需要使用序列化器，networkcomms框架默认使用网上流行的protobuf.net 序列化器。当然您也可以使用.net自带的 </p>
+<p>BinaryFormatter进行序列化，或者其他的序列化器，只要您在序列化的时候指定一下序列化器即可</p>
+<h1 id="内核解析之三-消息同步调用"><a href="#内核解析之三-消息同步调用" class="headerlink" title="内核解析之三 消息同步调用"></a>内核解析之三 消息同步调用</h1><p>networkcomms.net 来自英国的网络通信框架 官方网址 <a target="_blank" rel="noopener" href="http://www.networkcomms.net/">www.networkcomms.net</a> 中文网址<a target="_blank" rel="noopener" href="http://www.networkcomms.cn/">www.networkcomms.cn</a></p>
+<p>客户端发送消息给服务器，服务器计算结果返回给客户端，这是网络通信应用程序中常见的使用情境。</p>
+<p>拿用户登录举例子，客户端把包含用户名和密码的契约类发送给服务器，服务器从数据获取数据后与收到的契约类数据进行对比，如果一致，返回登录成功的信息，如果不一致，返回登陆不成功的信息</p>
+<p><img src="https://images0.cnblogs.com/blog/586310/201502/111228281988816.png" alt="img"></p>
+<p>NetworkComms框架支持消息的同步调用，就像调用本地方法一般。</p>
+<p>举例说明（本例中使用networkcomms v3语法）：</p>
+<p>   用户登录</p>
+<p>​    契约类1  UserInfo 用于存储用户名和密码，并传递到服务器端    </p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ProtoContract]    public  class UserInfo    &#123;        [ProtoMember(1)]        public string UserID;        [ProtoMember(2)]        public string Password;        public UserInfo() &#123; &#125;        public UserInfo(string userID, string password)        &#123;            this.UserID = userID;            this.Password = password;        &#125;    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>契约类2  ResMessage  用于存储服务器返回给客户端的消息</p>
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ProtoContract]    public class ResMessage    &#123;        [ProtoMember(1)]        public string Message;        public ResMessage() &#123; &#125;        public ResMessage(string message)        &#123;            this.Message = message;        &#125;    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<p>客户端：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//声明一个契约类                    UserInfo userInfo = new UserInfo();                    //给契约类的用户ID赋值                    userInfo.UserID = txtUserID.Text.Trim();                    //给契约类的用户密码赋值                    userInfo.Password = txtPassword.Text.Trim();                     //把UserInfo的契约类消息发送给服务器端，并获取返回的ResMessage类型的契约类消息                       ResMessage loginContract = newTcpConnection.SendReceiveObject&lt;UserInfo, ResMessage&gt;(&quot;UserLogin&quot;, &quot;ResUserLogin&quot;, 8000, userInfo);                    //下面是获取到服务器返回结果的处理方法                    if(loginContract.Message==&quot;登录成功“）                             MessageBox.Show(&quot;登录成功,跳转到下一页面&quot;);                    else                             MessageBox.Show(&quot;用户名或者密码错误&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 我们来总结一下上面的同步方法调用的格式</p>
+<p>​                              </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">返回的契约类类型    loginContract=newTcpConnectin.SendReceiveObject&lt;传递的契约类类型，返回的契约类类型&gt;(&quot;消息类型“，”消息返回类型&quot;,超时时间，契约类实例)  ResMessage loginContract = newTcpConnection.SendReceiveObject&lt;UserInfo, ResMessage&gt;(&quot;UserLogin&quot;, &quot;ResUserLogin&quot;, 8000, userInfo);</span><br></pre></td></tr></table></figure>
+
+<p>我们看一下服务器端对应的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//为消息类型声明对应的处理器  NetworkComms.AppendGlobalIncomingPacketHandler&lt;UserInfo&gt;(&quot;UserLogin&quot;, IncomingLoginHandler);</span><br></pre></td></tr></table></figure>
+
+<p>//具体的处理方法</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//第三个参数为客户端发来的实际契约类类型，networkcomms通信框架自动把二进制数据解析为此类型数据 private void IncomingLoginHandler(PacketHeader header, Connection connection, UserInfo userInfo)        &#123;            try            &#123;                //声明返回的契约类实例                ResMessage  resMessage=new ResMessage();                string userID = userInfo.UserID;                string passWord = userInfo.Password;                //从数据库中验证用户名和密码               if (验证成功)                    //给契约类实例赋值                    resMessage.Message = &quot;登录成功&quot;;                else                    resMessage.Message = &quot;用户名密码错误&quot;;                //把验证结果返回给客户端                connection.SendObject(&quot;ResUserLogin&quot;, resMessage);                         &#125;            catch (Exception ex)            &#123;                LogTools.LogException(ex, &quot;IncomingLoginHandler&quot;);            &#125;        &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h1 id="内核解析之六-处理接收到的二进制数据"><a href="#内核解析之六-处理接收到的二进制数据" class="headerlink" title="内核解析之六 处理接收到的二进制数据"></a>内核解析之六 处理接收到的二进制数据</h1><p>在networkcomms通信系统中，服务器端收到某连接上的数据后，数据会暂时存放在”数据包创建器”(PacketBuilder)中,PacketBuilder类似一个流动的容器，收到的数据被服务器处理完成后，相应在二进制数据，会从存储他的PacketBuilder中删除。</p>
+<p>我们知道在networkcomms的消息体系中，传送的数据的第一个字节用来存储数据包包头长度，解析出数据包包头后，包头中包含数据包长度。所以在读入进入PacketBuilder中的数据，会根据第一个字节中存储的数据，解析出包头的长度，进一步解析出数据包的长度。如果PacketBuilder中的存储的字节大小，大于数据包的长度，那么主程序将会对PacketBuilder中的数据，进行提取，并进行处理。</p>
+<p>此节，我们暂时不讨论PacketBuilder的细节，先看一下服务器如何对PacketBuilder中的数据进行处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected void IncomingPacketHandleHandOff(PacketBuilder packetBuilder)        &#123;            try            &#123;                if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... checking for completed packet with &quot; + packetBuilder.TotalBytesCached.ToString() + &quot; bytes read.&quot;);                if (packetBuilder.TotalPartialPacketCount == 0)                    throw new Exception(&quot;Executing IncomingPacketHandleHandOff when no packets exist in packetbuilder.&quot;);                //循环，直到我们完成对packetBuilder的处理                //Loop until we are finished with this packetBuilder                int loopCounter = 0;                while (true)                &#123;                    //If we have ended up with a null packet at the front, probably due to some form of concatentation we can pull it off here                    //It is possible we have concatenation of several null packets along with real data so we loop until the firstByte is greater than 0                    //此处，可能是处理心跳检测时对方发来的0字节数据                    if (packetBuilder.FirstByte() == 0)                    &#123;                        if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... null packet removed in IncomingPacketHandleHandOff() from &quot; + ConnectionInfo + &quot;, loop index - &quot; + loopCounter.ToString());                        packetBuilder.ClearNTopBytes(1);                        //Reset the expected bytes to 0 so that the next check starts from scratch                        packetBuilder.TotalBytesExpected = 0;                        //If we have run out of data completely then we can return immediately                        if (packetBuilder.TotalBytesCached == 0) return;                    &#125;                    else                    &#123;                        //First determine the expected size of a header packet                        //获取数据包包头长度                        int packetHeaderSize = packetBuilder.FirstByte() + 1;                        //Do we have enough data to build a header?                        //如果没有足够的二级制数据来还原出一个数据包包头                        if (packetBuilder.TotalBytesCached &lt; packetHeaderSize)                        &#123;                            if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... ... more data required for complete packet header.&quot;);                            //Set the expected number of bytes and then return                            packetBuilder.TotalBytesExpected = packetHeaderSize;                            return;                        &#125;                        //We have enough for a header                        //有足够的数据来还原出数据包包头                        PacketHeader topPacketHeader;                        using(MemoryStream headerStream = packetBuilder.ReadDataSection(1, packetHeaderSize - 1))                            //数据包包头                            topPacketHeader = new PacketHeader(headerStream, NetworkComms.InternalFixedSendReceiveOptions);                        //Idiot test                        if (topPacketHeader.PacketType == null)                            throw new SerialisationException(&quot;packetType value in packetHeader should never be null&quot;);                        //We can now use the header to establish if we have enough payload data                        //First case is when we have not yet received enough data                         //如果没有足够的数据来还原出数据包                        if (packetBuilder.TotalBytesCached &lt; packetHeaderSize + topPacketHeader.PayloadPacketSize)                        &#123;                            if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... ... more data required for complete packet payload. Expecting &quot; + (packetHeaderSize + topPacketHeader.PayloadPacketSize).ToString() + &quot; total packet bytes.&quot;);                            //Set the expected number of bytes and then return                            packetBuilder.TotalBytesExpected = packetHeaderSize + topPacketHeader.PayloadPacketSize;                            return;                        &#125;                        //Second case is we have enough data                        //有足够的数据还原出数据包                        else if (packetBuilder.TotalBytesCached &gt;= packetHeaderSize + topPacketHeader.PayloadPacketSize)                        &#123;                            //We can either have exactly the right amount or even more than we were expecting                            //We may have too much data if we are sending high quantities and the packets have been concatenated                            //no problem!!                            SendReceiveOptions incomingPacketSendReceiveOptions = IncomingPacketSendReceiveOptions(topPacketHeader);                            if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Debug(&quot;Received packet of type &#x27;&quot; + topPacketHeader.PacketType + &quot;&#x27; from &quot; + ConnectionInfo + &quot;, containing &quot; + packetHeaderSize.ToString() + &quot; header bytes and &quot; + topPacketHeader.PayloadPacketSize.ToString() + &quot; payload bytes.&quot;);                            //If this is a reserved packetType we call the method inline so that it gets dealt with immediately                            //判断是否为保留类型，保留类型会优先处理                            //保留类型包括心跳检测、连接建立等                            bool isReservedType = false;                            foreach (var tName in NetworkComms.reservedPacketTypeNames)                            &#123;                                //isReservedType |= topPacketHeader.PacketType == tName;                                if (topPacketHeader.PacketType == tName)                                &#123;                                    isReservedType = true;                                    break;                                &#125;                            &#125;                            //Only reserved packet types get completed inline                            //如果数据包类型为保留类型  设定为高优先级                            if (isReservedType)                            &#123;#if WINDOWS_PHONE                                var priority = QueueItemPriority.Normal;#else                                var priority = (QueueItemPriority)Thread.CurrentThread.Priority;#endif                                //创建优先级队列项目                                PriorityQueueItem item = new PriorityQueueItem(priority, this, topPacketHeader, packetBuilder.ReadDataSection(packetHeaderSize, topPacketHeader.PayloadPacketSize), incomingPacketSendReceiveOptions);                                if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... handling packet type &#x27;&quot; + topPacketHeader.PacketType + &quot;&#x27; inline. Loop index - &quot; + loopCounter.ToString());                                NetworkComms.CompleteIncomingItemTask(item);                            &#125;                            else                            &#123;                                //创建优先级队列项目                                QueueItemPriority itemPriority = (incomingPacketSendReceiveOptions.Options.ContainsKey(&quot;ReceiveHandlePriority&quot;) ? (QueueItemPriority)Enum.Parse(typeof(QueueItemPriority), incomingPacketSendReceiveOptions.Options[&quot;ReceiveHandlePriority&quot;]) : QueueItemPriority.Normal);                                //把数据包包头，和数据包数据 赋值给优先级队列项                                  PriorityQueueItem item = new PriorityQueueItem(itemPriority, this, topPacketHeader, packetBuilder.ReadDataSection(packetHeaderSize, topPacketHeader.PayloadPacketSize), incomingPacketSendReceiveOptions);                                //QueueItemPriority.Highest is the only priority that is executed inline#if !WINDOWS_PHONE                                //如果是最高优先级，当前线程处理                                if (itemPriority == QueueItemPriority.Highest)                                &#123;                                    if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... handling packet type &#x27;&quot; + topPacketHeader.PacketType + &quot;&#x27; with priority HIGHEST inline. Loop index - &quot; + loopCounter.ToString());                                    NetworkComms.CompleteIncomingItemTask(item);                                &#125;                                else                                &#123;                                    //不是最高优先级 交给自定义线程池处理   此线程池支持优先级处理                                    int threadId = NetworkComms.CommsThreadPool.EnqueueItem(item.Priority, NetworkComms.CompleteIncomingItemTask, item);                                    if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... added completed &quot; + item.PacketHeader.PacketType + &quot; packet to thread pool (Q:&quot; + NetworkComms.CommsThreadPool.QueueCount.ToString() + &quot;, T:&quot; + NetworkComms.CommsThreadPool.CurrentNumTotalThreads.ToString() + &quot;, I:&quot; + NetworkComms.CommsThreadPool.CurrentNumIdleThreads.ToString() + &quot;) with priority &quot; + itemPriority.ToString() + (threadId &gt; 0 ? &quot;. Selected threadId=&quot; + threadId.ToString() : &quot;&quot;) + &quot;. Loop index=&quot; + loopCounter.ToString() + &quot;.&quot;);                                &#125;#else                                int threadId = NetworkComms.CommsThreadPool.EnqueueItem(item.Priority, NetworkComms.CompleteIncomingItemTask, item);                                if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot; ... added completed &quot; + item.PacketHeader.PacketType + &quot; packet to thread pool (Q:&quot; + NetworkComms.CommsThreadPool.QueueCount.ToString() + &quot;, T:&quot; + NetworkComms.CommsThreadPool.CurrentNumTotalThreads.ToString() + &quot;, I:&quot; + NetworkComms.CommsThreadPool.CurrentNumIdleThreads.ToString() + &quot;) with priority &quot; + itemPriority.ToString() + (threadId &gt; 0 ? &quot;. Selected threadId=&quot; + threadId.ToString() : &quot;&quot;) + &quot;. Loop index=&quot; + loopCounter.ToString() + &quot;.&quot;);#endif                            &#125;                            //从PacketBuilder中删除已经处理过的数据                            //We clear the bytes we have just handed off                            if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Trace(&quot;Removing &quot; + (packetHeaderSize + topPacketHeader.PayloadPacketSize).ToString() + &quot; bytes from incoming packet buffer from connection with &quot; + ConnectionInfo +&quot;.&quot;);                            packetBuilder.ClearNTopBytes(packetHeaderSize + topPacketHeader.PayloadPacketSize);                            //Reset the expected bytes to 0 so that the next check starts from scratch                            packetBuilder.TotalBytesExpected = 0;                            //If we have run out of data completely then we can return immediately                            if (packetBuilder.TotalBytesCached == 0) return;                        &#125;                        else                            throw new CommunicationException(&quot;This should be impossible!&quot;);                    &#125;                    loopCounter++;                &#125;            &#125;            catch (Exception ex)            &#123;                //Any error, throw an exception.                if (NetworkComms.LoggingEnabled) NetworkComms.Logger.Fatal(&quot;A fatal exception occured in IncomingPacketHandleHandOff(), connection with &quot; + ConnectionInfo + &quot; be closed. See log file for more information.&quot;);                NetworkComms.LogError(ex, &quot;CommsError&quot;);                CloseConnection(true, 45);            &#125;        &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在上面的数据处理过程中，不知道您是否注意到一个重要的概念，即“自定义线程池”，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CommsThreadPool此线程池，可以说是Networkcomms通信框架中一颗璀璨的明珠，由他负责处理接收到的所有数据，此线程池支持优先级，即高优先级的数据会被优先处理</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="内核解析之九-自定义处理方法的运行机制"><a href="#内核解析之九-自定义处理方法的运行机制" class="headerlink" title="内核解析之九 自定义处理方法的运行机制"></a>内核解析之九 自定义处理方法的运行机制</h1><p>本文基于networkcomms2.3.1开源版本  gplv3协议</p>
+<p>我们自己写的处理方法都称之为自定义处理方法</p>
+<p>比如，我们在服务器上写的与登陆相关的处理方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NetworkComms.AppendGlobalIncomingPacketHandler&lt;LoginContract&gt;(&quot;ReqLogin&quot;, IncomingLoginRequest);</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private void IncomingLoginRequest(PacketHeader header, Connection connection, LoginContract loginContract)        &#123;            try            &#123;                string resMsg=&quot;&quot;;                //为了简单，这里不调用数据库，而是模拟一下登录                if (loginContract.UserID == &quot;1000&quot; &amp;&amp; loginContract.PassWord == &quot;123&quot;)                    resMsg = &quot;登录成功&quot;;                else                    resMsg = &quot;用户名密码错误&quot;;                //把返回结果写入到契约类中，后面返回给客户端                ResMsgContract contract = new ResMsgContract();                contract.Message = resMsg;                 connection.SendObject(&quot;ResLogin&quot;, contract);            &#125;            catch (Exception ex)            &#123;                           &#125;        &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>通过以上的写法，当服务器器收到消息类型为“ReqLogin”的消息时，会自动获取到相关的处理方法。</p>
+<p>我们看一下背后的运行机制。</p>
+<p>首先看注册语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NetworkComms.AppendGlobalIncomingPacketHandler&lt;LoginContract&gt;(&quot;ReqLogin&quot;, IncomingLoginRequest);</span><br><span class="line">AppendGlobalIncomingPacketHandler（）方法，把消息类型”ReqLogin&quot;和处理方法“INcomingLoginRequest&quot;添加到NetworkComms静态类的字典中：在AppendGlobalIncomingPacketHander&lt;T&gt;方法中 ，我们的处理方法 IncomingLoginRequest 与 PacketHandlerCallBackDelegate&lt;T&gt;参数相对应。来看一下PacketHandlerCallBackDelegate的定义</span><br><span class="line">      public delegate void PacketHandlerCallBackDelegate&lt;T&gt;(PacketHeader packetHeader, Connection connection, T incomingObject);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppendGlobalIncomingPacketHandler（）方法如下：</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static void AppendGlobalIncomingPacketHandler&lt;T&gt;(string packetTypeStr, PacketHandlerCallBackDelegate&lt;T&gt; packetHandlerDelgatePointer)        &#123;            if (packetTypeStr == null) throw new ArgumentNullException(&quot;packetTypeStr&quot;, &quot;Provided packetType string cannot be null.&quot;);            if (packetHandlerDelgatePointer == null) throw new ArgumentNullException(&quot;packetHandlerDelgatePointer&quot;, &quot;Provided PacketHandlerCallBackDelegate&lt;T&gt; cannot be null.&quot;);            if (sendReceiveOptions == null) throw new ArgumentNullException(&quot;sendReceiveOptions&quot;, &quot;Provided SendReceiveOptions cannot be null.&quot;);            lock (globalDictAndDelegateLocker)            &#123;                if (globalIncomingPacketUnwrappers.ContainsKey(packetTypeStr))                &#123;                    //Make sure if we already have an existing entry that it matches with the provided                    if (!globalIncomingPacketUnwrappers[packetTypeStr].Options.OptionsCompatible(sendReceiveOptions))                        throw new PacketHandlerException(&quot;The proivded SendReceiveOptions are not compatible with existing SendReceiveOptions already specified for this packetTypeStr.&quot;);                &#125;                else                    globalIncomingPacketUnwrappers.Add(packetTypeStr, new PacketTypeUnwrapper(packetTypeStr, sendReceiveOptions));                                //Ad the handler to the list                if (globalIncomingPacketHandlers.ContainsKey(packetTypeStr))                &#123;                    //Make sure we avoid duplicates                    PacketTypeHandlerDelegateWrapper&lt;T&gt; toCompareDelegate = new PacketTypeHandlerDelegateWrapper&lt;T&gt;(packetHandlerDelgatePointer);                    bool delegateAlreadyExists = false;                    foreach (var handler in globalIncomingPacketHandlers[packetTypeStr])                    &#123;                        if (handler == toCompareDelegate)                        &#123;                            delegateAlreadyExists = true;                            break;                        &#125;                    &#125;                                                            if (delegateAlreadyExists)                        throw new PacketHandlerException(&quot;This specific packet handler delegate already exists for the provided packetTypeStr.&quot;);                    //把处理方法添加到相关字典中                    globalIncomingPacketHandlers[packetTypeStr].Add(new PacketTypeHandlerDelegateWrapper&lt;T&gt;(packetHandlerDelgatePointer));                &#125;                else                    globalIncomingPacketHandlers.Add(packetTypeStr, new List&lt;IPacketTypeHandlerDelegateWrapper&gt;() &#123; new PacketTypeHandlerDelegateWrapper&lt;T&gt;(packetHandlerDelgatePointer) &#125;);                if (LoggingEnabled) logger.Info(&quot;Added incoming packetHandler for &#x27;&quot; + packetTypeStr + &quot;&#x27; packetType.&quot;);            &#125;        &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>字典：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static Dictionary&lt;string, List&lt;IPacketTypeHandlerDelegateWrapper&gt;&gt; globalIncomingPacketHandlers = new Dictionary&lt;string, List&lt;IPacketTypeHandlerDelegateWrapper&gt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>我们看到上面有一句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PacketTypeHandlerDelegateWrapper&lt;T&gt; toCompareDelegate = new PacketTypeHandlerDelegateWrapper&lt;T&gt;(packetHandlerDelgatePointer);</span><br></pre></td></tr></table></figure>
+
+<p>看一下PacketTypeHandlerDelegateWrapper类，此类把处理方法作为参数。</p>
+<p>我们看一下此类：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class PacketTypeHandlerDelegateWrapper&lt;T&gt; : IPacketTypeHandlerDelegateWrapper    &#123;        NetworkComms.PacketHandlerCallBackDelegate&lt;T&gt; innerDelegate;        public PacketTypeHandlerDelegateWrapper(NetworkComms.PacketHandlerCallBackDelegate&lt;T&gt; packetHandlerDelegate)        &#123;            this.innerDelegate = packetHandlerDelegate;        &#125;        public object DeSerialize(MemoryStream incomingBytes, SendReceiveOptions options)        &#123;            if (incomingBytes == null) return null;            //if (incomingBytes == null || incomingBytes.Length == 0) return null;            else            //&#123;                //if (options.DataSerializer == null)                //    throw new ArgumentNullException(&quot;options&quot;, &quot;The provided options.DataSerializer was null. Cannot continue with deserialise.&quot;);                return options.DataSerializer.DeserialiseDataObject&lt;T&gt;(incomingBytes, options.DataProcessors, options.Options);            //&#125;        &#125;        public void Process(PacketHeader packetHeader, Connection connection, object obj)        &#123;            innerDelegate(packetHeader, connection, (obj == null ? default(T) : (T)obj));        &#125;        public bool Equals(IPacketTypeHandlerDelegateWrapper other)        &#123;            if (innerDelegate == (other as PacketTypeHandlerDelegateWrapper&lt;T&gt;).innerDelegate)                return true;            else                return false;        &#125;        public bool EqualsDelegate(Delegate other)        &#123;            return other as NetworkComms.PacketHandlerCallBackDelegate&lt;T&gt; == innerDelegate;        &#125;    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></p>
+<h1 id="NetworkComms-V3-之同步收发数据"><a href="#NetworkComms-V3-之同步收发数据" class="headerlink" title="NetworkComms V3 之同步收发数据"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Jeely/p/10972242.html">NetworkComms V3 之同步收发数据</a></h1><p> NetworkComms网络通信框架序言<br>NetworkComms通信框架，是一款来自英国的c#语言编写的通信框架，历时6年研发，成熟稳定，性能可靠。</p>
+<p>NetworkComms v3的核心功能在一定程度上是以异步的方式进行的。</p>
+<p>NetworkComms提供了相应的功能，使得可以同步请求数据和获得相应的相应，非常的简单。</p>
+<p>try<br>{<br>     //连接信息类<br>    ConnectionInfo connectionInfo = new ConnectionInfo(“127.0.0.1”, 10000);</p>
+<pre><code>//获取一个TCP连接
+TCPConnection serverConnection = TCPConnection.GetConnection(connectionInfo);
+ 
+//发送一个消息类型是“RequestCustomObject“的,数据类型为int，具体数值为 “1000”的数据给服务器，并获取消息类型为“CustomObjectReply&quot;，类型为CustomObject的数据
+ CustomObject myCustomObject =  serverConnection.SendReceiveObject&lt;CustomObject&gt;(&quot;RequestCustomObject&quot;,  &quot;CustomObjectReply&quot;, 1000);
+</code></pre>
+<p>​<br>}<br>catch (ExpectedReturnTimeoutException)<br>{<br>​<br>}</p>
+<p>服务器上对应的处理方法：</p>
+<p>NetworkComms.AppendGlobalIncomingPacketHandler<int>(“RequestCustomObject”, (packetHeader, connection, input) =&gt;<br>    {<br>         //创建一个要返回的类型<br>        CustomObject myCustomObject = new CustomObject();</int></p>
+<p>​        //把要返回的类型，发送给客户端<br>​        connection.SendObject(“CustomObjectReply”, myCustomObject);<br>​    });</p>
+<h1 id="NetworkComms-V3-之支持TCP连接和UDP连接"><a href="#NetworkComms-V3-之支持TCP连接和UDP连接" class="headerlink" title="NetworkComms V3 之支持TCP连接和UDP连接"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Jeely/p/10972228.html">NetworkComms V3 之支持TCP连接和UDP连接</a></h1><p>NetworkComms V3 无缝的支持TCP连接和UDP连接。</p>
+<p>您可以很容易的创建这两种连接</p>
+<p>//创建一个连接信息对象<br>ConnectionInfo connInfo = new ConnectionInfo(“192.168.0.1”, 10000);</p>
+<p>//创建一个TCP连接<br>Connection newTCPConn = TCPConnection.GetConnection(connInfo);</p>
+<p>//创建一个UDP连接<br>Connection newUDPConn = UDPConnection.GetConnection(connInfo, UDPOptions.None);</p>
+<p>简单的用法示例：</p>
+<p> //指定消息类型为“StringMessage”的消息的处理方法<br>newConn.AppendIncomingPacketHandler<string>(“StringMessage”,<br>    MethodToRunForStringMessage,<br>    NetworkComms.DefaultSendReceiveOptions);</string></p>
+<p>//连接关闭时运行的方法<br>newConn.AppendShutdownHandler(MethodToRunOnConnectionClose);</p>
+<p>//发送一个自定义对象 消息类型为”CustomObject1”<br>newConn.SendObject(“CustomObject1”, customObject);</p>
+<p>//发送一个消息类型为”CustomObject1”,期待的返回消息类型为”CusotmObject2”的消息<br>CustomObject2 customObject2 = newConn.SendReceiveObject&lt;CustomObject1, CustomObject2&gt;(“CustomObject1”,<br>    “CustomObject2”,<br>    1000,<br>    customObject);</p>
+<p>//关闭连接<br>newConn.CloseConnection(false);</p>
+<h1 id="NetworkComms-V3-序列化器之Protobuf-net和-JSONSerializer"><a href="#NetworkComms-V3-序列化器之Protobuf-net和-JSONSerializer" class="headerlink" title="NetworkComms V3 序列化器之Protobuf.net和 JSONSerializer"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Jeely/p/10972223.html">NetworkComms V3 序列化器之Protobuf.net和 JSONSerializer</a></h1><p>NetworkComms v3版本中，默认使用的是protobuf.net序列化器。</p>
+<p>即当您没有指定序列化的时候，系统自动使用默认的protobuf.net序列化器。</p>
+<p>当然我们也可以自己指定序列化器</p>
+<p>语法如下：</p>
+<p> SendReceiveOptions aboveOptions = new SendReceiveOptions(DPSManager.GetDataSerializer<ProtobufSerializer>(), null, null);<br>使用protobuf.net 传送的类，需要添加protobuf相关的attribute,大致如下.</ProtobufSerializer></p>
+<p>如果传送的类，是sql数据表相对应的实体类，可以通过模板生成  NetworkComms网络通信框架配套CodeSmith模板使用简介</p>
+<p>using System;<br>using System.Collections;<br>using System.Collections.Generic;<br>using System.Data;<br>using ProtoBuf;<br>using EEDocManage.Data;</p>
+<p>namespace EEDocManage.Business<br>{<br>    [ProtoContract]<br>    public class Dep<br>    {</p>
+<p>​        #region Constructors</p>
+<p>​        public Dep()<br>​        { }</p>
+<pre><code>    \#endregion
+</code></pre>
+<p>​        #region Private Properties</p>
+<p>​        private int iD = -1;<br>​        private string title = string.Empty;</p>
+<p>​        #endregion</p>
+<p>​        #region Public Properties</p>
+<p>​        [ProtoMember(1)]<br>​        public int ID<br>​        {<br>​            get { return iD; }<br>​            set { iD = value; }<br>​        }<br>​        [ProtoMember(2)]<br>​        public string Title<br>​        {<br>​            get { return title; }<br>​            set { title = value; }<br>​        }</p>
+<p>​        #endregion</p>
+<pre><code>&#125;
+</code></pre>
+<p>}</p>
+<p>NeworkComms V3框架还自定了 JSONSerializer 序列化器（支持.net Framework 4.0版本)</p>
+<p>使用的话只要指定一下序列化器即可</p>
+<p> SendReceiveOptions aboveOptions = new SendReceiveOptions(DPSManager.GetDataSerializer<JSONSerializer>(), null, null);<br>具体的其他设置，由于我对json还不是太了解，正在探索中</JSONSerializer></p>
+<h1 id="networkComms-通信框架之-消息处理器"><a href="#networkComms-通信框架之-消息处理器" class="headerlink" title="networkComms 通信框架之 消息处理器"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Jeely/p/10972218.html">networkComms 通信框架之 消息处理器</a></h1><p>经常做Tcp通信的朋友知道，客户端发送数据到服务器 或者 服务器发送消息到客户端，接收端都要有相对应的处理器来对消息进行处理。</p>
+<p>这里有两个概念 需要进行区别  </p>
+<p>  消息类型  </p>
+<p>  实际的数据类型  这里指的是未被序列化之前的类的类型</p>
+<p>举个例子</p>
+<p> 客户端发送 消息A  消息B    这2个消息可能有相同的数据类型 但消息类型是不一样的</p>
+<p>上面的那个图，进一步引申一下，可能如下图：</p>
+<p> <img src="https://img2018.cnblogs.com/blog/251429/201906/251429-20190604104841346-202884002.jpg" alt="img"></p>
+<p>比如 上图中的消息A  数据类类型为ClassA  服务器端收到后，通信框架负责解析出ClassA类型的数据  </p>
+<p>使用networkcomms框架时，在发送方每发送一个消息,都需要指定消息类型，在接收方都要针对消息类型定义一个处理器。</p>
+<p>接收端接收消息时，根据消息类型选择不同的处理器进行处理.</p>
+<p>//下面代码中的 “ReqMsg1”,”ReqMsg2”,”ReqMsg3”都是发送的消息类型</p>
+<p>如果有返回消息，如下面的代码中，还需要指定返回的消息类型“ResMsg1”,”ResMsg2”,”RewMsg3”</p>
+<p>string resMsg = connection.SendReceiveObject<string>(“ReqMsg1”, “ResMsg1”, 5000, listBox1.Text);</string></p>
+<p>string resMsg = connection.SendReceiveObject<string>(“ReqMsg2”, “ResMsg2”, 5000, listBox2.Text);</string></p>
+<p> string resMsg = connection.SendReceiveObject<string>(“ReqMsg3”, “ResMsg3”, 5000, listBox3.Text);<br>上面的代码中，定义发送3个消息，这3个消息都是string 类型</string></p>
+<p>那么接收端就需要根据消息类型，写3个对应的处理器</p>
+<p>&lt;1&gt;把3个处理器与通信框架进行对接</p>
+<p> NetworkComms.AppendGlobalIncomingPacketHandler<string>(“ReqMsg1”, IncomingMsg1Handle);</string></p>
+<p> NetworkComms.AppendGlobalIncomingPacketHandler<string>(“ReqMsg2”, IncomingMsg2Handle);</string></p>
+<p> NetworkComms.AppendGlobalIncomingPacketHandler<string>(“ReqMsg3”, IncomingMsg3Handle);<br>&lt;2&gt;</string></p>
+<p>   private void IncomingMsg1Handle(PacketHeader header, Connection connection, string msg)<br>        {<br>            try<br>            {<br>                string resMsg = “”;<br>               //具体操作<br>                connection.SendObject(“ResMsg2”, resMsg);<br>            }<br>            catch (Exception ex)<br>            {</p>
+<pre><code>        &#125;
+    &#125;
+</code></pre>
+<p>   private void IncomingMsg2Handle(PacketHeader header, Connection connection, string msg)<br>        {<br>            try<br>            {<br>                string resMsg = “”;<br>               //具体操作<br>                connection.SendObject(“ResMsg2”, resMsg);<br>            }<br>            catch (Exception ex)<br>            {</p>
+<pre><code>        &#125;
+    &#125;
+</code></pre>
+<p>   private void IncomingMsg3Handle(PacketHeader header, Connection connection, string msg)<br>        {<br>            try<br>            {<br>                string resMsg = “”;<br>               //具体操作<br>                connection.SendObject(“ResMsg3”, resMsg);<br>            }<br>            catch (Exception ex)<br>            {</p>
+<pre><code>        &#125;
+    &#125;
+</code></pre>
+<h1 id="NetworkComms-V3-之同时监听多端口"><a href="#NetworkComms-V3-之同时监听多端口" class="headerlink" title="NetworkComms V3 之同时监听多端口"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Jeely/p/10972188.html">NetworkComms V3 之同时监听多端口</a></h1><p>NetworkComms网络通信框架序言<br>NetworkComms通信框架，是一款来自英国的c#语言编写的通信框架，历时6年研发，成熟稳定，性能可靠。</p>
+<p>框架支持同时监听服务器上的多个端口，写法如下：</p>
+<p>//创建一个要监听的端点的列表<br>List<IPEndPoint> endPointsToUse = new List<IPEndPoint>()<br>{<br>    new IPEndPoint(IPAddress.Parse(“192.168.0.1”), 4567),<br>    new IPEndPoint(IPAddress.Parse(“192.168.10.5”), 7654)<br>};</IPEndPoint></IPEndPoint></p>
+<p>//开始监听每一个端点<br>foreach (IPEndPoint endPoint in endPointsToUse)<br>    Connection.StartListening(ConnectionType.TCP, endPoint);</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/通信框架/">通信框架</a><a href="/tags/消息通信/">消息通信</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/05/26/NetWorkComms%E9%80%9A%E4%BF%A1%E6%A1%86%E6%9E%B6/" data-title="NetWorkComms通信框架 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/05/26/Windows包管理工具：Scoop 介绍/" title="Windows包管理工具：Scoop 介绍">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Windows包管理工具：Scoop 介绍</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/05/26/Kafka学习之路 （一）Kafka的简介/"  title="Kafka学习之路 （一）Kafka的简介">
+ <strong>下一篇：</strong><br/> 
+ <span>Kafka学习之路 （一）Kafka的简介
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#c-%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E6%A1%86%E6%9E%B6networkcomms%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B8%80-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%81"><span class="toc-number">1.</span> <span class="toc-text">c#网络通信框架networkcomms内核解析之一 消息传送</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B8%80-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%812"><span class="toc-number">2.</span> <span class="toc-text">内核解析之一 消息传送2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B8%89-%E6%B6%88%E6%81%AF%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">内核解析之三 消息同步调用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E5%85%AD-%E5%A4%84%E7%90%86%E6%8E%A5%E6%94%B6%E5%88%B0%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">内核解析之六 处理接收到的二进制数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E8%A7%A3%E6%9E%90%E4%B9%8B%E4%B9%9D-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">内核解析之九 自定义处理方法的运行机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E4%B9%8B%E5%90%8C%E6%AD%A5%E6%94%B6%E5%8F%91%E6%95%B0%E6%8D%AE"><span class="toc-number">6.</span> <span class="toc-text">NetworkComms V3 之同步收发数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E4%B9%8B%E6%94%AF%E6%8C%81TCP%E8%BF%9E%E6%8E%A5%E5%92%8CUDP%E8%BF%9E%E6%8E%A5"><span class="toc-number">7.</span> <span class="toc-text">NetworkComms V3 之支持TCP连接和UDP连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E5%BA%8F%E5%88%97%E5%8C%96%E5%99%A8%E4%B9%8BProtobuf-net%E5%92%8C-JSONSerializer"><span class="toc-number">8.</span> <span class="toc-text">NetworkComms V3 序列化器之Protobuf.net和 JSONSerializer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#networkComms-%E9%80%9A%E4%BF%A1%E6%A1%86%E6%9E%B6%E4%B9%8B-%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">9.</span> <span class="toc-text">networkComms 通信框架之 消息处理器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NetworkComms-V3-%E4%B9%8B%E5%90%8C%E6%97%B6%E7%9B%91%E5%90%AC%E5%A4%9A%E7%AB%AF%E5%8F%A3"><span class="toc-number">10.</span> <span class="toc-text">NetworkComms V3 之同时监听多端口</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

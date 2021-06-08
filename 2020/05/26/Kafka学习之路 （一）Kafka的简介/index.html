@@ -1,0 +1,1140 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Kafka学习之路 （一）Kafka的简介 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="kafka学习，包括简介，安装，架构，高可用和在zookeeper中存储">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka学习之路 （一）Kafka的简介">
+<meta property="og:url" content="https://knightark.github.io/2020/05/26/Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%20%EF%BC%88%E4%B8%80%EF%BC%89Kafka%E7%9A%84%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="kafka学习，包括简介，安装，架构，高可用和在zookeeper中存储">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507184834852-1994140834.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507190326476-771565746.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507190443404-1266011458.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507190731172-1317551019.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507192145249-1414897650.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507192840409-1435311830.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507193553697-2141118410.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507194612622-1788087919.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507195223218-1719228508.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200019142-182025107.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200226759-1617322728.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200343317-1340406332.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200533571-310409492.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200729833-108400321.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507205256986-826023478.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091330478-1618680698.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091357167-630027883.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091419194-1962654932.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091439631-71784584.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508093450833-853043206.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508093738851-372829720.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508094000763-519973668.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508094536515-251235516.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508094916762-1544456891.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508101652574-1613892176.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508103023550-1689525175.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508103535274-360887579.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508103818455-1476762306.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508104057913-1808088971.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508104206487-400676103.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508104651193-86573907.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508105321039-416763241.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508105839526-553140898.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508110049469-140963000.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508110442336-511702454.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508110605357-406763586.png">
+<meta property="article:published_time" content="2020-05-26T05:53:59.000Z">
+<meta property="article:modified_time" content="2021-06-08T05:48:43.622Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="生产者消费者">
+<meta property="article:tag" content="消息通信">
+<meta property="article:tag" content="kafka">
+<meta property="article:tag" content="消息订阅发布">
+<meta property="article:tag" content="消息队列">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507184834852-1994140834.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/05/26/Kafka学习之路 （一）Kafka的简介/" title="Kafka学习之路 （一）Kafka的简介" itemprop="url">Kafka学习之路 （一）Kafka的简介</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-26T05:53:59.000Z" itemprop="datePublished"> Published 2020-05-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%B8%80%EF%BC%89Kafka%E7%9A%84%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Kafka学习之路 （一）Kafka的简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">一、简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1　概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%B6%88%E6%81%AF%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2　消息系统介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E7%82%B9%E5%AF%B9%E7%82%B9%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3　点对点消息传递模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">1.4　发布-订阅消息传递模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Kafka%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">二、Kafka的优点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%A7%A3%E8%80%A6"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1　解耦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%86%97%E4%BD%99%EF%BC%88%E5%89%AF%E6%9C%AC%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2　冗余（副本）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%89%A9%E5%B1%95%E6%80%A7"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3　扩展性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E7%81%B5%E6%B4%BB%E6%80%A7-amp-%E5%B3%B0%E5%80%BC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4　灵活性&amp;峰值处理能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%8F%AF%E6%81%A2%E5%A4%8D%E6%80%A7"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.5　可恢复性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E9%A1%BA%E5%BA%8F%E4%BF%9D%E8%AF%81"><span class="toc-number">1.2.6.</span> <span class="toc-text">2.6　顺序保证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E7%BC%93%E5%86%B2"><span class="toc-number">1.2.7.</span> <span class="toc-text">2.7　缓冲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.2.8.</span> <span class="toc-text">2.8　异步通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%B8%B8%E7%94%A8Message-Queue%E5%AF%B9%E6%AF%94"><span class="toc-number">1.3.</span> <span class="toc-text">三、常用Message Queue对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-RabbitMQ"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1　RabbitMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Redis"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2　Redis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-ZeroMQ"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3　ZeroMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-ActiveMQ"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.4　ActiveMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-Kafka-Jafka"><span class="toc-number">1.3.5.</span> <span class="toc-text">3.5　Kafka&#x2F;Jafka</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Kafka%E4%B8%AD%E7%9A%84%E6%9C%AF%E8%AF%AD%E8%A7%A3%E9%87%8A"><span class="toc-number">1.4.</span> <span class="toc-text">四、Kafka中的术语解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1　概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-broker"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2　broker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Topic"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3　Topic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Partition"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.3　Partition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-Producer"><span class="toc-number">1.4.5.</span> <span class="toc-text">4.4　Producer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-Consumer"><span class="toc-number">1.4.6.</span> <span class="toc-text">4.5　Consumer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-Consumer-Group"><span class="toc-number">1.4.7.</span> <span class="toc-text">4.6　Consumer Group</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-Leader"><span class="toc-number">1.4.8.</span> <span class="toc-text">4.7　Leader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-Follower"><span class="toc-number">1.4.9.</span> <span class="toc-text">4.8　Follower</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%BA%8C%EF%BC%89Kafka%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">Kafka学习之路 （二）Kafka的架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Kafka%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">一、Kafka的架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Topics%E5%92%8CPartition"><span class="toc-number">2.2.</span> <span class="toc-text">二、Topics和Partition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Producer%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1"><span class="toc-number">2.3.</span> <span class="toc-text">三、Producer消息路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Consumer-Group"><span class="toc-number">2.4.</span> <span class="toc-text">四、Consumer Group</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Push-vs-Pull"><span class="toc-number">2.5.</span> <span class="toc-text">五、Push vs. Pull</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81Kafka-delivery-guarantee"><span class="toc-number">2.6.</span> <span class="toc-text">六、Kafka delivery guarantee</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%B8%89%EF%BC%89Kafka%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">Kafka学习之路 （三）Kafka的高可用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E7%9A%84%E7%94%B1%E6%9D%A5"><span class="toc-number">3.1.</span> <span class="toc-text">一、高可用的由来</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%B8%BA%E4%BD%95%E9%9C%80%E8%A6%81Replication"><span class="toc-number">3.1.1.</span> <span class="toc-text">1.1　为何需要Replication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-Leader-Election"><span class="toc-number">3.1.2.</span> <span class="toc-text">1.2　Leader Election</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Kafka-HA%E8%AE%BE%E8%AE%A1%E8%A7%A3%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">二、Kafka HA设计解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%A6%82%E4%BD%95%E5%B0%86%E6%89%80%E6%9C%89Replica%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83%E5%88%B0%E6%95%B4%E4%B8%AA%E9%9B%86%E7%BE%A4"><span class="toc-number">3.2.1.</span> <span class="toc-text">2.1　如何将所有Replica均匀分布到整个集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Data-Replication%EF%BC%88%E5%89%AF%E6%9C%AC%E7%AD%96%E7%95%A5%EF%BC%89"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.2　Data Replication（副本策略）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E5%90%8C%E6%AD%A5%E7%AD%96%E7%95%A5"><span class="toc-number">3.2.2.1.</span> <span class="toc-text">2.2.1　消息传递同步策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-ACK%E5%89%8D%E9%9C%80%E8%A6%81%E4%BF%9D%E8%AF%81%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%A4%87%E4%BB%BD"><span class="toc-number">3.2.2.2.</span> <span class="toc-text">2.2.2　ACK前需要保证有多少个备份</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-Leader-Election%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.2.3.</span> <span class="toc-text">2.2.3　Leader Election算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%89%80%E6%9C%89Replica%E9%83%BD%E4%B8%8D%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.2.2.4.</span> <span class="toc-text">2.2.4　如何处理所有Replica都不工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E9%80%89%E4%B8%BELeader"><span class="toc-number">3.2.2.5.</span> <span class="toc-text">2.2.5　选举Leader</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81HA%E7%9B%B8%E5%85%B3ZooKeeper%E7%BB%93%E6%9E%84"><span class="toc-number">3.3.</span> <span class="toc-text">三、HA相关ZooKeeper结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-admin"><span class="toc-number">3.3.1.</span> <span class="toc-text">3.1　admin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-broker"><span class="toc-number">3.3.2.</span> <span class="toc-text">3.2　broker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-controller"><span class="toc-number">3.3.3.</span> <span class="toc-text">3.3　controller</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81producer%E5%8F%91%E5%B8%83%E6%B6%88%E6%81%AF"><span class="toc-number">3.4.</span> <span class="toc-text">四、producer发布消息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="toc-number">3.4.1.</span> <span class="toc-text">4.1　写入方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1"><span class="toc-number">3.4.2.</span> <span class="toc-text">4.2　消息路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">3.4.3.</span> <span class="toc-text">4.3　写入流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81broker%E4%BF%9D%E5%AD%98%E6%B6%88%E6%81%AF"><span class="toc-number">3.5.</span> <span class="toc-text">五、broker保存消息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.5.1.</span> <span class="toc-text">5.1　存储方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%AD%98%E5%82%A8%E7%AD%96%E7%95%A5"><span class="toc-number">3.5.2.</span> <span class="toc-text">5.2　存储策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81Topic%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4"><span class="toc-number">3.6.</span> <span class="toc-text">六、Topic的创建和删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%88%9B%E5%BB%BAtopic"><span class="toc-number">3.6.1.</span> <span class="toc-text">6.1　创建topic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%88%A0%E9%99%A4topic"><span class="toc-number">3.6.2.</span> <span class="toc-text">6.2　删除topic</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81broker-failover"><span class="toc-number">3.7.</span> <span class="toc-text">七、broker failover</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81controller-failover"><span class="toc-number">3.8.</span> <span class="toc-text">八、controller failover</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E5%9B%9B%EF%BC%89Kafka%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">4.</span> <span class="toc-text">Kafka学习之路 （四）Kafka的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%8B%E8%BD%BD"><span class="toc-number">4.1.</span> <span class="toc-text">一、下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85%E5%89%8D%E6%8F%90%EF%BC%88zookeeper%E5%AE%89%E8%A3%85%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">二、安装前提（zookeeper安装）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E8%A3%85"><span class="toc-number">4.3.</span> <span class="toc-text">三、安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%B8%8A%E4%BC%A0%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="toc-number">4.3.1.</span> <span class="toc-text">2.1　上传解压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.2.</span> <span class="toc-text">2.2　修改配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%B0%86kafka%E7%9A%84%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%86%E5%8F%91%E5%88%B0%E5%85%B6%E4%BB%96%E8%8A%82%E7%82%B9"><span class="toc-number">4.3.3.</span> <span class="toc-text">2.3　将kafka的安装包分发到其他节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%88%9B%E5%BB%BA%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.3.4.</span> <span class="toc-text">2.4　创建软连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E4%BF%AE%E6%94%B9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">4.3.5.</span> <span class="toc-text">2.5　修改环境变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%90%AF%E5%8A%A8"><span class="toc-number">4.4.</span> <span class="toc-text">三、启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%A6%96%E5%85%88%E5%90%AF%E5%8A%A8zookeeper%E9%9B%86%E7%BE%A4"><span class="toc-number">4.4.1.</span> <span class="toc-text">3.1　首先启动zookeeper集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%90%AF%E5%8A%A8Kafka%E9%9B%86%E7%BE%A4%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.4.2.</span> <span class="toc-text">3.2　启动Kafka集群服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%88%9B%E5%BB%BA%E7%9A%84topic"><span class="toc-number">4.4.3.</span> <span class="toc-text">3.3　创建的topic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%9F%A5%E7%9C%8Btopic%E5%89%AF%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">4.4.4.</span> <span class="toc-text">3.4　查看topic副本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%9F%A5%E7%9C%8B%E5%B7%B2%E7%BB%8F%E5%88%9B%E5%BB%BA%E7%9A%84topic%E4%BF%A1%E6%81%AF"><span class="toc-number">4.4.5.</span> <span class="toc-text">3.5　查看已经创建的topic信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E7%94%9F%E4%BA%A7%E8%80%85%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF"><span class="toc-number">4.4.6.</span> <span class="toc-text">3.6　生产者发送消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF"><span class="toc-number">4.4.7.</span> <span class="toc-text">3.7　消费者消费消息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%BA%94%EF%BC%89Kafka%E5%9C%A8zookeeper%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">5.</span> <span class="toc-text">Kafka学习之路 （五）Kafka在zookeeper中的存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Kafka%E5%9C%A8zookeeper%E4%B8%AD%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="toc-number">5.1.</span> <span class="toc-text">一、Kafka在zookeeper中存储结构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%88%86%E6%9E%90"><span class="toc-number">5.2.</span> <span class="toc-text">二、分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-topic%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.1.</span> <span class="toc-text">2.1　topic注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-partition%E7%8A%B6%E6%80%81%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.2.</span> <span class="toc-text">2.2　partition状态信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Broker%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.3.</span> <span class="toc-text">2.3　Broker注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Controller-epoch"><span class="toc-number">5.2.4.</span> <span class="toc-text">2.4　Controller epoch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Controller%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.5.</span> <span class="toc-text">2.5　Controller注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E8%A1%A5%E5%85%85Consumer-and-Consumer-group"><span class="toc-number">5.2.6.</span> <span class="toc-text">2.6　补充Consumer and Consumer group</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-Consumer%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95"><span class="toc-number">5.2.7.</span> <span class="toc-text">2.7　Consumer均衡算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-Consumer%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.8.</span> <span class="toc-text">2.8　Consumer注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-Consumer-owner"><span class="toc-number">5.2.9.</span> <span class="toc-text">2.9　Consumer owner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-10-Consumer-offset"><span class="toc-number">5.2.10.</span> <span class="toc-text">2.10　Consumer offset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-11-Re-assign-partitions"><span class="toc-number">5.2.11.</span> <span class="toc-text">2.11　Re-assign partitions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-12-Preferred-replication-election"><span class="toc-number">5.2.12.</span> <span class="toc-text">2.12　Preferred replication election</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-13-%E5%88%A0%E9%99%A4topics"><span class="toc-number">5.2.13.</span> <span class="toc-text">2.13　删除topics</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-14-Topic%E9%85%8D%E7%BD%AE"><span class="toc-number">5.2.14.</span> <span class="toc-text">2.14　Topic配置</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Kafka学习之路-（一）Kafka的简介"><a href="#Kafka学习之路-（一）Kafka的简介" class="headerlink" title="Kafka学习之路 （一）Kafka的简介"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html">Kafka学习之路 （一）Kafka的简介</a></h1><p><strong>目录</strong></p>
+<ul>
+<li>一、简介<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label0_0">1.1　概述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label0_1">1.2　消息系统介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label0_2">1.3　点对点消息传递模式</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label0_3">1.4　发布-订阅消息传递模式</a></li>
+</ul>
+</li>
+<li>二、Kafka的优点<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_0">2.1　解耦</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_1">2.2　冗余（副本）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_2">2.3　扩展性</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_3">2.4　灵活性&amp;峰值处理能力</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_4">2.5　可恢复性</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_5">2.6　顺序保证</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_6">2.7　缓冲</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label1_7">2.8　异步通信</a></li>
+</ul>
+</li>
+<li>三、常用Message Queue对比<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label2_0">3.1　RabbitMQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label2_1">3.2　Redis</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label2_2">3.3　ZeroMQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label2_3">3.4　ActiveMQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label2_4">3.5　Kafka/Jafka</a></li>
+</ul>
+</li>
+<li>四、Kafka中的术语解释<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_0">4.1　概述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_1">4.2　broker</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_2">4.3　Topic</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_3">4.3　Partition</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_4">4.4　Producer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_5">4.5　Consumer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_6">4.6　Consumer Group</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_7">4.7　Leader</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_label3_8">4.8　Follower</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>正文</strong></p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507184834852-1994140834.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_labelTop">回到顶部</a></p>
+<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><h3 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1　概述"></a>1.1　概述</h3><p>Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统（也可以当做MQ系统），常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
+<p>主要应用场景是：日志收集系统和消息系统。</p>
+<p>Kafka主要设计目标如下：</p>
+<ul>
+<li>以时间复杂度为O(1)的方式提供消息持久化能力，即使对TB级以上数据也能保证常数时间的访问性能。</li>
+<li>高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输。</li>
+<li>支持Kafka Server间的消息分区，及分布式消费，同时保证每个partition内的消息顺序传输。</li>
+<li>同时支持离线数据处理和实时数据处理。</li>
+<li>Scale out:支持在线水平扩展</li>
+</ul>
+<h3 id="1-2-消息系统介绍"><a href="#1-2-消息系统介绍" class="headerlink" title="1.2　消息系统介绍"></a>1.2　消息系统介绍</h3><p>一个消息系统负责将数据从一个应用传递到另外一个应用，应用只需关注于数据，无需关注数据在两个或多个应用间是如何传递的。分布式消息传递基于可靠的消息队列，在客户端应用和消息系统之间异步传递消息。有两种主要的消息传递模式：<strong>点对点传递模式、发布-订阅模式</strong>。大部分的消息系统选用发布-订阅模式。<strong>Kafka就是一种发布-订阅模式</strong>。</p>
+<h3 id="1-3-点对点消息传递模式"><a href="#1-3-点对点消息传递模式" class="headerlink" title="1.3　点对点消息传递模式"></a>1.3　点对点消息传递模式</h3><p>在点对点消息系统中，消息持久化到一个队列中。此时，将有一个或多个消费者消费队列中的数据。但是一条消息只能被消费一次。当一个消费者消费了队列中的某条数据之后，该条数据则从消息队列中删除。该模式即使有多个消费者同时消费数据，也能保证数据处理的顺序。这种架构描述示意图如下：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507190326476-771565746.png" alt="img"></p>
+<p><strong>生产者发送一条消息到queue，只有一个消费者能收到</strong>。</p>
+<h3 id="1-4-发布-订阅消息传递模式"><a href="#1-4-发布-订阅消息传递模式" class="headerlink" title="1.4　发布-订阅消息传递模式"></a>1.4　发布-订阅消息传递模式</h3><p>在发布-订阅消息系统中，消息被持久化到一个topic中。与点对点消息系统不同的是，消费者可以订阅一个或多个topic，消费者可以消费该topic中所有的数据，同一条数据可以被多个消费者消费，数据被消费后不会立马删除。在发布-订阅消息系统中，消息的生产者称为发布者，消费者称为订阅者。该模式的示例图如下：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507190443404-1266011458.png" alt="img"></p>
+<p><strong>发布者发送到topic的消息，只有订阅了topic的订阅者才会收到消息</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_labelTop">回到顶部</a></p>
+<h2 id="二、Kafka的优点"><a href="#二、Kafka的优点" class="headerlink" title="二、Kafka的优点"></a>二、Kafka的优点</h2><h3 id="2-1-解耦"><a href="#2-1-解耦" class="headerlink" title="2.1　解耦"></a>2.1　解耦</h3><p>在项目启动之初来预测将来项目会碰到什么需求，是极其困难的。消息系统在处理过程中间插入了一个隐含的、基于数据的接口层，两边的处理过程都要实现这一接口。这允许你独立的扩展或修改两边的处理过程，只要确保它们遵守同样的接口约束。</p>
+<h3 id="2-2-冗余（副本）"><a href="#2-2-冗余（副本）" class="headerlink" title="2.2　冗余（副本）"></a>2.2　冗余（副本）</h3><p>有些情况下，处理数据的过程会失败。除非数据被持久化，否则将造成丢失。消息队列把数据进行持久化直到它们已经被完全处理，通过这一方式规避了数据丢失风险。许多消息队列所采用的”插入-获取-删除”范式中，在把一个消息从队列中删除之前，需要你的处理系统明确的指出该消息已经被处理完毕，从而确保你的数据被安全的保存直到你使用完毕。</p>
+<h3 id="2-3-扩展性"><a href="#2-3-扩展性" class="headerlink" title="2.3　扩展性"></a>2.3　扩展性</h3><p>因为消息队列解耦了你的处理过程，所以增大消息入队和处理的频率是很容易的，只要另外增加处理过程即可。不需要改变代码、不需要调节参数。扩展就像调大电力按钮一样简单。</p>
+<h3 id="2-4-灵活性-amp-峰值处理能力"><a href="#2-4-灵活性-amp-峰值处理能力" class="headerlink" title="2.4　灵活性&amp;峰值处理能力"></a>2.4　灵活性&amp;峰值处理能力</h3><p>在访问量剧增的情况下，应用仍然需要继续发挥作用，但是这样的突发流量并不常见；如果为以能处理这类峰值访问为标准来投入资源随时待命无疑是巨大的浪费。使用消息队列能够使关键组件顶住突发的访问压力，而不会因为突发的超负荷的请求而完全崩溃。</p>
+<h3 id="2-5-可恢复性"><a href="#2-5-可恢复性" class="headerlink" title="2.5　可恢复性"></a>2.5　可恢复性</h3><p>系统的一部分组件失效时，不会影响到整个系统。消息队列降低了进程间的耦合度，所以即使一个处理消息的进程挂掉，加入队列中的消息仍然可以在系统恢复后被处理。</p>
+<h3 id="2-6-顺序保证"><a href="#2-6-顺序保证" class="headerlink" title="2.6　顺序保证"></a>2.6　顺序保证</h3><p>在大多使用场景下，数据处理的顺序都很重要。大部分消息队列本来就是排序的，并且能保证数据会按照特定的顺序来处理。Kafka保证一个Partition内的消息的有序性。</p>
+<h3 id="2-7-缓冲"><a href="#2-7-缓冲" class="headerlink" title="2.7　缓冲"></a>2.7　缓冲</h3><p>在任何重要的系统中，都会有需要不同的处理时间的元素。例如，加载一张图片比应用过滤器花费更少的时间。消息队列通过一个缓冲层来帮助任务最高效率的执行———写入队列的处理会尽可能的快速。该缓冲有助于控制和优化数据流经过系统的速度。</p>
+<h3 id="2-8-异步通信"><a href="#2-8-异步通信" class="headerlink" title="2.8　异步通信"></a>2.8　异步通信</h3><p>很多时候，用户不想也不需要立即处理消息。消息队列提供了异步处理机制，允许用户把一个消息放入队列，但并不立即处理它。想向队列中放入多少消息就放多少，然后在需要的时候再去处理它们。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_labelTop">回到顶部</a></p>
+<h2 id="三、常用Message-Queue对比"><a href="#三、常用Message-Queue对比" class="headerlink" title="三、常用Message Queue对比"></a>三、常用Message Queue对比</h2><h3 id="3-1-RabbitMQ"><a href="#3-1-RabbitMQ" class="headerlink" title="3.1　RabbitMQ"></a>3.1　RabbitMQ</h3><p>RabbitMQ是使用Erlang编写的一个开源的消息队列，本身支持很多的协议：AMQP，XMPP, SMTP,  STOMP，也正因如此，它非常重量级，更适合于企业级的开发。同时实现了Broker构架，这意味着消息在发送给客户端时先在中心队列排队。对路由，负载均衡或者数据持久化都有很好的支持。</p>
+<h3 id="3-2-Redis"><a href="#3-2-Redis" class="headerlink" title="3.2　Redis"></a>3.2　Redis</h3><p>Redis是一个基于Key-Value对的NoSQL数据库，开发维护很活跃。虽然它是一个Key-Value数据库存储系统，但它本身支持MQ功能，所以完全可以当做一个轻量级的队列服务来使用。对于RabbitMQ和Redis的入队和出队操作，各执行100万次，每10万次记录一次执行时间。测试数据分为128Bytes、512Bytes、1K和10K四个不同大小的数据。实验表明：入队时，当数据比较小时Redis的性能要高于RabbitMQ，而如果数据大小超过了10K，Redis则慢的无法忍受；出队时，无论数据大小，Redis都表现出非常好的性能，而RabbitMQ的出队性能则远低于Redis。</p>
+<h3 id="3-3-ZeroMQ"><a href="#3-3-ZeroMQ" class="headerlink" title="3.3　ZeroMQ"></a>3.3　ZeroMQ</h3><p>ZeroMQ号称最快的消息队列系统，尤其针对大吞吐量的需求场景。ZeroMQ能够实现RabbitMQ不擅长的高级/复杂的队列，但是开发人员需要自己组合多种技术框架，技术上的复杂度是对这MQ能够应用成功的挑战。ZeroMQ具有一个独特的非中间件的模式，你不需要安装和运行一个消息服务器或中间件，因为你的应用程序将扮演这个服务器角色。你只需要简单的引用ZeroMQ程序库，可以使用NuGet安装，然后你就可以愉快的在应用程序之间发送消息了。但是ZeroMQ仅提供非持久性的队列，也就是说如果宕机，数据将会丢失。其中，Twitter的Storm  0.9.0以前的版本中默认使用ZeroMQ作为数据流的传输（Storm从0.9版本开始同时支持ZeroMQ和Netty作为传输模块）。</p>
+<h3 id="3-4-ActiveMQ"><a href="#3-4-ActiveMQ" class="headerlink" title="3.4　ActiveMQ"></a>3.4　ActiveMQ</h3><p>ActiveMQ是Apache下的一个子项目。 类似于ZeroMQ，它能够以代理人和点对点的技术实现队列。同时类似于RabbitMQ，它少量代码就可以高效地实现高级应用场景。</p>
+<h3 id="3-5-Kafka-Jafka"><a href="#3-5-Kafka-Jafka" class="headerlink" title="3.5　Kafka/Jafka"></a>3.5　Kafka/Jafka</h3><p>Kafka是Apache下的一个子项目，是一个高性能跨语言分布式发布/订阅消息队列系统，而Jafka是在Kafka之上孵化而来的，即Kafka的一个升级版。具有以下特性：快速持久化，可以在O(1)的系统开销下进行消息持久化；高吞吐，在一台普通的服务器上既可以达到10W/s的吞吐速率；完全的分布式系统，Broker、Producer、Consumer都原生自动支持分布式，自动实现负载均衡；支持Hadoop数据并行加载，对于像Hadoop的一样的日志数据和离线分析系统，但又要求实时处理的限制，这是一个可行的解决方案。Kafka通过Hadoop的并行加载机制统一了在线和离线的消息处理。Apache  Kafka相对于ActiveMQ是一个非常轻量级的消息系统，除了性能非常好之外，还是一个工作良好的分布式系统。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004509.html#_labelTop">回到顶部</a></p>
+<h2 id="四、Kafka中的术语解释"><a href="#四、Kafka中的术语解释" class="headerlink" title="四、Kafka中的术语解释"></a>四、Kafka中的术语解释</h2><h3 id="4-1-概述"><a href="#4-1-概述" class="headerlink" title="4.1　概述"></a>4.1　概述</h3><p>在深入理解Kafka之前，先介绍一下Kafka中的术语。下图展示了Kafka的相关术语以及之间的关系：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507190731172-1317551019.png" alt="img"></p>
+<p>上图中一个topic配置了3个partition。Partition1有两个offset：0和1。Partition2有4个offset。Partition3有1个offset。副本的id和副本所在的机器的id恰好相同。</p>
+<p>如果一个topic的副本数为3，那么Kafka将在集群中为每个partition创建3个相同的副本。集群中的每个broker存储一个或多个partition。多个producer和consumer可同时生产和消费数据。</p>
+<h3 id="4-2-broker"><a href="#4-2-broker" class="headerlink" title="4.2　broker"></a>4.2　broker</h3><p>Kafka 集群包含一个或多个服务器，服务器节点称为broker。</p>
+<p>broker存储topic的数据。如果某topic有N个partition，集群有N个broker，那么每个broker存储该topic的一个partition。</p>
+<p>如果某topic有N个partition，集群有(N+M)个broker，那么其中有N个broker存储该topic的一个partition，剩下的M个broker不存储该topic的partition数据。</p>
+<p>如果某topic有N个partition，集群中broker数目少于N个，那么一个broker存储该topic的一个或多个partition。在实际生产环境中，尽量避免这种情况的发生，这种情况容易导致Kafka集群数据不均衡。</p>
+<h3 id="4-3-Topic"><a href="#4-3-Topic" class="headerlink" title="4.3　Topic"></a>4.3　Topic</h3><p>每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic。（物理上不同Topic的消息分开存储，逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）</p>
+<p>类似于数据库的表名</p>
+<h3 id="4-3-Partition"><a href="#4-3-Partition" class="headerlink" title="4.3　Partition"></a>4.3　<strong>Partition</strong></h3><p>topic中的数据分割为一个或多个partition。每个topic至少有一个partition。每个partition中的数据使用多个segment文件存储。partition中的数据是有序的，不同partition间的数据丢失了数据的顺序。如果topic有多个partition，消费数据时就不能保证数据的顺序。在需要严格保证消息的消费顺序的场景下，需要将partition数目设为1。</p>
+<h3 id="4-4-Producer"><a href="#4-4-Producer" class="headerlink" title="4.4　Producer"></a>4.4　Producer</h3><p>生产者即数据的发布者，该角色将消息发布到Kafka的topic中。broker接收到生产者发送的消息后，broker将该消息<strong>追加</strong>到当前用于追加数据的segment文件中。生产者发送的消息，存储到一个partition中，生产者也可以指定数据存储的partition。</p>
+<h3 id="4-5-Consumer"><a href="#4-5-Consumer" class="headerlink" title="4.5　Consumer"></a>4.5　Consumer</h3><p>消费者可以从broker中读取数据。消费者可以消费多个topic中的数据。</p>
+<h3 id="4-6-Consumer-Group"><a href="#4-6-Consumer-Group" class="headerlink" title="4.6　Consumer Group"></a>4.6　Consumer Group</h3><p>每个Consumer属于一个特定的Consumer Group（可为每个Consumer指定group name，若不指定group name则属于默认的group）。</p>
+<h3 id="4-7-Leader"><a href="#4-7-Leader" class="headerlink" title="4.7　Leader"></a>4.7　Leader</h3><p>每个partition有多个副本，其中有且仅有一个作为Leader，Leader是当前负责数据的读写的partition。</p>
+<h3 id="4-8-Follower"><a href="#4-8-Follower" class="headerlink" title="4.8　Follower"></a>4.8　Follower</h3><p>Follower跟随Leader，所有写请求都通过Leader路由，数据变更会广播给所有Follower，Follower与Leader保持数据同步。如果Leader失效，则从Follower中选举出一个新的Leader。当Follower与Leader挂掉、卡住或者同步太慢，leader会把这个follower从“in  sync replicas”（ISR）列表中删除，重新创建一个Follower。</p>
+<h1 id="Kafka学习之路-（二）Kafka的架构"><a href="#Kafka学习之路-（二）Kafka的架构" class="headerlink" title="Kafka学习之路 （二）Kafka的架构"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html">Kafka学习之路 （二）Kafka的架构</a></h1><p>讨论QQ：1586558083</p>
+<p><strong>目录</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_label0">一、Kafka的架构</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_label1">二、Topics和Partition</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_label2">三、Producer消息路由</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_label3">四、Consumer Group</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_label4">五、Push vs. Pull</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_label5">六、Kafka delivery guarantee</a></li>
+</ul>
+<p><strong>正文</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_labelTop">回到顶部</a></p>
+<h2 id="一、Kafka的架构"><a href="#一、Kafka的架构" class="headerlink" title="一、Kafka的架构"></a>一、Kafka的架构</h2><p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507192145249-1414897650.png" alt="img"></p>
+<p>如上图所示，一个典型的Kafka集群中包含若干Producer（可以是web前端产生的Page  View，或者是服务器日志，系统CPU、Memory等），若干broker（Kafka支持水平扩展，一般broker数量越多，集群吞吐率越高），若干Consumer  Group，以及一个Zookeeper集群。Kafka通过Zookeeper管理集群配置，选举leader，以及在Consumer  Group发生变化时进行rebalance。Producer使用push模式将消息发布到broker，Consumer使用pull模式从broker订阅并消费消息。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_labelTop">回到顶部</a></p>
+<h2 id="二、Topics和Partition"><a href="#二、Topics和Partition" class="headerlink" title="二、Topics和Partition"></a>二、Topics和Partition</h2><p>Topic在逻辑上可以被认为是一个queue，每条消费都必须指定它的Topic，可以简单理解为必须指明把这条消息放进哪个queue里。为了使得Kafka的吞吐率可以线性提高，物理上把Topic分成一个或多个Partition，每个Partition在物理上对应一个文件夹，该文件夹下存储这个Partition的所有消息和索引文件。创建一个topic时，同时可以指定分区数目，分区数越多，其吞吐量也越大，但是需要的资源也越多，同时也会导致更高的不可用性，kafka在接收到生产者发送的消息之后，会根据均衡策略将消息存储到不同的分区中。因为每条消息都被append到该Partition中，属于顺序写磁盘，因此效率非常高（经验证，顺序写磁盘效率比随机写内存还要高，这是Kafka高吞吐率的一个很重要的保证）。</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507192840409-1435311830.png" alt="img"></p>
+<p>对于传统的message  queue而言，一般会删除已经被消费的消息，而Kafka集群会保留所有的消息，无论其被消费与否。当然，因为磁盘限制，不可能永久保留所有数据（实际上也没必要），因此Kafka提供两种策略删除旧数据。一是基于时间，二是基于Partition文件大小。例如可以通过配置$KAFKA_HOME/config/server.properties，让Kafka删除一周前的数据，也可在Partition文件超过1GB时删除旧数据，配置如下所示：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># The minimum age of a log file to be eligible for deletion</span><br><span class="line">log.retention.hours=168</span><br><span class="line"># The maximum size of a log segment file. When this size is reached a new log segment will be created.</span><br><span class="line">log.segment.bytes=1073741824</span><br><span class="line"># The interval at which log segments are checked to see if they can be deleted according to the retention policies</span><br><span class="line">log.retention.check.interval.ms=300000</span><br><span class="line"># If log.cleaner.enable=true is set the cleaner will be enabled and individual logs can then be marked for log compaction.</span><br><span class="line">log.cleaner.enable=false</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>因为Kafka读取特定消息的时间复杂度为O(1)，即与文件大小无关，所以这里删除过期文件与提高Kafka性能无关。选择怎样的删除策略只与磁盘以及具体的需求有关。另外，Kafka会为每一个Consumer   Group保留一些metadata信息——当前消费的消息的position，也即offset。这个offset由Consumer控制。正常情况下Consumer会在消费完一条消息后递增该offset。当然，Consumer也可将offset设成一个较小的值，重新消费一些消息。因为offet由Consumer控制，所以Kafka  broker是无状态的，它不需要标记哪些消息被哪些消费过，也不需要通过broker去保证同一个Consumer  Group只有一个Consumer能消费某一条消息，因此也就不需要锁机制，这也为Kafka的高吞吐率提供了有力保障。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_labelTop">回到顶部</a></p>
+<h2 id="三、Producer消息路由"><a href="#三、Producer消息路由" class="headerlink" title="三、Producer消息路由"></a>三、Producer消息路由</h2><p>Producer发送消息到broker时，会根据Paritition机制选择将其存储到哪一个Partition。如果Partition机制设置合理，所有消息可以均匀分布到不同的Partition里，这样就实现了负载均衡。如果一个Topic对应一个文件，那这个文件所在的机器I/O将会成为这个Topic的性能瓶颈，而有了Partition后，不同的消息可以并行写入不同broker的不同Partition里，极大的提高了吞吐率。可以在$KAFKA_HOME/config/server.properties中通过配置项num.partitions来指定新建Topic的默认Partition数量，也可在创建Topic时通过参数指定，同时也可以在Topic创建之后通过Kafka提供的工具修改。</p>
+<p>在发送一条消息时，可以指定这条消息的key，Producer根据这个key和Partition机制来判断应该将这条消息发送到哪个Parition。Paritition机制可以通过指定Producer的paritition.  class这一参数来指定，该class必须实现kafka.producer.Partitioner接口。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_labelTop">回到顶部</a></p>
+<h2 id="四、Consumer-Group"><a href="#四、Consumer-Group" class="headerlink" title="四、Consumer Group"></a>四、Consumer Group</h2><p>使用Consumer high level API时，同一Topic的一条消息只能被同一个Consumer Group内的一个Consumer消费，但多个Consumer Group可同时消费这一消息。</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507193553697-2141118410.png" alt="img"></p>
+<p>这是Kafka用来实现一个Topic消息的广播（发给所有的Consumer）和单播（发给某一个Consumer）的手段。一个Topic可以对应多个Consumer   Group。如果需要实现广播，只要每个Consumer有一个独立的Group就可以了。要实现单播只要所有的Consumer在同一个Group里。用Consumer  Group还可以将Consumer进行自由的分组而不需要多次发送消息到不同的Topic。</p>
+<p>实际上，Kafka的设计理念之一就是同时提供离线处理和实时处理。根据这一特性，可以使用Storm这种实时流处理系统对消息进行实时在线处理，同时使用Hadoop这种批处理系统进行离线处理，还可以同时将数据实时备份到另一个数据中心，只需要保证这三个操作所使用的Consumer属于不同的Consumer  Group即可。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_labelTop">回到顶部</a></p>
+<h2 id="五、Push-vs-Pull"><a href="#五、Push-vs-Pull" class="headerlink" title="五、Push vs. Pull"></a>五、Push vs. Pull</h2><p>作为一个消息系统，Kafka遵循了传统的方式，选择由Producer向broker push消息并由Consumer从broker  pull消息。一些logging-centric  system，比如Facebook的Scribe和Cloudera的Flume，采用push模式。事实上，push模式和pull模式各有优劣。</p>
+<p>push模式很难适应消费速率不同的消费者，因为消息发送速率是由broker决定的。push模式的目标是尽可能以最快速度传递消息，但是这样很容易造成Consumer来不及处理消息，典型的表现就是拒绝服务以及网络拥塞。而pull模式则可以根据Consumer的消费能力以适当的速率消费消息。</p>
+<p>对于Kafka而言，pull模式更合适。pull模式可简化broker的设计，Consumer可自主控制消费消息的速率，同时Consumer可以自己控制消费方式——即可批量消费也可逐条消费，同时还能选择不同的提交方式从而实现不同的传输语义。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004593.html#_labelTop">回到顶部</a></p>
+<h2 id="六、Kafka-delivery-guarantee"><a href="#六、Kafka-delivery-guarantee" class="headerlink" title="六、Kafka delivery guarantee"></a>六、Kafka delivery guarantee</h2><p>有这么几种可能的delivery guarantee：</p>
+<blockquote>
+<p>At most once 　　消息可能会丢，但绝不会重复传输</p>
+<p>At least one 　　  消息绝不会丢，但可能会重复传输</p>
+<p>Exactly once 　　 每条消息肯定会被传输一次且仅传输一次，很多时候这是用户所想要的。</p>
+</blockquote>
+<p>当Producer向broker发送消息时，一旦这条消息被commit，因数replication的存在，它就不会丢。但是如果Producer发送数据给broker后，遇到网络问题而造成通信中断，那Producer就无法判断该条消息是否已经commit。虽然Kafka无法确定网络故障期间发生了什么，但是Producer可以生成一种类似于主键的东西，发生故障时幂等性的重试多次，这样就做到了Exactly  once。</p>
+<p>接下来讨论的是消息从broker到Consumer的delivery guarantee语义。（仅针对Kafka consumer  high level  API）。Consumer在从broker读取消息后，可以选择commit，该操作会在Zookeeper中保存该Consumer在该Partition中读取的消息的offset。该Consumer下一次再读该Partition时会从下一条开始读取。如未commit，下一次读取的开始位置会跟上一次commit之后的开始位置相同。当然可以将Consumer设置为autocommit，即Consumer一旦读到数据立即自动commit。如果只讨论这一读取消息的过程，那Kafka是确保了Exactly   once。但实际使用中应用程序并非在Consumer读取完数据就结束了，而是要进行进一步处理，而数据处理与commit的顺序在很大程度上决定了消息从broker和consumer的delivery  guarantee semantic。</p>
+<p><strong>Kafka默认保证At least once</strong>，并且允许通过设置Producer异步提交来实现At most once。而Exactly once要求与外部存储系统协作，幸运的是Kafka提供的offset可以非常直接非常容易得使用这种方式。</p>
+<h1 id="Kafka学习之路-（三）Kafka的高可用"><a href="#Kafka学习之路-（三）Kafka的高可用" class="headerlink" title="Kafka学习之路 （三）Kafka的高可用"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html">Kafka学习之路 （三）Kafka的高可用</a></h1><p>讨论QQ：1586558083</p>
+<p><strong>目录</strong></p>
+<ul>
+<li>一、高可用的由来<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label0_0">1.1　为何需要Replication</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label0_1">1.2　Leader Election</a></li>
+</ul>
+</li>
+<li>二、Kafka HA设计解析<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label1_0">2.1　如何将所有Replica均匀分布到整个集群</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label1_1">2.2　Data Replication（副本策略）</a></li>
+</ul>
+</li>
+<li>三、HA相关ZooKeeper结构<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label2_0">3.1　admin</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label2_1">3.2　broker</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label2_2">3.3　controller</a></li>
+</ul>
+</li>
+<li>四、producer发布消息<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label3_0">4.1　写入方式</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label3_1">4.2　消息路由</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label3_2">4.3　写入流程</a></li>
+</ul>
+</li>
+<li>五、broker保存消息<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label4_0">5.1　存储方式</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label4_1">5.2　存储策略</a></li>
+</ul>
+</li>
+<li>六、Topic的创建和删除<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label5_0">6.1　创建topic</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label5_1">6.2　删除topic</a></li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label6">七、broker failover</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_label7">八、controller failover</a></li>
+</ul>
+<p><strong>正文</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="一、高可用的由来"><a href="#一、高可用的由来" class="headerlink" title="一、高可用的由来"></a>一、高可用的由来</h2><h3 id="1-1-为何需要Replication"><a href="#1-1-为何需要Replication" class="headerlink" title="1.1　为何需要Replication"></a>1.1　为何需要Replication</h3><p>　　在Kafka在0.8以前的版本中，是没有Replication的，一旦某一个Broker宕机，则其上所有的Partition数据都不可被消费，这与Kafka数据持久性及Delivery  Guarantee的设计目标相悖。同时Producer都不能再将数据存于这些Partition中。</p>
+<p>　　如果Producer使用同步模式则Producer会在尝试重新发送message.send.max.retries（默认值为3）次后抛出Exception，用户可以选择停止发送后续数据也可选择继续选择发送。而前者会造成数据的阻塞，后者会造成本应发往该Broker的数据的丢失。</p>
+<p>　　如果Producer使用异步模式，则Producer会尝试重新发送message.send.max.retries（默认值为3）次后记录该异常并继续发送后续数据，这会造成数据丢失并且用户只能通过日志发现该问题。同时，Kafka的Producer并未对异步模式提供callback接口。</p>
+<p>　　由此可见，在没有Replication的情况下，一旦某机器宕机或者某个Broker停止工作则会造成整个系统的可用性降低。随着集群规模的增加，整个集群中出现该类异常的几率大大增加，因此对于生产系统而言Replication机制的引入非常重要。</p>
+<h3 id="1-2-Leader-Election"><a href="#1-2-Leader-Election" class="headerlink" title="1.2　Leader Election"></a>1.2　Leader Election</h3><p>　　引入Replication之后，同一个Partition可能会有多个Replica，而这时需要在这些Replication之间选出一个Leader，Producer和Consumer只与这个Leader交互，其它Replica作为Follower从Leader中复制数据。</p>
+<p>　　因为需要保证同一个Partition的多个Replica之间的数据一致性（其中一个宕机后其它Replica必须要能继续服务并且即不能造成数据重复也不能造成数据丢失）。如果没有一个Leader，所有Replica都可同时读/写数据，那就需要保证多个Replica之间互相（N×N条通路）同步数据，数据的一致性和有序性非常难保证，大大增加了Replication实现的复杂性，同时也增加了出现异常的几率。而引入Leader后，只有Leader负责数据读写，Follower只向Leader顺序Fetch数据（N条通路），系统更加简单且高效。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="二、Kafka-HA设计解析"><a href="#二、Kafka-HA设计解析" class="headerlink" title="二、Kafka HA设计解析"></a>二、Kafka HA设计解析</h2><h3 id="2-1-如何将所有Replica均匀分布到整个集群"><a href="#2-1-如何将所有Replica均匀分布到整个集群" class="headerlink" title="2.1　如何将所有Replica均匀分布到整个集群"></a>2.1　如何将所有Replica均匀分布到整个集群</h3><p>为了更好的做负载均衡，Kafka尽量将所有的Partition均匀分配到整个集群上。一个典型的部署方式是一个Topic的Partition数量大于Broker的数量。同时为了提高Kafka的容错能力，也需要将同一个Partition的Replica尽量分散到不同的机器。实际上，如果所有的Replica都在同一个Broker上，那一旦该Broker宕机，该Partition的所有Replica都无法工作，也就达不到HA的效果。同时，如果某个Broker宕机了，需要保证它上面的负载可以被均匀的分配到其它幸存的所有Broker上。</p>
+<p>Kafka分配Replica的算法如下：</p>
+<p>1.将所有Broker（假设共n个Broker）和待分配的Partition排序</p>
+<p>2.将第i个Partition分配到第（i mod n）个Broker上</p>
+<p>3.将第i个Partition的第j个Replica分配到第（(i + j) mode n）个Broker上</p>
+<h3 id="2-2-Data-Replication（副本策略）"><a href="#2-2-Data-Replication（副本策略）" class="headerlink" title="2.2　Data Replication（副本策略）"></a>2.2　Data Replication（副本策略）</h3><p>Kafka的高可靠性的保障来源于其健壮的副本（replication）策略。</p>
+<h4 id="2-2-1-消息传递同步策略"><a href="#2-2-1-消息传递同步策略" class="headerlink" title="2.2.1　消息传递同步策略"></a>2.2.1　消息传递同步策略</h4><p>Producer在发布消息到某个Partition时，先通过ZooKeeper找到该Partition的Leader，然后无论该Topic的Replication   Factor为多少，Producer只将该消息发送到该Partition的Leader。Leader会将该消息写入其本地Log。每个Follower都从Leader   pull数据。这种方式上，Follower存储的数据顺序与Leader保持一致。Follower在收到该消息并写入其Log后，向Leader发送ACK。一旦Leader收到了ISR中的所有Replica的ACK，该消息就被认为已经commit了，Leader将增加HW并且向Producer发送ACK。</p>
+<p>为了提高性能，每个Follower在接收到数据后就立马向Leader发送ACK，而非等到数据写入Log中。因此，对于已经commit的消息，Kafka只能保证它被存于多个Replica的内存中，而不能保证它们被持久化到磁盘中，也就不能完全保证异常发生后该条消息一定能被Consumer消费。</p>
+<p>Consumer读消息也是从Leader读取，只有被commit过的消息才会暴露给Consumer。</p>
+<p>Kafka Replication的数据流如下图所示：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507194612622-1788087919.png" alt="img"></p>
+<h4 id="2-2-2-ACK前需要保证有多少个备份"><a href="#2-2-2-ACK前需要保证有多少个备份" class="headerlink" title="2.2.2　ACK前需要保证有多少个备份"></a>2.2.2　ACK前需要保证有多少个备份</h4><p>对于Kafka而言，定义一个Broker是否“活着”包含两个条件：</p>
+<ul>
+<li>一是它必须维护与ZooKeeper的session（这个通过ZooKeeper的Heartbeat机制来实现）。</li>
+<li>二是Follower必须能够及时将Leader的消息复制过来，不能“落后太多”。</li>
+</ul>
+<p>Leader会跟踪与其保持同步的Replica列表，该列表称为ISR（即in-sync  Replica）。如果一个Follower宕机，或者落后太多，Leader将把它从ISR中移除。这里所描述的“落后太多”指Follower复制的消息落后于Leader后的条数超过预定值（该值可在$KAFKA_HOME/config/server.properties中通过replica.lag.max.messages配置，其默认值是4000）或者Follower超过一定时间（该值可在$KAFKA_HOME/config/server.properties中通过replica.lag.time.max.ms来配置，其默认值是10000）未向Leader发送fetch请求。</p>
+<p>Kafka的复制机制既不是完全的同步复制，也不是单纯的异步复制。事实上，完全同步复制要求所有能工作的Follower都复制完，这条消息才会被认为commit，这种复制方式极大的影响了吞吐率（高吞吐率是Kafka非常重要的一个特性）。而异步复制方式下，Follower异步的从Leader复制数据，数据只要被Leader写入log就被认为已经commit，这种情况下如果Follower都复制完都落后于Leader，而如果Leader突然宕机，则会丢失数据。而Kafka的这种使用ISR的方式则很好的均衡了确保数据不丢失以及吞吐率。Follower可以批量的从Leader复制数据，这样极大的提高复制性能（批量写磁盘），极大减少了Follower与Leader的差距。</p>
+<p>需要说明的是，Kafka只解决fail/recover，不处理“Byzantine”（“拜占庭”）问题。一条消息只有被ISR里的所有Follower都从Leader复制过去才会被认为已提交。这样就避免了部分数据被写进了Leader，还没来得及被任何Follower复制就宕机了，而造成数据丢失（Consumer无法消费这些数据）。而对于Producer而言，它可以选择是否等待消息commit，这可以通过request.required.acks来设置。这种机制确保了只要ISR有一个或以上的Follower，一条被commit的消息就不会丢失。</p>
+<h4 id="2-2-3-Leader-Election算法"><a href="#2-2-3-Leader-Election算法" class="headerlink" title="2.2.3　Leader Election算法"></a>2.2.3　Leader Election算法</h4><p>Leader选举本质上是一个分布式锁，有两种方式实现基于ZooKeeper的分布式锁：</p>
+<ul>
+<li>节点名称唯一性：多个客户端创建一个节点，只有成功创建节点的客户端才能获得锁</li>
+<li>临时顺序节点：所有客户端在某个目录下创建自己的临时顺序节点，只有序号最小的才获得锁</li>
+</ul>
+<p>一种非常常用的选举leader的方式是“Majority  Vote”（“少数服从多数”），但Kafka并未采用这种方式。这种模式下，如果我们有2f+1个Replica（包含Leader和Follower），那在commit之前必须保证有f+1个Replica复制完消息，为了保证正确选出新的Leader，fail的Replica不能超过f个。因为在剩下的任意f+1个Replica里，至少有一个Replica包含有最新的所有消息。这种方式有个很大的优势，系统的latency只取决于最快的几个Broker，而非最慢那个。Majority  Vote也有一些劣势，为了保证Leader  Election的正常进行，它所能容忍的fail的follower个数比较少。如果要容忍1个follower挂掉，必须要有3个以上的Replica，如果要容忍2个Follower挂掉，必须要有5个以上的Replica。也就是说，在生产环境下为了保证较高的容错程度，必须要有大量的Replica，而大量的Replica又会在大数据量下导致性能的急剧下降。这就是这种算法更多用在ZooKeeper这种共享集群配置的系统中而很少在需要存储大量数据的系统中使用的原因。例如HDFS的HA  Feature是基于majority-vote-based journal，但是它的数据存储并没有使用这种方式。</p>
+<p>Kafka在ZooKeeper中动态维护了一个ISR（in-sync  replicas），这个ISR里的所有Replica都跟上了leader，只有ISR里的成员才有被选为Leader的可能。在这种模式下，对于f+1个Replica，一个Partition能在保证不丢失已经commit的消息的前提下容忍f个Replica的失败。在大多数使用场景中，这种模式是非常有利的。事实上，为了容忍f个Replica的失败，Majority  Vote和ISR在commit前需要等待的Replica数量是一样的，但是ISR需要的总的Replica的个数几乎是Majority  Vote的一半。</p>
+<p>虽然Majority Vote与ISR相比有不需等待最慢的Broker这一优势，但是Kafka作者认为Kafka可以通过Producer选择是否被commit阻塞来改善这一问题，并且节省下来的Replica和磁盘使得ISR模式仍然值得。</p>
+<h4 id="2-2-4-如何处理所有Replica都不工作"><a href="#2-2-4-如何处理所有Replica都不工作" class="headerlink" title="2.2.4　如何处理所有Replica都不工作"></a>2.2.4　如何处理所有Replica都不工作</h4><p>在ISR中至少有一个follower时，Kafka可以确保已经commit的数据不丢失，但如果某个Partition的所有Replica都宕机了，就无法保证数据不丢失了。这种情况下有两种可行的方案：</p>
+<p>1.等待ISR中的任一个Replica“活”过来，并且选它作为Leader</p>
+<p>2.选择第一个“活”过来的Replica（不一定是ISR中的）作为Leader</p>
+<p>这就需要在可用性和一致性当中作出一个简单的折衷。如果一定要等待ISR中的Replica“活”过来，那不可用的时间就可能会相对较长。而且如果ISR中的所有Replica都无法“活”过来了，或者数据都丢失了，这个Partition将永远不可用。选择第一个“活”过来的Replica作为Leader，而这个Replica不是ISR中的Replica，那即使它并不保证已经包含了所有已commit的消息，它也会成为Leader而作为consumer的数据源（前文有说明，所有读写都由Leader完成）。Kafka0.8.*使用了第二种方式。根据Kafka的文档，在以后的版本中，Kafka支持用户通过配置选择这两种方式中的一种，从而根据不同的使用场景选择高可用性还是强一致性。</p>
+<h4 id="2-2-5-选举Leader"><a href="#2-2-5-选举Leader" class="headerlink" title="2.2.5　选举Leader"></a>2.2.5　选举Leader</h4><p>最简单最直观的方案是，所有Follower都在ZooKeeper上设置一个Watch，一旦Leader宕机，其对应的ephemeral  znode会自动删除，此时所有Follower都尝试创建该节点，而创建成功者（ZooKeeper保证只有一个能创建成功）即是新的Leader，其它Replica即为Follower。</p>
+<p>但是该方法会有3个问题：</p>
+<p>1.split-brain 这是由ZooKeeper的特性引起的，虽然ZooKeeper能保证所有Watch按顺序触发，但并不能保证同一时刻所有Replica“看”到的状态是一样的，这就可能造成不同Replica的响应不一致</p>
+<p>2.herd effect 如果宕机的那个Broker上的Partition比较多，会造成多个Watch被触发，造成集群内大量的调整</p>
+<p>3.ZooKeeper负载过重 每个Replica都要为此在ZooKeeper上注册一个Watch，当集群规模增加到几千个Partition时ZooKeeper负载会过重。</p>
+<p>Kafka 0.8.*的Leader  Election方案解决了上述问题，它在所有broker中选出一个controller，所有Partition的Leader选举都由controller决定。controller会将Leader的改变直接通过RPC的方式（比ZooKeeper  Queue的方式更高效）通知需为为此作为响应的Broker。同时controller也负责增删Topic以及Replica的重新分配。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="三、HA相关ZooKeeper结构"><a href="#三、HA相关ZooKeeper结构" class="headerlink" title="三、HA相关ZooKeeper结构"></a>三、HA相关ZooKeeper结构</h2><p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507195223218-1719228508.png" alt="img"></p>
+<h3 id="3-1-admin"><a href="#3-1-admin" class="headerlink" title="3.1　admin"></a>3.1　admin</h3><p>该目录下znode只有在有相关操作时才会存在，操作结束时会将其删除</p>
+<p>/admin/reassign_partitions用于将一些Partition分配到不同的broker集合上。对于每个待重新分配的Partition，Kafka会在该znode上存储其所有的Replica和相应的Broker  id。该znode由管理进程创建并且一旦重新分配成功它将会被自动移除。</p>
+<h3 id="3-2-broker"><a href="#3-2-broker" class="headerlink" title="3.2　broker"></a>3.2　broker</h3><p>即/brokers/ids/[brokerId]）存储“活着”的broker信息。</p>
+<p>topic注册信息（/brokers/topics/[topic]），存储该topic的所有partition的所有replica所在的broker  id，第一个replica即为preferred  replica，对一个给定的partition，它在同一个broker上最多只有一个replica,因此broker id可作为replica  id。</p>
+<h3 id="3-3-controller"><a href="#3-3-controller" class="headerlink" title="3.3　controller"></a>3.3　controller</h3><p>/controller -&gt; int (broker id of the controller)存储当前controller的信息</p>
+<p>/controller_epoch -&gt; int (epoch)直接以整数形式存储controller epoch，而非像其它znode一样以JSON字符串形式存储。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="四、producer发布消息"><a href="#四、producer发布消息" class="headerlink" title="四、producer发布消息"></a>四、<strong>producer发布消息</strong></h2><h3 id="4-1-写入方式"><a href="#4-1-写入方式" class="headerlink" title="4.1　写入方式"></a>4.1　写入方式</h3><p>producer 采用 push 模式将消息发布到 broker，每条消息都被 append 到 patition 中，属于顺序写磁盘（顺序写磁盘效率比随机写内存要高，保障 kafka 吞吐率）。</p>
+<h3 id="4-2-消息路由"><a href="#4-2-消息路由" class="headerlink" title="4.2　消息路由"></a>4.2　消息路由</h3><p>producer 发送消息到 broker 时，会根据分区算法选择将其存储到哪一个 partition。其路由机制为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、 指定了 patition，则直接使用；</span><br><span class="line">2、 未指定 patition 但指定 key，通过对 key 的 value 进行hash 选出一个 patition</span><br><span class="line">3、 patition 和 key 都未指定，使用轮询选出一个 patition。</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-3-写入流程"><a href="#4-3-写入流程" class="headerlink" title="4.3　写入流程"></a>4.3　写入流程</h3><p>producer 写入消息序列图如下所示：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200019142-182025107.png" alt="img"></p>
+<p>流程说明：</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、 producer 先从 zookeeper 的 &quot;/brokers/.../state&quot; 节点找到该 partition 的 leader </span><br><span class="line">2、 producer 将消息发送给该 leader </span><br><span class="line">3、 leader 将消息写入本地 log </span><br><span class="line">4、 followers 从 leader pull 消息，写入本地 log 后 leader 发送 ACK </span><br><span class="line">5、 leader 收到所有 ISR 中的 replica 的 ACK 后，增加 HW（high watermark，最后 commit 的 offset） 并向 producer 发送 ACK</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="五、broker保存消息"><a href="#五、broker保存消息" class="headerlink" title="五、broker保存消息"></a>五、broker保存消息</h2><h3 id="5-1-存储方式"><a href="#5-1-存储方式" class="headerlink" title="5.1　存储方式"></a>5.1　存储方式</h3><p>物理上把 topic 分成一个或多个 patition（对应 server.properties 中的 num.partitions=3 配置），每个 patition 物理上对应一个文件夹（该文件夹存储该 patition 的所有消息和索引文件），如下：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200226759-1617322728.png" alt="img"></p>
+<h3 id="5-2-存储策略"><a href="#5-2-存储策略" class="headerlink" title="5.2　存储策略"></a>5.2　存储策略</h3><p>无论消息是否被消费，kafka 都会保留所有消息。有两种策略可以删除旧数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、 基于时间：log.retention.hours=168 </span><br><span class="line">2、 基于大小：log.retention.bytes=1073741824</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="六、Topic的创建和删除"><a href="#六、Topic的创建和删除" class="headerlink" title="六、Topic的创建和删除"></a>六、Topic的创建和删除</h2><h3 id="6-1-创建topic"><a href="#6-1-创建topic" class="headerlink" title="6.1　创建topic"></a>6.1　创建topic</h3><p>创建 topic 的序列图如下所示：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200343317-1340406332.png" alt="img"></p>
+<p>流程说明：</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、 controller 在 ZooKeeper 的 /brokers/topics 节点上注册 watcher，当 topic 被创建，则 controller 会通过 watch 得到该 topic 的 partition/replica 分配。</span><br><span class="line">2、 controller从 /brokers/ids 读取当前所有可用的 broker 列表，对于 set_p 中的每一个 partition：</span><br><span class="line">     2.1、 从分配给该 partition 的所有 replica（称为AR）中任选一个可用的 broker 作为新的 leader，并将AR设置为新的 ISR </span><br><span class="line">     2.2、 将新的 leader 和 ISR 写入 /brokers/topics/[topic]/partitions/[partition]/state </span><br><span class="line">3、 controller 通过 RPC 向相关的 broker 发送 LeaderAndISRRequest。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="6-2-删除topic"><a href="#6-2-删除topic" class="headerlink" title="6.2　删除topic"></a>6.2　删除topic</h3><p>删除 topic 的序列图如下所示：</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200533571-310409492.png" alt="img"></p>
+<p>流程说明：</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、 controller 在 zooKeeper 的 /brokers/topics 节点上注册 watcher，当 topic 被删除，则 controller 会通过 watch 得到该 topic 的 partition/replica 分配。 </span><br><span class="line">2、 若 delete.topic.enable=false，结束；否则 controller 注册在 /admin/delete_topics 上的 watch 被 fire，controller 通过回调向对应的 broker 发送 StopReplicaRequest。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="七、broker-failover"><a href="#七、broker-failover" class="headerlink" title="七、broker failover"></a>七、<strong>broker failover</strong></h2><p>kafka broker failover 序列图如下所示：</p>
+<p><strong><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507200729833-108400321.png" alt="img"></strong></p>
+<p>流程说明：</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、 controller 在 zookeeper 的 /brokers/ids/[brokerId] 节点注册 Watcher，当 broker 宕机时 zookeeper 会 fire watch</span><br><span class="line">2、 controller 从 /brokers/ids 节点读取可用broker </span><br><span class="line">3、 controller决定set_p，该集合包含宕机 broker 上的所有 partition </span><br><span class="line">4、 对 set_p 中的每一个 partition </span><br><span class="line">    4.1、 从/brokers/topics/[topic]/partitions/[partition]/state 节点读取 ISR </span><br><span class="line">    4.2、 决定新 leader </span><br><span class="line">    4.3、 将新 leader、ISR、controller_epoch 和 leader_epoch 等信息写入 state 节点</span><br><span class="line">5、 通过 RPC 向相关 broker 发送 leaderAndISRRequest 命令</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9004703.html#_labelTop">回到顶部</a></p>
+<h2 id="八、controller-failover"><a href="#八、controller-failover" class="headerlink" title="八、controller failover"></a>八、<strong>controller failover</strong></h2><p>当 controller 宕机时会触发 controller failover。每个 broker 都会在 zookeeper 的  “/controller” 节点注册 watcher，当 controller 宕机时 zookeeper 中的临时节点消失，所有存活的  broker 收到 fire 的通知，每个 broker 都尝试创建新的 controller path，只有一个竞选成功并当选为  controller。</p>
+<p>当新的 controller 当选时，会触发 KafkaController.onControllerFailover 方法，在该方法中完成如下操作：</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、 读取并增加 Controller Epoch。 </span><br><span class="line">2、 在 reassignedPartitions Patch(/admin/reassign_partitions) 上注册 watcher。 </span><br><span class="line">3、 在 preferredReplicaElection Path(/admin/preferred_replica_election) 上注册 watcher。 </span><br><span class="line">4、 通过 partitionStateMachine 在 broker Topics Patch(/brokers/topics) 上注册 watcher。 </span><br><span class="line">5、 若 delete.topic.enable=true（默认值是 false），则 partitionStateMachine 在 Delete Topic Patch(/admin/delete_topics) 上注册 watcher。 </span><br><span class="line">6、 通过 replicaStateMachine在 Broker Ids Patch(/brokers/ids)上注册Watch。 </span><br><span class="line">7、 初始化 ControllerContext 对象，设置当前所有 topic，“活”着的 broker 列表，所有 partition 的 leader 及 ISR等。 </span><br><span class="line">8、 启动 replicaStateMachine 和 partitionStateMachine。 </span><br><span class="line">9、 将 brokerState 状态设置为 RunningAsController。 </span><br><span class="line">10、 将每个 partition 的 Leadership 信息发送给所有“活”着的 broker。 </span><br><span class="line">11、 若 auto.leader.rebalance.enable=true（默认值是true），则启动 partition-rebalance 线程。 </span><br><span class="line">12、 若 delete.topic.enable=true 且Delete Topic Patch(/admin/delete_topics)中有值，则删除相应的Topic。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="Kafka学习之路-（四）Kafka的安装"><a href="#Kafka学习之路-（四）Kafka的安装" class="headerlink" title="Kafka学习之路 （四）Kafka的安装"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html">Kafka学习之路 （四）Kafka的安装</a></h1><p>讨论QQ：1586558083</p>
+<p><strong>目录</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label0">一、下载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label1">二、安装前提（zookeeper安装）</a></li>
+<li>三、安装<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label2_0">2.1　上传解压缩</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label2_1">2.2　修改配置文件</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label2_2">2.3　将kafka的安装包分发到其他节点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label2_3">2.4　创建软连接</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label2_4">2.5　修改环境变量</a></li>
+</ul>
+</li>
+<li>三、启动<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label3_0">3.1　首先启动zookeeper集群</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label3_1">3.2　启动Kafka集群服务</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label3_2">3.3　创建的topic</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label3_3">3.4　查看topic副本信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label3_4">3.5　查看已经创建的topic信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label3_5">3.6　生产者发送消息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_label3_6">3.7　消费者消费消息</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>正文</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_labelTop">回到顶部</a></p>
+<h2 id="一、下载"><a href="#一、下载" class="headerlink" title="一、下载"></a>一、下载</h2><p>下载地址：</p>
+<p><a target="_blank" rel="noopener" href="http://kafka.apache.org/downloads.html">http://kafka.apache.org/downloads.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://mirrors.hust.edu.cn/apache/">http://mirrors.hust.edu.cn/apache/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_labelTop">回到顶部</a></p>
+<h2 id="二、安装前提（zookeeper安装）"><a href="#二、安装前提（zookeeper安装）" class="headerlink" title="二、安装前提（zookeeper安装）"></a>二、安装前提（zookeeper安装）</h2><p>参考<a target="_blank" rel="noopener" href="http://www.cnblogs.com/qingyunzong/p/8634335.html#_label4_0">http://www.cnblogs.com/qingyunzong/p/8634335.html#_label4_0</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_labelTop">回到顶部</a></p>
+<h2 id="三、安装"><a href="#三、安装" class="headerlink" title="三、安装"></a>三、安装</h2><p>此处使用版本为kafka_2.11-0.8.2.0.tgz</p>
+<h3 id="2-1-上传解压缩"><a href="#2-1-上传解压缩" class="headerlink" title="2.1　上传解压缩"></a>2.1　上传解压缩</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 ~]$ tar -zxvf kafka_2.11-0.8.2.0.tgz -C apps</span><br><span class="line">[hadoop@hadoop1 ~]$ cd apps/</span><br><span class="line">[hadoop@hadoop1 apps]$ ln -s kafka_2.11-0.8.2.0/ kafka</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-2-修改配置文件"><a href="#2-2-修改配置文件" class="headerlink" title="2.2　修改配置文件"></a>2.2　修改配置文件</h3><p>进入kafka的安装配置目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 ~]$ cd apps/kafka/config/</span><br></pre></td></tr></table></figure>
+
+<p>主要关注：<strong>server.properties</strong> 这个文件即可，我们可以发现在目录下：</p>
+<p>有很多文件，这里可以发现有Zookeeper文件，我们可以根据Kafka内带的zk集群来启动，但是建议使用独立的zk集群</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180507205256986-826023478.png" alt="img"></p>
+<p>server.properties（<strong>broker.id和host.name每个节点都不相同</strong>）</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">//当前机器在集群中的唯一标识，和zookeeper的myid性质一样</span><br><span class="line">broker.id=0</span><br><span class="line">//当前kafka对外提供服务的端口默认是9092</span><br><span class="line">port=9092</span><br><span class="line">//这个参数默认是关闭的，在0.8.1有个bug，DNS解析问题，失败率的问题。</span><br><span class="line">host.name=hadoop1</span><br><span class="line">//这个是borker进行网络处理的线程数</span><br><span class="line">num.network.threads=3</span><br><span class="line">//这个是borker进行I/O处理的线程数</span><br><span class="line">num.io.threads=8</span><br><span class="line">//发送缓冲区buffer大小，数据不是一下子就发送的，先回存储到缓冲区了到达一定的大小后在发送，能提高性能</span><br><span class="line">socket.send.buffer.bytes=102400</span><br><span class="line">//kafka接收缓冲区大小，当数据到达一定大小后在序列化到磁盘</span><br><span class="line">socket.receive.buffer.bytes=102400</span><br><span class="line">//这个参数是向kafka请求消息或者向kafka发送消息的请请求的最大数，这个值不能超过java的堆栈大小</span><br><span class="line">socket.request.max.bytes=104857600</span><br><span class="line">//消息存放的目录，这个目录可以配置为“，”逗号分割的表达式，上面的num.io.threads要大于这个目录的个数这个目录，</span><br><span class="line">//如果配置多个目录，新创建的topic他把消息持久化的地方是，当前以逗号分割的目录中，那个分区数最少就放那一个</span><br><span class="line">log.dirs=/home/hadoop/log/kafka-logs</span><br><span class="line">//默认的分区数，一个topic默认1个分区数</span><br><span class="line">num.partitions=1</span><br><span class="line">//每个数据目录用来日志恢复的线程数目</span><br><span class="line">num.recovery.threads.per.data.dir=1</span><br><span class="line">//默认消息的最大持久化时间，168小时，7天</span><br><span class="line">log.retention.hours=168</span><br><span class="line">//这个参数是：因为kafka的消息是以追加的形式落地到文件，当超过这个值的时候，kafka会新起一个文件</span><br><span class="line">log.segment.bytes=1073741824</span><br><span class="line">//每隔300000毫秒去检查上面配置的log失效时间</span><br><span class="line">log.retention.check.interval.ms=300000</span><br><span class="line">//是否启用log压缩，一般不用启用，启用的话可以提高性能</span><br><span class="line">log.cleaner.enable=false</span><br><span class="line">//设置zookeeper的连接端口</span><br><span class="line">zookeeper.connect=192.168.123.102:2181,192.168.123.103:2181,192.168.123.104:2181</span><br><span class="line">//设置zookeeper的连接超时时间</span><br><span class="line">zookeeper.connection.timeout.ms=6000</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>producer.properties</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">metadata.broker.list=192.168.123.102:9092,192.168.123.103:9092,192.168.123.104:9092</span><br></pre></td></tr></table></figure>
+
+<p>consumer.properties</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zookeeper.connect=192.168.123.102:2181,192.168.123.103:2181,192.168.123.104:2181</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-3-将kafka的安装包分发到其他节点"><a href="#2-3-将kafka的安装包分发到其他节点" class="headerlink" title="2.3　将kafka的安装包分发到其他节点"></a>2.3　将kafka的安装包分发到其他节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 apps]$ scp -r kafka_2.11-0.8.2.0/ hadoop2:$PWD</span><br><span class="line">[hadoop@hadoop1 apps]$ scp -r kafka_2.11-0.8.2.0/ hadoop3:$PWD</span><br><span class="line">[hadoop@hadoop1 apps]$ scp -r kafka_2.11-0.8.2.0/ hadoop4:$PWD</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-4-创建软连接"><a href="#2-4-创建软连接" class="headerlink" title="2.4　创建软连接"></a>2.4　创建软连接</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 apps]$ ln -s kafka_2.11-0.8.2.0/ kafka</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-5-修改环境变量"><a href="#2-5-修改环境变量" class="headerlink" title="2.5　修改环境变量"></a>2.5　修改环境变量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 ~]$ vi .bashrc </span><br><span class="line">#Kafka</span><br><span class="line">export KAFKA_HOME=/home/hadoop/apps/kafka</span><br><span class="line">export PATH=$PATH:$KAFKA_HOME/bin</span><br></pre></td></tr></table></figure>
+
+<p>保存使其立即生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 ~]$ source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9005062.html#_labelTop">回到顶部</a></p>
+<h2 id="三、启动"><a href="#三、启动" class="headerlink" title="三、启动"></a>三、启动</h2><h3 id="3-1-首先启动zookeeper集群"><a href="#3-1-首先启动zookeeper集群" class="headerlink" title="3.1　首先启动zookeeper集群"></a>3.1　首先启动zookeeper集群</h3><p>所有zookeeper节点都需要执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 ~]$ zkServer.sh start</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-2-启动Kafka集群服务"><a href="#3-2-启动Kafka集群服务" class="headerlink" title="3.2　启动Kafka集群服务"></a>3.2　启动Kafka集群服务</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 kafka]$ bin/kafka-server-start.sh config/server.properties</span><br></pre></td></tr></table></figure>
+
+<p>hadoop1</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091330478-1618680698.png" alt="img"></p>
+<p>Hadoop2</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091357167-630027883.png" alt="img"></p>
+<p>hadoop3</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091419194-1962654932.png" alt="img"></p>
+<p>hadoop4</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508091439631-71784584.png" alt="img"></p>
+<h3 id="3-3-创建的topic"><a href="#3-3-创建的topic" class="headerlink" title="3.3　创建的topic"></a>3.3　创建的topic</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 kafka]$ bin/kafka-topics.sh --create --zookeeper hadoop1:2181 --replication-factor 3 --partitions 3 --topic topic2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508093450833-853043206.png" alt="img"></p>
+<h3 id="3-4-查看topic副本信息"><a href="#3-4-查看topic副本信息" class="headerlink" title="3.4　查看topic副本信息"></a>3.4　查看topic副本信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 kafka]$ bin/kafka-topics.sh --describe --zookeeper hadoop1:2181 --topic topic2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508093738851-372829720.png" alt="img"></p>
+<h3 id="3-5-查看已经创建的topic信息"><a href="#3-5-查看已经创建的topic信息" class="headerlink" title="3.5　查看已经创建的topic信息"></a>3.5　查看已经创建的topic信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 kafka]$ bin/kafka-topics.sh --list --zookeeper hadoop1:2181</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508094000763-519973668.png" alt="img"></p>
+<h3 id="3-6-生产者发送消息"><a href="#3-6-生产者发送消息" class="headerlink" title="3.6　生产者发送消息"></a>3.6　生产者发送消息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop1 kafka]$ bin/kafka-console-producer.sh --broker-list hadoop1:9092 --topic topic2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508094536515-251235516.png" alt="img"></p>
+<p>hadoop1显示接收到消息</p>
+<h3 id="3-7-消费者消费消息"><a href="#3-7-消费者消费消息" class="headerlink" title="3.7　消费者消费消息"></a>3.7　消费者消费消息</h3><p>在hadoop2上消费消息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop2 kafka]$ bin/kafka-console-consumer.sh --zookeeper hadoop1:2181 --from-beginning --topic topic2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508094916762-1544456891.png" alt="img"></p>
+<h1 id="Kafka学习之路-（五）Kafka在zookeeper中的存储"><a href="#Kafka学习之路-（五）Kafka在zookeeper中的存储" class="headerlink" title="Kafka学习之路 （五）Kafka在zookeeper中的存储"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html">Kafka学习之路 （五）Kafka在zookeeper中的存储</a></h1><p>讨论QQ：1586558083</p>
+<p><strong>目录</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label0">一、Kafka在zookeeper中存储结构图</a></li>
+<li>二、分析<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_0">2.1　topic注册信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_1">2.2　partition状态信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_2">2.3　Broker注册信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_3">2.4　Controller epoch</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_4">2.5　Controller注册信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_5">2.6　补充Consumer and Consumer group</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_6">2.7　Consumer均衡算法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_7">2.8　Consumer注册信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_8">2.9　Consumer owner</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_9">2.10　Consumer offset</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_10">2.11　Re-assign partitions</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_11">2.12　Preferred replication election</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_12">2.13　删除topics</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_label1_13">2.14　Topic配置</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>正文</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_labelTop">回到顶部</a></p>
+<h2 id="一、Kafka在zookeeper中存储结构图"><a href="#一、Kafka在zookeeper中存储结构图" class="headerlink" title="一、Kafka在zookeeper中存储结构图"></a>一、Kafka在zookeeper中存储结构图</h2><p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508101652574-1613892176.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/9007107.html#_labelTop">回到顶部</a></p>
+<h2 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h2><h3 id="2-1-topic注册信息"><a href="#2-1-topic注册信息" class="headerlink" title="2.1　topic注册信息"></a>2.1　topic注册信息</h3><p>/brokers/topics/[topic] :</p>
+<p>存储某个topic的partitions所有分配信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 1] get /brokers/topics/topic2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508103023550-1689525175.png" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Schema:</span><br><span class="line">&#123;</span><br><span class="line">    &quot;version&quot;: &quot;版本编号目前固定为数字1&quot;,</span><br><span class="line">    &quot;partitions&quot;: &#123;</span><br><span class="line">        &quot;partitionId编号&quot;: [</span><br><span class="line">            同步副本组brokerId列表</span><br><span class="line">        ],</span><br><span class="line">        &quot;partitionId编号&quot;: [</span><br><span class="line">            同步副本组brokerId列表</span><br><span class="line">        ],</span><br><span class="line">        .......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Example:</span><br><span class="line">&#123;</span><br><span class="line">&quot;version&quot;: 1,</span><br><span class="line">&quot;partitions&quot;: &#123;</span><br><span class="line">&quot;2&quot;: [1, 2, 3],</span><br><span class="line">&quot;1&quot;: [0, 1, 2],</span><br><span class="line">&quot;0&quot;: [3, 0, 1],</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-2-partition状态信息"><a href="#2-2-partition状态信息" class="headerlink" title="2.2　partition状态信息"></a>2.2　partition状态信息</h3><p>/brokers/topics/[topic]/partitions/[0…N]  其中[0..N]表示partition索引号</p>
+<p>/brokers/topics/[topic]/partitions/[partitionId]/state</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508103535274-360887579.png" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Schema:</span><br><span class="line">&#123;</span><br><span class="line">&quot;controller_epoch&quot;: 表示kafka集群中的中央控制器选举次数,</span><br><span class="line">&quot;leader&quot;: 表示该partition选举leader的brokerId,</span><br><span class="line">&quot;version&quot;: 版本编号默认为1,</span><br><span class="line">&quot;leader_epoch&quot;: 该partition leader选举次数,</span><br><span class="line">&quot;isr&quot;: [同步副本组brokerId列表]</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Example:</span><br><span class="line">&#123;</span><br><span class="line">&quot;controller_epoch&quot;: 1,</span><br><span class="line">&quot;leader&quot;: 3,</span><br><span class="line">&quot;version&quot;: 1,</span><br><span class="line">&quot;leader_epoch&quot;: 0,</span><br><span class="line">&quot;isr&quot;: [3, 0, 1]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-3-Broker注册信息"><a href="#2-3-Broker注册信息" class="headerlink" title="2.3　Broker注册信息"></a>2.3　Broker注册信息</h3><p>/brokers/ids/[0…N]                 </p>
+<p>每个broker的配置文件中都需要指定一个数字类型的id(全局不可重复),此节点为临时znode(EPHEMERAL)</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508103818455-1476762306.png" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Schema:</span><br><span class="line">&#123;</span><br><span class="line">&quot;jmx_port&quot;: jmx端口号,</span><br><span class="line">&quot;timestamp&quot;: kafka broker初始启动时的时间戳,</span><br><span class="line">&quot;host&quot;: 主机名或ip地址,</span><br><span class="line">&quot;version&quot;: 版本编号默认为1,</span><br><span class="line">&quot;port&quot;: kafka broker的服务端端口号,由server.properties中参数port确定</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Example:</span><br><span class="line">&#123;</span><br><span class="line">&quot;jmx_port&quot;: -1,</span><br><span class="line">&quot;timestamp&quot;:&quot;1525741823119&quot;</span><br><span class="line">&quot;version&quot;: 1,</span><br><span class="line">&quot;host&quot;: &quot;hadoop1&quot;,</span><br><span class="line">&quot;port&quot;: 9092</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-4-Controller-epoch"><a href="#2-4-Controller-epoch" class="headerlink" title="2.4　Controller epoch"></a>2.4　Controller epoch</h3><p>/controller_epoch –&gt;  int (epoch)   </p>
+<p>此值为一个数字,kafka集群中第一个broker第一次启动时为1，以后只要集群中center  controller中央控制器所在broker变更或挂掉，就会重新选举新的center controller，每次center  controller变更controller_epoch值就会 + 1; </p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508104057913-1808088971.png" alt="img"></p>
+<h3 id="2-5-Controller注册信息"><a href="#2-5-Controller注册信息" class="headerlink" title="2.5　Controller注册信息"></a>2.5　Controller注册信息</h3><p>/controller -&gt; int (broker id of the controller)  存储center controller中央控制器所在kafka broker的信息</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508104206487-400676103.png" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Schema:</span><br><span class="line">&#123;</span><br><span class="line">&quot;version&quot;: 版本编号默认为1,</span><br><span class="line">&quot;brokerid&quot;: kafka集群中broker唯一编号,</span><br><span class="line">&quot;timestamp&quot;: kafka broker中央控制器变更时的时间戳</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Example:</span><br><span class="line">&#123;</span><br><span class="line">&quot;version&quot;: 1,</span><br><span class="line">&quot;brokerid&quot;: 0,</span><br><span class="line">&quot;timestamp&quot;: &quot;1525741822769&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-6-补充Consumer-and-Consumer-group"><a href="#2-6-补充Consumer-and-Consumer-group" class="headerlink" title="2.6　补充Consumer and Consumer group"></a>2.6　补充Consumer and Consumer group</h3><p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508104651193-86573907.png" alt="img"></p>
+<p><strong>a.每个consumer客户端被创建时,会向zookeeper注册自己的信息;</strong><br><strong>b.此作用主要是为了”负载均衡”.</strong><br><strong>c.同一个Consumer Group中的Consumers，Kafka将相应Topic中的每个消息只发送给其中一个Consumer。</strong><br><strong>d.Consumer Group中的每个Consumer读取Topic的一个或多个Partitions，并且是唯一的Consumer；</strong><br><strong>e.一个Consumer group的多个consumer的所有线程依次有序地消费一个topic的所有partitions,如果Consumer group中所有consumer总线程大于partitions数量，则会出现空闲情况;</strong></p>
+<blockquote>
+<p><strong>举例说明：</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>kafka集群中创建一个topic为report-log   4 partitions 索引编号为0,1,2,3</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>假如有目前有三个消费者node：注意–&gt;一个consumer中一个消费线程可以消费一个或多个partition.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>如果每个consumer创建一个consumer thread线程,各个node消费情况如下，node1消费索引编号为0,1分区，node2费索引编号为2,node3费索引编号为3</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>如果每个consumer创建2个consumer thread线程，各个node消费情况如下(是从consumer node先后启动状态来确定的)，node1消费索引编号为0,1分区；node2费索引编号为2,3；node3为空闲状态</strong></p>
+</blockquote>
+<p> <strong>总结：</strong><br><strong>从以上可知，Consumer Group中各个consumer是根据先后启动的顺序有序消费一个topic的所有partitions的。</strong></p>
+<p><strong>如果Consumer Group中所有consumer的总线程数大于partitions数量，则可能consumer thread或consumer会出现空闲状态</strong>。</p>
+<h3 id="2-7-Consumer均衡算法"><a href="#2-7-Consumer均衡算法" class="headerlink" title="2.7　Consumer均衡算法"></a>2.7　Consumer均衡算法</h3><p><strong>当一个group中,有consumer加入或者离开时,会触发partitions均衡.均衡的最终目的,是提升topic的并发消费能力.</strong><br><strong>1) 假如topic1,具有如下partitions: P0,P1,P2,P3</strong><br><strong>2) 加入group中,有如下consumer: C0,C1</strong><br><strong>3) 首先根据partition索引号对partitions排序: P0,P1,P2,P3</strong><br><strong>4) 根据(consumer.id + ‘-‘+ thread序号)排序: C0,C1</strong><br><strong>5) 计算倍数: M = [P0,P1,P2,P3].size / [C0,C1].size,本例值M=2(向上取整)</strong><br><strong>6) 然后依次分配partitions: C0 = [P0,P1],C1=[P2,P3],即Ci = [P(i * M),P((i + 1) * M -1)]</strong></p>
+<h3 id="2-8-Consumer注册信息"><a href="#2-8-Consumer注册信息" class="headerlink" title="2.8　Consumer注册信息"></a>2.8　Consumer注册信息</h3><p>每个consumer都有一个唯一的ID(consumerId可以通过配置文件指定,也可以由系统生成),此id用来标记消费者信息.</p>
+<p>/consumers/[groupId]/ids/[consumerIdString]</p>
+<p>是一个临时的znode,此节点的值为请看consumerIdString产生规则,即表示此consumer目前所消费的topic + partitions列表.</p>
+<p>consumerId产生规则：</p>
+<blockquote>
+<p>StringconsumerUuid = null;<br>    if(config.consumerId!=null &amp;&amp; config.consumerId)<br>      consumerUuid = consumerId;<br>    else {<br>      String uuid = UUID.randomUUID()<br>      consumerUuid = “%s-%d-%s”.format(<br>        InetAddress.getLocalHost.getHostName, System.currentTimeMillis,<br>        uuid.getMostSignificantBits().toHexString.substring(0,8));</p>
+<p>​     }<br>​     String consumerIdString = config.groupId + “_” + consumerUuid;</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 11] get /consumers/console-consumer-2304/ids/console-consumer-2304_hadoop2-1525747915241-6b48ff32</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508105321039-416763241.png" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Schema:</span><br><span class="line">&#123;</span><br><span class="line">&quot;version&quot;: 版本编号默认为1,</span><br><span class="line">&quot;subscription&quot;: &#123; //订阅topic列表</span><br><span class="line">&quot;topic名称&quot;: consumer中topic消费者线程数</span><br><span class="line">&#125;,</span><br><span class="line">&quot;pattern&quot;: &quot;static&quot;,</span><br><span class="line">&quot;timestamp&quot;: &quot;consumer启动时的时间戳&quot;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Example:</span><br><span class="line">&#123;</span><br><span class="line">&quot;version&quot;: 1,</span><br><span class="line">&quot;subscription&quot;: &#123;</span><br><span class="line">&quot;topic2&quot;: 1</span><br><span class="line">&#125;,</span><br><span class="line">&quot;pattern&quot;: &quot;white_list&quot;,</span><br><span class="line">&quot;timestamp&quot;: &quot;1525747915336&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-9-Consumer-owner"><a href="#2-9-Consumer-owner" class="headerlink" title="2.9　Consumer owner"></a>2.9　Consumer owner</h3><p>/consumers/[groupId]/owners/[topic]/[partitionId] -&gt; consumerIdString + threadId索引编号</p>
+<p>a) 首先进行”Consumer Id注册”;</p>
+<p>b) 然后在”Consumer id  注册”节点下注册一个watch用来监听当前group中其他consumer的”退出”和”加入”;只要此znode  path下节点列表变更,都会触发此group下consumer的负载均衡.(比如一个consumer失效,那么其他consumer接管partitions).</p>
+<p>c) 在”Broker id 注册”节点下,注册一个watch用来监听broker的存活情况;如果broker列表变更,将会触发所有的groups下的consumer重新balance.</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508105839526-553140898.png" alt="img"></p>
+<h3 id="2-10-Consumer-offset"><a href="#2-10-Consumer-offset" class="headerlink" title="2.10　Consumer offset"></a>2.10　Consumer offset</h3><p>/consumers/[groupId]/offsets/[topic]/[partitionId] -&gt; long (offset)</p>
+<p>用来跟踪每个consumer目前所消费的partition中最大的offset</p>
+<p>此znode为持久节点,可以看出offset跟group_id有关,以表明当消费者组(consumer group)中一个消费者失效,</p>
+<p>重新触发balance,其他consumer可以继续消费.</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508110049469-140963000.png" alt="img"></p>
+<h3 id="2-11-Re-assign-partitions"><a href="#2-11-Re-assign-partitions" class="headerlink" title="2.11　Re-assign partitions"></a>2.11　Re-assign partitions</h3><p>/admin/reassign_partitions</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;fields&quot;:[</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;version&quot;,</span><br><span class="line">         &quot;type&quot;:&quot;int&quot;,</span><br><span class="line">         &quot;doc&quot;:&quot;version id&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;partitions&quot;,</span><br><span class="line">         &quot;type&quot;:&#123;</span><br><span class="line">            &quot;type&quot;:&quot;array&quot;,</span><br><span class="line">            &quot;items&quot;:&#123;</span><br><span class="line">               &quot;fields&quot;:[</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;topic&quot;,</span><br><span class="line">                     &quot;type&quot;:&quot;string&quot;,</span><br><span class="line">                     &quot;doc&quot;:&quot;topic of the partition to be reassigned&quot;</span><br><span class="line">                  &#125;,</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;partition&quot;,</span><br><span class="line">                     &quot;type&quot;:&quot;int&quot;,</span><br><span class="line">                     &quot;doc&quot;:&quot;the partition to be reassigned&quot;</span><br><span class="line">                  &#125;,</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;replicas&quot;,</span><br><span class="line">                     &quot;type&quot;:&quot;array&quot;,</span><br><span class="line">                     &quot;items&quot;:&quot;int&quot;,</span><br><span class="line">                     &quot;doc&quot;:&quot;a list of replica ids&quot;</span><br><span class="line">                  &#125;</span><br><span class="line">               ],</span><br><span class="line">            &#125;</span><br><span class="line">            &quot;doc&quot;:&quot;an array of partitions to be reassigned to new replicas&quot;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Example:</span><br><span class="line">&#123;</span><br><span class="line">  &quot;version&quot;: 1,</span><br><span class="line">  &quot;partitions&quot;:</span><br><span class="line">     [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;topic&quot;: &quot;Foo&quot;,</span><br><span class="line">            &quot;partition&quot;: 1,</span><br><span class="line">            &quot;replicas&quot;: [0, 1, 3]</span><br><span class="line">        &#125;</span><br><span class="line">     ]            </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-12-Preferred-replication-election"><a href="#2-12-Preferred-replication-election" class="headerlink" title="2.12　Preferred replication election"></a>2.12　Preferred replication election</h3><p>/admin/preferred_replica_election</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;fields&quot;:[</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;version&quot;,</span><br><span class="line">         &quot;type&quot;:&quot;int&quot;,</span><br><span class="line">         &quot;doc&quot;:&quot;version id&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;partitions&quot;,</span><br><span class="line">         &quot;type&quot;:&#123;</span><br><span class="line">            &quot;type&quot;:&quot;array&quot;,</span><br><span class="line">            &quot;items&quot;:&#123;</span><br><span class="line">               &quot;fields&quot;:[</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;topic&quot;,</span><br><span class="line">                     &quot;type&quot;:&quot;string&quot;,</span><br><span class="line">                     &quot;doc&quot;:&quot;topic of the partition for which preferred replica election should be triggered&quot;</span><br><span class="line">                  &#125;,</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;partition&quot;,</span><br><span class="line">                     &quot;type&quot;:&quot;int&quot;,</span><br><span class="line">                     &quot;doc&quot;:&quot;the partition for which preferred replica election should be triggered&quot;</span><br><span class="line">                  &#125;</span><br><span class="line">               ],</span><br><span class="line">            &#125;</span><br><span class="line">            &quot;doc&quot;:&quot;an array of partitions for which preferred replica election should be triggered&quot;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">例子:</span><br><span class="line"> </span><br><span class="line">&#123;</span><br><span class="line">  &quot;version&quot;: 1,</span><br><span class="line">  &quot;partitions&quot;:</span><br><span class="line">     [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;topic&quot;: &quot;Foo&quot;,</span><br><span class="line">            &quot;partition&quot;: 1         </span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;topic&quot;: &quot;Bar&quot;,</span><br><span class="line">            &quot;partition&quot;: 0         </span><br><span class="line">        &#125;</span><br><span class="line">     ]            </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-13-删除topics"><a href="#2-13-删除topics" class="headerlink" title="2.13　删除topics"></a>2.13　删除topics</h3><p>/admin/delete_topics</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508110442336-511702454.png" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Schema:</span><br><span class="line">&#123; &quot;fields&quot;:</span><br><span class="line">    [ &#123;&quot;name&quot;: &quot;version&quot;, &quot;type&quot;: &quot;int&quot;, &quot;doc&quot;: &quot;version id&quot;&#125;,</span><br><span class="line">      &#123;&quot;name&quot;: &quot;topics&quot;,</span><br><span class="line">       &quot;type&quot;: &#123; &quot;type&quot;: &quot;array&quot;, &quot;items&quot;: &quot;string&quot;, &quot;doc&quot;: &quot;an array of topics to be deleted&quot;&#125;</span><br><span class="line">      &#125; ]</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">例子:</span><br><span class="line">&#123;</span><br><span class="line">  &quot;version&quot;: 1,</span><br><span class="line">  &quot;topics&quot;: [&quot;foo&quot;, &quot;bar&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<h3 id="2-14-Topic配置"><a href="#2-14-Topic配置" class="headerlink" title="2.14　Topic配置"></a>2.14　Topic配置</h3><p>/config/topics/[topic_name]</p>
+<p><img src="https://images2018.cnblogs.com/blog/1228818/201805/1228818-20180508110605357-406763586.png" alt="img"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/生产者消费者/">生产者消费者</a><a href="/tags/消息通信/">消息通信</a><a href="/tags/kafka/">kafka</a><a href="/tags/消息订阅发布/">消息订阅发布</a><a href="/tags/消息队列/">消息队列</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/05/26/Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%20%EF%BC%88%E4%B8%80%EF%BC%89Kafka%E7%9A%84%E7%AE%80%E4%BB%8B/" data-title="Kafka学习之路 （一）Kafka的简介 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/05/26/NetWorkComms通信框架/" title="NetWorkComms通信框架">
+  <strong>上一篇：</strong><br/>
+  <span>
+  NetWorkComms通信框架</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/05/26/hadoop自动安装的脚本与步骤/"  title="hadoop自动安装的脚本与步骤">
+ <strong>下一篇：</strong><br/> 
+ <span>hadoop自动安装的脚本与步骤
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%B8%80%EF%BC%89Kafka%E7%9A%84%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Kafka学习之路 （一）Kafka的简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">一、简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1　概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%B6%88%E6%81%AF%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2　消息系统介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E7%82%B9%E5%AF%B9%E7%82%B9%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3　点对点消息传递模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">1.4　发布-订阅消息传递模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Kafka%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">二、Kafka的优点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%A7%A3%E8%80%A6"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1　解耦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%86%97%E4%BD%99%EF%BC%88%E5%89%AF%E6%9C%AC%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2　冗余（副本）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%89%A9%E5%B1%95%E6%80%A7"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3　扩展性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E7%81%B5%E6%B4%BB%E6%80%A7-amp-%E5%B3%B0%E5%80%BC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4　灵活性&amp;峰值处理能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%8F%AF%E6%81%A2%E5%A4%8D%E6%80%A7"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.5　可恢复性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E9%A1%BA%E5%BA%8F%E4%BF%9D%E8%AF%81"><span class="toc-number">1.2.6.</span> <span class="toc-text">2.6　顺序保证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E7%BC%93%E5%86%B2"><span class="toc-number">1.2.7.</span> <span class="toc-text">2.7　缓冲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.2.8.</span> <span class="toc-text">2.8　异步通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%B8%B8%E7%94%A8Message-Queue%E5%AF%B9%E6%AF%94"><span class="toc-number">1.3.</span> <span class="toc-text">三、常用Message Queue对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-RabbitMQ"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1　RabbitMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Redis"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2　Redis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-ZeroMQ"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3　ZeroMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-ActiveMQ"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.4　ActiveMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-Kafka-Jafka"><span class="toc-number">1.3.5.</span> <span class="toc-text">3.5　Kafka&#x2F;Jafka</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Kafka%E4%B8%AD%E7%9A%84%E6%9C%AF%E8%AF%AD%E8%A7%A3%E9%87%8A"><span class="toc-number">1.4.</span> <span class="toc-text">四、Kafka中的术语解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1　概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-broker"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2　broker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Topic"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3　Topic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Partition"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.3　Partition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-Producer"><span class="toc-number">1.4.5.</span> <span class="toc-text">4.4　Producer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-Consumer"><span class="toc-number">1.4.6.</span> <span class="toc-text">4.5　Consumer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-Consumer-Group"><span class="toc-number">1.4.7.</span> <span class="toc-text">4.6　Consumer Group</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-Leader"><span class="toc-number">1.4.8.</span> <span class="toc-text">4.7　Leader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-Follower"><span class="toc-number">1.4.9.</span> <span class="toc-text">4.8　Follower</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%BA%8C%EF%BC%89Kafka%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">Kafka学习之路 （二）Kafka的架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Kafka%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">一、Kafka的架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Topics%E5%92%8CPartition"><span class="toc-number">2.2.</span> <span class="toc-text">二、Topics和Partition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Producer%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1"><span class="toc-number">2.3.</span> <span class="toc-text">三、Producer消息路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Consumer-Group"><span class="toc-number">2.4.</span> <span class="toc-text">四、Consumer Group</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Push-vs-Pull"><span class="toc-number">2.5.</span> <span class="toc-text">五、Push vs. Pull</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81Kafka-delivery-guarantee"><span class="toc-number">2.6.</span> <span class="toc-text">六、Kafka delivery guarantee</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%B8%89%EF%BC%89Kafka%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">Kafka学习之路 （三）Kafka的高可用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E7%9A%84%E7%94%B1%E6%9D%A5"><span class="toc-number">3.1.</span> <span class="toc-text">一、高可用的由来</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%B8%BA%E4%BD%95%E9%9C%80%E8%A6%81Replication"><span class="toc-number">3.1.1.</span> <span class="toc-text">1.1　为何需要Replication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-Leader-Election"><span class="toc-number">3.1.2.</span> <span class="toc-text">1.2　Leader Election</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Kafka-HA%E8%AE%BE%E8%AE%A1%E8%A7%A3%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">二、Kafka HA设计解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%A6%82%E4%BD%95%E5%B0%86%E6%89%80%E6%9C%89Replica%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83%E5%88%B0%E6%95%B4%E4%B8%AA%E9%9B%86%E7%BE%A4"><span class="toc-number">3.2.1.</span> <span class="toc-text">2.1　如何将所有Replica均匀分布到整个集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Data-Replication%EF%BC%88%E5%89%AF%E6%9C%AC%E7%AD%96%E7%95%A5%EF%BC%89"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.2　Data Replication（副本策略）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E5%90%8C%E6%AD%A5%E7%AD%96%E7%95%A5"><span class="toc-number">3.2.2.1.</span> <span class="toc-text">2.2.1　消息传递同步策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-ACK%E5%89%8D%E9%9C%80%E8%A6%81%E4%BF%9D%E8%AF%81%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%A4%87%E4%BB%BD"><span class="toc-number">3.2.2.2.</span> <span class="toc-text">2.2.2　ACK前需要保证有多少个备份</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-Leader-Election%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.2.3.</span> <span class="toc-text">2.2.3　Leader Election算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%89%80%E6%9C%89Replica%E9%83%BD%E4%B8%8D%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.2.2.4.</span> <span class="toc-text">2.2.4　如何处理所有Replica都不工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E9%80%89%E4%B8%BELeader"><span class="toc-number">3.2.2.5.</span> <span class="toc-text">2.2.5　选举Leader</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81HA%E7%9B%B8%E5%85%B3ZooKeeper%E7%BB%93%E6%9E%84"><span class="toc-number">3.3.</span> <span class="toc-text">三、HA相关ZooKeeper结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-admin"><span class="toc-number">3.3.1.</span> <span class="toc-text">3.1　admin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-broker"><span class="toc-number">3.3.2.</span> <span class="toc-text">3.2　broker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-controller"><span class="toc-number">3.3.3.</span> <span class="toc-text">3.3　controller</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81producer%E5%8F%91%E5%B8%83%E6%B6%88%E6%81%AF"><span class="toc-number">3.4.</span> <span class="toc-text">四、producer发布消息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="toc-number">3.4.1.</span> <span class="toc-text">4.1　写入方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1"><span class="toc-number">3.4.2.</span> <span class="toc-text">4.2　消息路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">3.4.3.</span> <span class="toc-text">4.3　写入流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81broker%E4%BF%9D%E5%AD%98%E6%B6%88%E6%81%AF"><span class="toc-number">3.5.</span> <span class="toc-text">五、broker保存消息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.5.1.</span> <span class="toc-text">5.1　存储方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%AD%98%E5%82%A8%E7%AD%96%E7%95%A5"><span class="toc-number">3.5.2.</span> <span class="toc-text">5.2　存储策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81Topic%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4"><span class="toc-number">3.6.</span> <span class="toc-text">六、Topic的创建和删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%88%9B%E5%BB%BAtopic"><span class="toc-number">3.6.1.</span> <span class="toc-text">6.1　创建topic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%88%A0%E9%99%A4topic"><span class="toc-number">3.6.2.</span> <span class="toc-text">6.2　删除topic</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81broker-failover"><span class="toc-number">3.7.</span> <span class="toc-text">七、broker failover</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81controller-failover"><span class="toc-number">3.8.</span> <span class="toc-text">八、controller failover</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E5%9B%9B%EF%BC%89Kafka%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">4.</span> <span class="toc-text">Kafka学习之路 （四）Kafka的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%8B%E8%BD%BD"><span class="toc-number">4.1.</span> <span class="toc-text">一、下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85%E5%89%8D%E6%8F%90%EF%BC%88zookeeper%E5%AE%89%E8%A3%85%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">二、安装前提（zookeeper安装）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E8%A3%85"><span class="toc-number">4.3.</span> <span class="toc-text">三、安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%B8%8A%E4%BC%A0%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="toc-number">4.3.1.</span> <span class="toc-text">2.1　上传解压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.2.</span> <span class="toc-text">2.2　修改配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%B0%86kafka%E7%9A%84%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%86%E5%8F%91%E5%88%B0%E5%85%B6%E4%BB%96%E8%8A%82%E7%82%B9"><span class="toc-number">4.3.3.</span> <span class="toc-text">2.3　将kafka的安装包分发到其他节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%88%9B%E5%BB%BA%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.3.4.</span> <span class="toc-text">2.4　创建软连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E4%BF%AE%E6%94%B9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">4.3.5.</span> <span class="toc-text">2.5　修改环境变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%90%AF%E5%8A%A8"><span class="toc-number">4.4.</span> <span class="toc-text">三、启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%A6%96%E5%85%88%E5%90%AF%E5%8A%A8zookeeper%E9%9B%86%E7%BE%A4"><span class="toc-number">4.4.1.</span> <span class="toc-text">3.1　首先启动zookeeper集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%90%AF%E5%8A%A8Kafka%E9%9B%86%E7%BE%A4%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.4.2.</span> <span class="toc-text">3.2　启动Kafka集群服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%88%9B%E5%BB%BA%E7%9A%84topic"><span class="toc-number">4.4.3.</span> <span class="toc-text">3.3　创建的topic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%9F%A5%E7%9C%8Btopic%E5%89%AF%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">4.4.4.</span> <span class="toc-text">3.4　查看topic副本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%9F%A5%E7%9C%8B%E5%B7%B2%E7%BB%8F%E5%88%9B%E5%BB%BA%E7%9A%84topic%E4%BF%A1%E6%81%AF"><span class="toc-number">4.4.5.</span> <span class="toc-text">3.5　查看已经创建的topic信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E7%94%9F%E4%BA%A7%E8%80%85%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF"><span class="toc-number">4.4.6.</span> <span class="toc-text">3.6　生产者发送消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF"><span class="toc-number">4.4.7.</span> <span class="toc-text">3.7　消费者消费消息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%EF%BC%88%E4%BA%94%EF%BC%89Kafka%E5%9C%A8zookeeper%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">5.</span> <span class="toc-text">Kafka学习之路 （五）Kafka在zookeeper中的存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Kafka%E5%9C%A8zookeeper%E4%B8%AD%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="toc-number">5.1.</span> <span class="toc-text">一、Kafka在zookeeper中存储结构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%88%86%E6%9E%90"><span class="toc-number">5.2.</span> <span class="toc-text">二、分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-topic%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.1.</span> <span class="toc-text">2.1　topic注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-partition%E7%8A%B6%E6%80%81%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.2.</span> <span class="toc-text">2.2　partition状态信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Broker%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.3.</span> <span class="toc-text">2.3　Broker注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Controller-epoch"><span class="toc-number">5.2.4.</span> <span class="toc-text">2.4　Controller epoch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Controller%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.5.</span> <span class="toc-text">2.5　Controller注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E8%A1%A5%E5%85%85Consumer-and-Consumer-group"><span class="toc-number">5.2.6.</span> <span class="toc-text">2.6　补充Consumer and Consumer group</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-Consumer%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95"><span class="toc-number">5.2.7.</span> <span class="toc-text">2.7　Consumer均衡算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-Consumer%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">5.2.8.</span> <span class="toc-text">2.8　Consumer注册信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-Consumer-owner"><span class="toc-number">5.2.9.</span> <span class="toc-text">2.9　Consumer owner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-10-Consumer-offset"><span class="toc-number">5.2.10.</span> <span class="toc-text">2.10　Consumer offset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-11-Re-assign-partitions"><span class="toc-number">5.2.11.</span> <span class="toc-text">2.11　Re-assign partitions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-12-Preferred-replication-election"><span class="toc-number">5.2.12.</span> <span class="toc-text">2.12　Preferred replication election</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-13-%E5%88%A0%E9%99%A4topics"><span class="toc-number">5.2.13.</span> <span class="toc-text">2.13　删除topics</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-14-Topic%E9%85%8D%E7%BD%AE"><span class="toc-number">5.2.14.</span> <span class="toc-text">2.14　Topic配置</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

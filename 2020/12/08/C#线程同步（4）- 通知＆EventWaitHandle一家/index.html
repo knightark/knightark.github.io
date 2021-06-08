@@ -1,0 +1,686 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>C#线程同步（4）- 通知＆EventWaitHandle一家 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="C#线程同步（4）- 通知＆EventWaitHandle一家WaitHandle一家 　　在前一篇我们已经提到过Mutex和本篇的主角们直接或间接继承自WaitHandle：  Mutex类，这个我们在上一篇已经讲过。 EventWaitHandle 类及其派生类AutoResetEvent 和 ManualResetEvent，这是本篇的主角。 Semaphore 类，即信号量，我们下一篇再讲">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C#线程同步（4）- 通知＆EventWaitHandle一家">
+<meta property="og:url" content="https://knightark.github.io/2020/12/08/C#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%EF%BC%884%EF%BC%89-%20%E9%80%9A%E7%9F%A5%EF%BC%86EventWaitHandle%E4%B8%80%E5%AE%B6/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="C#线程同步（4）- 通知＆EventWaitHandle一家WaitHandle一家 　　在前一篇我们已经提到过Mutex和本篇的主角们直接或间接继承自WaitHandle：  Mutex类，这个我们在上一篇已经讲过。 EventWaitHandle 类及其派生类AutoResetEvent 和 ManualResetEvent，这是本篇的主角。 Semaphore 类，即信号量，我们下一篇再讲">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-08T06:32:25.000Z">
+<meta property="article:modified_time" content="2021-06-08T04:00:23.258Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="同步">
+<meta property="article:tag" content="通知">
+<meta property="article:tag" content="eventwaitHandle">
+<meta property="article:tag" content="Mutex">
+<meta property="article:tag" content="生产者消费者">
+<meta property="article:tag" content="消息订阅">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/08/C#线程同步（4）- 通知＆EventWaitHandle一家/" title="C#线程同步（4）- 通知＆EventWaitHandle一家" itemprop="url">C#线程同步（4）- 通知＆EventWaitHandle一家</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-08T06:32:25.000Z" itemprop="datePublished"> Published 2020-12-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%EF%BC%884%EF%BC%89-%E9%80%9A%E7%9F%A5%EF%BC%86EventWaitHandle%E4%B8%80%E5%AE%B6"><span class="toc-number">1.</span> <span class="toc-text">C#线程同步（4）- 通知＆EventWaitHandle一家</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="C-线程同步（4）-通知＆EventWaitHandle一家"><a href="#C-线程同步（4）-通知＆EventWaitHandle一家" class="headerlink" title="C#线程同步（4）- 通知＆EventWaitHandle一家"></a>C#线程同步（4）- 通知＆EventWaitHandle一家</h2><p><strong>WaitHandle一家</strong></p>
+<p>　　在前一篇我们已经提到过Mutex和本篇的主角们直接或间接继承自<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/kad9xah9(VS.80).aspx">WaitHandle</a>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.mutex(VS.80).aspx">Mutex类</a>，这个我们在上一篇已经讲过。</li>
+<li><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.eventwaithandle(VS.80).aspx">EventWaitHandle</a> 类及其派生类<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.autoresetevent(VS.80).aspx">AutoResetEvent</a> 和 <a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.manualresetevent(VS.80).aspx">ManualResetEvent</a>，这是本篇的主角。</li>
+<li><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.semaphore(VS.80).aspx">Semaphore</a> 类，即信号量，我们下一篇再讲。</li>
+</ul>
+<p>　　WaitHandle提供了若干用于同步的方法。上一篇关于Mutex的blog中已经讲到一个WaitOne()，这是一个实例方法。除此之外，WaitHandle另有3个用于同步的静态方法：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.waithandle.signalandwait(VS.80).aspx">SignalAndWait(WaitHandle, WaitHandle)</a>：以原子操作的形式，向第一个WaitHandle发出信号并等待第二个。即唤醒阻塞在第一个WaitHandle上的线程/进程，然后自己等待第二个WaitHandle，且这两个动作是原子性的。跟WaitOne()一样，这个方法另有两个重载方法，分别用Int32或者TimeSpan来定义等待超时时间，以及是否从上下文的同步域中退出。</li>
+<li>[WaitAll(WaitHandle<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.waithandle.waitall(VS.80).aspx">])</a>：这是用于等待WaitHandle数组里的所有成员。如果一项工作，需要等待前面所有人完成才能继续，那么这个方法就是一个很好的选择。仍然有两个用于控制等待超时的重载方法，请自行参阅。</li>
+<li>[WaitAny(WaitHandle<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.waithandle.waitany(VS.80).aspx">])</a>：与WaitAll()不同，WaitAny只要等到数组中一个成员收到信号就会返回。如果一项工作，你只要等最快做完的那个完成就可以开始，那么WaitAny()就是你所需要的。它同样有两个用于控制等待超时的重载。</li>
+</ul>
+<p><strong>线程相关性（Thread Affinity ）</strong></p>
+<p>　　EventWaitHandle和Mutex两者虽然是派生自同一父类，但有着完全不同的线程相关性：</p>
+<ul>
+<li>Mutex与Monitor一样，是“线程相关（Thread Affinity）”的。我们之前已经提到过，只有通过Monitor.Enter()/TryEnter()获得对象锁的线程才能调用Pulse()/Wait()/Exit()；同样的，只有获得Mutex拥有权的线程才能执行ReleaseMutex()方法，否则就会引发异常。这就是所谓的线程相关性。</li>
+<li>相反，EventWaitHandle以及它的派生类AutoResetEvent和ManualResetEvent都是线程无关的。任何线程都可以发信号给EventWaitHandle，以唤醒阻塞在上面的线程。</li>
+<li>下一篇要提到的Semaphore也是线程无关的。</li>
+</ul>
+<p><strong>Mutex与Event</strong></p>
+<p>　　我们在Mutex一篇中没有具体提到Mutex是否能发送信号，只是简单说Mutex不太适合有相互消息通知的同步，它仅有的一些同步方法是来自其父类的静态方法。那么现在我们可以仔细来看看Mutex到底能不能用于关于Monitor那篇提到的生产者、消费者和糖罐的场景。</p>
+<p>　　回过头来仔细查看<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.mutex_members(VS.80).aspx">Mutex</a>的所有方法，除了一个我们已经提到的WaitHandle上的静态方法SingnalAndWait(toSingnal, toWaitOn)，我们找不到任何“属于Mutex自己”的、用于发送信号的方法。退而求其次吧，我们就来看看这个静态方法是否可以让Mutex具有通知的能力。</p>
+<p>　　如果toSignal是一个Mutex，那么收到“信号”就等效于ReleaseMutex()。而由于Mutex的线程相关性，只有拥有当前Mutex的线程才能够发送这个信号（ReleaseMutex），否则会引发异常。也就是说如果要用这个方法来通知其它线程同步，Mutex只能自己发给自己。与之相反，如果第二个参数toWaitOn也是个Mutex，那么这个Mutex不能是自己。因为前篇已经讲过，Mutex的拥有者可以多次WaitOne()而不阻塞，这里也是一样。所以如果Mutex一定要使用这个方法，准确的说是只是成为这个方法的参数，那只能是WaitHandle.SignalAndWait(它自己,另一个Mutex)。</p>
+<p>　　试想，如果有人试图只使用Mutex来进行同步通知。假设生产者线程通过Mutex上的WaitOne()获得了mutexA的拥有权，并且在生产完毕后调用了SingnalAndWait(mutexA,mutexB)，通知由于当前mutexA而阻塞的消费者线程，并且将自己阻塞在mutexB上。那么被唤醒的消费者线程获得MutexA的拥有权吃掉糖后，也只能调用SingnalAndWait(mutexA,mutexB)释放它获得的mutexA且阻塞于MutexB。问题来了，此时的生产者是阻塞在mutexB上……也许，我们可以设计一段“精巧”的代码，让生产者和消费者一会儿阻塞在mutexA，一会儿阻塞在mutexB上……我不想花费这个力气去想了，你可以试试看：）。不管有没有这样的可能，Mutex很明显就不适用于通知的场景。</p>
+<p>EventWaitHandle的独门秘笈**</p>
+<p>　　正因为Mutex没有很好地继承父辈的衣钵，EventWaitHandle以及它的儿子/女儿们便来到了这个世界上。</p>
+<p>　　EventWaitHandle、AutoResetEvent、ManualResetEvent名字里都有一个“Event”，不过这跟.net的本身的事件机制完全没有关系，它不涉及任何委托或事件处理程序。相对于我们之前碰到的Monitor和Mutex需要线程去争夺“锁”而言，我们可以把它们理解为一些需要线程等待的“事件”。线程通过等待这些事件的“发生”，把自己阻塞起来。一旦“事件”完成，被阻塞的线程在收到信号后就可以继续工作。</p>
+<p>　　为了配合WaitHandle上的3个静态方法SingnalAndWait()/WailAny()/WaitAll()，EventWaitHandle提供了自己独有的，使“Event”完成和重新开始的方法：</p>
+<ul>
+<li><p>bool:Set()</p>
+<p><strong>英文版MSDN：</strong>Sets the state of the event to signaled, allowing one or more waiting threads to proceed；</p>
+<p><strong>中文版MSDN：</strong>将事件状态设置为终止状态，允许一个或多个等待线程继续。</p>
+<p>初看“signaled”和“终止”似乎并不对应，细想起来这两者的说法其实也不矛盾。事件如果在进行中，当然就没有“终止”，那么其它线程就需要等待；一旦事件完成，那么事件就“终止”了，于是我们发送信号唤醒等待的线程，所以“信号已发送”状态也是合理的。两个小细节：</p>
+<ol>
+<li>无论中文还是英文版，都提到这个方法都是可以让“一个”或“多个”等待线程“继续/Proceed”（注意不是“唤醒”）。所以这个方法在“唤醒”这个动作上是类似于Monitor.Pulse()和Monitor.PulseAll()的。至于什么时候类似Pulse()，又在什么时候类似PulseAll()，往下看。</li>
+<li>这个方法有bool型的返回值：如果该操作成功，则为true；否则，为false。不过MSDN并没有告诉我们，什么时候执行会失败，你只有找个微软MVP问问了。</li>
+</ol>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/system.threading.eventwaithandle.reset(VS.80).aspx">bool:Reset()</a>：Sets the state of the event to nonsignaled, causing threads to block. 将事件状态设置为非终止状态，导致线程阻止。 同样，我们需要明白“nonsignaled”和“非终止”是一回事情。还同样的是，仍然有个无厘头的返回值。Reset()的作用，相当于让事件重新开始处于“进行中”，那么此后所有WaitOne()/WaitAll()/WaitAny()/SignalAndWait()这个事件的线程都会再次被挡在门外。</p>
+</li>
+</ul>
+<p>　　来看看EventWaitHandle众多构造函数中最简单的一个：</p>
+<ul>
+<li><p>EventWaitHandle(Boolean initialState, EventResetMode mode)</p>
+<p>：初始化EventWaitHandle类的新实例，并指定等待句柄最初是否处于终止状态，以及它是自动重置还是手动重置。大多数时候我们会在第一个参数里使用false，这样新实例会缺省为“非终止”状态。第二个参数</p>
+<p>EventResetMode</p>
+<p>是一个枚举，一共两个值：</p>
+<ol>
+<li><strong>EventResetMode.AutoReset</strong>：当Set()被调用当前EventWaitHandle转入终止状态时，若有线程阻塞在当前EventWaitHandle上，那么在释放<strong>一个</strong>线程后EventWaitHandle就会自动重置（相当于自动调用Reset()）再次转入非终止状态，剩余的原来阻塞的线程（如果有的话）还会继续阻塞。如果调用Set()后本没有线程阻塞，那么EventWaitHandle将保持“终止”状态直到一个线程尝试等待该事件，这个该线程不会被阻塞，此后EventWaitHandle才会自动重置并阻塞那之后的所有线程。 　</li>
+<li><strong>EventResetMode.ManualReset</strong>：当终止时，EventWaitHandle 释放<strong>所有</strong>等待的线程，并在手动重置前，即Reset()被调用前，一直保持终止状态。</li>
+</ol>
+</li>
+</ul>
+<p>　　好了，现在我们可以清楚的知道Set()在什么时候分别类似于Monitor.Pulse()/PulseAll()了：</p>
+<ul>
+<li>当EventWaitHandle工作在AutoReset模式下，就唤醒功能而言，Set()与Monitor.Pulse()类似。此时，Set()只能唤醒众多（如果有多个的话）被阻塞线程中的一个。但两者仍有些差别：<ol>
+<li>Set()的作用不仅仅是“唤醒”而是“释放”，可以让线程继续工作（proceed）；相反，Pulse()唤醒的线程只是重新进入Running状态，参与对象锁的争夺，谁都不能保证它一定会获得对象锁。</li>
+<li>Pulse()的已被调用的状态不会被维护。因此，如果在没有等待线程时调用Pulse()，那么下一个调用Monitor.Wait()的线程仍然会被阻塞，就像Pulse() 没有被被调用过。也就是说Monitor.Pulse()只在调用当时发挥作用，并不象Set()的作用会持续到下一个WaitXXX()。</li>
+</ol>
+</li>
+<li>在一个工作在ManualReset模式下的EventWaitHandle的Set()方法被调用时，它所起到的唤醒作用与Monitor.PulseAll()类似，所有被阻塞的线程都会收到信号被唤醒。而两者的差别与上面完全相同。</li>
+</ul>
+<p>　　来看看EventWaitHandle的其它构造函数：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/41acw8ct(VS.80).aspx">EventWaitHandle(Boolean initialState, EventResetMode mode, String name)</a>：头两个参数我们已经看过，第三个参数name用于在系统范围内指定同步事件的名称。是的，正如我们在Mutex一篇中提到的，由于父类WaitHandle是具有跨进程域的能力的，因此跟Mutex一样，我们可以创建一个全局的EventWaitHandle，让后将它用于进程间的通知。注意，name仍然是大小写敏感的，仍然有命名前缀的问题跟，你可以参照<a target="_blank" rel="noopener" href="http://xxinside.blogbus.com/logs/47162540.html#UsageTips">这里</a>。当name为null或空字符串时，这等效于创建一个局部的未命名的EventWaitHandle。仍然同样的还有，可能会因为已经系统中已经有同名的EventWaitHandle而仅仅返回一个实例表示同名的EventWaitHandle。所以最后仍旧同样地，如果你需要知道这个EventWaitHandle是否由你最先创建，你需要使用以下两个构造函数之一。</li>
+<li><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/df414y9h(VS.80).aspx">EventWaitHandle(Boolean initialState, EventResetMode mode, String name, out Boolean createdNew)</a>：createdNew用于表明是否成功创建了EventWaitHandle，true表明成功，false表明已经存在同名的事件。</li>
+<li><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/z4c9z2kt(VS.80).aspx">EventWaitHandle(Boolean initialState, EventResetMode mode, String name, out Boolean createdNew, EventWaitHandleSecurity)</a>：关于安全的问题，直接查看这个构造函数上的例子吧。全局MutexEventWaitHandle的安全问题应该相对Mutex更需要注意，因为有可能黑客程序用相同的事件名对你的线程发送信号或者进行组织，那样可能会严重危害你的业务逻辑。</li>
+</ul>
+<p>　　好啦，都差不多了，可以写一个例子试试了。让我们回到Monitor一篇中提到的生产者和消费者场景，让我们看看EventWaitHandle能不能完成它兄弟Mutex没有能完成的事业。不过，即便有强大通信能力的EventWaitHandle出马，也避免不要使用lock/monitor或是Mutex。原因很简单，糖罐是一个互斥资源，必须被互斥地访问。而EventWaitHanldle跟Mutex相反，能通信了但却完全失去了临界区的能力。所以，这个例子其实并不太适合展示EventWaitHandle的通信机制，我只是为了想用同样的例子来比较这些同步机制间的差异。</p>
+<p>　　EventWaitHandle虽然还必须借助lock/Monitor/Mutex来实现这个例子（仅仅是临界区部分），但是它终究有强于Monitor的通信能力，所以让我们来扩展一下这个例子：现在有一个生产者，有多个消费者。</p>
+<ul>
+<li>我们让消费者在没有糖吃或吃完一块糖后阻塞在一个工作在ManualReset模式下的EventWaitHandle，生产者在生产完毕后就通过这个事件唤醒所有消费者吃糖。由于我们使用了lock的关系，虽然所有消费者都被唤醒，但是他们还是因为争夺糖罐的关系只有一个能进入临界区吃糖。不过此时阻塞的原因并不是因为我们的通知时间，而是临界区的问题。</li>
+<li>每个消费者有一条专线，即一个工作在AutoRest模式下的EventWaitHandle，用于在吃完糖后通知生产者。而生产者用WaitAny()来等待消费者吃糖时间的发生，只要有任一消费者吃完糖，那么生产者就试图争夺对糖罐的拥有权，把糖罐塞满（一人一颗的标准）。消费者这里使用了WaitAndSignal给生产者发消息，并等待生产者进入临界区生产糖后通知他们。在这样的设计逻辑下，可能糖罐中的糖还没有全部吃完生产者就有机会再次把糖罐装满。当然，你也可以使用了WaitAll()来等待所有消费者吃完再进行生产。</li>
+</ul>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">WaitEventHandleSample</span>:<span class="title">IDisposable</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="built_in">bool</span> _shouldStop = <span class="literal">false</span>; <span class="comment">//用于控制线程正常结束的标志</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">const</span> <span class="built_in">int</span> _numberOfConsumer = <span class="number">5</span>;  <span class="comment">//消费者的数目</span></span><br><span class="line">    <span class="comment">//容器，一个只能容纳一块糖的糖盒子。PS：现在MS已经不推荐使用ArrayList，</span></span><br><span class="line">    <span class="comment">//支持泛型的List才是应该在程序中使用的，我这里偷懒，不想再去写一个Candy类了。</span></span><br><span class="line">    <span class="keyword">private</span> ArrayList _candyBox = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> EventWaitHandle _EvntWtHndlProduced = <span class="literal">null</span>; <span class="comment">//生产完成的事件，ManualReset，用于通知所有消费者生产完成</span></span><br><span class="line">    <span class="keyword">private</span> EventWaitHandle[] _EvntWtHndlConsumed = <span class="literal">null</span>; <span class="comment">//消费完成的事件，AutoReset，每一个消费线程对应一个事件，用于通知生产者有消费动作完成</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 用于结束Produce()和Consume()在辅助线程中的执行</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">StopThread</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _shouldStop = <span class="literal">true</span>;</span><br><span class="line">        <span class="comment">//叫醒阻塞中的消费者，让他们看到线程结束标志</span></span><br><span class="line">        <span class="keyword">if</span> (_EvntWtHndlProduced != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _EvntWtHndlProduced.Set();</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">//叫醒阻塞中的生产者，让他看到线程结束标志</span></span><br><span class="line">        <span class="keyword">if</span> (_EvntWtHndlConsumed != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfConsumer; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (_EvntWtHndlConsumed[i] != <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    _EvntWtHndlConsumed[i].Set();</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 生产者的方法</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Produce</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (_candyBox == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;生产者：糖罐在哪里？！&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (_EvntWtHndlConsumed == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;生产者：消费者们在哪里？！&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (_EvntWtHndlProduced == <span class="literal">null</span>)   <span class="comment">//这个事件用于唤醒所有消费者，因此象个喇叭</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;生产者：喇叭坏啦，没办法通知消费者！&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//逐一检查消费者是否到位</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfConsumer; ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (_EvntWtHndlConsumed[i] == <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine(<span class="string">&quot;生产者：消费者&#123;0&#125;在哪里？！&quot;</span>, i);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">//什么也不做</span></span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;;</span><br><span class="line">           </span><br><span class="line">            <span class="built_in">int</span> numberOfSugarProduced = <span class="number">0</span>; <span class="comment">//本次一共生产了多少颗糖</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (!_shouldStop)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">lock</span> (_candyBox)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (_candyBox.Count &lt; _numberOfConsumer)</span><br><span class="line">                    &#123;</span><br><span class="line">                        numberOfSugarProduced = <span class="number">0</span>;</span><br><span class="line">                        <span class="keyword">while</span> (_candyBox.Count &lt; _numberOfConsumer)  <span class="comment">//一共有多少个消费者就生产多少块糖</span></span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="comment">//生产一块糖</span></span><br><span class="line">                            _candyBox.Add(<span class="string">&quot;A Candy&quot;</span>);</span><br><span class="line">                            ++numberOfSugarProduced;</span><br><span class="line">                        &#125;;</span><br><span class="line">                        Console.WriteLine(<span class="string">&quot;生产者：这次生产了&#123;0&#125;块糖，罐里现在一共有&#123;1&#125;块糖！&quot;</span>, numberOfSugarProduced, _candyBox.Count);</span><br><span class="line">                        Console.WriteLine(<span class="string">&quot;生产者：赶快来吃！！&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> <span class="comment">//容器是满的</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        Console.WriteLine(<span class="string">&quot;生产者：糖罐是满的！&quot;</span>);</span><br><span class="line">                    &#125;;</span><br><span class="line">                &#125;;</span><br><span class="line">                <span class="comment">//通知消费者生产已完成</span></span><br><span class="line">                _EvntWtHndlProduced.Set();</span><br><span class="line">                <span class="comment">//只要有消费者吃完糖，就开始生产</span></span><br><span class="line">                EventWaitHandle.WaitAny(_EvntWtHndlConsumed);</span><br><span class="line">                Thread.Sleep(<span class="number">2000</span>);</span><br><span class="line">            &#125;;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;生产者：下班啦！&quot;</span>);</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 消费者的方法</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;consumerIndex&quot;&gt;</span>消费者序号，用于表明使用哪个_EvntWtHndlConsumed成员<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Consume</span>(<span class="params"><span class="built_in">object</span> consumerIndex</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">int</span> index = (<span class="built_in">int</span>)consumerIndex;</span><br><span class="line">        <span class="keyword">if</span> (_candyBox == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：糖罐在哪里？！&quot;</span>,index);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (_EvntWtHndlProduced == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：生产者在哪里？！&quot;</span>,index);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (_EvntWtHndlConsumed == <span class="literal">null</span> || _EvntWtHndlConsumed[index] == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：电话坏啦，没办法通知生产者！&quot;</span>, index);  <span class="comment">//由于每个消费者都有一个专属事件通知生产者，因此相当于电话</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (!_shouldStop || _candyBox.Count &gt; <span class="number">0</span>) <span class="comment">//即便看到结束标致也应该把容器中的所有资源处理完毕再退出，否则容器中的资源可能就此丢失。需要指出_candybox.Count是有可能读到脏数据的</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">lock</span> (_candyBox)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (_candyBox.Count &gt; <span class="number">0</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">if</span> (!_shouldStop)</span><br><span class="line">                        &#123;</span><br><span class="line">                            _candyBox.RemoveAt(<span class="number">0</span>);</span><br><span class="line">                            Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：吃了1颗糖，还剩&#123;1&#125;颗！！&quot;</span>, index, _candyBox.Count);</span><br><span class="line">                            Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：赶快生产！！&quot;</span>,index);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span></span><br><span class="line">                        &#123;</span><br><span class="line">                            Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：我来把剩下的糖都吃了！&quot;</span>,index);</span><br><span class="line">                            <span class="keyword">while</span> (_candyBox.Count &gt; <span class="number">0</span>)</span><br><span class="line">                            &#123;</span><br><span class="line">                                _candyBox.RemoveAt(<span class="number">0</span>);</span><br><span class="line">                                Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：吃了1颗糖，还剩&#123;1&#125;颗！！&quot;</span>, index, _candyBox.Count);</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：糖罐是空的！&quot;</span>,index);</span><br><span class="line">                        Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：赶快生产！！&quot;</span>,index);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                WaitHandle.SignalAndWait(_EvntWtHndlConsumed[index], _EvntWtHndlProduced);</span><br><span class="line">                Thread.Sleep((index+<span class="number">1</span>)*<span class="number">1500</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;消费者&#123;0&#125;：都吃光啦，下次再吃！&quot;</span>,index);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 初始化所需的各EventWaitHandle和糖罐等</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Initialize</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (_candyBox == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _candyBox = <span class="keyword">new</span> ArrayList(_numberOfConsumer); <span class="comment">//按有多少消费者最多生产多少糖的标准初始化糖罐大小</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//什么也不做</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (_EvntWtHndlProduced == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _EvntWtHndlProduced = <span class="keyword">new</span> EventWaitHandle(<span class="literal">false</span>, EventResetMode.ManualReset);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//什么也不做</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (_EvntWtHndlConsumed == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _EvntWtHndlConsumed = <span class="keyword">new</span> EventWaitHandle[_numberOfConsumer];</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfConsumer; ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                _EvntWtHndlConsumed[i] = <span class="keyword">new</span> EventWaitHandle(<span class="literal">false</span>, EventResetMode.AutoReset);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//什么也不做</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        WaitEventHandleSample ss = <span class="keyword">new</span> WaitEventHandleSample();</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            ss.Initialize();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//Start threads.</span></span><br><span class="line">            Console.WriteLine(<span class="string">&quot;开始启动线程，输入回车终止生产者和消费者的工作……\r\n******************************************&quot;</span>);</span><br><span class="line"></span><br><span class="line">            Thread thdProduce = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadStart(ss.Produce));</span><br><span class="line">            thdProduce.Start();</span><br><span class="line"></span><br><span class="line">            Thread[] thdConsume = <span class="keyword">new</span> Thread[_numberOfConsumer];</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfConsumer; ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                thdConsume[i] = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ParameterizedThreadStart(ss.Consume));</span><br><span class="line">                thdConsume[i].Start(i);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Console.ReadLine();  <span class="comment">//通过IO阻塞主线程，等待辅助线程演示直到收到一个回车</span></span><br><span class="line">            ss.StopThread();  <span class="comment">//正常且优雅的结束生产者和消费者线程</span></span><br><span class="line"></span><br><span class="line">            thdProduce.Join();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfConsumer; ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                thdConsume[i].Join();</span><br><span class="line">            &#125;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;******************************************\r\n输入回车结束！&quot;</span>);</span><br><span class="line">            Console.ReadLine();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">finally</span></span><br><span class="line">        &#123;</span><br><span class="line">            ss.Dispose();</span><br><span class="line">            ss = <span class="literal">null</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">region</span> IDisposable Members</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (_candyBox != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _candyBox.Clear();</span><br><span class="line">            _candyBox = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//什么也不做</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (_EvntWtHndlProduced != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _EvntWtHndlProduced.Set();</span><br><span class="line">            _EvntWtHndlProduced.Close();</span><br><span class="line">            _EvntWtHndlProduced = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//什么也不做</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (_EvntWtHndlConsumed != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfConsumer; ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (_EvntWtHndlConsumed[i] != <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    _EvntWtHndlConsumed[i].Set();</span><br><span class="line">                    _EvntWtHndlConsumed[i].Close();</span><br><span class="line">                    _EvntWtHndlConsumed[i] = <span class="literal">null</span>;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            _EvntWtHndlConsumed = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//什么也不做</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　Produce()和Consum()中加入的Sleep代码仅仅是为了让线程更为随机的被调度，这样我们可以更容易观察到线程乱序执行的情况。另外，如果是一个需要跨进程同步的程序，那么你也可以用Mutext替换lock实现临界区。下面是某次执行的输出情况，你的结果当然会跟它不同（空行位置是我输入回车终止线程的时机）：</p>
+<p>*开始启动线程，输入回车终止生产者和消费者的工作……</p>
+<hr>
+<p> 生产者：这次生产了5块糖，罐里现在一共有5块糖！<br> 生产者：赶快来吃！！<br> 消费者0：吃了1颗糖，还剩4颗！！<br> 消费者0：赶快生产！！<br> 消费者1：吃了1颗糖，还剩3颗！！<br> 消费者1：赶快生产！！<br> 消费者2：吃了1颗糖，还剩2颗！！<br> 消费者2：赶快生产！！<br> 消费者3：吃了1颗糖，还剩1颗！！<br> 消费者3：赶快生产！！<br> 消费者4：吃了1颗糖，还剩0颗！！<br> 消费者4：赶快生产！！<br> 消费者0：糖罐是空的！<br> 消费者0：赶快生产！！<br> 生产者：这次生产了5块糖，罐里现在一共有5块糖！<br> 生产者：赶快来吃！！<br> 消费者1：吃了1颗糖，还剩4颗！！<br> 消费者1：赶快生产！！<br> 消费者0：吃了1颗糖，还剩3颗！！<br> 消费者0：赶快生产！！<br> 生产者：这次生产了2块糖，罐里现在一共有5块糖！<br> 生产者：赶快来吃！！<br> 消费者0：吃了1颗糖，还剩4颗！！<br> 消费者0：赶快生产！！<br> 消费者2：吃了1颗糖，还剩3颗！！<br> 消费者2：赶快生产！！<br> 消费者1：吃了1颗糖，还剩2颗！！<br> 消费者1：赶快生产！！<br> 生产者：这次生产了3块糖，罐里现在一共有5块糖！<br> 生产者：赶快来吃！！<br> 消费者0：吃了1颗糖，还剩4颗！！<br> 消费者0：赶快生产！！<br> 消费者3：吃了1颗糖，还剩3颗！！<br> 消费者3：赶快生产！！<br> 消费者4：吃了1颗糖，还剩2颗！！<br> 消费者4：赶快生产！！<br> 消费者0：吃了1颗糖，还剩1颗！！<br> 消费者0：赶快生产！！*</p>
+<p>*生产者：下班啦！<br> 消费者1：我来把剩下的糖都吃了！<br> 消费者1：吃了1颗糖，还剩0颗！！<br> 消费者1：都吃光啦，下次再吃！<br> 消费者0：都吃光啦，下次再吃！<br> 消费者2：都吃光啦，下次再吃！<br> 消费者3：都吃光啦，下次再吃！<br> 消费者4：都吃光啦，下次再吃！</p>
+<hr>
+<p> 输入回车结束！*</p>
+<p><strong>AutoResetEvent &amp; ManuResetEvent</strong></p>
+<p>　　到此为止我们还没有提到过EventWaitHandle的这两个儿子，不过这就是一两句话的事：</p>
+<ul>
+<li>AutoResetEvent在功能上等效于用EventResetMode.AutoReset 创建的未命名的 EventWaitHandle。</li>
+<li>ManualResetEvent在功能上等效于用EventResetMode.ManualReset 创建的未命名的 EventWaitHandle。</li>
+</ul>
+<p>　　好了，讲这么都就够了，这两个子类无非是为了方便使用而存在的。不过请记得这两个子类永远是局部/Local的，并不能象它们的父类一样用于进程间的通信。</p>
+<p>　　还是给出一个简单的例子，这个例子只跟通知有关，不再涉及临界资源。假设一个跑步比赛的场景，我们用一个ManualResetEvent表示比赛，然后为每个运动员配备一个AutoResetEvent用于通知到起跑线或者是达终点。首先运动员需要到起跑线上就位，这个过程我们让运动员到达起跑线后调用AutoResetEvent上的Reset()发出信号，同时使用ManualResetEvent上的WaitOne()阻塞自己准备起跑。另一方面，我们在比赛线程上先用WaitHandle.WaitAll(AutoResetEvent[])等待所有运动员到位。WaitAll()完成后，使用ManualResetEvent上的Reset()发令开始比赛，再使用WaitHandle.WaitAny(AutoResetEvent[])等待第一个运动员冲线。而每个运动员到终点后会再次调用AutoResetEvent.Reset()表示到达。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Runner</span> : <span class="title">IDisposable</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//用于让所有运动员到达起跑线准备起跑</span></span><br><span class="line">    <span class="keyword">private</span> ManualResetEvent _mnlRstEvntStartLine = <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">//用于运动员到达终点时发出信号</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AutoResetEvent[] _mnlRstEvntRunner = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">const</span> <span class="built_in">int</span> _numberOfRunner = <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Random _rnd = <span class="keyword">new</span> Random();</span><br><span class="line">   </span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 构造函数</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Runner</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _mnlRstEvntStartLine = <span class="keyword">new</span> ManualResetEvent(<span class="literal">false</span>);</span><br><span class="line">        _mnlRstEvntRunner = <span class="keyword">new</span> AutoResetEvent[_numberOfRunner];</span><br><span class="line">        <span class="comment">//请运动员就位</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfRunner; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            _mnlRstEvntRunner[i] = <span class="keyword">new</span> AutoResetEvent(<span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 运动员方法</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;id&quot;&gt;</span>运动员序号<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>(<span class="params"><span class="built_in">object</span> id</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">int</span> index = (<span class="built_in">int</span>)id;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//等待信号准备起跑</span></span><br><span class="line">        Console.WriteLine(<span class="string">&quot;&#123;0&#125;号运动员就位。&quot;</span>, index);</span><br><span class="line">        _mnlRstEvntRunner[index].Set();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//等待发令</span></span><br><span class="line">        _mnlRstEvntStartLine.WaitOne();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//随机睡眠，表示不同运动员跑的快慢</span></span><br><span class="line">        Thread.Sleep(_rnd.Next(<span class="number">2000</span>));</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">&quot;&#123;0&#125;号运动员到达终点！&quot;</span>, index);</span><br><span class="line">        _mnlRstEvntRunner[index].Set();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 比赛开始</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Thread[] runners = <span class="keyword">new</span> Thread[_numberOfRunner];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//请运动员就位</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfRunner; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            runners[i] = <span class="keyword">new</span> Thread(Run);</span><br><span class="line">            runners[i].Start(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//等待所有运动员就位</span></span><br><span class="line">        WaitHandle.WaitAll(_mnlRstEvntRunner);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//发令起跑</span></span><br><span class="line">        Console.WriteLine(<span class="string">&quot;***********************起跑！！！*************************&quot;</span>);</span><br><span class="line">        _mnlRstEvntStartLine.Set();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//看看谁先到达终点</span></span><br><span class="line">        <span class="built_in">int</span> index = WaitHandle.WaitAny(_mnlRstEvntRunner);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//等待所有运动员到达终点</span></span><br><span class="line">        <span class="comment">//请运动员就位</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfRunner; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            runners[i].Join();</span><br><span class="line">        &#125;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;**********************************************************&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;&#123;0&#125;号运动员夺得冠军！&quot;</span>, index);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;***********************比赛结束***************************&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Runner ss = <span class="keyword">new</span> Runner();</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            ss.Start();</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(ex.Message);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">finally</span></span><br><span class="line">        &#123;</span><br><span class="line">            ss.Dispose();</span><br><span class="line">            ss = <span class="literal">null</span>;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;输入回车结束&quot;</span>);</span><br><span class="line">            Console.ReadLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">region</span> IDisposable Members</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (_mnlRstEvntStartLine != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _mnlRstEvntStartLine.Set();</span><br><span class="line">            _mnlRstEvntStartLine.Close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//do nothing</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (_mnlRstEvntRunner != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numberOfRunner; ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (_mnlRstEvntRunner[i] != <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    _mnlRstEvntRunner[i].Set();</span><br><span class="line">                    _mnlRstEvntRunner[i].Close();</span><br><span class="line">                    _mnlRstEvntRunner[i] = <span class="literal">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">//do nothing</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            _mnlRstEvntRunner = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　可能的执行结果：</p>
+<p><em>0号运动员就位。<br> 1号运动员就位。<br> 2号运动员就位。<br> 3号运动员就位。<br> 4号运动员就位。<br> 5号运动员就位。<br> 6号运动员就位。<br> 7号运动员就位。<br> <em><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>起跑！！！</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em></em>*<br> 3号运动员到达终点！<br> 1号运动员到达终点！<br> 0号运动员到达终点！<br> 4号运动员到达终点！<br> 2号运动员到达终点！<br> 5号运动员到达终点！<br> 6号运动员到达终点！<br> 7号运动员到达终点！</p>
+<hr>
+<p> 3号运动员夺得冠军！<br> <em><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>比赛结束</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em>*****</p>
+<p><strong>题外话：派生总是优雅的吗？</strong><br> 　在WaitHandle家族这个继承关系里，我实在忍不住要说“丑陋”两个字。Mutex以及下篇将要讲到的信号量Semaphore，实在是太委屈地接受了来自WaitHandle上不相关的静态方法。WaitAll()，WaitAny()，SignalAndWait()完完全全就是为EventWaitHandle这一族定制的。继承本来想体现的多态性，也仅仅是体现在这几个方法的参数是WaitHandle上，不过有谁会真的在这几个方法上使用Mutex或者Semaphore实例呢？也许Mutex和Semaphore是WaitHandle“抱养”的吧，否则它怎么这么偏心？：）<br> 　Mutex与EventWaitHandle完全是站在同步的两个方向：Mutex是“锁”可以实现互斥访问但几乎不具有通信能力；而EventWaitHandle有强大的通信能力，但却不能实现对资源的互斥访问。从一个父类，派生出两个有如此大差异的子类实在不知道是为何。从这种意义上来讲，似乎Monitor比较“全面”，两边都能做一点。<br> 　　在基础类库里出现这样的状况，似乎确实无法对此表示信服（这可能是有些Java程序员鄙视.Net一脉的原因之一吧，Java在语言规范和OO理论上的优雅的确有些让人着迷：））。不过，我们还是要体谅一下MS。它的产品线是那么庞大，产品生命周期是那么持久，你不可能期望Windows API刚出现的时候就能够为.Net未来的优雅考虑。一代代的更替中，他们总需要面对之前实现的一些限制。毕竟这几个类的根源是比较直接地对Win32 API地封装。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/多线程/">多线程</a><a href="/tags/同步/">同步</a><a href="/tags/通知/">通知</a><a href="/tags/eventwaitHandle/">eventwaitHandle</a><a href="/tags/Mutex/">Mutex</a><a href="/tags/生产者消费者/">生产者消费者</a><a href="/tags/消息订阅/">消息订阅</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/12/08/C#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%EF%BC%884%EF%BC%89-%20%E9%80%9A%E7%9F%A5%EF%BC%86EventWaitHandle%E4%B8%80%E5%AE%B6/" data-title="C#线程同步（4）- 通知＆EventWaitHandle一家 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/10/北京大学肖臻老师《区块链技术与应用》公开课/" title="北京大学肖臻老师《区块链技术与应用》公开课">
+  <strong>上一篇：</strong><br/>
+  <span>
+  北京大学肖臻老师《区块链技术与应用》公开课</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/12/02/使用 Gitlab CICD 实现自动化发布站点到 IIS/"  title="使用 Gitlab CICD 实现自动化发布站点到 IIS">
+ <strong>下一篇：</strong><br/> 
+ <span>使用 Gitlab CICD 实现自动化发布站点到 IIS
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%EF%BC%884%EF%BC%89-%E9%80%9A%E7%9F%A5%EF%BC%86EventWaitHandle%E4%B8%80%E5%AE%B6"><span class="toc-number">1.</span> <span class="toc-text">C#线程同步（4）- 通知＆EventWaitHandle一家</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

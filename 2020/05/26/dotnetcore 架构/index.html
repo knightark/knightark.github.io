@@ -1,0 +1,845 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>dotnetcore 架构 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="dotnetcore 架构             手写orm     泛型缓存 在运行时会生成多个类     没有线程安全问题 字典缓存   有线程安全问题 入库前 的数据校验    ![1586827112020](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586827112020.png) ![1586827221804](C:\U">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dotnetcore 架构">
+<meta property="og:url" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="dotnetcore 架构             手写orm     泛型缓存 在运行时会生成多个类     没有线程安全问题 字典缓存   有线程安全问题 入库前 的数据校验    ![1586827112020](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586827112020.png) ![1586827221804](C:\U">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586757795332.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586762662413.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586763317628.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586763787012.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586764315478.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586764336120.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586764782088.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586764880655.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586765056010.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586765099044.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586765130258.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586765542415.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586765796688.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586766235910.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586766313457.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586766560641.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586769391794.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586776346168.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586776220315.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586776800547.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586776560900.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586776708925.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586776914681.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586781493522.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586781943992.png">
+<meta property="og:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586782853138.png">
+<meta property="article:published_time" content="2020-05-26T05:53:56.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:07.281Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users/Ark/AppData/Roaming/Typora/typora-user-images/1586757795332.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/05/26/dotnetcore 架构/" title="dotnetcore 架构" itemprop="url">dotnetcore 架构</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-05-26T05:53:56.000Z" itemprop="datePublished"> Published 2020-05-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#dotnetcore-%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">dotnetcore 架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E3%80%81%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB"><span class="toc-number">1.1.</span> <span class="toc-text">一 、读写分离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">1 读写分离架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BB%E4%BB%8E"><span class="toc-number">1.1.2.</span> <span class="toc-text">2 配置数据库主从</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">3 主从配置代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81dotnet-core-%E5%BC%80%E5%8F%91"><span class="toc-number">1.2.</span> <span class="toc-text">二、dotnet core 开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pay-for-what-you-use"><span class="toc-number">1.2.1.</span> <span class="toc-text">1 pay for what you use</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2 框架设计思想</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOC%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC"><span class="toc-number">1.3.</span> <span class="toc-text">IOC控制反转</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP"><span class="toc-number">1.4.</span> <span class="toc-text">AOP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99IOC"><span class="toc-number">1.5.</span> <span class="toc-text">手写IOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.6.</span> <span class="toc-text">微服务</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="dotnetcore-架构"><a href="#dotnetcore-架构" class="headerlink" title="dotnetcore 架构"></a>dotnetcore 架构</h1><p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586757795332.png" alt="1586757795332"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586762662413.png" alt="1586762662413"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586763317628.png" alt="1586763317628"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586763787012.png" alt="1586763787012"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586764315478.png" alt="1586764315478"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586764336120.png" alt="1586764336120"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586764782088.png" alt="1586764782088"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586764880655.png" alt="1586764880655"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586765056010.png" alt="1586765056010"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586765099044.png" alt="1586765099044"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586765130258.png" alt="1586765130258"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586765542415.png" alt="1586765542415"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586765796688.png" alt="1586765796688"></p>
+<p>手写orm</p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586766235910.png" alt="1586766235910"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586766313457.png" alt="1586766313457"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586766560641.png" alt="1586766560641"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586769391794.png" alt="1586769391794"></p>
+<p>泛型缓存</p>
+<p>在运行时会生成多个类</p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586776346168.png" alt="1586776346168"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586776220315.png" alt="1586776220315"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586776800547.png" alt="1586776800547"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586776560900.png" alt="1586776560900"></p>
+<p>没有线程安全问题</p>
+<p>字典缓存</p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586776708925.png" alt="1586776708925"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586776914681.png" alt="1586776914681"></p>
+<p>有线程安全问题</p>
+<p>入库前 的数据校验</p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586781493522.png" alt="1586781493522"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586781943992.png" alt="1586781943992"></p>
+<p><img src="/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/Users\Ark\AppData\Roaming\Typora\typora-user-images\1586782853138.png" alt="1586782853138"></p>
+<p>![1586827112020](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586827112020.png)</p>
+<p>![1586827221804](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586827221804.png)</p>
+<p>![1586827534031](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586827534031.png)</p>
+<p>表达式目录树</p>
+<p>Expression</p>
+<p>![1586829078239](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586829078239.png)</p>
+<h2 id="一-、读写分离"><a href="#一-、读写分离" class="headerlink" title="一 、读写分离"></a>一 、读写分离</h2><h3 id="1-读写分离架构"><a href="#1-读写分离架构" class="headerlink" title="1 读写分离架构"></a>1 读写分离架构</h3><p>![1586831044105](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831044105.png)</p>
+<h3 id="2-配置数据库主从"><a href="#2-配置数据库主从" class="headerlink" title="2 配置数据库主从"></a>2 配置数据库主从</h3><p>![1586831142173](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831142173.png)</p>
+<p>![1586831151936](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831151936.png)</p>
+<p>![1586831190861](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831190861.png)</p>
+<p>![1586831214646](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831214646.png)</p>
+<p>![1586831253835](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831253835.png)</p>
+<h3 id="3-主从配置代码"><a href="#3-主从配置代码" class="headerlink" title="3 主从配置代码"></a>3 主从配置代码</h3><ol>
+<li>配置多个连接字符串，one-write-n-read</li>
+<li>SqlConnectionPool And Dispatch</li>
+<li>访问层提供默认连接并接受指定</li>
+</ol>
+<p>数据库类型设定</p>
+<p>数据读写设定</p>
+<p>![1586831706095](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831706095.png)</p>
+<p>![1586831783764](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586831783764.png)</p>
+<p>主库—&gt;发布服务器—–&gt;从库（都是一台服务器）</p>
+<p>问题： 数据同步延迟相对高一些，3秒延迟。</p>
+<p>解决办法</p>
+<ol>
+<li>适用于能够接受延迟的操作，只要保证增删改数据不错就行，其实大部分业务都能接受脏数据。</li>
+<li>不能接受的情况下，就需要查询全库</li>
+<li>缓存/nosql ，增删改时同步主库，同时也同步nosql</li>
+</ol>
+<p>![1586833069736](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586833069736.png)</p>
+<h2 id="二、dotnet-core-开发"><a href="#二、dotnet-core-开发" class="headerlink" title="二、dotnet core 开发"></a>二、dotnet core 开发</h2><h3 id="1-pay-for-what-you-use"><a href="#1-pay-for-what-you-use" class="headerlink" title="1 pay for what you use"></a>1 pay for what you use</h3><p>![1586833383855](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586833383855.png)</p>
+<h3 id="2-框架设计思想"><a href="#2-框架设计思想" class="headerlink" title="2 框架设计思想"></a>2 框架设计思想</h3><p>在大幅简化框架包袱的同时，Asp.NetCore又内置了一些新东西。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static IHostBuilder CreateHostBuilder(string[] args)=&gt;</span><br><span class="line">	Host.CreateDefaultBuilder(args)</span><br><span class="line">    	.ConfigureLoggin((contex,loggingbuilder)=&gt;</span><br><span class="line">    	&#123;</span><br><span class="line">    		loggingBuilder.AddFilter(&quot;System&quot;,LogLevel.Warning);</span><br><span class="line">    		loggingBuilder.AddFilter(&quot;Microsoft&quot;,LogLevel.Warnig);</span><br><span class="line">    		loggingBuilder.AddLog4Net();</span><br><span class="line">    	&#125;)</span><br><span class="line">    	.ConfigureWebHostDefaults(webBuilder=&gt;</span><br><span class="line">    	&#123;</span><br><span class="line">            webBuilder.UseStartup&lt;Startup&gt;();</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>![1586833933188](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586833933188.png)</p>
+<p>![1586834340420](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586834340420.png)</p>
+<p>![1586834757387](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586834757387.png)</p>
+<p>![1586835123244](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586835123244.png)</p>
+<p>![1586843978415](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586843978415.png)</p>
+<p>![1586844050809](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586844050809.png)</p>
+<p>![1586844073247](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586844073247.png)</p>
+<p>![1586844974535](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586844974535.png)</p>
+<p>![1586844989657](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586844989657.png)</p>
+<p>![1586845842532](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586845842532.png)</p>
+<p>![1586846064741](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586846064741.png)</p>
+<p>![1586846170177](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586846170177.png)</p>
+<p>防盗链</p>
+<p>![1586846540552](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586846540552.png)</p>
+<h2 id="IOC控制反转"><a href="#IOC控制反转" class="headerlink" title="IOC控制反转"></a>IOC控制反转</h2><p>![1586847045429](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586847045429.png)</p>
+<p>![1586847820732](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586847820732.png)</p>
+<p>![1586847847370](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586847847370.png)</p>
+<p>![1586847970446](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586847970446.png)</p>
+<p>![1586848427406](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586848427406.png)</p>
+<p>![1586848688790](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586848688790.png)</p>
+<p>![1586848830824](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586848830824.png)</p>
+<p>![1586849381584](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849381584.png)</p>
+<p>![1586849632782](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849632782.png)</p>
+<p>![1586849679716](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849679716.png)</p>
+<p>![1586849796494](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849796494.png)</p>
+<p>![1586849812215](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849812215.png)</p>
+<p>![1586849781327](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849781327.png)</p>
+<p>![1586849834502](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849834502.png)</p>
+<p>![1586849762568](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849762568.png)</p>
+<p>![1586849860950](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586849860950.png)</p>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>![1586850193339](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586850193339.png)</p>
+<p>![1586852860163](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586852860163.png)</p>
+<p>![1586852948618](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586852948618.png)</p>
+<p>![1586852957497](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586852957497.png)</p>
+<p>![1586853915756](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586853915756.png)</p>
+<p>![1586853941805](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586853941805.png)</p>
+<p>![1586854288366](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586854288366.png)</p>
+<p>![1586854316598](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586854316598.png)</p>
+<p>![1586854420863](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586854420863.png)</p>
+<p>![1586857743901](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586857743901.png)</p>
+<p>![1586857812632](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586857812632.png)</p>
+<p>![1586915300595](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586915300595.png)</p>
+<p>![1586915320431](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586915320431.png)</p>
+<p>![1586915378132](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586915378132.png)</p>
+<p>![1586915681326](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586915681326.png)</p>
+<p>![1586915721132](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586915721132.png)</p>
+<p>resource before</p>
+<p>action before</p>
+<p>action end</p>
+<p>result before</p>
+<p>result end</p>
+<p>resource end</p>
+<p>![1586917384787](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586917384787.png)</p>
+<p>![1586917456962](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586917456962.png)</p>
+<p>![1586917651013](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586917651013.png)</p>
+<p>![1586917792164](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586917792164.png)</p>
+<p>![1586917900120](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586917900120.png)</p>
+<p>![1586917925336](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586917925336.png)</p>
+<p>![1586918023696](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586918023696.png)</p>
+<p>![1586918219813](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586918219813.png)</p>
+<p>![1586918245779](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586918245779.png)</p>
+<p>![1586918262877](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586918262877.png)</p>
+<p>![1586918319365](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586918319365.png)</p>
+<h2 id="手写IOC"><a href="#手写IOC" class="headerlink" title="手写IOC"></a>手写IOC</h2><p>![1586920910086](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586920910086.png)</p>
+<p>![1586931009444](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586931009444.png)</p>
+<p>![1586931115044](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586931115044.png)</p>
+<p>![1586937243352](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586937243352.png)</p>
+<p>![1586940248785](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586940248785.png)</p>
+<p>![1586940564714](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586940564714.png)</p>
+<p>![1586941358698](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586941358698.png)</p>
+<p>![1586942280564](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586942280564.png)</p>
+<p>![1586942943242](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586942943242.png)</p>
+<p>![1586943626381](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586943626381.png)</p>
+<p>![1586943522088](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586943522088.png)</p>
+<p>![1586943853074](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586943853074.png)</p>
+<p>方法用委托</p>
+<p>然后把方法串起来</p>
+<p>![1586943928889](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586943928889.png)</p>
+<p>![1586943977820](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586943977820.png)</p>
+<p>![1586943998122](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586943998122.png)</p>
+<p>![1586944323373](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586944323373.png)</p>
+<p>![1586944340523](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586944340523.png)</p>
+<p>![1586944379213](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586944379213.png)</p>
+<p>![1586944491885](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586944491885.png)</p>
+<p>![1586944570060](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586944570060.png)</p>
+<p>![1586944624584](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586944624584.png)</p>
+<p>总结</p>
+<p>![1586945482015](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586945482015.png)</p>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>![1586945631777](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586945631777.png)</p>
+<p>![1586945646815](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586945646815.png)</p>
+<p>![1586945774453](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586945774453.png)</p>
+<p>![1586945911866](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586945911866.png)</p>
+<p>![1586946416523](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946416523.png)</p>
+<p>![1586946452646](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946452646.png)</p>
+<p>![1586946475223](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946475223.png)</p>
+<p>![1586946641822](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946641822.png)</p>
+<p>门面模式</p>
+<p>![1586946685218](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946685218.png)</p>
+<p>![1586946754328](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946754328.png)</p>
+<p>![1586946811079](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946811079.png)</p>
+<p>![1586946823037](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946823037.png)</p>
+<p>![1586946848502](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946848502.png)</p>
+<p>![1586946936195](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586946936195.png)</p>
+<p>![1586947043912](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586947043912.png)</p>
+<p>![1586947440729](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586947440729.png)</p>
+<p>![1586948008642](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586948008642.png)</p>
+<p>![1586948114201](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586948114201.png)</p>
+<p>![1586948167119](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586948167119.png)</p>
+<p>![1586997550302](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586997550302.png)</p>
+<p>![1586997642116](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586997642116.png)</p>
+<p>![1586997736418](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586997736418.png)</p>
+<p>![1586997831563](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586997831563.png)</p>
+<p>![1586999536704](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586999536704.png)</p>
+<p>![1586999641371](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586999641371.png)</p>
+<p>![1586999879366](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1586999879366.png)</p>
+<p>代码</p>
+<p>![1587000176110](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587000176110.png)</p>
+<p>![1587000545954](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587000545954.png)</p>
+<p>![1587000644874](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587000644874.png)</p>
+<p>![1587000714917](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587000714917.png)</p>
+<p>![1587000778991](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587000778991.png)</p>
+<p>![1587001307255](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587001307255.png)</p>
+<p>![1587001766765](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587001766765.png)</p>
+<p>![1587001789670](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587001789670.png)</p>
+<p>![1587002031497](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587002031497.png)</p>
+<p>![1587002531855](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587002531855.png)</p>
+<p>![1587002584875](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587002584875.png)</p>
+<p>![1587003608777](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587003608777.png)</p>
+<p>![1587003907741](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587003907741.png)</p>
+<p>ocelot</p>
+<p>![1587006977013](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587006977013.png)</p>
+<p>![1587006987724](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587006987724.png)</p>
+<p>![1587007265591](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587007265591.png)</p>
+<p>![1587022070867](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587022070867.png)</p>
+<p>![1587022288906](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587022288906.png)</p>
+<p>![1587023031412](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587023031412.png)</p>
+<p>![1587023079144](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587023079144.png)</p>
+<p>![1587023092919](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587023092919.png)</p>
+<p>![1587023132396](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587023132396.png)</p>
+<p>限流</p>
+<p>![1587023838031](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587023838031.png)</p>
+<p>![1587024113761](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587024113761.png)</p>
+<p>![1587024345177](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587024345177.png)</p>
+<p>![1587024484486](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587024484486.png)</p>
+<p>![1587024511820](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587024511820.png)</p>
+<p>![1587026639551](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587026639551.png)</p>
+<p>![1587032632320](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587032632320.png)</p>
+<p>![1587032738511](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587032738511.png)</p>
+<p>![1587032921678](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587032921678.png)</p>
+<p>![1587033043596](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587033043596.png)</p>
+<p>![1587033307538](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587033307538.png)</p>
+<p>![1587033414921](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587033414921.png)</p>
+<p>![1587034085085](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587034085085.png)</p>
+<p>![1587084743304](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587084743304.png)</p>
+<p>![1587084785371](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587084785371.png)</p>
+<p>![1587084933767](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587084933767.png)</p>
+<p>![1587085000361](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587085000361.png)</p>
+<p>![1587086133357](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587086133357.png)</p>
+<p>![1587086741163](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587086741163.png)</p>
+<p>![1587086962784](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587086962784.png)</p>
+<p>![1587087099000](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587087099000.png)</p>
+<p>![1587087146201](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587087146201.png)</p>
+<p>![1587087820142](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587087820142.png)</p>
+<p>![1587087917457](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587087917457.png)</p>
+<p>![1587087990469](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587087990469.png)</p>
+<p>![1587088429918](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587088429918.png)</p>
+<p>![1587089376158](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587089376158.png)</p>
+<p>![1587090638496](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587090638496.png)</p>
+<p>![1587102775532](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587102775532.png)</p>
+<p>![1587106245714](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587106245714.png)</p>
+<p>![1587106528112](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587106528112.png)</p>
+<p>![1587106983359](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587106983359.png)</p>
+<p>![](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587107771238.png)</p>
+<p>![1587107906274](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587107906274.png)</p>
+<p>![1587108221425](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587108221425.png)</p>
+<p>![1587108692911](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587108692911.png)</p>
+<p>![1587108890649](C:\Users\Ark\Documents\Files\dotnetcore 架构.assets\1587108890649.png)</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/05/26/dotnetcore%20%E6%9E%B6%E6%9E%84/" data-title="dotnetcore 架构 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/05/26/DotNetty/" title="DotNetty系列二：基本使用">
+  <strong>上一篇：</strong><br/>
+  <span>
+  DotNetty系列二：基本使用</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/05/26/dotnetcore 使用nacos/"  title="dotnetcore 使用nacos">
+ <strong>下一篇：</strong><br/> 
+ <span>dotnetcore 使用nacos
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#dotnetcore-%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">dotnetcore 架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E3%80%81%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB"><span class="toc-number">1.1.</span> <span class="toc-text">一 、读写分离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">1 读写分离架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BB%E4%BB%8E"><span class="toc-number">1.1.2.</span> <span class="toc-text">2 配置数据库主从</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">3 主从配置代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81dotnet-core-%E5%BC%80%E5%8F%91"><span class="toc-number">1.2.</span> <span class="toc-text">二、dotnet core 开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pay-for-what-you-use"><span class="toc-number">1.2.1.</span> <span class="toc-text">1 pay for what you use</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2 框架设计思想</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOC%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC"><span class="toc-number">1.3.</span> <span class="toc-text">IOC控制反转</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP"><span class="toc-number">1.4.</span> <span class="toc-text">AOP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99IOC"><span class="toc-number">1.5.</span> <span class="toc-text">手写IOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.6.</span> <span class="toc-text">微服务</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

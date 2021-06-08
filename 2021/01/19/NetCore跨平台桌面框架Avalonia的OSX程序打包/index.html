@@ -1,0 +1,699 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>NetCore跨平台桌面框架Avalonia的OSX程序打包 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="NetCore跨平台桌面框架Avalonia的OSX程序打包　　虽然工作开发语言已经转到了java，但平时仍会用netcore做一些小工具，提升工作效率，但是笔记本换成了Mac，小工具只能做成命令行形式，很是痛苦，迫切需要一个.net跨平台的桌面程序解决方案。 为什么选择Avalonia 　　据我所知目前有几个.net跨平台桌面解决方案，如 Electron.NET、Xamarin、Eto.For">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NetCore跨平台桌面框架Avalonia的OSX程序打包">
+<meta property="og:url" content="https://knightark.github.io/2021/01/19/NetCore%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E6%A1%86%E6%9E%B6Avalonia%E7%9A%84OSX%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="NetCore跨平台桌面框架Avalonia的OSX程序打包　　虽然工作开发语言已经转到了java，但平时仍会用netcore做一些小工具，提升工作效率，但是笔记本换成了Mac，小工具只能做成命令行形式，很是痛苦，迫切需要一个.net跨平台的桌面程序解决方案。 为什么选择Avalonia 　　据我所知目前有几个.net跨平台桌面解决方案，如 Electron.NET、Xamarin、Eto.For">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725174635701-863551794.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725174736879-54110505.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725174925562-903092998.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175045976-1580074902.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175130180-1559724242.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180322083-531786603.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175215771-1582987421.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175250258-772141591.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175405568-293229363.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175434502-1550149974.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175711076-535366554.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175756374-997294470.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175901511-1224313408.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180510061-1626340001.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180552603-995903399.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180620753-116229983.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180706073-1309885902.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180951565-1067623923.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180808115-972215988.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725181101719-152038519.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725181142904-717858013.png">
+<meta property="article:published_time" content="2021-01-19T00:59:34.000Z">
+<meta property="article:modified_time" content="2021-06-08T05:52:18.193Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="dotnetcore">
+<meta property="article:tag" content="avalonia">
+<meta property="article:tag" content="桌面开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725174635701-863551794.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/01/19/NetCore跨平台桌面框架Avalonia的OSX程序打包/" title="NetCore跨平台桌面框架Avalonia的OSX程序打包" itemprop="url">NetCore跨平台桌面框架Avalonia的OSX程序打包</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-01-19T00:59:34.000Z" itemprop="datePublished"> Published 2021-01-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NetCore%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E6%A1%86%E6%9E%B6Avalonia%E7%9A%84OSX%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">NetCore跨平台桌面框架Avalonia的OSX程序打包</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="NetCore跨平台桌面框架Avalonia的OSX程序打包"><a href="#NetCore跨平台桌面框架Avalonia的OSX程序打包" class="headerlink" title="NetCore跨平台桌面框架Avalonia的OSX程序打包"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/seamas/p/11245348.html">NetCore跨平台桌面框架Avalonia的OSX程序打包</a></h1><p>　　虽然工作开发语言已经转到了java，但平时仍会用netcore做一些小工具，提升工作效率，但是笔记本换成了Mac，小工具只能做成命令行形式，很是痛苦，迫切需要一个.net跨平台的桌面程序解决方案。</p>
+<p><strong>为什么选择Avalonia</strong></p>
+<p>　　据我所知目前有几个.net跨平台桌面解决方案，如 Electron.NET、Xamarin、Eto.Forms和Avalonia，并对这几个框架进行了一定的尝试。</p>
+<p>Electron.NET使用Electron作为前端展示，NetCore作为后台服务，前端可以把一些耗时操作提交给后端处理，但是打包后的程序在OSX启动，每次都会弹出要开启xxxx端口，相对来说不够友好，况且我对js和css比较无感，windows桌面开发经验无法得到利用。</p>
+<p>Xamarin新版已经统一了android和ios的代码，除了极少用到各平台特定功能，基本上可以同一套代码编译出两个不同平台版本的程序包，但桌面端还无法使用同一套代码编译进行多平台编译。</p>
+<p>Eto.Forms 采用了原生控件映射的方式，可以实现一套代码编译出OSX/Linux/Windows三个平台的程序，采用mono运行时，但现在vs插件只有vs2017的，没有vs2019</p>
+<p>Avalonia 采用基于了WPF  Xaml，对于有WPF/UWP/Xamarin.Forms开发经验的人来说，极易入手，虽然目前仍处在测试阶段（几年前就这么说了），但已经可以使用该框架编写应用程序，最大的优点是， 程序采用了.NetCore 运行时，所以使用dotnet publish跨平台发布，就可以在单平台下编译出适合多个平台的应用程序。</p>
+<p><strong>开发准备</strong></p>
+<p>1 对于使用Visual Studio 2017/2019的人来说，可以直接通过VS的Marketplace安装Avalonia扩展，或者直接通过 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=AvaloniaTeam.AvaloniaforVisualStudio">此链接</a> 下载后安装(此扩展不支持Visual Studio for Mac)</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725174635701-863551794.png" alt="img"></p>
+<p>2 对于没有Visual Studio或者在非Windows平台上开发的人来说，可以使用.NetCore CLI安装Avalonia项目模板</p>
+<p>　　a) 克隆项目模板库到本地</p>
+<p>　　git clone <a target="_blank" rel="noopener" href="https://github.com/AvaloniaUI/avalonia-dotnet-templates.git">https://github.com/AvaloniaUI/avalonia-dotnet-templates.git</a></p>
+<p>　　b) 安装模板库 </p>
+<p>　　dotnet new -i [模板库存放的本地路径]</p>
+<p>   <img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725174736879-54110505.png" alt="img"></p>
+<p>　　安装完成后可以看到</p>
+<p>　　<img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725174925562-903092998.png" alt="img"></p>
+<p><strong>创建Avalonia项目程序</strong></p>
+<p>　　接下来以Visual Studio 2019</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175045976-1580074902.png" alt="img"></p>
+<p>   <img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175130180-1559724242.png" alt="img"></p>
+<p>　　</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180322083-531786603.png" alt="img"></p>
+<p>　</p>
+<p>　　虽然第二步选择了 .NetFramework 4.7.2版本，但是目标框架仍是 .NetCoreApp2.1和NetFramework 4.6.1， 项目的目录结构，和WPF很相似</p>
+<p>　　等待Nuget还原成功后，先构建一下项目，VS上可以直接像WPF一样所见即所得地使用设计器</p>
+<p>　　修改一下MainWindow的界面代码以及后端代码，此处只给出与模板生成代码的git差异</p>
+<p> 　</p>
+<p>　　<img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175215771-1582987421.png" alt="img"></p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175250258-772141591.png" alt="img"></p>
+<p>　　看到DockPanel是不是有很熟悉的感觉？</p>
+<p>　　在界面代码中，我对<Window>添加了 Width和Height的默认属性，在Windows系统下，这两个属性可以不用添加，程序启动后是正常的，但如果运行于OSX系统，不添加默认宽高，窗口会很小（虽然可以通过拖动来缩放）</Window></p>
+<p><strong>调试运行</strong></p>
+<p>　　直接从VS进行调试运行，先跳出一个dotnet窗口，再跳出一个界面窗口，可见程序是运行在.NetCore运行时上的</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175405568-293229363.png" alt="img"></p>
+<p>　　</p>
+<p>　　点击按钮，如我所愿，显示了“Welcome to Avalonia!”</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175434502-1550149974.png" alt="img"></p>
+<p>　　</p>
+<p> <strong>发布程序</strong></p>
+<p>　　我的目标是将程序发布到OSX平台</p>
+<p>　　先运行 dotnet publish</p>
+<p>　　发生了错误，提示项目是多目标框架的，需要指定发布目标框架</p>
+<p>　　</p>
+<p>　　运行 dotnet publish -f=netcoreapp2.1  </p>
+<p>　　指定目标框架为 netcoreapp2.1，提示 error MSB1009:项目文件不存在</p>
+<p>　　</p>
+<p>　　还是不行，那再试试发布到.net framework 4.6.1</p>
+<p>　　dotnet publish -f=net461</p>
+<p>　　发布成功</p>
+<p>　　<img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175711076-535366554.png" alt="img"></p>
+<p>　　</p>
+<p>　　疑惑为什么无法发布到netcoreapp2.1下为什么会失败，所以我使用 .NetCore CLI创建了一个项目，对比两项目的 .csproj文件发现</p>
+<p>　　使用.NetCore CLI创建的项目文件，使用的是单目标框架，而使用VS模板创建的项目文件，是多目标框架，</p>
+<p>　　对比两个文件，对 .csproj文件进行修改，将项目更改为单目标框架 netcoreapp2.1</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175756374-997294470.png" alt="img"></p>
+<p>　　</p>
+<p>　　 </p>
+<p>　　</p>
+<p>　　</p>
+<p>　　删除项目下的 bin 和 obj 文件夹， 并指定OSX平台发布</p>
+<p>　　dotnet publish -r osx-x64</p>
+<p>　　生成成功</p>
+<p>　　 </p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725175901511-1224313408.png" alt="img"></p>
+<p>　　</p>
+<p>　　将 \bin\Debug\netcoreapp2.1\osx-x64\publish 目录拷到 OSX 下（如果打包后复制，在OSX解压会丢失文件的权限属性，没有执行权限，需要重新授权）</p>
+<p>　　<img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180510061-1626340001.png" alt="img"></p>
+<p>　　通过命令行运行 MyAvalonia 程序， </p>
+<p>　　 <img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180552603-995903399.png" alt="img"></p>
+<p>　</p>
+<p>　　　程序窗口正常跳出</p>
+<p>　　<img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180620753-116229983.png" alt="img"></p>
+<p>　　点击按钮</p>
+<p>　　</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180706073-1309885902.png" alt="img"></p>
+<p><strong>程序打包</strong></p>
+<p>　　成功了但不够完美，有没有办法打包成.app应用，直接点击就可以运行？</p>
+<p>　　Google了很久，网上没有找到现成的打包工具，那就自己想想办法</p>
+<p>　　</p>
+<p>　　使用Xcode创建了一个 Cocoa App， 项目名称可任意取（我取名为avalonia），直接build，生成一个 avalonia.app 文件，将 .app文件拷出，查看程序包结构</p>
+<p>　　<img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180951565-1067623923.png" alt="img"></p>
+<p>　　 </p>
+<p>　　把 avaloina.app/Contents/MacOS 下所有文件(只有avalonia文件) 删除</p>
+<p>　　把avaloina.app/Contents/Frameworks 下所有文件(很多 .dylib 文件)删除</p>
+<p>　　</p>
+<p>　　把自己编译的程序 publish/ 下所有文件，拷贝到 avaloina.app/Contents/MacOS下</p>
+<p>　　<img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725180808115-972215988.png" alt="img"></p>
+<p>　　使用文本编辑器打开 avaloina.app/Contents/Info.plist，修改 CFBundleExecutable 对应的 String值， 从 avalonia 改为 MyAvalonia， 保存</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725181101719-152038519.png" alt="img"></p>
+<p>　　</p>
+<p><img src="https://img2018.cnblogs.com/blog/1297407/201907/1297407-20190725181142904-717858013.png" alt="img"></p>
+<p>　　　　直接点击运行 avalonia.app，成功出现MyAvalonia窗口界面。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/dotnetcore/">dotnetcore</a><a href="/tags/avalonia/">avalonia</a><a href="/tags/桌面开发/">桌面开发</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/01/19/NetCore%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E6%A1%86%E6%9E%B6Avalonia%E7%9A%84OSX%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85/" data-title="NetCore跨平台桌面框架Avalonia的OSX程序打包 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/01/19/Net Core 学习路线/" title="Net Core 学习路线">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Net Core 学习路线</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/01/14/快速搭建一个Fabric 1.0的环境/"  title="快速搭建一个Fabric 1.0的环境">
+ <strong>下一篇：</strong><br/> 
+ <span>快速搭建一个Fabric 1.0的环境
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NetCore%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E6%A1%86%E6%9E%B6Avalonia%E7%9A%84OSX%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">NetCore跨平台桌面框架Avalonia的OSX程序打包</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

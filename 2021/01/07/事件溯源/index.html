@@ -1,0 +1,676 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>事件溯源 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="事件溯源     什么是事件溯源（Event Sourcing）                 Posted on  2012-02-12 13:51[netfocus](https:&#x2F;&#x2F;www.cnblogs.com&#x2F;netfocus&#x2F;)  一个对象从创建开始到消亡会经历很多事件，以前我们是在每次对象参与完一个业务动作后把对象的最新状态持久化保存到数据库中，也就是说我们的数据库中的数据是反映了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件溯源">
+<meta property="og:url" content="https://knightark.github.io/2021/01/07/%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="事件溯源     什么是事件溯源（Event Sourcing）                 Posted on  2012-02-12 13:51[netfocus](https:&#x2F;&#x2F;www.cnblogs.com&#x2F;netfocus&#x2F;)  一个对象从创建开始到消亡会经历很多事件，以前我们是在每次对象参与完一个业务动作后把对象的最新状态持久化保存到数据库中，也就是说我们的数据库中的数据是反映了">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img.liuhu.me/2020/03/ES-03.png">
+<meta property="og:image" content="https://img.liuhu.me/2020/03/ES-01.png">
+<meta property="og:image" content="https://img.liuhu.me/2020/03/ES-04.png">
+<meta property="og:image" content="https://img.liuhu.me/2020/03/ES-02.png">
+<meta property="article:published_time" content="2021-01-07T09:56:49.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:11.930Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.liuhu.me/2020/03/ES-03.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/01/07/事件溯源/" title="事件溯源" itemprop="url">事件溯源</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-01-07T09:56:49.000Z" itemprop="datePublished"> Published 2021-01-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">1.</span> <span class="toc-text">事件溯源</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90%EF%BC%88Event-Sourcing%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">     什么是事件溯源（Event Sourcing）        </span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8%EF%BC%88%E8%AF%91%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">事件溯源模式入门（译）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">2.1.</span> <span class="toc-text">什么是事件溯源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93-vs-%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">2.1.1.</span> <span class="toc-text">关系数据库 vs 事件溯源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">关系数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90-1"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">事件溯源</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">2.2.</span> <span class="toc-text">为什么我们需要使用事件溯源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">事件溯源需要关注的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CQRS-ES"><span class="toc-number">2.4.</span> <span class="toc-text">CQRS&#x2F;ES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%AD%98%E5%82%A8"><span class="toc-number">2.5.</span> <span class="toc-text">事件存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%A6%81%E6%B1%82"><span class="toc-number">2.5.1.</span> <span class="toc-text">基本要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8"><span class="toc-number">2.5.2.</span> <span class="toc-text">底层存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E3%80%81%E6%89%A9%E5%B1%95%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.5.3.</span> <span class="toc-text">性能、扩展性、持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E9%98%85%E8%AF%BB"><span class="toc-number">2.6.</span> <span class="toc-text">补充阅读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E5%8E%9F%E6%96%87"><span class="toc-number">2.7.</span> <span class="toc-text">参考原文</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="事件溯源"><a href="#事件溯源" class="headerlink" title="事件溯源"></a>事件溯源</h1><h2 id="什么是事件溯源（Event-Sourcing）"><a href="#什么是事件溯源（Event-Sourcing）" class="headerlink" title="     什么是事件溯源（Event Sourcing）        "></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/netfocus/archive/2012/02/12/2347911.html">     什么是事件溯源（Event Sourcing）        </a></h2><pre><code>         Posted on  2012-02-12 13:51[netfocus](https://www.cnblogs.com/netfocus/)
+</code></pre>
+<p>一个对象从创建开始到消亡会经历很多事件，以前我们是在每次对象参与完一个业务动作后把对象的最新状态持久化保存到数据库中，也就是说我们的数据库中的数据是反映了对象的当前最新的状态。而事件溯源则相反，不是保存对象的最新状态，而是保存这个对象所经历的每个事件，所有的由对象产生的事件会按照时间先后顺序有序的存放在数据库中。可以看出，事件溯源的这种做法是更符合事实观的，因为它完整的描述了对象的整个生命周期过程中所经历的所有事件。</p>
+<p>那么，事件到底如何影响一个领域对象的状态的呢？很简单，当我们在触发某个领域对象的某个行为时，该领域对象会先产生一个事件，然后该对象自己响应该事件并更新其自己的状态，同时我们还会持久化在该对象上所发生的每一个事件；这样当我们要重新得到该对象的最新状态时，只要先创建一个空的对象，然后将和该对象相关的所有事件按照事件发生先后顺序从先到后再全部应用一遍即可还原得到该对象的最新状态，这个过程就是所谓的事件溯源；</p>
+<p>另一方面，因为是用事件来表示对象的状态，而事件是只会增加不会修改。这就能让数据库里的表示对象的数据非常稳定，不可能存在DELETE或UPDATE等操作。因为一个事件就是表示一个事实，事实是不能被磨灭或修改的。这种特性可以让领域模型非常稳定，在数据库级别不会产生并发更新同一条数据的问题；其实CAP定理之所以做不到，根本原因也是由于数据可以被修改；现在通过事件溯源，我们实现CAP或许就成为了可能；</p>
+<p>我们可以看到，基于这样的设计，领域对象的状态完全是由事件驱动的。不仅如此，事件还可以被事件总线分发出去，通知领域模型外的一切事件响应者发生了什么，基于这种Publish-Subscribe的通信模式，我们可以最大限度的实现系统的松耦合。</p>
+<p>—-汤雪华</p>
+<h1 id="事件溯源模式入门（译）"><a href="#事件溯源模式入门（译）" class="headerlink" title="事件溯源模式入门（译）"></a>事件溯源模式入门（译）</h1><p>  <a target="_blank" rel="noopener" href="http://www.liuhu.me/2020/03/introducing-event-sourcing.html">http://www.liuhu.me/2020/03/introducing-event-sourcing.html</a>                                                                                                                                              <a target="_blank" rel="noopener" href="http://www.liuhu.me/2020/03/introducing-event-sourcing.html#comments">                                    </a>                                                                                                   </p>
+<p>事件溯源 (Event sourcing) 和 Command Query Responsibility Segregation (CQRS) 通常会一起被提到。虽然两者之间没有直接的关系，但我们会发现它们是相辅相成的。<br>本章节介绍了事件溯源中的一些关键概念，并介绍了一些与 CQRS 模式相关的知识点。本章节仅仅是一个简介，在第4章节中会有关于事件溯源和 CQRS 之间关系的深入介绍。<br>为了帮助我们理解 <code>事件溯源</code>，首先我们需要理解 <code>事件</code> 的基本特征：</p>
+<ul>
+<li>事件是发生在过去的。举个例子，’预约了演讲者’、’预定了座位’，’发放了现金’，他们都是是用过去式描述这些事件的。</li>
+<li>事件是不可变的。应为事件是发生在过去的，所以他不能被修改或者撤回。但是，后续事件可能会更改或抵消早期事件的影响。例如，’预约已取消’ 该事件更改了先前预约事件的影响结果。</li>
+<li>事件是单向消息。事件只有一个源头（发布者）发布事件，一个或多个接收者（订阅者）接收事件。</li>
+<li>通常，事件包括事件相关的其他信息。例如，’E23座位是由爱丽丝预订的’。</li>
+<li>在事件溯源的上下文中，事件应描述业务意图。例如，’E23座位是由爱丽丝预订的’描述了业务发生了什么，这比’在预订表中，ID为E23的行的名称字段更新为爱丽丝’表达了更多信息。</li>
+</ul>
+<p>我们还将本章讨论事件与聚合的关系。有关 DDD 术语，聚合、聚合根和实体的说明，请参见 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591560(v%3dpandp.10)">《CQRS in Context》</a>。其中有两个特性与事件和事件溯源有关：</p>
+<ul>
+<li>聚合定义了相关实体组的一致性边界。因此，我们可以聚合相关事件，来通知相关方更新该实体（更新的一致的性）</li>
+<li>每个聚合都有唯一的 ID，因此，我们可以使用该 ID 来记录该聚合有哪些事件。</li>
+</ul>
+<p>在本章的其余部分，我们将使用 <code>聚合</code> 一词来指代一组关联的对象，这些对象被视为一个单元，以进行数据修改。这并不意味着事件溯源与 DDD 方法直接相关；我们只是使用 DDD 中的术语来尝试保持本指南中我们语言的一致性。</p>
+<h2 id="什么是事件溯源"><a href="#什么是事件溯源" class="headerlink" title="什么是事件溯源"></a>什么是事件溯源</h2><p>事件溯源是我们持久化应用状态的一种方式，他通过存储历史事件来记录应用当前的状态。例如，会议室管理系统需要跟踪已经被预定会议室的座位情况，目的为了检查当有座位预定时，是否有空余的座位。系统可以通过两种方式存储会议室以被预订座位的总数：</p>
+<ul>
+<li>系统可以直接存储会议室座位被预订的总数，并在当有人预订或取消时修改此数字。我们可以将预订数视为一个整数值，该整数值存储在表的特定列中，该表在系统中每个会议都有一条记录。</li>
+<li>系统存储每个会议室座位被预定或取消的事件，并且通过重放该会议室相关的事件来计算当前被预定座位的总数。</li>
+</ul>
+<h3 id="关系数据库-vs-事件溯源"><a href="#关系数据库-vs-事件溯源" class="headerlink" title="关系数据库 vs 事件溯源"></a>关系数据库 vs 事件溯源</h3><h4 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h4><p><img src="https://img.liuhu.me/2020/03/ES-03.png" alt="img"></p>
+<p>上图的处理步骤:</p>
+<ol>
+<li>流程管理器或 UI 发出命令，为 ID 为 157 的会议室保留两个席位。该命令由 SeatsAvailability 聚合处理程序处理。</li>
+<li>如有必要，对象关系映射（ORM）层将数据填充到聚合实体中。 ORM 从数据存储的表，来查询会议室被预定座位的现有数量。</li>
+<li>命令处理程序在聚合实体上调用业务方法进行保留座位。</li>
+<li>SeatsAvailability 聚合执行其领域逻辑，计算会议室被预订座位新的总数。</li>
+<li>ORM 将聚合实体中的信息更新持久化到数据库中</li>
+</ol>
+<blockquote>
+<p>有关流程管理器的定义，请参见第6章，<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591569(v%3dpandp.10)">《关于 Sagas 的传奇》</a></p>
+</blockquote>
+<p>上图提供了该过程的简化视图。实际上，由 ORM 层执行的映射逻辑是更复杂的。我们还需要考虑何时执行加载和保存操作，以平衡一致性、可靠性、可伸缩性和性能的需求。</p>
+<h4 id="事件溯源-1"><a href="#事件溯源-1" class="headerlink" title="事件溯源"></a>事件溯源</h4><p><img src="https://img.liuhu.me/2020/03/ES-01.png" alt="img"><br>使用事件溯源代替 ORM 层和关系数据库（RDBMS），执行步骤：</p>
+<ol>
+<li>流程管理器或 UI 发出命令，为 ID 为 157 的会议室保留两个席位。该命令由 SeatsAvailability 聚合处理程序处理</li>
+<li>通过查询 SeatsAvailability 聚合 ID 为 157 的所有事件来生成聚合实例。</li>
+<li>命令处理程序在聚合实例上调用业务方法进行保留座位。</li>
+<li>SeatsAvailability 聚合执行其领域逻辑，计算会议室被预订座位新的总数。SeatsAvailability 将创建一个事件，用于记录被预定的两个座位。</li>
+<li>系统将’预定了两个座位的’的事件追加到与事件存储中。</li>
+</ol>
+<p>第二种方法更简单，因为它省去了 ORM 层，并用更简单的方法代替了数据库中的复杂关系模型。数据库仅需要支持通过聚合对象 ID  查询历史事件、附加新事件的功能。我们仍然需要考虑读写事件的性能和可伸缩性，可以通过对聚合对象进行快照达到性能优化。因为这样我们无需查询和重放全部的事件，只需要从快照之后获取事件并重放即可获取聚合对象的当前状态，并且无需在内存中维护聚合对象的缓存副本。<br>我们还必须确保有一种机制，能够可以通过查询历史事件来重建聚合对象状态。<br>通过第二种方法，我们可以获取到会议预订和取消的完整历史记录。因此，事件流是我们唯一事实的来源。我们无须直接保存聚合对象，因为我们可以通过重放事件，将系统恢复到任何时间点的聚合状态。<br>在某些领域，例如账务领域，事件溯源是一种自然的、公认的方法。账务系统存储每个交易的事件，系统始终可以恢复到系统的当前状态。事件溯源也可以在其他领域带来类似的好处。</p>
+<h2 id="为什么我们需要使用事件溯源"><a href="#为什么我们需要使用事件溯源" class="headerlink" title="为什么我们需要使用事件溯源"></a>为什么我们需要使用事件溯源</h2><p>到目前为止，我们使用事件溯源的唯一原因，是因为它存储了领域中聚合相关的全部历史事件。在某些领域（例如账务），这是至关重要的功能，在该领域中，我们需要账务交易的完整记录跟踪，并且事件必须是不可变的。交易一旦发生，就不能删除或更改，尽管可以根据需要创建新的事件进行修改或撤消交易。</p>
+<blockquote>
+<p>使用事件溯源的主要好处是自带的审核机制，它可以确保事务数据和审核数据的一致性，因为它们是相同的数据。通过事件重放，允许我们随时重建到对象的任何状态。—Paweł Wilkosz（客户咨询委员会）</p>
+</blockquote>
+<p>下面描述了使用事件溯源可以带来的一些其他好处：</p>
+<ul>
+<li><p>性能。由于事件是不可变的，因此在保存事件时仅有追加操作。事件也是简单的独立对象，与使用复杂的关系存储模型的方法相比，这两个点都可以为系统带来更好的性能和可伸缩性。</p>
+</li>
+<li><p>简单。事件是简单的对象，它们描述系统中发生的事情。通过保存事件，可以避免将复杂领对象保存到关系存储所带来的复杂性。</p>
+</li>
+<li><p>审计跟踪。事件是不可变的，并且还保存了所有事件的历史记录。这样，他们可以根据历史记录进行审计跟踪。</p>
+</li>
+<li><p>与其他子系统的集成。事件提供了与其他子系统通信的方式。我们可以将事件通知给其他关心此事件的子系统。</p>
+</li>
+<li><p>从历史事件中获取额外的业务价值。通过存储事件，我们可以通过查询与该时间点之前与领域对象关联的事件来还原任何时间点的系统状态，这样我们能够获取到系统所有的历史信息。此外，我们无法预测未来需要从系统中提取哪些新的信息。如果我们保存了事件，则不会丢弃将来可能是被认为有价值的信息。</p>
+</li>
+<li><p>生产故障排除。我们可以通过复制生产事件存储并在测试环境中进行重放，来对生产系统中的问题进行故障排除。如果我们知道生产系统中发生问题的时间，那么我们可以轻松地重放事件流直至该点，即可准确分析产生的问题。</p>
+</li>
+<li><p>修正错误。我们可能会发现代码的 bug，导致系统计算出错误的数值。我们可以修改代码的 bug 后，并重放事件流，达到系统根据正确的代码计算出正确的值。而不是修改代码后，并对存储的数据执行危险的手动调整。</p>
+</li>
+<li><p>测试。聚合中的所有状态更改都记录为事件。因此，我们可以通过检查事件来判定结果是否符合预期。</p>
+</li>
+<li><p>灵活性。事件序列可以转化为任何所需的结构存储。</p>
+<blockquote>
+<p>只要有事件流，就可以将其转化为任何形式存储，甚至是常规的 SQL 数据库。例如，我最喜欢将事件流存储在云存储中的 JSON 文档中。— Rinat Abdullin（<a target="_blank" rel="noopener" href="http://bliki.abdullin.com/event-sourcing/why">Why Event Sourcing?</a>）</p>
+</blockquote>
+</li>
+</ul>
+<p>在第4章 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591577(v%3dpandp.10)">《CQRS 和 ES 的深入探究》</a> 将详细讨论这些好处。</p>
+<h2 id="事件溯源需要关注的问题"><a href="#事件溯源需要关注的问题" class="headerlink" title="事件溯源需要关注的问题"></a>事件溯源需要关注的问题</h2><p>在上节中描述了使用事件溯源模式的一些好处。但是，我们可能面临一些问题需要解决：</p>
+<ul>
+<li>性能。虽然事件溯源确实提高了更新操作的性能，我们需要考虑，查询所有相关事件并重放所花费的时间。使用快照可以限制我们加载事件的数量，因为我们可以获取最新快照，然后从该点开始重放事件。可以查阅<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591577(v%3dpandp.10)">《CQRS 和 ES 的深入探究》</a>获取更多信息。</li>
+<li>版本控制。我们可能在将来需要更改事件消息的结构。我们必须考虑系统如何处理修改事件结构导致的多版本问题。</li>
+<li>查询。虽然很容易通过重放事件的方式加载领域对象当前的状态，但是它对于执行条件查询来说是困难的。例如，查询价格超过 $250 的订单。如果我们实现了 CQRS 模式，我们应该记住，此类查询通常将在读取端执行，我们需要构建专门数据投影来执行此类查询。</li>
+</ul>
+<h2 id="CQRS-ES"><a href="#CQRS-ES" class="headerlink" title="CQRS/ES"></a>CQRS/ES</h2><p>CQRS 模式和事件溯源经常结合使用，他们互为补充。<br><img src="https://img.liuhu.me/2020/03/ES-04.png" alt="img"></p>
+<p>第2章 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591573(v%3dpandp.10)">《CQRS 介绍》</a> 建议将事件从写入侧到读取侧进行推送同步。读取侧的数据存储通常包含非规范化数据，这些数据针对数据条件查询进行了优化。例如，在应用程序的 UI 中显示查询结果。</p>
+<blockquote>
+<p>ES  是一种很好的模式，可用于实现写入和查询之间的联系。ES不是唯一的方法，但是一种合理的方法，还原事实的关键，来源于事件日志是临时的还是永久的。CQRS 模式本身要求在写入和读取之间进行区分，因此和 ES 完全是互补的。 - Clemens Vasters（CQRS顾问邮件列表）</p>
+</blockquote>
+<blockquote>
+<p>事件溯源中领域模型的状态是事件流的持久化，而不是单个快照持久化，也不是关于如何让命令侧和查询侧如何保持数据同步的方法（通常使用基于发布/订阅消息的方法）。 - Udi Dahan（CQRS顾问邮件列表）</p>
+</blockquote>
+<p>我们可以将写入端接收到的事件同步转发到读取端，读取端处理事件保存到物化试图中（View DB），来提供条件查询。</p>
+<p><img src="https://img.liuhu.me/2020/03/ES-02.png" alt="img"></p>
+<p>请注意，写入端将事件持久化到事件存储后再发布事件，这样可以避免使用两阶段提交。如果聚合负责将事件保存到事件存储中并将事件发布，则需要使用两阶段提交。<br>通常，这些事件使您可以实时地实时更新读取数据。事件传输机制可能会导致一些延迟，在第4章 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591577(v%3dpandp.10)">《CQRS 和 ES 的深入探究》</a> 讨论了这种延迟的可能带来的问题。<br>我们可以随时通过重放事件来重建数据。如果读取侧数据存储由于某种原因不同步，或者因为您需要修改读取侧数据存储的结构以支持新查询，则可能需要执行此操作。<br>如果其他领域的有界上下文也订阅了相同的事件，则需要小心地重放事件。因为在重放事件之前，清空读取侧存储的数据很容易，但是确保另一个领域的有界上下文的一致性可能不是那么容易。</p>
+<h2 id="事件存储"><a href="#事件存储" class="headerlink" title="事件存储"></a>事件存储</h2><p>我们使用事件溯源，我们需要用一种机制方法，能够保存我们的事件，并且能够查询返回出事件流，用于通过重放事件流重新创建聚合实例的状态。这个存储机制通常称为事件存储。<br>我们可以实现自己的事件存储，或者使用第三方事件存储。例如，Jonathan Oliver 的 <a target="_blank" rel="noopener" href="https://github.com/joliver/eventstore">EventStore</a>。 虽然我们实现一个小型事件存储相对容易，但是具备可靠性、可伸缩的将带来挑战性。<br>第8章，<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591568(v%3dpandp.10)">《总结：经验教训》</a> 总结了我们团队实现自己的事件存储的经验。</p>
+<h3 id="基本要求"><a href="#基本要求" class="headerlink" title="基本要求"></a>基本要求</h3><p>通常，当我们实现 CQRS  模式时，聚合会创建事件，将信息发给其他相关方。使用事件溯源时，将这些相同事件保留到事件存储中，让我们能够通过重放与该聚合关联的事件流来恢复聚合的状态。实际上，并非系统中的所有事件都必须具有订阅者。我们可以创建某些事件，仅是为了保留聚合的某些属性。</p>
+<h3 id="底层存储"><a href="#底层存储" class="headerlink" title="底层存储"></a>底层存储</h3><p>事件不是复杂的数据结构。通常，会包含一些基础数据，如与之关联的聚合实例的 ID 、事件版本号，以及事件本身的详细信息。我们不需要使用关系数据库来存储事件，我们可以使用 NoSQL、文档数据库或文件系统存储。</p>
+<h3 id="性能、扩展性、持久化"><a href="#性能、扩展性、持久化" class="headerlink" title="性能、扩展性、持久化"></a>性能、扩展性、持久化</h3><p>存储的事件应该是不可变的，并且始终能够按其保存的顺序进行读取。因此保存事件应该是在底层存储上，执行简单、快速的追加操作。<br>加载持久化的事件时，必须按照它们最初保存的顺序来加载它们。如果使用关系数据库，则应使用聚合 ID 和定义的事件顺序的字段来加载。<br>如果聚合实例具有大量事件，这可能会影响重放所有事件来重新恢复聚合状态所花费的时间。在这种情况下，需要考虑的使用快照机制。除了事件存储中的完整事件流之外，我们还可以在最近的某个时间点存储聚合状态的快照。当要重新加载聚合的状态时，首先要加载最新的快照，然后重放快照之后的所有事件。我们可以在写入事件的过程中生成快照，例如，每处理 100 个事件创建一个聚合的快照。<br>作为替代方案，我们可以在内存中缓存使用率很高的聚合实例，避免反复重放事件流。<br>当事件存储保留事件时，它还必须发布该事件，即对事件消息的先保存后处理。为了保持系统的一致性，两个操作必须同时成功或失败。我们可以使用分布式两阶段提交事务，该事务将存储数据和消息发布包装在一起。但是实际上，我们会发现在许多数据存储和消息中间件，对两阶段提交事务提交的支持是有限制的。使用两阶段提交可能会限制系统的性能和可伸缩性。<br>如果选择使用自己实现的事件存储，则必须解决的关键问题之一就是如何实现一致性。<br>如果计划使用跨多个存储节点的分布式事件存储。在这种情况下，我们必须保证在分布式下，写数据的完全一致性，而不是最终一致性。<br>有关 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/CAP_theorem">CAP</a> 定理和在分布式系统中保持一致性的更多信息，请参见下一章<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591577(v%3dpandp.10)">《CQRS 和 ES 的深入探究》</a>。</p>
+<h2 id="补充阅读"><a href="#补充阅读" class="headerlink" title="补充阅读"></a>补充阅读</h2><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/architecture/patterns/event-sourcing">《事件溯源模式》</a></p>
+<h2 id="参考原文"><a href="#参考原文" class="headerlink" title="参考原文"></a>参考原文</h2><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591559(v=pandp.10)?redirectedfrom=MSDN">《Reference 3: Introducing Event Sourcing》</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/01/07/%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90/" data-title="事件溯源 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/01/13/苦艾酒 笔记/" title="苦艾酒 笔记">
+  <strong>上一篇：</strong><br/>
+  <span>
+  苦艾酒 笔记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/01/04/通过外接移动硬盘安装win10/"  title="通过外接移动硬盘安装win10">
+ <strong>下一篇：</strong><br/> 
+ <span>通过外接移动硬盘安装win10
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">1.</span> <span class="toc-text">事件溯源</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90%EF%BC%88Event-Sourcing%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">     什么是事件溯源（Event Sourcing）        </span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8%EF%BC%88%E8%AF%91%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">事件溯源模式入门（译）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">2.1.</span> <span class="toc-text">什么是事件溯源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93-vs-%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">2.1.1.</span> <span class="toc-text">关系数据库 vs 事件溯源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">关系数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90-1"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">事件溯源</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90"><span class="toc-number">2.2.</span> <span class="toc-text">为什么我们需要使用事件溯源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%AF%E6%BA%90%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">事件溯源需要关注的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CQRS-ES"><span class="toc-number">2.4.</span> <span class="toc-text">CQRS&#x2F;ES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%AD%98%E5%82%A8"><span class="toc-number">2.5.</span> <span class="toc-text">事件存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%A6%81%E6%B1%82"><span class="toc-number">2.5.1.</span> <span class="toc-text">基本要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8"><span class="toc-number">2.5.2.</span> <span class="toc-text">底层存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E3%80%81%E6%89%A9%E5%B1%95%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.5.3.</span> <span class="toc-text">性能、扩展性、持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E9%98%85%E8%AF%BB"><span class="toc-number">2.6.</span> <span class="toc-text">补充阅读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E5%8E%9F%E6%96%87"><span class="toc-number">2.7.</span> <span class="toc-text">参考原文</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

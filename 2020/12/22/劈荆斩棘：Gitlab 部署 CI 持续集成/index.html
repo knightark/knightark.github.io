@@ -1,0 +1,745 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>劈荆斩棘：Gitlab 部署 CI 持续集成 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="劈荆斩棘：Gitlab 部署 CI 持续集成        阅读目录：  install configue gitlab-ci-multi-runner restore nuget packages bulid .sln run unit tests configue .gitlab-ci.yml configue build status badge image  CI 精华文章：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="劈荆斩棘：Gitlab 部署 CI 持续集成">
+<meta property="og:url" content="https://knightark.github.io/2020/12/22/%E5%8A%88%E8%8D%86%E6%96%A9%E6%A3%98%EF%BC%9AGitlab%20%E9%83%A8%E7%BD%B2%20CI%20%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="劈荆斩棘：Gitlab 部署 CI 持续集成        阅读目录：  install configue gitlab-ci-multi-runner restore nuget packages bulid .sln run unit tests configue .gitlab-ci.yml configue build status badge image  CI 精华文章：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505145753669-139221853.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505150155263-1919562161.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505153302341-2007940860.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505213235279-417659233.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505214934794-2100519539.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505215133466-114072506.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505215527560-1180463408.png">
+<meta property="article:published_time" content="2020-12-22T01:06:04.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:12.170Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505145753669-139221853.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/22/劈荆斩棘：Gitlab 部署 CI 持续集成/" title="劈荆斩棘：Gitlab 部署 CI 持续集成" itemprop="url">劈荆斩棘：Gitlab 部署 CI 持续集成</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-22T01:06:04.000Z" itemprop="datePublished"> Published 2020-12-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%88%E8%8D%86%E6%96%A9%E6%A3%98%EF%BC%9AGitlab-%E9%83%A8%E7%BD%B2-CI-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">     劈荆斩棘：Gitlab 部署 CI 持续集成        </span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-install-configue-gitlab-ci-multi-runner"><span class="toc-number">1.1.</span> <span class="toc-text">1. install configue gitlab-ci-multi-runner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-restore-nuget-packages"><span class="toc-number">1.2.</span> <span class="toc-text">2. restore nuget packages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-build-sln"><span class="toc-number">1.3.</span> <span class="toc-text">3. build *.sln</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-run-unit-tests"><span class="toc-number">1.4.</span> <span class="toc-text">4. run unit tests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-configue-gitlab-ci-yml"><span class="toc-number">1.5.</span> <span class="toc-text">5. configue .gitlab-ci.yml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-configue-build-status-badge-image"><span class="toc-number">1.6.</span> <span class="toc-text">6. configue build status badge image</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="劈荆斩棘：Gitlab-部署-CI-持续集成"><a href="#劈荆斩棘：Gitlab-部署-CI-持续集成" class="headerlink" title="     劈荆斩棘：Gitlab 部署 CI 持续集成        "></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xishuai/p/gitlab-ci.html">     劈荆斩棘：Gitlab 部署 CI 持续集成        </a></h1><p>阅读目录：</p>
+<ul>
+<li><strong>install configue gitlab-ci-multi-runner</strong></li>
+<li><strong>restore nuget packages</strong></li>
+<li><strong>bulid .sln</strong></li>
+<li><strong>run unit tests</strong></li>
+<li><strong>configue .gitlab-ci.yml</strong></li>
+<li><strong>configue build status badge image</strong></li>
+</ul>
+<p>CI 精华文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/09/continuous-integration.html">持续集成是什么？</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/davenkin/archive/2012/02/25/continuous-integration-from-martin-fowler.html">重温大师经典：Martin Fowler 的持续集成</a></li>
+</ul>
+<p>Gitlab 部署 CI 相关资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ruby-china.org/topics/28726">配置 gitlab-ci 进行持续集成</a></li>
+<li><a target="_blank" rel="noopener" href="http://answ.me/post/build-docker-images-automatically-via-gitlab-ci/">使用 GitLab-CI 来自动创建 Docker 镜像</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zybuluo.com/bornkiller/note/314902">基于 gitlab 搭建 CI 环境</a></li>
+<li><a target="_blank" rel="noopener" href="http://archiechen.github.io/blog/2013/01/12/shi-yong-gitlab-he-gitlab_ci-jin-xing-chi-xu-ji-cheng/">使用 gitlab 和 gitlab_ci 进行持续集成</a></li>
+</ul>
+<p><strong>持续集成</strong>（Continuous integration - CI）的作用：代码在提交到资源库之前，进行构建、自动化测试和发布等等，我们每天需要提交大量的代码，持续集成可以有效的帮助我们发现代码中的 Bug，并且减少一些反复的工作等等，使团队更加有效的开发协作。</p>
+<p>GitLab CI 官方介绍：<a target="_blank" rel="noopener" href="https://about.gitlab.com/gitlab-ci/">https://about.gitlab.com/gitlab-ci/</a></p>
+<p>Gitlab 在 8.0 以上版本集成了 CI，所以我们不需要另外配置一个 gitlab-ci-server 服务器，为我们部署减少了很多的工作，点个赞👍！</p>
+<p>先吐槽下，Gitlab 部署 CI 我大概花了一周的时间，但也只是进行了一点点，最重要的三点：<code>nuget restore</code>, <code>bulid *.sln</code>和<code>run unit tests</code>现在基本上是可以了，在部署的过程中，深感到问题分享的重要性，遇到的大量问题，Google 基本上搜不到，中文相关资料也就上面的几篇文章，但看过之后发现都是简简单单的介绍而已，并没有记录详细的部署过程，所以，我基本上都是看的  Gitlab 官方帮助文档，但 Gitlab  的更新很频繁，所以有些帮助文档都没进行更新，避免不了踩进一些坑，那怎么办呢？解决方式就是不断的进行尝试，比如我配置<code>.gitlab-ci.yml</code>文件的时候，就不断的进行<code>code commit</code>测试（一百多个提交😂）：</p>
+<p><img src="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505145753669-139221853.png" alt="img"></p>
+<p>并且有先见之明的把问题解决过程，都用 Issue 进行记录了😏：</p>
+<p><img src="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505150155263-1919562161.png" alt="img"></p>
+<p>下面就从上面这几个 Issue 进行展开，把每个问题和解决过程都分享出来，希望可以帮助到遇到相同问题的园友。</p>
+<h2 id="1-install-configue-gitlab-ci-multi-runner"><a href="#1-install-configue-gitlab-ci-multi-runner" class="headerlink" title="1. install configue gitlab-ci-multi-runner"></a>1. install configue gitlab-ci-multi-runner</h2><p>GitLab 部署 CI 的第一步就是安装 gitlab-ci-multi-runner，你可以把它理解为：跑 CI 的服务。</p>
+<p>windows 安装教程：<a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/install/windows.md">https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/install/windows.md</a></p>
+<p>下载好 <a target="_blank" rel="noopener" href="https://gitlab-ci-multi-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-ci-multi-runner-windows-amd64.exe">gitlab-ci-multi-runner-windows-amd64.exe</a> 安装文件后，将安装文件放在<code>C:\Multi-Runner</code>下，以管理员权限运行命令行，如果<code>gitlab-ci-multi-runner </code>命令找不到，直接用<code>gitlab-ci-multi-runner-windows-amd64.exe</code>命令运行。</p>
+<p>在 Gitlab 项目中打开 <strong>Settings &gt; Runners</strong>，找到<code>URL</code>和<code>token</code>，等会安装的时候需要配置。</p>
+<p>安装配置步骤：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\<span class="title">WINDOWS</span>\<span class="title">system32</span>&gt;<span class="title">cd</span> <span class="title">C</span>:\<span class="title">Multi</span>-<span class="title">Runner</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">C</span>:\<span class="title">Multi</span>-<span class="title">Runner</span>&gt;<span class="title">gitlab</span>-<span class="title">ci</span>-<span class="title">multi</span>-<span class="title">runner</span>-<span class="title">windows</span>-<span class="title">amd64.exe</span> <span class="title">register</span></span></span><br><span class="line"><span class="function"><span class="title">Please</span> <span class="title">enter</span> <span class="title">the</span> <span class="title">gitlab</span>-<span class="title">ci</span> <span class="title">coordinator</span> <span class="title">URL</span> (<span class="title">e.g</span>. <span class="title">https</span>://<span class="title">gitlab.com</span>/<span class="title">ci</span>):</span></span><br><span class="line"><span class="function"><span class="title">URL</span></span></span><br><span class="line"><span class="function"><span class="title">Please</span> <span class="title">enter</span> <span class="title">the</span> <span class="title">gitlab</span>-<span class="title">ci</span> <span class="title">token</span> <span class="title">for</span> <span class="title">this</span> <span class="title">runner</span>:</span></span><br><span class="line"><span class="function"><span class="title">token</span></span></span><br><span class="line"><span class="function"><span class="title">Please</span> <span class="title">enter</span> <span class="title">the</span> <span class="title">gitlab</span>-<span class="title">ci</span> <span class="title">description</span> <span class="title">for</span> <span class="title">this</span> <span class="title">runner</span>:</span></span><br><span class="line"><span class="function">[<span class="title">DESKTOP</span>-2<span class="title">P9GHDD</span>]: <span class="title">xishuai</span>-<span class="title">ci</span></span></span><br><span class="line"><span class="function"><span class="title">Please</span> <span class="title">enter</span> <span class="title">the</span> <span class="title">gitlab</span>-<span class="title">ci</span> <span class="title">tags</span> <span class="title">for</span> <span class="title">this</span> <span class="title">runner</span> (<span class="title">comma</span> <span class="title">separated</span>):</span></span><br><span class="line"><span class="function"><span class="title">dev</span></span></span><br><span class="line"><span class="function"><span class="title">Registering</span> <span class="title">runner</span>... <span class="title">succeeded</span>                     <span class="title">runner</span>=<span class="title">avuSXASJ</span></span></span><br><span class="line"><span class="function"><span class="title">Please</span> <span class="title">enter</span> <span class="title">the</span> <span class="title">executor</span>: <span class="title">docker</span>-<span class="title">ssh</span>, <span class="title">parallels</span>, <span class="title">shell</span>, <span class="title">ssh</span>, <span class="title">virtualbox</span>, <span class="title">docker</span>+<span class="title">machine</span>, <span class="title">docker</span>-<span class="title">ssh</span>+<span class="title">machine</span>, <span class="title">docker</span>:</span></span><br><span class="line"><span class="function"><span class="title">shell</span></span></span><br><span class="line"><span class="function"><span class="title">Runner</span> <span class="title">registered</span> <span class="title">successfully</span>. <span class="title">Feel</span> <span class="title">free</span> <span class="title">to</span> <span class="title">start</span> <span class="title">it</span>, <span class="title">but</span> <span class="title">if</span> <span class="title">it</span>&#x27;<span class="title">s</span> <span class="title">running</span> <span class="title">already</span> <span class="title">the</span> <span class="title">config</span> <span class="title">should</span> <span class="title">be</span> <span class="title">automatically</span> <span class="title">reloaded</span>!</span></span><br></pre></td></tr></table></figure>
+
+<p>上面<code>executor: shell </code>是默认配置，意思是本地执行，也可以使用<code>ssh</code>和<code>docker</code>，不过需要增加一些远端链接配置。</p>
+<p>完成后，会在<code>C:\Multi-Runner</code>目录下，生成一个<code>config.toml</code>配置文件，我们上面输入的配置信息也都会在这里面，配置说明：<a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/configuration/advanced-configuration.md">https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/configuration/advanced-configuration.md</a></p>
+<p>停止，运行和验证命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Multi-Runner&gt;gitlab-ci-multi-runner-windows-amd64.exe stop</span><br><span class="line"></span><br><span class="line">C:\Multi-Runner&gt;gitlab-ci-multi-runner-windows-amd64.exe start</span><br><span class="line"></span><br><span class="line">C:\Multi-Runner&gt;gitlab-ci-multi-runner-windows-amd64.exe verify</span><br><span class="line">Verifying runner... is alive                        runner=5ae63365</span><br></pre></td></tr></table></figure>
+
+<p>如果运行<code>C:\Multi-Runner&gt;gitlab-ci-multi-runner-windows-amd64.exe start</code>出现错误，则需要将<code>gitlab-ci-multi-runner-windows-amd64.exe</code>拷贝一份，重命名为<code>gitlab-ci-multi-runner.exe</code>。</p>
+<p>另外， Gitlab 项目 <strong>Settings &gt; Project Settings Features &gt; Builds</strong> 选项需要打勾。</p>
+<p>gitlab-ci-multi-runner 安装配置完之后，我们就可以在 Gitlab 项目 <strong>Settings &gt; Runners</strong> 中，看到 Runners 的信息了。</p>
+<p><img src="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505153302341-2007940860.png" alt="img"></p>
+<h2 id="2-restore-nuget-packages"><a href="#2-restore-nuget-packages" class="headerlink" title="2. restore nuget packages"></a>2. restore nuget packages</h2><p>这次任务：使用 CI， nuget 还原解决方案中的程序包。</p>
+<p>gitlab-ci-multi-runner 安装配置完之后，我们还需要在 Gitlab 项目中添加一个<code>.gitlab-ci.yml</code>文件，官方介绍：<a target="_blank" rel="noopener" href="http://doc.gitlab.com/ee/ci/yaml/README.html">http://doc.gitlab.com/ee/ci/yaml/README.html</a></p>
+<p>因为一开始我对<code>.gitlab-ci.yml</code>配置一点都不了解，所以，我当时按照这个教程 <a target="_blank" rel="noopener" href="http://doc.gitlab.com/ce/ci/quick_start/README.html">CI Quick Start</a>，添加了如下的<code>.gitlab-ci.yml</code>文件配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">apt-get</span> <span class="string">update</span> <span class="string">-qq</span> <span class="string">&amp;&amp;</span> <span class="string">apt-get</span> <span class="string">install</span> <span class="string">-y</span> <span class="string">-qq</span> <span class="string">sqlite3</span> <span class="string">libsqlite3-dev</span> <span class="string">nodejs</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ruby</span> <span class="string">-v</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">which</span> <span class="string">ruby</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">gem</span> <span class="string">install</span> <span class="string">bundler</span> <span class="string">--no-ri</span> <span class="string">--no-rdoc</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">bundle</span> <span class="string">install</span> <span class="string">--jobs</span> <span class="string">$(nproc)</span>  <span class="string">&quot;$&#123;FLAGS[@]&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rspec:</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">bundle</span> <span class="string">exec</span> <span class="string">rspec</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rubocop:</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">bundle</span> <span class="string">exec</span> <span class="string">rubocop</span></span><br></pre></td></tr></table></figure>
+
+<p>添加好<code>.gitlab-ci.yml</code>文件配置后，我们就可以在项目中的 <strong>Builds</strong>，看到提交后的构建工作了，随便在 Gitlab 项目中添加一个解决方案，然后再添加一个类库项目，并且使用 nuget 安装一个程序包，最后使用 git 提交到 Gitlab 中，就可以看到 <strong>Builds</strong> 的过程和结果了，首次提交结果如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Cloning repository...</span><br><span class="line">&#x27;&quot;git&quot;&#x27; �����ڲ����ⲿ���Ҳ���ǿ����еĳ���</span><br><span class="line">���������ļ���</span><br><span class="line">ϵͳ�Ҳ���ָ����·����</span><br><span class="line">Checking out <span class="number">2</span>f82ccb0 as master...</span><br><span class="line">&#x27;&quot;git&quot;&#x27; �����ڲ����ⲿ���Ҳ���ǿ����еĳ���</span><br><span class="line">���������ļ���</span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">ERROR: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 9009</span></span><br></pre></td></tr></table></figure>
+
+<p>这个问题搞了我很久，因为错误信息乱码了，根本找不到相关的解决方案，后来无意间搜到 Gitlab 中的一个 Issue，里面提到了一个<code>gitlab-ci-multi-runner --debug run</code>命令，意思是调试运行 CI，这样我们就可以看到详细的错误信息了，debug 的错误信息比较多，并且完全看不懂，不过我们可以通过 <strong>Builds</strong> 看到简洁的错误日志：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Cloning repository...</span><br><span class="line">Cloning into &#x27;C:/Multi-Runner/builds/<span class="number">500</span>c7a25/<span class="number">0</span>/dev/CNBlogsCI-Sample&#x27;...</span><br><span class="line"><span class="function">fatal: <span class="title">unable</span> <span class="title">to</span> <span class="title">access</span> &#x27;<span class="title">https</span>://<span class="title">gitlab</span>-<span class="title">ci</span>-<span class="title">token:xxxxxx</span>@<span class="title">gitlab.com</span>/<span class="title">dev</span>/<span class="title">CNBlogsCI</span>-<span class="title">Sample.git</span>/&#x27;: <span class="title">error</span> <span class="title">setting</span> <span class="title">certificate</span> <span class="title">verify</span> <span class="title">locations</span>:</span></span><br><span class="line"><span class="function">  <span class="title">CAfile</span>: <span class="title">C</span>:\<span class="title">Multi</span>-<span class="title">Runner</span>\<span class="title">builds</span>\500<span class="title">c7a25</span>\0\<span class="title">dev</span>\<span class="title">CNBlogsCI</span>-<span class="title">Sample.tmp</span>\<span class="title">GIT_SSL_CAINFO</span></span></span><br><span class="line"><span class="function">  <span class="title">CApath</span>: <span class="title">none</span></span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">system</span> <span class="title">cannot</span> <span class="title">find</span> <span class="title">the</span> <span class="title">path</span> <span class="title">specified</span>.</span></span><br><span class="line"><span class="function"><span class="title">Checking</span> <span class="title">out</span> <span class="title">ac05d090</span> <span class="title">as</span> <span class="title">master</span>...</span></span><br><span class="line"><span class="function"><span class="title">fatal</span>: <span class="title">Not</span> <span class="title">a</span> <span class="title">git</span> <span class="title">repository</span> (<span class="title">or</span> <span class="title">any</span> <span class="title">of</span> <span class="title">the</span> <span class="title">parent</span> <span class="title">directories</span>): .<span class="title">git</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">ERROR</span>: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 128</span></span><br></pre></td></tr></table></figure>
+
+<p>上面错误日志的意思是，没有<code>git clone repository </code>成功，并且没有权限访问，后来 Google 到了一个解决方案：<a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1052">error setting certificate verify locations</a></p>
+<p>解决方式：<code>C:\Multi-Runner\config.toml</code>文件添加<code>shell = &#39;powershell&#39;</code>节点，添加在<code>[[runners]]</code>节点后。</p>
+<p>解决完这个问题之后，去研究了下<code>.gitlab-ci.yml</code>中的<code>nuget restore</code>配置（Google 搜的，太坑），将<code>.gitlab-ci.yml</code>文件修改如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line"><span class="attr">job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ls</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;&quot;C:\Users\xishuai\.dnx\packages\ClassLibrary2\2.0.0\packages\NuGet.CommandLine.2.8.5\tools\NuGet.exe&quot; restore &quot;src/CNBlogsCI-Sample.sln&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>commit</code>提交测试，出现下面的错误信息：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line"><span class="built_in">At</span> C:\Users\xishuai\AppData\Local\Temp\build_script140243225\script.ps1:<span class="number">132</span> char:<span class="number">105</span></span><br><span class="line">+ ... <span class="number">0</span>.<span class="number">0</span>\packages\NuGet.CommandLine.<span class="number">2</span>.<span class="number">8</span>.<span class="number">5</span>\tools\NuGet.exe&quot; <span class="built_in">restore</span> &quot;src/CN ...</span><br><span class="line">+                                                           ~~~~~~~</span><br><span class="line">Unexpected token &#x27;<span class="built_in">restore</span>&#x27; <span class="keyword">in</span> expression or statement.</span><br><span class="line">    + CategoryInfo          : ParserError: (:) [], ParseException</span><br><span class="line">    + FullyQualifiedErrorId : UnexpectedToken</span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">ERROR: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 1</span></span><br></pre></td></tr></table></figure>
+
+<p>从错误信息中可以看到，没有识别<code>restore</code>命令，啥意思？这个问题又搞了我好久，Google <code>Unexpected token &#39;restore&#39; in expression or statement.</code> 关键字，毛都搜不到，没办法，后来只能更换关键字搜，但搜到的信息凤毛麟角，后来参考搜来的资料，将<code>.gitlab-ci.yml</code>改为：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line"><span class="attr">job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ls</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;call &quot;%VS140COMNTOOLS%\vsvars32.bat&quot;&#x27;</span></span><br><span class="line"><span class="comment">#  - &#x27;&quot;C:\Users\xishuai\.dnx\packages\ClassLibrary2\2.0.0\packages\NuGet.CommandLine.2.8.5\tools\NuGet.exe&quot; restore &quot;src\CNBlogsCI-Sample.sln&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;call &quot;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\vsvars32.bat&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>%VS140COMNTOOLS%\vsvars32.bat</code> 是什么鬼？不太清楚，毫无疑问，又出现了错误，信息如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">3926803</span> Update .gitlab-ci.yml</span><br><span class="line">From https://gitlab.com/dev/CNBlogsCI-Sample</span><br><span class="line">   <span class="number">3926803</span>..d8f10a7  master     -&gt; origin/master</span><br><span class="line">Checking out d8f10a7c as master...</span><br><span class="line">Previous HEAD position was <span class="number">3926803</span>... Update .gitlab-ci.yml</span><br><span class="line">HEAD is now <span class="built_in">at</span> d8f10a7... Update .gitlab-ci.yml</span><br><span class="line">$ ls</span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    Directory: <span class="title">C</span>:\<span class="title">Multi</span>-<span class="title">Runner</span>\<span class="title">builds</span>\5<span class="title">ae63365</span>\0\<span class="title">dev</span>\<span class="title">CNBlogsCI</span>-<span class="title">Sample</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Mode</span>                <span class="title">LastWriteTime</span>         <span class="title">Length</span> <span class="title">Name</span>                                                                  </span></span><br><span class="line"><span class="function">----                -------------         ------ ----                                                                  </span></span><br><span class="line"><span class="function"><span class="title">d</span>-----         5/4/2016  02:45 <span class="title">PM</span>                <span class="title">src</span>                                                                   </span></span><br><span class="line"><span class="function">-<span class="title">a</span>----         5/4/2016  02:45 <span class="title">PM</span>             89 .<span class="title">gitignore</span>                                                            </span></span><br><span class="line"><span class="function">-<span class="title">a</span>----         5/4/2016  02:49 <span class="title">PM</span>            527 .<span class="title">gitlab</span>-<span class="title">ci.yml</span>                                                        </span></span><br><span class="line"><span class="function">$ <span class="title">echo</span> &quot;<span class="title">Restoring</span> <span class="title">NuGet</span> <span class="title">Packages</span>...&quot;</span></span><br><span class="line"><span class="function"><span class="title">Restoring</span> <span class="title">NuGet</span> <span class="title">Packages</span>...</span></span><br><span class="line"><span class="function">$ <span class="title">call</span> &quot;%<span class="title">VS140COMNTOOLS</span>%\<span class="title">vsvars32.bat</span>&quot;</span></span><br><span class="line"><span class="function"><span class="title">call</span> : <span class="title">The</span> <span class="title">term</span> &#x27;<span class="title">call</span>&#x27; <span class="title">is</span> <span class="title">not</span> <span class="title">recognized</span> <span class="title">as</span> <span class="title">the</span> <span class="title">name</span> <span class="title">of</span> <span class="title">a</span> <span class="title">cmdlet</span>, <span class="title">function</span>, <span class="title">script</span> <span class="title">file</span>, <span class="title">or</span> <span class="title">operable</span> <span class="title">program</span>. <span class="title">Check</span> </span></span><br><span class="line"><span class="function"><span class="title">the</span> <span class="title">spelling</span> <span class="title">of</span> <span class="title">the</span> <span class="title">name</span>, <span class="title">or</span> <span class="title">if</span> <span class="title">a</span> <span class="title">path</span> <span class="title">was</span> <span class="title">included</span>, <span class="title">verify</span> <span class="title">that</span> <span class="title">the</span> <span class="title">path</span> <span class="title">is</span> <span class="title">correct</span> <span class="title">and</span> <span class="title">try</span> <span class="title">again</span>.</span></span><br><span class="line"><span class="function"><span class="title">At</span> <span class="title">C</span>:\<span class="title">Users</span>\<span class="title">xishuai</span>\<span class="title">AppData</span>\<span class="title">Local</span>\<span class="title">Temp</span>\<span class="title">build_script250102679</span>\<span class="title">script.ps1</span>:132 <span class="title">char</span>:3</span></span><br><span class="line"><span class="function">+   <span class="title">call</span> &quot;%<span class="title">VS140COMNTOOLS</span>%\<span class="title">vsvars32.bat</span>&quot;</span></span><br><span class="line"><span class="function">+   ~~~~</span></span><br><span class="line"><span class="function">    + <span class="title">CategoryInfo</span>          : <span class="title">ObjectNotFound</span>: (<span class="title">call:String</span>) [], <span class="title">ParentContainsErrorRecordException</span></span></span><br><span class="line"><span class="function">    + <span class="title">FullyQualifiedErrorId</span> : <span class="title">CommandNotFoundException</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">ERROR</span>: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 1</span></span><br></pre></td></tr></table></figure>
+
+<p>也是毫无头绪的错误，这么办呢？后来想想<code>nuget restore</code>始终不成功，能不能换个命令呢？突然想到了 ASP.NET 5，还原程序包使用的是<code>dnu restore</code>命令，那就尝试下吧，将解决方案中的项目删掉，然后添加 ASP.NET 5 项目，<code>.gitlab-ci.yml</code>改为：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">dnvm</span> <span class="string">use</span> <span class="number">1.0</span><span class="number">.0</span><span class="string">-beta5</span> <span class="string">-r</span> <span class="string">coreclr</span> <span class="string">-a</span> <span class="string">x64</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">dnu</span> <span class="string">restore</span></span><br></pre></td></tr></table></figure>
+
+<p>哇塞，这次终于成功了（突然有种想哭的冲动😭），日志信息：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">33436</span>d8 test commit</span><br><span class="line">From https://gitlab.com/dev/CNBlogsCI-Sample</span><br><span class="line">   <span class="number">33436</span>d8..c80b2d5  master     -&gt; origin/master</span><br><span class="line">Checking out c80b2d5d as master...</span><br><span class="line">Previous HEAD position was <span class="number">33436</span>d8... test commit</span><br><span class="line">HEAD is now <span class="built_in">at</span> c80b2d5... test commit</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Release build...&quot;</span><br><span class="line">Release build...</span><br><span class="line">$ dnvm use <span class="number">1</span>.<span class="number">0</span>.<span class="number">0</span>-beta5 -r coreclr -a x64</span><br><span class="line">Adding C:\Users\xishuai\.dnx\runtimes\dnx-coreclr-win-x64.<span class="number">1</span>.<span class="number">0</span>.<span class="number">0</span>-beta5\bin to process <span class="built_in">PATH</span></span><br><span class="line">$ dnu <span class="built_in">restore</span></span><br><span class="line">Microsoft .<span class="built_in">NET</span> Development Utility CoreCLR-x64-<span class="number">1</span>.<span class="number">0</span>.<span class="number">0</span>-beta5-<span class="number">12103</span></span><br><span class="line"></span><br><span class="line">Restoring packages <span class="keyword">for</span> C:\Multi-Runner\builds\<span class="number">5</span>ae63365\<span class="number">0</span>\dev\CNBlogsCI-Sample\src\CNBlogsCI-Sample.ClassLibrary\project.json</span><br><span class="line">  GET https://www.nuget.org/api/v2/</span><br><span class="line">  OK https://www.nuget.org/api/v2/ <span class="number">5524</span>ms</span><br><span class="line">  GET http://nuget.cnitblog.com/nuget/Default/</span><br><span class="line">  OK http://nuget.cnitblog.com/nuget/Default/ <span class="number">2406</span>ms</span><br><span class="line">  GET https://www.myget.org/F/aspnetvnext/api/v2/</span><br><span class="line">  OK https://www.myget.org/F/aspnetvnext/api/v2/ <span class="number">5225</span>ms</span><br><span class="line">  CACHE https://www.nuget.org/api/v2/</span><br><span class="line">  GET https://www.myget.org/F/aspnetmaster/api/v3/index.json</span><br><span class="line">  OK https://www.myget.org/F/aspnetmaster/api/v3/index.json <span class="number">2938</span>ms</span><br><span class="line">  GET https://www.myget.org/F/xunit/api/v3/index.json</span><br><span class="line">  OK https://www.myget.org/F/xunit/api/v3/index.json <span class="number">1976</span>ms</span><br><span class="line">Writing lock file C:\Multi-Runner\builds\<span class="number">5</span>ae63365\<span class="number">0</span>\dev\CNBlogsCI-Sample\src\CNBlogsCI-Sample.ClassLibrary\project.lock.json</span><br><span class="line"><span class="built_in">Restore</span> complete, <span class="number">18775</span>ms elapsed</span><br><span class="line"></span><br><span class="line">Build succeeded</span><br></pre></td></tr></table></figure>
+
+<p>虽然 ASP.NET 5 还原程序包成功了，但依旧解决不了问题啊，因为必须得解决<code>nuget restore</code>的问题，因为很多项目都没用 ASP.NET 5，怎么办呢？又回到了出发点，问题能磨死人啊，过程就不叙述了，后来无意间将<code>.gitlab-ci.yml</code>改为：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\Program</span> <span class="string">Files</span> <span class="string">(x86)\NuGet\nuget.exe</span> <span class="string">restore</span> <span class="string">src/CNBlogsCI-Sample.sln</span></span><br></pre></td></tr></table></figure>
+
+<p>仔细看看和上面的配置有什么不同，我把<code>&#39;&quot;</code>去掉了，<code>commit</code>代码测试，出现了下面和一开始不一样的错误（有戏了😏）：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">Removing src/ClassLibrary1/bin/</span><br><span class="line">Removing src/ClassLibrary1/obj/</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">191</span>e7e0 test commit</span><br><span class="line">From https://gitlab.com/dev/CNBlogsCI-Sample</span><br><span class="line">   <span class="number">191</span>e7e0..feebdef  master     -&gt; origin/master</span><br><span class="line">Checking out feebdefb as master...</span><br><span class="line">Previous HEAD position was <span class="number">191</span>e7e0... test commit</span><br><span class="line">HEAD is now <span class="built_in">at</span> feebdef... test commit</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Restoring NuGet Packages...&quot;</span><br><span class="line">Restoring NuGet Packages...</span><br><span class="line">$ C:\Program Files (x86)\NuGet\nuget.exe <span class="built_in">restore</span> src/CNBlogsCI-Sample.sln</span><br><span class="line">x86 : The term &#x27;x86&#x27; is <span class="keyword">not</span> recognized as the name of a cmdlet, function, script file, or operable program. Check the </span><br><span class="line">spelling of the name, or <span class="keyword">if</span> a <span class="built_in">path</span> was included, <span class="built_in">verify</span> that the <span class="built_in">path</span> is correct and try again.</span><br><span class="line"><span class="built_in">At</span> C:\Users\xishuai\AppData\Local\Temp\build_script166211738\script.ps1:<span class="number">128</span> char:<span class="number">21</span></span><br><span class="line">+   C:\Program Files (x86)\NuGet\nuget.exe <span class="built_in">restore</span> src/CNBlogsCI-Sample ...</span><br><span class="line">+                     ~~~</span><br><span class="line">    + CategoryInfo          : ObjectNotFound: (x86:String) [], ParentContainsErrorRecordException</span><br><span class="line">    + FullyQualifiedErrorId : CommandNotFoundException</span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">ERROR: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 1</span></span><br></pre></td></tr></table></figure>
+
+<p>根据上面的错误日志，可以看到，就是目录中的<code>x86</code>问题，然后我把目录改为<code>C:\Program Files\NuGet\nuget.exe</code>之后（<code>nuget.exe</code>拷贝到相应目录下），还是有问题，然后就直接放在<code>C</code>盘目录下，终于<code>build</code>成功（眼泪夺眶而出😂）。</p>
+<p><code>.gitlab-ci.yml</code>配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\NuGet\nuget.exe</span> <span class="string">restore</span> <span class="string">&quot;src\CNBlogsCI-Sample.sln&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>build</code>成功日志：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">1</span>ac80d7 test commit</span><br><span class="line">From https://gitlab.com/dev/CNBlogsCI-Sample</span><br><span class="line">   <span class="number">1</span>ac80d7..<span class="number">683</span>a8bc  master     -&gt; origin/master</span><br><span class="line">Checking out <span class="number">683</span>a8bcb as master...</span><br><span class="line">Previous HEAD position was <span class="number">1</span>ac80d7... test commit</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">683</span>a8bc... test commit</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Restoring NuGet Packages...&quot;</span><br><span class="line">Restoring NuGet Packages...</span><br><span class="line">$ C:\NuGet\nuget.exe <span class="built_in">restore</span> &quot;src\CNBlogsCI-Sample.sln&quot;</span><br><span class="line">Installing &#x27;AutoMapper <span class="number">4</span>.<span class="number">2</span>.<span class="number">1</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;AutoMapper <span class="number">4</span>.<span class="number">2</span>.<span class="number">1</span>&#x27;.</span><br><span class="line"></span><br><span class="line">Build succeeded</span><br></pre></td></tr></table></figure>
+
+<p>看似简单的结果，但过程真是太扯蛋了，如果我当时看到类似这篇博文分享，也不至于如此，还没完，继续。。。</p>
+<h2 id="3-build-sln"><a href="#3-build-sln" class="headerlink" title="3. build *.sln"></a>3. build *.sln</h2><p>这次任务：使用 CI， build 生成解决方案中的项目。</p>
+<p>生成解决方案的问题解决过程相对简单些，不过上面漏掉了一处，这边再补充下，<code>.gitlab-ci.yml</code>配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line"><span class="attr">job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Release build...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe</span> <span class="string">/consoleloggerparameters:ErrorsOnly</span> <span class="string">/maxcpucount</span> <span class="string">/nologo</span> <span class="string">/property:Configuration=Release</span> <span class="string">/verbosity:quiet</span> <span class="string">&quot;CNBlogsCI-Sample.sln&quot;</span></span><br><span class="line">  <span class="attr">tags:</span> </span><br><span class="line">  <span class="attr">except:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">tags</span></span><br></pre></td></tr></table></figure>
+
+<p>错误日志：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">07</span>a6ffd Merge branch &#x27;master&#x27; of gitlab.com:dev/CNBlogsCI-Sample</span><br><span class="line">From https://gitlab.com/dev/CNBlogsCI-Sample</span><br><span class="line">   <span class="number">07</span>a6ffd..<span class="number">73</span>bd820  master     -&gt; origin/master</span><br><span class="line">Checking out <span class="number">73</span>bd8207 as master...</span><br><span class="line">Previous HEAD position was <span class="number">07</span>a6ffd... Merge branch &#x27;master&#x27; of gitlab.com:dev/CNBlogsCI-Sample</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">73</span>bd820... test commit</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Release build...&quot;</span><br><span class="line">Release build...</span><br><span class="line">$ C:\Windows\Microsoft.<span class="built_in">NET</span>\Framework64\v4.<span class="number">0</span>.<span class="number">30319</span>\msbuild.exe /consoleloggerparameters:ErrorsOnly /maxcpucount /nologo /property:Configuration=Release /verbosity:quiet &quot;CNBlogsCI-Sample.sln&quot;</span><br><span class="line">MSBUILD : error MSB1009: ��Ŀ�ļ������ڡ�</span><br><span class="line">����: CNBlogsCI-Sample.sln</span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">ERROR: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 1</span></span><br></pre></td></tr></table></figure>
+
+<p>这个错误和最开始的乱码错误一样，未知的错误，无从下手，后来，又无意间搜到了一个 Gitlab Issue（好多无意间😄，没办法，Google 只能搜索所有可能的关键字）：<a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1158">Question about local project path</a></p>
+<p><code>.gitlab-ci.yml</code>配置改为：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line"><span class="attr">job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ls</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Release build...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe</span> <span class="string">/consoleloggerparameters:ErrorsOnly</span> <span class="string">/maxcpucount</span> <span class="string">/nologo</span> <span class="string">/property:Configuration=Release</span> <span class="string">/verbosity:quiet</span> <span class="string">&quot;CNBlogsCI-Sample.sln&quot;</span></span><br><span class="line">  <span class="attr">tags:</span> </span><br><span class="line">  <span class="attr">except:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">tags</span></span><br></pre></td></tr></table></figure>
+
+<p>然后看到了详细错误（又有戏了😏）：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">HEAD is now <span class="built_in">at</span> eb2ec26 Update .gitlab-ci.yml</span><br><span class="line">Checking out eb2ec265 as master...</span><br><span class="line">HEAD is now <span class="built_in">at</span> eb2ec26... Update .gitlab-ci.yml</span><br><span class="line">$ ls</span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    Directory: <span class="title">C</span>:\<span class="title">Multi</span>-<span class="title">Runner</span>\<span class="title">builds</span>\5<span class="title">ae63365</span>\0\<span class="title">dev</span>\<span class="title">CNBlogsCI</span>-<span class="title">Sample</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Mode</span>                <span class="title">LastWriteTime</span>         <span class="title">Length</span> <span class="title">Name</span>                                                                  </span></span><br><span class="line"><span class="function">----                -------------         ------ ----                                                                  </span></span><br><span class="line"><span class="function"><span class="title">d</span>-----         5/4/2016  10:26 <span class="title">AM</span>                <span class="title">src</span>                                                                   </span></span><br><span class="line"><span class="function">-<span class="title">a</span>----         5/4/2016  11:19 <span class="title">AM</span>            315 .<span class="title">gitlab</span>-<span class="title">ci.yml</span>                                                        </span></span><br><span class="line"><span class="function">$ <span class="title">echo</span> &quot;<span class="title">Release</span> <span class="title">build</span>...&quot;</span></span><br><span class="line"><span class="function"><span class="title">Release</span> <span class="title">build</span>...</span></span><br><span class="line"><span class="function">$ <span class="title">C</span>:\<span class="title">Windows</span>\<span class="title">Microsoft.NET</span>\<span class="title">Framework64</span>\<span class="title">v4</span>.0.30319\<span class="title">msbuild.exe</span> /<span class="title">consoleloggerparameters:ErrorsOnly</span> /<span class="title">maxcpucount</span> /<span class="title">nologo</span> /<span class="title">property:Configuration</span>=<span class="title">Release</span> /<span class="title">verbosity:quiet</span> &quot;<span class="title">CNBlogsCI</span>-<span class="title">Sample.sln</span>&quot;</span></span><br><span class="line"><span class="function"><span class="title">MSBUILD</span> : <span class="title">error</span> <span class="title">MSB1009</span>: <span class="title">Project</span> <span class="title">file</span> <span class="title">does</span> <span class="title">not</span> <span class="title">exist</span>.</span></span><br><span class="line"><span class="function"><span class="title">Switch</span>: <span class="title">CNBlogsCI</span>-<span class="title">Sample.sln</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">ERROR</span>: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 1</span></span><br></pre></td></tr></table></figure>
+
+<p><code>error MSB1009: Project file does not exist.</code>这个错误就很清晰了，项目文件找不到，也就是没有找到<code>CNBlogsCI-Sample.sln</code>，怎么会呢？重新查看了 Gitlab 中的项目文件目录，<code>CNBlogsCI-Sample.sln</code>在根目录下的<code>src</code>目录下，重新修改下<code>.gitlab-ci.yml</code>配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line"><span class="attr">job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ls</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Release build...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe</span> <span class="string">/consoleloggerparameters:ErrorsOnly</span> <span class="string">/maxcpucount</span> <span class="string">/nologo</span> <span class="string">/property:Configuration=Release</span> <span class="string">/verbosity:quiet</span> <span class="string">&quot;src/CNBlogsCI-Sample.sln&quot;</span></span><br><span class="line">  <span class="attr">tags:</span> </span><br><span class="line">  <span class="attr">except:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">tags</span></span><br></pre></td></tr></table></figure>
+
+<p><code>build</code>成功，日志详情：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">HEAD is now <span class="built_in">at</span> a51aeea test commit</span><br><span class="line">From https://gitlab.com/dev/CNBlogsCI-Sample</span><br><span class="line">   a51aeea..<span class="number">170</span>fbc4  master     -&gt; origin/master</span><br><span class="line">Checking out <span class="number">170</span>fbc4a as master...</span><br><span class="line">Previous HEAD position was a51aeea... test commit</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">170</span>fbc4... test commit</span><br><span class="line">$ ls</span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    Directory: <span class="title">C</span>:\<span class="title">Multi</span>-<span class="title">Runner</span>\<span class="title">builds</span>\5<span class="title">ae63365</span>\0\<span class="title">dev</span>\<span class="title">CNBlogsCI</span>-<span class="title">Sample</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Mode</span>                <span class="title">LastWriteTime</span>         <span class="title">Length</span> <span class="title">Name</span>                                                                  </span></span><br><span class="line"><span class="function">----                -------------         ------ ----                                                                  </span></span><br><span class="line"><span class="function"><span class="title">d</span>-----         5/4/2016  11:38 <span class="title">AM</span>                <span class="title">src</span>                                                                   </span></span><br><span class="line"><span class="function">-<span class="title">a</span>----         5/4/2016  11:38 <span class="title">AM</span>            319 .<span class="title">gitlab</span>-<span class="title">ci.yml</span>                                                        </span></span><br><span class="line"><span class="function">$ <span class="title">echo</span> &quot;<span class="title">Release</span> <span class="title">build</span>...&quot;</span></span><br><span class="line"><span class="function"><span class="title">Release</span> <span class="title">build</span>...</span></span><br><span class="line"><span class="function">$ <span class="title">C</span>:\<span class="title">Windows</span>\<span class="title">Microsoft.NET</span>\<span class="title">Framework64</span>\<span class="title">v4</span>.0.30319\<span class="title">msbuild.exe</span> /<span class="title">consoleloggerparameters:ErrorsOnly</span> /<span class="title">maxcpucount</span> /<span class="title">nologo</span> /<span class="title">property:Configuration</span>=<span class="title">Release</span> /<span class="title">verbosity:quiet</span> &quot;<span class="title">src</span>/<span class="title">CNBlogsCI</span>-<span class="title">Sample.sln</span>&quot;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Build</span> <span class="title">succeeded</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-run-unit-tests"><a href="#4-run-unit-tests" class="headerlink" title="4. run unit tests"></a>4. run unit tests</h2><p>这次任务：使用 CI， run 跑解决方案中的单元测试，可以成为自动化测试。</p>
+<p>这次基本上没有什么问题解决过程，因为 Google 完全搜不到相关资料，所以，我最后是按照我的想法实现的，xUnit 除了用 VS2015 进行跑单元测试外，我们还可以用命令行的方式，打开 <code>cmd</code> 输入：<code>C:\xunit.runner.console\tools\xunit.console.exe &quot;src\ClassLibrary2\bin\debug\ClassLibrary2.dll&quot;</code>，结果如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\<span class="title">Users</span>\<span class="title">xishuai</span>\<span class="title">Desktop</span>\<span class="title">CNBlogs</span>\<span class="title">CNBlogsCI</span>-<span class="title">Sample</span>\<span class="title">src</span>&gt; <span class="title">C</span>:\<span class="title">xunit.runner.console</span>\<span class="title">tools</span>\<span class="title">xunit.console.exe</span> &quot;<span class="title">src</span>\<span class="title">ClassLibrary2</span>\<span class="title">bin</span>\<span class="title">debug</span>\<span class="title">ClassLibrary2.dll</span>&quot;</span></span><br><span class="line"><span class="function"><span class="title">xUnit.net</span> <span class="title">Console</span> <span class="title">Runner</span> (64-<span class="title">bit</span> .<span class="title">NET</span> 4.0.30319.42000)</span></span><br><span class="line"><span class="function">  <span class="title">Discovering</span>: <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Discovered</span>:  <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Starting</span>:    <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">    <span class="title">ClassLibrary2.Class1.Test2</span> [<span class="title">FAIL</span>]</span></span><br><span class="line"><span class="function">      <span class="title">Assert.True</span>() <span class="title">Failure</span></span></span><br><span class="line"><span class="function">      <span class="title">Expected</span>: <span class="title">True</span></span></span><br><span class="line"><span class="function">      <span class="title">Actual</span>:   <span class="title">False</span></span></span><br><span class="line"><span class="function">      <span class="title">Stack</span> <span class="title">Trace</span>:</span></span><br><span class="line"><span class="function">        <span class="title">ClassLibrary2</span>\<span class="title">Class1.cs</span>(21,0): <span class="title">at</span> <span class="title">ClassLibrary2.Class1.Test2</span>()</span></span><br><span class="line"><span class="function">  <span class="title">Finished</span>:    <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">=== <span class="title">TEST</span> <span class="title">EXECUTION</span> <span class="title">SUMMARY</span> ===</span></span><br><span class="line"><span class="function">   <span class="title">ClassLibrary2</span>  <span class="title">Total</span>: 2, <span class="title">Errors</span>: 0, <span class="title">Failed</span>: 1, <span class="title">Skipped</span>: 0, <span class="title">Time</span>: 0.224<span class="title">s</span></span></span><br></pre></td></tr></table></figure>
+
+<p>好，既然命令行可以跑单元测试，那么我们就可以在<code>.gitlab-ci.yml</code>中添加脚本配置，如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"></span><br><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\NuGet\nuget.exe</span> <span class="string">restore</span> <span class="string">&quot;src\CNBlogsCI-Sample.sln&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">build_job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Release build...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe</span> <span class="string">/consoleloggerparameters:ErrorsOnly</span> <span class="string">/maxcpucount</span> <span class="string">/nologo</span> <span class="string">/property:Configuration=Release</span> <span class="string">/verbosity:quiet</span> <span class="string">&quot;src\CNBlogsCI-Sample.sln&quot;</span></span><br><span class="line">  <span class="attr">except:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">tags</span></span><br><span class="line"></span><br><span class="line"><span class="attr">test_job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Tests run...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\xunit.runner.console\tools\xunit.console.exe</span> <span class="string">&quot;src\ClassLibrary2\bin\debug\ClassLibrary2.dll&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\xunit.runner.console\tools\xunit.console.exe</span> <span class="string">&quot;src\ClassLibrary3\bin\debug\ClassLibrary3.dll&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>xUnit 单元测试不通过日志：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">Removing src/ClassLibrary1/bin/</span><br><span class="line">Removing src/ClassLibrary1/obj/</span><br><span class="line">Removing src/ClassLibrary2/bin/Release/</span><br><span class="line">Removing src/ClassLibrary2/obj/</span><br><span class="line">Removing src/ClassLibrary3/bin/</span><br><span class="line">Removing src/ClassLibrary3/obj/</span><br><span class="line">Removing src/packages/</span><br><span class="line">HEAD is now <span class="built_in">at</span> d176025 test commit</span><br><span class="line">Checking out d1760259 as master...</span><br><span class="line">HEAD is now <span class="built_in">at</span> d176025... test commit</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Restoring NuGet Packages...&quot;</span><br><span class="line">Restoring NuGet Packages...</span><br><span class="line">$ C:\NuGet\nuget.exe <span class="built_in">restore</span> &quot;src\CNBlogsCI-Sample.sln&quot;</span><br><span class="line">Installing &#x27;xunit.abstractions <span class="number">2</span>.<span class="number">0</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.assert <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;AutoMapper <span class="number">4</span>.<span class="number">2</span>.<span class="number">1</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.abstractions <span class="number">2</span>.<span class="number">0</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.extensibility.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.assert <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.extensibility.execution <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.runner.console <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;AutoMapper <span class="number">4</span>.<span class="number">2</span>.<span class="number">1</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.runner.console <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.extensibility.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.extensibility.execution <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Tests run...&quot;</span><br><span class="line">Tests run...</span><br><span class="line">$ C:\xunit.runner.console\tools\xunit.console.exe &quot;src\ClassLibrary2\bin\debug\ClassLibrary2.dll&quot;</span><br><span class="line">xUnit.<span class="built_in">net</span> Console Runner (<span class="number">64</span>-bit .<span class="built_in">NET</span> <span class="number">4</span>.<span class="number">0</span>.<span class="number">30319</span>.<span class="number">42000</span>)</span><br><span class="line"><span class="function">  Discovering: <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Discovered</span>:  <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Starting</span>:    <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Finished</span>:    <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">=== <span class="title">TEST</span> <span class="title">EXECUTION</span> <span class="title">SUMMARY</span> ===</span></span><br><span class="line"><span class="function">   <span class="title">ClassLibrary2</span>  <span class="title">Total</span>: 2, <span class="title">Errors</span>: 0, <span class="title">Failed</span>: 0, <span class="title">Skipped</span>: 0, <span class="title">Time</span>: 0.179<span class="title">s</span></span></span><br><span class="line"><span class="function">$ <span class="title">C</span>:\<span class="title">xunit.runner.console</span>\<span class="title">tools</span>\<span class="title">xunit.console.exe</span> &quot;<span class="title">src</span>\<span class="title">ClassLibrary3</span>\<span class="title">bin</span>\<span class="title">debug</span>\<span class="title">ClassLibrary3.dll</span>&quot;</span></span><br><span class="line"><span class="function"><span class="title">error</span>: <span class="title">file</span> <span class="title">not</span> <span class="title">found</span>: <span class="title">src</span>\<span class="title">ClassLibrary3</span>\<span class="title">bin</span>\<span class="title">debug</span>\<span class="title">ClassLibrary3.dll</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">ERROR</span>: <span class="title">Build</span> <span class="title">failed</span>: <span class="title">exit</span> <span class="title">status</span> 1</span></span><br></pre></td></tr></table></figure>
+
+<p>xUnit 单元测试通过日志：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ci-multi-runner <span class="number">1</span>.<span class="number">1</span>.<span class="number">3</span> (a470667)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on DESKTOP-<span class="number">2</span>P9GHDD...</span><br><span class="line">Fetching changes...</span><br><span class="line">Removing src/ClassLibrary1/bin/</span><br><span class="line">Removing src/ClassLibrary1/obj/</span><br><span class="line">Removing src/ClassLibrary2/bin/Release/</span><br><span class="line">Removing src/ClassLibrary2/obj/</span><br><span class="line">Removing src/ClassLibrary3/bin/Release/</span><br><span class="line">Removing src/ClassLibrary3/obj/</span><br><span class="line">Removing src/packages/</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">2467772</span> test commit</span><br><span class="line">Checking out <span class="number">2467772</span>f as master...</span><br><span class="line">HEAD is now <span class="built_in">at</span> <span class="number">2467772</span>... test commit</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Restoring NuGet Packages...&quot;</span><br><span class="line">Restoring NuGet Packages...</span><br><span class="line">$ C:\NuGet\nuget.exe <span class="built_in">restore</span> &quot;src\CNBlogsCI-Sample.sln&quot;</span><br><span class="line">Installing &#x27;AutoMapper <span class="number">4</span>.<span class="number">2</span>.<span class="number">1</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.abstractions <span class="number">2</span>.<span class="number">0</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.assert <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.abstractions <span class="number">2</span>.<span class="number">0</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.extensibility.execution <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.extensibility.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.assert <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Installing &#x27;xunit.runner.console <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;AutoMapper <span class="number">4</span>.<span class="number">2</span>.<span class="number">1</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.runner.console <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.extensibility.core <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">Successfully installed &#x27;xunit.extensibility.execution <span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;.</span><br><span class="line">$ <span class="built_in">echo</span> &quot;Tests run...&quot;</span><br><span class="line">Tests run...</span><br><span class="line">$ C:\xunit.runner.console\tools\xunit.console.exe &quot;src\ClassLibrary2\bin\debug\ClassLibrary2.dll&quot;</span><br><span class="line">xUnit.<span class="built_in">net</span> Console Runner (<span class="number">64</span>-bit .<span class="built_in">NET</span> <span class="number">4</span>.<span class="number">0</span>.<span class="number">30319</span>.<span class="number">42000</span>)</span><br><span class="line"><span class="function">  Discovering: <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Discovered</span>:  <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Starting</span>:    <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">  <span class="title">Finished</span>:    <span class="title">ClassLibrary2</span></span></span><br><span class="line"><span class="function">=== <span class="title">TEST</span> <span class="title">EXECUTION</span> <span class="title">SUMMARY</span> ===</span></span><br><span class="line"><span class="function">   <span class="title">ClassLibrary2</span>  <span class="title">Total</span>: 2, <span class="title">Errors</span>: 0, <span class="title">Failed</span>: 0, <span class="title">Skipped</span>: 0, <span class="title">Time</span>: 0.194<span class="title">s</span></span></span><br><span class="line"><span class="function">$ <span class="title">C</span>:\<span class="title">xunit.runner.console</span>\<span class="title">tools</span>\<span class="title">xunit.console.exe</span> &quot;<span class="title">src</span>\<span class="title">ClassLibrary3</span>\<span class="title">bin</span>\<span class="title">debug</span>\<span class="title">ClassLibrary3.dll</span>&quot;</span></span><br><span class="line"><span class="function"><span class="title">xUnit.net</span> <span class="title">Console</span> <span class="title">Runner</span> (64-<span class="title">bit</span> .<span class="title">NET</span> 4.0.30319.42000)</span></span><br><span class="line"><span class="function">  <span class="title">Discovering</span>: <span class="title">ClassLibrary3</span></span></span><br><span class="line"><span class="function">  <span class="title">Discovered</span>:  <span class="title">ClassLibrary3</span></span></span><br><span class="line"><span class="function">  <span class="title">Starting</span>:    <span class="title">ClassLibrary3</span></span></span><br><span class="line"><span class="function">  <span class="title">Finished</span>:    <span class="title">ClassLibrary3</span></span></span><br><span class="line"><span class="function">=== <span class="title">TEST</span> <span class="title">EXECUTION</span> <span class="title">SUMMARY</span> ===</span></span><br><span class="line"><span class="function">   <span class="title">ClassLibrary3</span>  <span class="title">Total</span>: 1, <span class="title">Errors</span>: 0, <span class="title">Failed</span>: 0, <span class="title">Skipped</span>: 0, <span class="title">Time</span>: 0.184<span class="title">s</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Build</span> <span class="title">succeeded</span></span></span><br></pre></td></tr></table></figure>
+
+<p>基本上实现了我们想要的效果，但这种实现方式有两个不好的地方：</p>
+<ul>
+<li>需要将单元测试的 <code>*.dll</code> 文件上传到 git 资源库。</li>
+<li>每增加一个单元测试项目，就必须在<code>.gitlab-ci.yml</code>中添加一段脚本。</li>
+</ul>
+<p>我个人觉得 CI 中的自动化测试，肯定不是像我这样搞的，但实在找不到相关资料，如果大家知悉，还请告知，感谢～</p>
+<p>另外，如果是 ASP.NET 5 项目，进行自动化测试配置，会非常简单，配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">test:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Tests run...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">dnx</span> <span class="string">test</span> <span class="comment">#或者 dotnet test</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-configue-gitlab-ci-yml"><a href="#5-configue-gitlab-ci-yml" class="headerlink" title="5. configue .gitlab-ci.yml"></a>5. configue .gitlab-ci.yml</h2><p><code>.gitlab-ci.yml</code>官方资料：<a target="_blank" rel="noopener" href="http://doc.gitlab.com/ee/ci/yaml/README.html">http://doc.gitlab.com/ee/ci/yaml/README.html</a></p>
+<p>其他示例：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/32964953/gitlab-ci-and-msbuild-with-tests">http://stackoverflow.com/questions/32964953/gitlab-ci-and-msbuild-with-tests</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CWISoftware/accounts/blob/master/.gitlab-ci.yml">https://github.com/CWISoftware/accounts/blob/master/.gitlab-ci.yml</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.timtilberg.com/tag/gitlab/">http://www.timtilberg.com/tag/gitlab/</a></li>
+<li><a target="_blank" rel="noopener" href="http://doc.gitlab.com/ee/ci/yaml/README.html#stages">http://doc.gitlab.com/ee/ci/yaml/README.html#stages</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/travis-ci/travis-ci/issues/5210">https://github.com/travis-ci/travis-ci/issues/5210</a></li>
+</ul>
+<p><code>.gitlab-ci.yml</code>中的配置说明，上面的官方资料介绍的非常详细，下面我再简单介绍下，就用我这次部署 CI 完善后的<code>.gitlab-ci.yml</code>配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"></span><br><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Restoring NuGet Packages...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\NuGet\nuget.exe</span> <span class="string">restore</span> <span class="string">&quot;src\CNBlogsCI-Sample.sln&quot;</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line"></span><br><span class="line"><span class="attr">build_job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Release build...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe</span> <span class="string">/consoleloggerparameters:ErrorsOnly</span> <span class="string">/maxcpucount</span> <span class="string">/nologo</span> <span class="string">/property:Configuration=Release</span> <span class="string">/verbosity:quiet</span> <span class="string">&quot;src\CNBlogsCI-Sample.sln&quot;</span></span><br><span class="line">  <span class="attr">except:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">tags</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line"></span><br><span class="line"><span class="attr">test_job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Tests run...&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\xunit.runner.console\tools\xunit.console.exe</span> <span class="string">&quot;src\ClassLibrary2\bin\debug\ClassLibrary2.dll&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">C:\xunit.runner.console\tools\xunit.console.exe</span> <span class="string">&quot;src\ClassLibrary3\bin\debug\ClassLibrary3.dll&quot;</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<p><code>stage</code>翻译为<strong>阶段</strong>的意思，在<strong>构建</strong>的过程中，必须要有一个先后顺序，最上面的<code>stages</code>配置意思是，先构建阶段为<code>build</code>的<code>job</code>，然后再构建阶段为<code>test</code>的<code>job</code>，下面<code>build_job</code>和<code>test_job</code>都是<code>job</code>，如果不配置<code>stages</code>，默认为：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">deploy</span></span><br></pre></td></tr></table></figure>
+
+<p><code>before_script</code>的意思是，执行在所有的<code>job</code>之前的脚本，比如构建<code>build_job</code>和<code>test_job</code>都先执行<code>before_script</code>，<code>build_job</code>和<code>test_job</code>中的<code>stage</code>配置，意思是此<code>job</code>属于哪个<code>stage</code>，这个<code>stage</code>就是最上面的<code>stages</code>配置，除了默认的<code>build</code>,<code>test</code>和<code>deploy</code>，你也可以添加自定义的<code>stage</code>，另外，如果<code>job</code>不添加<code>stage</code>配置，默认配置为<code>test</code>，比如上面的<code>test_job</code>，就可以省略<code>stage: test</code>配置。</p>
+<p>另外，<code>job</code>还有一个<code>when: on_failure/on_success /always </code>配置，如果我们对<code>job</code>进行了<code>stage</code>配置，默认都会是<code>when: on_success</code>：</p>
+<p><img src="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505213235279-417659233.png" alt="img"></p>
+<p><code>only - master</code>的意思是，只有``master<code>分支才会进行构建，</code>script`的意思很明了，就是要执行的脚本命名。</p>
+<h2 id="6-configue-build-status-badge-image"><a href="#6-configue-build-status-badge-image" class="headerlink" title="6. configue build status badge image"></a>6. configue build status badge image</h2><p>构建状态徽章，就是我们平常在 Github 项目中看到构建图标，有<code>pass</code>和<code>failing</code>等等。</p>
+<p>Gitlab CI 中的教程 <a target="_blank" rel="noopener" href="http://doc.gitlab.com/ce/ci/quick_start/README.html">builds-badge</a> 真的很坑爹，怎么试都不行，后来无意间看到 Gitlab 项目的一个选项 <strong>Settings &gt; Badges</strong>：</p>
+<p><img src="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505214934794-2100519539.png" alt="img"></p>
+<p>复制上面的代码，然后添加在<code>README.md</code>文件中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[![build status](https://gitlab.com/dev/CNBlogsCI-Sample/badges/master/build.svg)](https://gitlab.com/dev/CNBlogsCI-Sample/commits/master)</span><br></pre></td></tr></table></figure>
+
+<p>这样在<code>commit``bulid</code>的时候，就会动态的显示<code>bulid</code>的过程和结果，并且是图片显示。</p>
+<p><img src="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505215133466-114072506.png" alt="img"></p>
+<p>Gitlab 部署好 CI 之后，我们会发现，在项目中随处可见这样的图标：</p>
+<p><img src="https://images2015.cnblogs.com/blog/435188/201605/435188-20160505215527560-1180463408.png" alt="img"></p>
+<hr>
+<p>这篇博文没有什么阅读价值，因为都是零零碎碎的问题和解决纪录，没有什么可读性，如果你能阅读到这，我真的会很感动。</p>
+<p>分享是有价值的一件事，如果园友在遇到相同问题的时候，可以 Google 到这篇博文，那写这篇博文也就值了😏。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2020/12/22/%E5%8A%88%E8%8D%86%E6%96%A9%E6%A3%98%EF%BC%9AGitlab%20%E9%83%A8%E7%BD%B2%20CI%20%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" data-title="劈荆斩棘：Gitlab 部署 CI 持续集成 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/22/WPF三维立体效果3D/" title="WPF三维立体效果3D">
+  <strong>上一篇：</strong><br/>
+  <span>
+  WPF三维立体效果3D</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/12/18/Nginx的代理配置/"  title="Nginx的代理配置">
+ <strong>下一篇：</strong><br/> 
+ <span>Nginx的代理配置
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%88%E8%8D%86%E6%96%A9%E6%A3%98%EF%BC%9AGitlab-%E9%83%A8%E7%BD%B2-CI-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">     劈荆斩棘：Gitlab 部署 CI 持续集成        </span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-install-configue-gitlab-ci-multi-runner"><span class="toc-number">1.1.</span> <span class="toc-text">1. install configue gitlab-ci-multi-runner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-restore-nuget-packages"><span class="toc-number">1.2.</span> <span class="toc-text">2. restore nuget packages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-build-sln"><span class="toc-number">1.3.</span> <span class="toc-text">3. build *.sln</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-run-unit-tests"><span class="toc-number">1.4.</span> <span class="toc-text">4. run unit tests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-configue-gitlab-ci-yml"><span class="toc-number">1.5.</span> <span class="toc-text">5. configue .gitlab-ci.yml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-configue-build-status-badge-image"><span class="toc-number">1.6.</span> <span class="toc-text">6. configue build status badge image</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

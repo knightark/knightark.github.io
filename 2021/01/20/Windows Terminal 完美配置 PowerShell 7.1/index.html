@@ -1,0 +1,664 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Windows Terminal 完美配置 PowerShell 7.1 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="Windows Terminal 完美配置 PowerShell 7.1B站UP主: -老湿基-  坑边闲话：忆往昔岁月，不堪回首，伟大的 Windows 竟然拿不出一个像样的终端模拟器。mintty.exe 和 封装后的 cmder 之流，总是有各种问题，而且不兼容 emoji  字符。后来，全网 Windows 用户随着一个华丽的广告沸腾了，微软宣布了终端软件 Windows Terminal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Terminal 完美配置 PowerShell 7.1">
+<meta property="og:url" content="https://knightark.github.io/2021/01/20/Windows%20Terminal%20%E5%AE%8C%E7%BE%8E%E9%85%8D%E7%BD%AE%20PowerShell%207.1/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="Windows Terminal 完美配置 PowerShell 7.1B站UP主: -老湿基-  坑边闲话：忆往昔岁月，不堪回首，伟大的 Windows 竟然拿不出一个像样的终端模拟器。mintty.exe 和 封装后的 cmder 之流，总是有各种问题，而且不兼容 emoji  字符。后来，全网 Windows 用户随着一个华丽的广告沸腾了，微软宣布了终端软件 Windows Terminal">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-59db8c16ee82335a0f6229b1f01f5481_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-f25122805f8f8ab76ffc979238fc2444_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-718823c3fb47a87b14905c9fa2e3d35d_720w.jpg">
+<meta property="article:published_time" content="2021-01-20T01:46:23.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:08:09.494Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="power shell">
+<meta property="article:tag" content="vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic2.zhimg.com/80/v2-59db8c16ee82335a0f6229b1f01f5481_720w.jpg">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/01/20/Windows Terminal 完美配置 PowerShell 7.1/" title="Windows Terminal 完美配置 PowerShell 7.1" itemprop="url">Windows Terminal 完美配置 PowerShell 7.1</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-01-20T01:46:23.000Z" itemprop="datePublished"> Published 2021-01-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows-Terminal-%E5%AE%8C%E7%BE%8E%E9%85%8D%E7%BD%AE-PowerShell-7-1"><span class="toc-number">1.</span> <span class="toc-text">Windows Terminal 完美配置 PowerShell 7.1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-Windows-Terminal"><span class="toc-number">1.1.</span> <span class="toc-text">1. 安装 Windows Terminal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">2. 安装字体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85%E6%96%B0%E6%AC%BE-Powershell-Core"><span class="toc-number">1.3.</span> <span class="toc-text">3. 安装新款 Powershell Core</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%89%E8%A3%85-Powershell-%E6%8F%92%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">4. 安装 Powershell 插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-Windows-Terminal"><span class="toc-number">1.5.</span> <span class="toc-text">5. 配置 Windows Terminal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%B7%BB%E5%8A%A0%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95"><span class="toc-number">1.6.</span> <span class="toc-text">6. 添加右键菜单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%B7%BB%E5%8A%A0-Powershell-%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">7. 添加 Powershell 启动参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="toc-number">1.8.</span> <span class="toc-text">结束语</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Windows-Terminal-完美配置-PowerShell-7-1"><a href="#Windows-Terminal-完美配置-PowerShell-7-1" class="headerlink" title="Windows Terminal 完美配置 PowerShell 7.1"></a>Windows Terminal 完美配置 PowerShell 7.1</h1><p>B站UP主: -老湿基-</p>
+<blockquote>
+<p><strong>坑边闲话</strong>：忆往昔岁月，不堪回首，伟大的 Windows 竟然拿不出一个像样的终端模拟器。mintty.exe 和 封装后的 cmder 之流，总是有各种问题，而且不兼容 emoji  字符。后来，全网 Windows 用户随着一个华丽的广告沸腾了，微软宣布了终端软件 Windows Terminal  的开发进程，而且开源！如今，Windows Terminal 预览版  已经陪伴我们走过了挺长一段时间，其稳定性和易用性已经非常不错，关键是颜值相当高。<strong>如果你是一个追求完美与和谐的 User，那么请跟上我的步伐，我们重新起航！</strong></p>
+</blockquote>
+<p><strong>重要提醒</strong>：本文的所有配置经过多重考验，<strong>请勿在配置过程中突发奇想</strong>而走弯路，一定要认真阅读每一个段落、每一个句子！</p>
+<p><img src="https://pic2.zhimg.com/80/v2-59db8c16ee82335a0f6229b1f01f5481_720w.jpg" alt="img"></p>
+<p>图 1：常规展示</p>
+<p><img src="https://pic1.zhimg.com/80/v2-f25122805f8f8ab76ffc979238fc2444_720w.jpg" alt="img">图 2：在 git 目录下的效果。</p>
+<h2 id="1-安装-Windows-Terminal"><a href="#1-安装-Windows-Terminal" class="headerlink" title="1. 安装 Windows Terminal"></a>1. 安装 Windows Terminal</h2><p>相信这一步对大多数人不构成任何困难，去 <strong>Microsoft Store</strong> 搜索下载就是了。</p>
+<blockquote>
+<p>该项难度系数：0</p>
+</blockquote>
+<h2 id="2-安装字体"><a href="#2-安装字体" class="headerlink" title="2. 安装字体"></a>2. 安装字体</h2><p>这里仅推荐一款字体：<strong>Fira Code</strong>。该字体支持 ligature 连字功能，而且是一款专门为代码显示准备的字体。该字体开源，广受海内外程序员好评！</p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/tonsky/FiraCode/releases/download/3.1/FiraCode_3.1.zip">单击此处从 GitHub 下载。</a></p>
+<p>装上该字体，即可进入下一步。</p>
+<blockquote>
+<p>该项难度系数：1</p>
+</blockquote>
+<p>（或许有人登 Github 有网络问题，请自行解决。）</p>
+<h2 id="3-安装新款-Powershell-Core"><a href="#3-安装新款-Powershell-Core" class="headerlink" title="3. 安装新款 Powershell Core"></a>3. 安装新款 Powershell Core</h2><p>首先声明，我们这儿用的 Powershell 与 Windows 自带的 Powershell 是完全不同的两个东西，除了功能相似和名字相同，两者内在已经天差地别。</p>
+<p>自带的 Powershell <strong>错误提示冗长</strong>，<strong>颜值低</strong>，<strong>速度慢</strong>，总之就是不值得去用。</p>
+<p>那么 Powershell Core 是什么呢？这是伟大的 <strong>.Net Core 跨平台战略</strong>的一个重要组成部分，微软设想，要让强大的 .Net 在所有平台上通用，让这么强大的 Powershell 在所有平台上都能用，古老的 bash 可以退休了！</p>
+<p>基于以上愿景，微软开始了漫长而辉煌的征程。</p>
+<p>开源，还是开源。在 <a href="https://link.zhihu.com/?target=https://github.com/PowerShell/PowerShell/releases">https://github.com/PowerShell/PowerShell/releases</a> 这个GitHub 链接里，有目前 Powershell 的最新版，我建议你从 release 里选个最新的 preview 版本。<strong>经过测试，这些预览版都相当稳定。</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/PowerShell/PowerShell/releases/download/v7.1.0-preview.2/PowerShell-7.1.0-preview.2-win-x64.msi">直接单击此处下载 x86-64 Windows 64 位 .msi 安装包。</a></p>
+<blockquote>
+<p>该项难度系数：1</p>
+</blockquote>
+<p>难度同样来自于访问 Github。</p>
+<h2 id="4-安装-Powershell-插件"><a href="#4-安装-Powershell-插件" class="headerlink" title="4. 安装 Powershell 插件"></a>4. 安装 Powershell 插件</h2><p>这一步是灵魂。</p>
+<p>直接上代码：打开刚装好的新版 powershell，逐行输入命令。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 2. 安装 posh-git 包，让你的 git 更好用</span></span><br><span class="line"><span class="built_in">Install-Module</span> posh<span class="literal">-git</span> <span class="literal">-Scope</span> CurrentUser</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 安装 oh-my-posh 包，让你的命令行更酷炫、优雅</span></span><br><span class="line"><span class="built_in">Install-Module</span> <span class="built_in">oh</span><span class="literal">-my</span><span class="literal">-posh</span> <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
+
+<p>安装过程可能有点慢，<strong>好像卡住了一样</strong>，但是请耐心等待几分钟。</p>
+<blockquote>
+<p>该项难度系数：0</p>
+</blockquote>
+<p>后面两个包的<strong>来源可能不受系统信任</strong>，不用管它，如果让你选择是否信任，直接输入 <code>Y</code> 即可。</p>
+<h2 id="5-配置-Windows-Terminal"><a href="#5-配置-Windows-Terminal" class="headerlink" title="5. 配置 Windows Terminal"></a>5. 配置 Windows Terminal</h2><p>这一项是灵魂。</p>
+<p>只有新款 Powershell 而没有 Windows Terminal，好比吃肉不放盐。</p>
+<p>简单点，直接上配置代码，遇到不懂的地方，自己读注释。记得将此设置默认配置（代码已经给出）。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认的配置就是我们的新 powershell（重要！！！）</span></span><br><span class="line"><span class="string">&quot;defaultProfile&quot;</span>: <span class="string">&quot;&#123;574e775e-4f2a-5b96-ac1e-a2962a402336&#125;&quot;</span>,</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Powershell 7.1.0-preview.2 配置</span></span><br><span class="line">    <span class="attr">&quot;guid&quot;</span>: <span class="string">&quot;&#123;574e775e-4f2a-5b96-ac1e-a2962a402336&#125;&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hidden&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;pwsh&quot;</span>,</span><br><span class="line">    <span class="comment">// 注意：一定要写上 -nologo，否则开启 powershll 会有一段话输出，很讨厌！</span></span><br><span class="line">    <span class="attr">&quot;commandline&quot;</span>: <span class="string">&quot;C:/Program Files/PowerShell/7-preview/pwsh.exe -nologo&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;source&quot;</span>: <span class="string">&quot;Windows.Terminal.PowershellCore&quot;</span>,</span><br><span class="line">    <span class="comment">// 启动菜单一定要设置为 &lt;.&gt;，否则后面重要的一步将会无效！</span></span><br><span class="line">    <span class="attr">&quot;startingDirectory&quot;</span>: <span class="string">&quot;.&quot;</span>,</span><br><span class="line">    <span class="comment">// 字体</span></span><br><span class="line">    <span class="attr">&quot;fontFace&quot;</span>: <span class="string">&quot;Fira Code&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;fontSize&quot;</span>: <span class="number">11</span>,</span><br><span class="line">    <span class="attr">&quot;historySize&quot;</span>: <span class="number">9001</span>,</span><br><span class="line">    <span class="attr">&quot;padding&quot;</span>: <span class="string">&quot;5, 5, 20, 25&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;snapOnInput&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;useAcrylic&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="comment">// 颜色</span></span><br><span class="line">    <span class="attr">&quot;colorScheme&quot;</span>: <span class="string">&quot;Homebrew&quot;</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>同时附上 Homebrew 配色，该配色经过我改良。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Homebrew&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;black&quot;</span>: <span class="string">&quot;#000000&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;red&quot;</span>: <span class="string">&quot;#FC5275&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;green&quot;</span>: <span class="string">&quot;#00a600&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;yellow&quot;</span>: <span class="string">&quot;#999900&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;blue&quot;</span>: <span class="string">&quot;#6666e9&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;purple&quot;</span>: <span class="string">&quot;#b200b2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;cyan&quot;</span>: <span class="string">&quot;#00a6b2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;white&quot;</span>: <span class="string">&quot;#bfbfbf&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightBlack&quot;</span>: <span class="string">&quot;#666666&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightRed&quot;</span>: <span class="string">&quot;#e50000&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightGreen&quot;</span>: <span class="string">&quot;#00d900&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightYellow&quot;</span>: <span class="string">&quot;#e5e500&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightBlue&quot;</span>: <span class="string">&quot;#0000ff&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightPurple&quot;</span>: <span class="string">&quot;#e500e5&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightCyan&quot;</span>: <span class="string">&quot;#00e5e5&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;brightWhite&quot;</span>: <span class="string">&quot;#e5e5e5&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;background&quot;</span>: <span class="string">&quot;#283033&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;foreground&quot;</span>: <span class="string">&quot;#00ff00&quot;</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>特别注意，用其他配色可能<strong>降低颜值</strong>。</p>
+<blockquote>
+<p>该项难度系数：0</p>
+</blockquote>
+<p>需要懂点 json，还<strong>需要会配置 Windows Terminal</strong>。</p>
+<h2 id="6-添加右键菜单"><a href="#6-添加右键菜单" class="headerlink" title="6. 添加右键菜单"></a>6. 添加右键菜单</h2><p>这一步是<strong>灵魂中的灵魂</strong>。</p>
+<blockquote>
+<p><strong>这里涉及修改注册表，小白请勿手残改坏注册表，强烈建议事前建立系统还原点！</strong></p>
+</blockquote>
+<p>Github 上面已经有 powershell 脚本了，可以用管理员身份运行该脚本 + 某些参数以实现配置右键菜单。</p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/lextm/windowsterminal-shell/">原版 Github 仓库</a></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/LittleNewton/windows_terminal_here">我修改后的脚本仓库</a></p>
+<p>建议下载我这个，然后在管理员模式的 powershell 7 里运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\install.ps1 mini</span><br></pre></td></tr></table></figure>
+
+<p>记住一定要以<strong>管理员身份</strong>在 powershell 7 里面运行该脚本。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-718823c3fb47a87b14905c9fa2e3d35d_720w.jpg" alt="img">图 3： 用我修改后的脚本安装之后的效果如图</p>
+<p><strong>目前发现问题</strong>：该脚本会读取 Windows Terminal 的 profile，然后把其中的非隐藏项目添加到右键菜单（默认视图），这之后如果你修改了 profile，那么需要用 <code>uninstall.ps1</code> 脚本先清除右键菜单，然后重新 install 一遍。</p>
+<h2 id="7-添加-Powershell-启动参数"><a href="#7-添加-Powershell-启动参数" class="headerlink" title="7. 添加 Powershell 启动参数"></a>7. 添加 Powershell 启动参数</h2><p>在 powershell 中输入</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad.exe <span class="variable">$Profile</span></span><br></pre></td></tr></table></figure>
+
+<p>紧接着在弹出的页面中输入下面这一长串代码，保存并关闭。这个 Profile 配置文件与 .zshrc / .bashrc 文件一样，都是控制启动前参数的。</p>
+<p>我自己使用的是一下的段落</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#------------------------------- Import Modules BEGIN -------------------------------</span></span><br><span class="line"><span class="comment"># 引入 posh-git</span></span><br><span class="line">Import-Module posh-git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 引入 oh-my-posh</span></span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 PowerShell 主题</span></span><br><span class="line">Set-Theme Paradox</span><br><span class="line"><span class="comment">#------------------------------- Import Modules END   -------------------------------</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------------------------  Set Hot-keys BEGIN  -------------------------------</span></span><br><span class="line"><span class="comment"># 设置 Tab 键补全</span></span><br><span class="line"><span class="comment"># Set-PSReadlineKeyHandler -Key Tab -Function Complete</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+d 为菜单补全和 Intellisense</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key <span class="string">&quot;Tab&quot;</span> -Function MenuComplete</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+d 为退出 PowerShell</span></span><br><span class="line">Set-PSReadlineKeyHandler -Key <span class="string">&quot;Ctrl+d&quot;</span> -Function ViExit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+z 为撤销</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key <span class="string">&quot;Ctrl+z&quot;</span> -Function Undo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置向上键为后向搜索历史记录</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置向下键为前向搜索历史纪录</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward</span><br><span class="line"><span class="comment">#-------------------------------  Set Hot-keys END    -------------------------------</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>原本的段落</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;#</span></span><br><span class="line"><span class="comment"> * FileName: Microsoft.PowerShell_profile.ps1</span></span><br><span class="line"><span class="comment"> * Author: 刘 鹏</span></span><br><span class="line"><span class="comment"> * Email: littleNewton6@outlook.com</span></span><br><span class="line"><span class="comment"> * Date: 2020, May. 1</span></span><br><span class="line"><span class="comment"> * Copyright: No copyright. You can use this code for anything with no warranty.</span></span><br><span class="line"><span class="comment">#&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#------------------------------- Import Modules BEGIN -------------------------------</span></span><br><span class="line"><span class="comment"># 引入 posh-git</span></span><br><span class="line"><span class="built_in">Import-Module</span> posh<span class="literal">-git</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 引入 oh-my-posh</span></span><br><span class="line"><span class="built_in">Import-Module</span> <span class="built_in">oh</span><span class="literal">-my</span><span class="literal">-posh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 PowerShell 主题</span></span><br><span class="line"><span class="built_in">Set-Theme</span> Paradox</span><br><span class="line"><span class="comment">#------------------------------- Import Modules END   -------------------------------</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------------------------  Set Hot-keys BEGIN  -------------------------------</span></span><br><span class="line"><span class="comment"># 设置 Tab 键补全</span></span><br><span class="line"><span class="comment"># Set-PSReadlineKeyHandler -Key Tab -Function Complete</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+d 为菜单补全和 Intellisense</span></span><br><span class="line"><span class="built_in">Set-PSReadLineKeyHandler</span> <span class="literal">-Key</span> <span class="string">&quot;Tab&quot;</span> <span class="literal">-Function</span> MenuComplete</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+d 为退出 PowerShell</span></span><br><span class="line"><span class="built_in">Set-PSReadlineKeyHandler</span> <span class="literal">-Key</span> <span class="string">&quot;Ctrl+d&quot;</span> <span class="literal">-Function</span> ViExit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+z 为撤销</span></span><br><span class="line"><span class="built_in">Set-PSReadLineKeyHandler</span> <span class="literal">-Key</span> <span class="string">&quot;Ctrl+z&quot;</span> <span class="literal">-Function</span> Undo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置向上键为后向搜索历史记录</span></span><br><span class="line"><span class="built_in">Set-PSReadLineKeyHandler</span> <span class="literal">-Key</span> UpArrow <span class="literal">-Function</span> HistorySearchBackward</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置向下键为前向搜索历史纪录</span></span><br><span class="line"><span class="built_in">Set-PSReadLineKeyHandler</span> <span class="literal">-Key</span> DownArrow <span class="literal">-Function</span> HistorySearchForward</span><br><span class="line"><span class="comment">#-------------------------------  Set Hot-keys END    -------------------------------</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------------------------    Functions BEGIN   -------------------------------</span></span><br><span class="line"><span class="comment"># Python 直接执行</span></span><br><span class="line"><span class="variable">$env:PATHEXT</span> += <span class="string">&quot;;.py&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新 pip 的方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Update-Packages</span></span> &#123;</span><br><span class="line">    <span class="comment"># update pip</span></span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;Step 1: 更新 pip&quot;</span> <span class="literal">-ForegroundColor</span> Magenta <span class="literal">-BackgroundColor</span> Cyan</span><br><span class="line">    <span class="variable">$a</span> = pip list -<span class="literal">-outdated</span></span><br><span class="line">    <span class="variable">$num_package</span> = <span class="variable">$a</span>.Length - <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> <span class="operator">-lt</span> <span class="variable">$num_package</span>; <span class="variable">$i</span>++) &#123;</span><br><span class="line">        <span class="variable">$tmp</span> = (<span class="variable">$a</span>[<span class="number">2</span> + <span class="variable">$i</span>].Split(<span class="string">&quot; &quot;</span>))[<span class="number">0</span>]</span><br><span class="line">        pip install <span class="literal">-U</span> <span class="variable">$tmp</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># update TeX Live</span></span><br><span class="line">    <span class="variable">$CurrentYear</span> = <span class="built_in">Get-Date</span> <span class="literal">-Format</span> yyyy</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;Step 2: 更新 TeX Live&quot;</span> <span class="variable">$CurrentYear</span> <span class="literal">-ForegroundColor</span> Magenta <span class="literal">-BackgroundColor</span> Cyan</span><br><span class="line">    tlmgr update -<span class="literal">-self</span></span><br><span class="line">    tlmgr update -<span class="literal">-all</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#-------------------------------    Functions END     -------------------------------</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------------------------   Set Alias Begin    -------------------------------</span></span><br><span class="line"><span class="comment"># 1. 编译函数 make</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MakeThings</span></span> &#123;</span><br><span class="line">    nmake.exe <span class="variable">$args</span> <span class="literal">-nologo</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Set-Alias</span> <span class="literal">-Name</span> make <span class="literal">-Value</span> MakeThings</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 更新系统 os-update</span></span><br><span class="line"><span class="built_in">Set-Alias</span> <span class="literal">-Name</span> os<span class="literal">-update</span> <span class="literal">-Value</span> <span class="built_in">Update-Packages</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查看目录 ls &amp; ll</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ListDirectory</span></span> &#123;</span><br><span class="line">    (<span class="built_in">Get-ChildItem</span>).Name</span><br><span class="line">    <span class="built_in">Write-Host</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Set-Alias</span> <span class="literal">-Name</span> <span class="built_in">ls</span> <span class="literal">-Value</span> ListDirectory</span><br><span class="line"><span class="built_in">Set-Alias</span> <span class="literal">-Name</span> ll <span class="literal">-Value</span> <span class="built_in">Get-ChildItem</span></span><br><span class="line"><span class="comment">#-------------------------------    Set Alias END     -------------------------------</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>非常完美。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>为什么不用 WSL 作为默认界面？当然，这也很好，但是在某些编辑和交互控制上，<strong>Powershell 才是 Windows 上的正主</strong>，WSL 说白了，就是个临时替代之用的。对于老程序员，当然是“我全都要”。</p>
+<p>经过测试，该做法<strong>界面美观，性能优异，配置简单</strong>，值得大家使用。在此强烈推荐！</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/工具/">工具</a><a href="/tags/power-shell/">power shell</a><a href="/tags/vim/">vim</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/01/20/Windows%20Terminal%20%E5%AE%8C%E7%BE%8E%E9%85%8D%E7%BD%AE%20PowerShell%207.1/" data-title="Windows Terminal 完美配置 PowerShell 7.1 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/01/27/C#动态创建和动态使用程序集、类、方法、字段等(一)/" title="C#动态创建和动态使用程序集、类、方法、字段等(一)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  C#动态创建和动态使用程序集、类、方法、字段等(一)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/01/19/Net Core 学习路线/"  title="Net Core 学习路线">
+ <strong>下一篇：</strong><br/> 
+ <span>Net Core 学习路线
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows-Terminal-%E5%AE%8C%E7%BE%8E%E9%85%8D%E7%BD%AE-PowerShell-7-1"><span class="toc-number">1.</span> <span class="toc-text">Windows Terminal 完美配置 PowerShell 7.1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-Windows-Terminal"><span class="toc-number">1.1.</span> <span class="toc-text">1. 安装 Windows Terminal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">2. 安装字体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85%E6%96%B0%E6%AC%BE-Powershell-Core"><span class="toc-number">1.3.</span> <span class="toc-text">3. 安装新款 Powershell Core</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%89%E8%A3%85-Powershell-%E6%8F%92%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">4. 安装 Powershell 插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-Windows-Terminal"><span class="toc-number">1.5.</span> <span class="toc-text">5. 配置 Windows Terminal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%B7%BB%E5%8A%A0%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95"><span class="toc-number">1.6.</span> <span class="toc-text">6. 添加右键菜单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%B7%BB%E5%8A%A0-Powershell-%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">7. 添加 Powershell 启动参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="toc-number">1.8.</span> <span class="toc-text">结束语</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

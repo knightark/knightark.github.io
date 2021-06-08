@@ -1,0 +1,854 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>苦艾酒 笔记 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="苦艾酒 笔记前两节课程  第一部分：（因为字数较多，就分为几部分发，我都会标明，第几节课程指的是肖老师第几个视频） 比特币被称为加密货币crypto-currency区块链上内容都是公开的，包括区块的地址，转账的金额。 比特币主要用到了密码学中的两个功能:1.哈希2.签名 1.密码学中用到的哈希函数被称为cryptographic hash function:    它有两个重要的性质:①coll">
+<meta property="og:type" content="article">
+<meta property="og:title" content="苦艾酒 笔记">
+<meta property="og:url" content="https://knightark.github.io/2021/01/13/%E8%8B%A6%E8%89%BE%E9%85%92%20%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="苦艾酒 笔记前两节课程  第一部分：（因为字数较多，就分为几部分发，我都会标明，第几节课程指的是肖老师第几个视频） 比特币被称为加密货币crypto-currency区块链上内容都是公开的，包括区块的地址，转账的金额。 比特币主要用到了密码学中的两个功能:1.哈希2.签名 1.密码学中用到的哈希函数被称为cryptographic hash function:    它有两个重要的性质:①coll">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="og:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+<meta property="article:published_time" content="2021-01-13T00:52:30.000Z">
+<meta property="article:modified_time" content="2021-06-08T03:37:12.389Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="blogs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/01/13/苦艾酒 笔记/" title="苦艾酒 笔记" itemprop="url">苦艾酒 笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-01-13T00:52:30.000Z" itemprop="datePublished"> Published 2021-01-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8B%A6%E8%89%BE%E9%85%92-%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">苦艾酒 笔记</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="苦艾酒-笔记"><a href="#苦艾酒-笔记" class="headerlink" title="苦艾酒 笔记"></a>苦艾酒 笔记</h1><p>前两节课程  第一部分：<br>（因为字数较多，就分为几部分发，我都会标明，第几节课程指的是肖老师第几个视频）</p>
+<p>比特币被称为加密货币crypto-currency<br>区块链上内容都是公开的，包括区块的地址，转账的金额。</p>
+<p>比特币主要用到了密码学中的两个功能:1.哈希2.签名</p>
+<p>1.密码学中用到的哈希函数被称为cryptographic hash function:    它有两个重要的性质:<br>①collision(这里指哈希碰撞) resistance  :例如x≠y H(x)=H(y) 两个不同的输入，输出却是相等的，这就称哈希碰撞。它是不可避免的，因为输入空间总大于输出空间。给出x，很难找到y，除非蛮力求解(brute-force)。<br>该性质的作用:对一个message求digest<br>比如message取m m的哈希值是H(m)=digest 如果有人想篡改m值而H(m)不变，则无法做到。<br>哈希碰撞无法人为制造，无法验证，是根据实践经验得来的。<br>②hiding 哈希函数的计算过程是单向的，不可逆的。(从H(x)无法推导出x) hiding性质前提是输入空间足够大，分布比较均匀。如果不是足够大，一般在x后面拼接一个随机数，如H(x||nonce)。<br>该性质的作用:和collision resistance 结合在一起，用来实现digital commitment(又称为digital equivalent of a sealed envelope)<br>把预测结果作为输入x，算出一个哈希值，讲哈希值公布，hiding让人们知道哈希值而不知道预测值，最后再将x公布，因为有collision resistance的性质，预测结果是不可篡改的。</p>
+<p>2020-01-17 00:3769回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>前两节课程  第二部分：</p>
+<p>除了密码学中要求的这两个性质外，比特币中用到的哈希函数还有第三个性质:<br>③puzzle friendly 指哈希值的预算事先是不可预测的。假如哈希值是00…0XX…X，一样事先无法知道哪个值更容易算出这个结果，还是要一个一个带入。</p>
+<p>比特币挖矿的过程中实际就是找一个nonce，nonce跟区块的块头里的其他信息合一起作为输入，得出的哈希值要小于等于某个指定的目标预值。H(block header)≤target。block header 指块头，块头里有很多域，其中一个域是我们可以设置的随机数nonce，挖矿的过程是不停的试随机数，使得block header取哈希后落在指定的范围之内。</p>
+<p>puzzle friendly是指挖矿过程中没有捷径，为了使输出值落在指定范围，只能一个一个去试。所以这个过程还可以作为工作量证明(proof of work)。<br>挖矿很难，验证很容易。(difficult to solve ,but easy to verify)</p>
+<p>比特币中用的哈希函数叫作SHA-256(secure hash algorithm )以上三个性质它都是满足的。</p>
+<p>2.<br>在比特币系统中开账户:<br>在本地创立一个公私钥匙对(public key ,private key)，这就是一个账户。公私钥匙对是来自于非对称的加密技术(asymmetric encryption algorithm)。</p>
+<p>2020-01-17 00:3824回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>前两节课程  第三部分：</p>
+<p>两人之间信息的交流可以利用密钥(encryption key)，A将信息加密后发给B，B收到后用密钥解密，因为加密和解密用的是同一个密钥，所以叫对称加密。前提是有渠道可以安全地把密钥分发给通讯的双方。因此对称加密的缺点就是密钥的分发不方便，因为在网络上很容易被窃听。非对称密钥是用一对密钥而不是一个，加密用公钥，解密用私钥，加密和解密用的都是接收方的公钥和私钥。公钥是不用保密的，私钥要保密但是私钥只要保存在本地就行，不用传给对方。公钥相当于银行账号，别人转账只要知道公钥就行，私钥相当于账户密码，知道私钥可以把账户上钱转走。公钥和私钥是用来签名。</p>
+<p>假如A想向B转10个比特币，A把交易放在区块链上，别人怎么知道这笔交易是A发起的呢?这就需要A要用自己的私钥给交易签名，其他人收到这笔交易后，要用A的公钥去验证签名。签名用私钥，验证用公钥，用的仍然是同一个人的。创建账户产生相同公私钥的可能性微乎其微，所以大量创建账户来窃取其他人账户是不可行的。</p>
+<p>我们假设产生公私钥时有一个好的随机源(a good source of randomness)，产生公私钥是随机的，如果随机源不好，就有可能产生相同的公私钥。比特币中用的签名算法，不仅是生成公私钥的时候要有好的随机源，之后每一次签名时也要有好的随机源。只要有一次签名用的随机源不好的话，就有可能泄露私钥。</p>
+<p>2020-01-17 00:4016回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>注明一下  有时候笔记里会有说  见拍的图一  图二等等 实际上就是老师讲到这个知识点时进行的板书   因为没法上传图片  所以大家还是回到视频中查找吧</p>
+<p>2020-01-17 00:435回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第三节课程  第一部分</p>
+<p>第三节:比特币的数据结构<br>普通指针存储的是某个结构体在内存中的地址。假如P是指向一结构体的指针，那么P里面存放的就是该结构体在内存中的起始位置。而哈希指针除了要存地址之外，还要保存该结构体的哈希值H()。好处是:从哈希值这个哈希指针，不仅可以找到该结构体的位置，同时还能够检测出该结构体的内容有没有被篡改，因为我们保存了它的哈希值。</p>
+<p>比特币中最基本的结构就是区块链，区块链就是一个一个区块组成的链表。区块链和普通的链表相比有什么区别:<br>①用哈希指针代替了普通指针(B block chain is a linked list using hash pointers)</p>
+<p>区块链第一个区块叫作创世纪块(genesis block) 最后一个区块 是最近产生的区块(most recent block) 每一个区块都包含指向前一个区块的哈希指针<br>一个区块的哈希指针怎么算:是把前面整个区块的内容，包括里面的hash pointer ，合在一起取哈希值。通过这种结构，可以实现tamper-evident log。如果有人改变了一个区块的内容，后面一个区块的哈希指针就对不上，因为后一个区块哈希指针是根据前一个区块的内容算出来的，所以后一个哈希指针也得改，以此类推，我们保留的是最后一个哈希值也会变化。(见拍的图①)</p>
+<p>2020-01-17 00:4412回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第三节课程  第二部分</p>
+<p>②普通链表可以改变任意一个元素，对链表中其他元素是没有影响的。而区块链是牵一发而动全身，因为只需要保存最后一个哈希值，就可以判断区块链有没有改变，在哪里改变了。<br>因此比特币没有要保存所有区块的内容，可以只保留最近的几千个区块。如果要用到以前的区块，可以向系统中其他节点要这个区块。有些节点是有恶意的，怎么判断?这里要用到哈希值一个性质，如下:<br>其他节点给你一个区块，如何判断它是正确的?算出它的哈希值，与保留的区块的哈希值对比，即可。</p>
+<p>比特币中的另外一个结构是:Merkle tree。(见拍的图②，其中最下面一层是数据块(data blocks)，上面三层内部节点都是哈希指针(hash pointers)，第一层是根节点，根节点的区块也可以取个哈希，叫根哈希(root hash))<br>另外一个概念:binary tree。</p>
+<p>这种结构的好处:只要记住根哈希值，就能检测出对树中任何部位的修改。<br>它们的区别:①用哈希指针代替了普通指针。</p>
+<p>比特币当中各区块之间用哈希指针连接在一起，每个区块所包含的交易组织成一个merkle tree的形式，最下面一行data blocks每个区块实际上是一个交易，每个区块分为两部分，分别是块头和块身(block header ,block body)。块头里面有根哈希值，每个区块所包含的所有交易组成的merkle tree的根哈希值存在于区块的块头里面，但是，块头里没有交易的具体内容，只有一个根哈希值，块身里面是有交易的列表的。</p>
+<p>merkle tree 的作用:①提供merkle proof<br>比特币中的节点分为两类:全节点(保存整个区块的内容，即块头块身都有，有交易的具体信息)和轻节点(例如手机上的比特币钱包)(只有块头)</p>
+<p>这时存在一个问题:如何向一个轻节点证明某个交易是写入区块链的?<br>这时需要用到merkle proof :找到交易所在的位置(最底行的其中一个区块)，这时该区块一直往上到根节点的路径就叫merkle proof。</p>
+<p>2020-01-17 00:4510回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第三节视频  第三部分</p>
+<p>拍的图三:最上面一行是小型的区块链，该图展现的是一个区块的merkle tree，最下面一行是包含的交易。假设某个轻节点想知道图中黄色的交易，是否包含在了merkle tree里面。该轻节点没有包含交易列表，没有这颗merkle tree的具体内容，只有一个根哈希值。这时轻节点向一个全节点发出请求，请求证明黄色的交易被包含在这颗merkle tree里面的merkle proof。全节点收到这个请求之后，只需要将图中标为红色的这三个哈希值发给轻节点即可。有了这些哈希值之后，轻节点可以在本地计算出图中标为绿色三个哈希值。首先算出黄色交易的哈希值，即它正上方的那个绿的哈希值，然后跟旁边红色的哈希值拼接起来，可以算出上层节点绿色的哈希值。然后再拼接，再算出上层绿色哈希值，再拼接，就可以算出整棵树的根哈希值。轻节点把这个根哈希值和block header里的根哈希值比较一下，就能知道黄色的交易是否在这颗merkle tree里。</p>
+<p>全节点在merkle proof里提供的这几个哈希值，就是从黄色的交易所在的节点的位置到树根的路径上用到的这些哈希值。轻节点收到这样一个merkle proof之后，只要从下往上验证，沿途的哈希值都是正确的即可。(验证时只能验证该路径的哈希值，其他路径是验证不了的，即该图中红色的哈希值是验证不了的)</p>
+<p>这样是否不安全呢?假如黄色交易被篡改，它的哈希值发生了变化，那能不能调整旁边红色的哈希值，使得它们拼接起来的哈希值是不变的呢?不行，根据collision resistance，这是不可行的。</p>
+<p>merkle proof可以证明merkle tree里面包含了某个交易，所以这种证明又叫proof of membership或 proof of inclusion。<br>对于一个轻节点来说，验证一个merkle proof 复杂度是多少?假设最底层有n个交易，则merkle proof 复杂程度是θ(log(n))</p>
+<p>2020-01-17 00:467回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第三节视频  第四部分</p>
+<p>如何证明merkle tree里面没有包含某个交易?即proof of non-membership。可以把整棵树传给轻节点，轻节点收到后验证树的构造都是对的，每一层用到的哈希值都是正确的，说明树里只有这些叶节点，要找的交易不在里面，就证明了proof of non-membership。问题在于，它的复杂度是线性的θ(n)，是比较笨的方法。</p>
+<p>如果对叶节点的排列顺序做一些要求，比如按照交易的哈希值排序。每一个叶节点都是一次交易，对交易的内容取一次哈希，按照哈希值从小到大排列。要查的交易先算出一个哈希值，看看如果它在里面该是哪个位置。比如说在第三个第四个之间，这时提供的proof是第三个第四个叶节点都要往上到根节点。如果其中哈希值都是正确的，最后根节点算出的哈希值也是没有被改过的，说明第三、四个节点在原来的merkle tree里面，确实是相邻的点。要找的交易如果存在的话，应该在这两个节点中间。但是它没有出现，所以就不存在。其复杂度也是log形式，代价是要排序。排好序的叫作sorted merkle tree。比特币中没有用到这种排好序的merkle tree，因为比特币中不需要做不存在证明。</p>
+<p>这节讲了比特币中两种最基本的结构:区块链和merkle tree，都是用哈希指针来构造的。除了这两种之外，哈希指针还能用另一个方面。</p>
+<p>只要一个数据结构是无环的(非循环链表)，都能用哈希指针代替普通指针。有环的话存在一个问题，他们的哈希值没法计算，没法确定一个哈希值固定的区块。</p>
+<p>2020-01-17 00:4613回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第四节课程  第一部分</p>
+<p>第四节:比特币的共识协议</p>
+<p>数字货币和纸质货币区别是可以复制，叫作双花攻击  即double spending attack。<br>去中心化货币要解决两个问题:①数字货币的发行②怎么验证交易的有效性，防止double spending attack。   </p>
+<p>答案:①比特币的发行是由挖矿决定的<br>②依靠区块链的数据结构<br>比特币的发行者A拥有铸币权(createcoin<br>) 假如发行10个比特币  A(10)分别给B和C各五个  → B(5)C(5) 该交易需要有A的签名，证明经A同意。(designed by A)同时还要说明花掉的10个比特币从哪来的。<br>参考拍的图四  第二个方框中的钱是从第一个框内铸币交易中来的。</p>
+<p>比特币系统中每个交易都包含输入和输出两部分。输入部分要说明币的来源，输出部分要给出收款人公钥的哈希。<br>有的交易部分比较复杂，如C的货币来源是第二第三个方框，要标识清楚。</p>
+<p>图四就构成了一个小型的区块链，这里有两种哈希指针，一种哈希指针是连接在各个区块之间的，把它们串起来构成一个链表，前面学的就是这种哈希指针。而在该图中还有第二种哈希指针，是指向前面某个交易的指针，用来指明币的来源。为什么要说明币的来源:证明币不是凭空捏造的是有记录的，同时也是防范double spending。</p>
+<p>2020-01-17 16:0222回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第四节课程  第二部分</p>
+<p>现在来看第二个方框里A向B的转账，该交易需要A的签名和B的地址。比特币系统里收款的地址是通过公钥推算出来的。比如B的地址就是B的公钥取哈希然后经过一些转换得到的。</p>
+<p>A如何知道B的地址?比特币系统中没有查询对方地址的功能，必须通过其他渠道。比如某个电商网站，接受比特币支付，就可以公开它的地址或公钥。</p>
+<p>A需要知道B的地址，B需要知道A的什么信息吗?B其实也要知道A的公钥，这代表A的身份。不仅是B，所有节点都需要知道A的公钥。而签名是用私钥签名公钥验证(注意不要跟前面知识弄混了，加密是用接收人的公钥加密私钥解密)，所以区块链上每个节点都要独立验证。</p>
+<p>那如何才能知道A的公钥?实际上交易里就包含了。输入时不仅要输入币的来源，还要输入公钥。那就存在了安全漏洞，假如B的同伙伪造了这次交易呢?其实第一个方框里铸币交易的输出就有A的公钥的哈希，所以第二个方框交易里A的公钥要跟前面哈希对的上。</p>
+<p>在比特币系统当中，前面这些验证过程，是通过执行脚本来实现的。每个交易的输入提一段脚本，包括给出公钥的过程，公钥也是在输入的脚本里指定的。每个交易的输出也是一段脚本，验证其的合法性，就需要把当前交易的输入脚本跟前面交易(提供币来源的交易)的输出脚本拼在一起，然后看看能不能顺利执行，如果能执行说明是合法的。比特币脚本(BitCoin Script)。</p>
+<p>第四节课程  第三部分</p>
+<p>该图对交易系统进行了简化，实际上每个区块(对应图中的每个方框)可以有很多交易，这些交易就组成merkle tree。每个区块分为块头和块身。</p>
+<p>块头包含的是区块的宏观信息，比如:用的是比特币哪个版本(version)的协议，区块链当中指向前一个区块的指针(hash of previous block header)，整颗merkle tree 的根哈希值(merkle root hash)，还有两个域是跟挖矿相关的，一个是挖矿的难度目标预值(target)，另一个是随机数nonce。</p>
+<p>这里的target，就是前面讲到的，整个块头的哈希要小于这个预值，即H(block header)≤target。block header里存的就是这个目标预值的编码(nBits)。这里需要注意，前一个区块的哈希只算的是前一个区块的块头，所以前面画的，一个区块引出一个剪头指向另一个区块中间，是不正确的，所以有的书剪头是指向一个区块的上面。取哈希时是把块头的所有部分都取哈希。</p>
+<p>块身里面有交易列表(transaction list)。</p>
+<p>前面还有一个内容讲的时候简化了:每个节点都需要验证所有的交易，实际上系统中的节点分全节点(full node)和轻节点(light node)，全节点是保存区块链所有的信息的，验证每一个交易，所以全节点又叫fully validating node。轻节点只保存block header的信息，一般来说轻节点没法独立验证交易的合法性。</p>
+<p>比如一个交易是不是double spending，轻节点没有存以前的交易信息所以它没法验证。系统中大多数节点是轻节点，这节课内容主要针对全节点，因为轻节点没有参与区块链的构造和维护，只是利用了区块链的一些信息做一些查询。</p>
+<p>2020-01-17 16:044回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第四节课程  第四部分</p>
+<p>区块链里的内容是如何写到区块链里面的呢:每个节点，每个账户都可以发布交易，交易是广播给所有节点的。有些交易是合法的，有些是非法的。谁来决定哪些交易应该被写入下一个区块中呢?按照什么顺序写呢?如果每个节点自己决定可以吗?如果每个人在本地维护一个区块链，那区块链的统一性得不到保证，而账本的内容是要取得分布式的共识(distributed consensus)。</p>
+<p>下面的笔记跟比特币的应用关系不大，可以作为了解:<br>分布式的共识一个简单的例子就是分布式的哈希表(distributed hash table)，比如系统里有很多台机器，共同维护一个全局的哈希表。</p>
+<p>这里需要取得共识的内容是什么？哈希表中包含了哪些键值对key valve pair。假如有人在自己电脑上插入一个键值对，’xiao’这个pair对应的是12345，即’xiao’→12345。那么别人在另一台读的时候也要能把这个读出来，这就叫一个全局的哈希表。</p>
+<p>关于分布式系统有很多不可能结论(impossibility result)，其中最著名的是FLP。这三个字母是三个专家的名字缩写，他们的结论是:在一个异步的(asynchronous)系统里，(网络传输迟延没有上限就叫异步系统)，即使只有一个成员是有问题的(faulty)，也不可能取得共识。</p>
+<p>还有一个著名结论:CAP Theorem。(CAP是指分布式系统的三个我们想要的性质，Consistency【系统状态的一致性】  Availability【别人都可以用】 Partition tolerance)。该理论内容是:任何一个分布式系统，比如分布式哈希表，这三个性质中，最多只能满足两个，假如想要前两个性质，那么就不会得到第三个性质。</p>
+<p>2020-01-17 16:046回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第四节课程  第五部分</p>
+<p>分布式共识一个著名的协议是Paxos，该协议能够保证一致性，即第一个性质。如果该协议打成了共识，那么这个共识一定是一致的，即每个成员所认为的共识都是相同的。但是，某些情况下，该协议可能永远无法达成共识，这种可能性比较小但是客观存在的。</p>
+<p>比特币中的共识协议(consensus in BitCoin):<br>比特币中共识要解决的一个问题是，有些节点可能是有恶意的。我们假设系统中大多数节点是好的，那么该如何取得共识协议?</p>
+<p>第一种方案是投票，首先应该确定哪些区块有投票权，有些membership是有严格要求的，这种情况下基于投票的方案是可行的。但比特币系统创建账户是很容易的，甚至一个人产生了公私钥对别人都无法得知，只有转账时别人才知道。所以有些人可以不停的创建账户，当超过账户总数的一半时就有了控制权，这种称为女巫攻击(sybil attack)。因此投票方法不可取。</p>
+<p>比特币账户巧妙的解决了这个问题，不是按照账户数目投票，而是按照计算力来投票。每个节点都可以在本地组装出一个候选区块，把它认为合法的交易放在里面，然后开始尝试各种nonce值(占4 byte)，看哪一个能满足不等式H(block header)≤target的要求。如果某个节点找到了符合要求的nonce，它就获得了记账权。</p>
+<p>所谓的记账权，就是往比特币账本里写入下一个区块的权利。只有找到这个nonce，获得记账权的节点才有权利发布下一个区块。其他节点收到这个区块之后，要验证这个区块的合法性。</p>
+<p>2020-01-17 16:054回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第四节课程  第六部分</p>
+<p>比如括号里block header的内容填的对不对；block header里面有一个域，叫nBits域，实际上它是目标预值的一个编码检查一下nBits域设置的是不是符合比特币协议中规定的难度要求；该不等式是否成立。假设都符合要求，然后检查block body 里面的交易列表，验证一下每个交易都是合法的:①要有合法的签名②以前没有被花过。如果有一项不符合要求，这个区块就是不能被接受的。如果所有条件都符合，也不一定接受。</p>
+<p>假如生成了一个新区块，怎么知道新区块插在了哪里呢?根据生成区块的指针。有可能就存在一个问题，如图5(第四个视频第65分钟) ，这两个交易指A转账给B，以及A转账给自己。这种情况不是double spending，判断一个交易是不是double spending ，是看这个区块所在的分支上币又没有被花掉。如图，一直到第三个区块，币都没有花过，所以这个交易是合法的。虽然该交易是合法的，但是它不在最长合法链(longest valid chain)上。这种称为分叉攻击(forking attack)。所以接收的区块应该是扩展最长合法链。</p>
+<p>区块链在正常情况下也可能出现分岔:两个节点同时获得记账权。每个节点在本地自己组装一个它认为合适的区块，然后去试各种nonce，如果两个节点在差不多同一个时间找到了符合要求的nonce，就都可以把区块发布，这时会出现两个等长的分岔。这两条都是最长合法链，那该接受那条呢?比特币协议当中，在缺省(默认的意思)情况下，每个节点是接受它最早收到的那个。所以不同节点根据在网络上的位置不同，有的节点先听到新生成的其中一个区块，那就接受这个区块；有些节点先听到另一个区块，那就接受另一个区块。</p>
+<p>2020-01-17 16:064回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第四节课程  第八部分</p>
+<p>那么能造多少币呢?开始时比特币刚上线的时候，每一个发布的区块可以产生50BTC(BTC就是比特币的符号)。协议中规定，21万个区块以后，初块奖励就要减半，就变成了25BTC。再过21万个区块，又要减半。</p>
+<p>因此当一个区块胜出后，另一个作废的区块得到的比特币是没有作用的，其他诚实的区块是不会承认的。</p>
+<p>比特币系统中要取得什么共识?去中心化的账本要取得共识。谁又能决定账本的内容呢?只有获得记账权的节点才能写东西。怎么获得记账权呢?就是解pow(挖矿)。按照算力记票，算力可以用每秒能试多少nonce数值表示。那怎样防范女巫攻击呢?按算力记票，即使创建再多的账户，也无法使算力增强。</p>
+<p>比特币争夺记账权的过程叫作挖矿(mining)，比特币被称为数字黄金(digital gold)，争夺记账权的节点被称为矿工(miner)。</p>
+<p>2020-01-17 16:085回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第五节课程  第一部分</p>
+<p>第五节  </p>
+<p>比特币系统的实现</p>
+<p>区块链是去中心化的账本，比特币使用的是基于交易的这种账本模式(transaction【交易】-based ledger【账本】)。系统当中并不会显示每个账户有多少钱。</p>
+<p>比特币系统的全节点要维护一个叫UTXO(unspent transaction output)(还没有被花出去的交易的输出)的数据结构。区块链上有很多交易，有些交易的输出可能已经被花掉，有些还没有被花掉。所有没有被花掉的输出的集合就叫做UTXO。</p>
+<p>一个交易可能有多个输出。假如A给B5个比特币，B花掉了。A也给了C3个比特币，C没有花掉。这时5个比特币就不算UTXO，而3个比特币算。UTXO集合当中的每个元素要给出产生输出的交易的哈希值，以及它在这个交易里是第几个输出。这两个信息就可以定位到UTXO中的输出。</p>
+<p>要UTXO集合有什么作用?<br>为了检测double spending。即检测新发布的交易是否合法。因此全节点要在内存中维护UTXO这样一个数据结构，以便快速检测double spending。</p>
+<p>每个交易要消耗掉一部分输出，也会产生新的输出。还看上面的例子，B花掉的5个比特币虽然不在UTXO里面，但如果他转账给D，而D没有花掉，那么这5个比特币又要保存在UTXO里面。如果D始终不花，那么这个信息要永久保存在UTXO里面。有可能是不想花，也有可能是把密钥丢了。</p>
+<p>每个交易可以有多个输入，也可以有多个输出，所有输入金额之和要等于输出金额之和。即total inputs=total outputs。因此一个交易可能来自多个地址，可能有多个签名。</p>
+<p>有些交易total inputs略微大于total outputs。<br>假如输入1比特币，输出0.99比特币，另外0.01比特币作为交易费给获得记账权发布区块的节点。</p>
+<p>区块奖励也不能完全作为挖矿的奖励，发布区块的节点为什么一定要把你的交易打包在区块呢?他们还要验证你的交易的合法性，如果交易较多占用的带宽会比较大，网络传播速度也会更慢。所以只有区块奖励是不够的。</p>
+<p>因此比特币系统设计了第二个激励机制:交易费(transaction fee)。也就是你把我的交易打包在区块里，我给你一些小费。交易费一般很小，也有一些简单的交易没有交易费。</p>
+<p>2020-01-26 06:281回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第五节课程  第二部分</p>
+<p>21万个区块大概要挖多长时间呢?大约是4年。比特币系统设计的平均出块时间是10分钟，就是整个系统平均10分钟会产生一个新的区块。</p>
+<p>除了比特币这种基于交易的模式，与之对应的还有基于账户的模式(account-based ledger)，比如以太坊系统。在这种模式中，系统是要显示的记录每个账户上有多少币。</p>
+<p>比特币基于交易的模式，隐私保护性较好。缺点是比特币当中的转账交易要说明币的来源，而基于账户的模式就不用。</p>
+<p>如图⑥(第五节视频  16分钟处)<br>一个区块的例子<br>第一行表明:该区块包含了686个交易<br>第二行:总输出XXX个比特币<br>第四行:总交易费(686个交易的交易费之和)<br>最下面一行:区块奖励(矿工挖矿的主要动力)<br>第五行:区块的序号<br>第六行:区块的时间戳<br>第九行:挖矿的难度(每隔2016个区块要调整挖矿的难度，保持出块时间在10分钟左右)<br>倒数第二行:挖矿时尝试的随机数</p>
+<p>右边:第一行:该区块块头的哈希值<br>第二行:前一个区块块头的哈希值<br>(注意:计算哈希值只算块头)<br>两个哈希值的共同点:前面都有一串0。是因为，设置的目标预值，表示成16进制，就是前面一长串的0。所以凡是符合难度要求的区块，块头的哈希值算出来都是要有一长串的0。<br>第四行:merkle root 是该区块中包含的那些交易构成的merkle tree的根哈希值。</p>
+<p>如图⑥(见第五节视频 第20分钟)块头的数据结构<br>最后一行:是32位的无符号整数。nonce只有2的32次方个可能的取值。按照比特币现在的挖矿情况来说，很可能把2的32次方个取值都验了一遍也找不到合适的。那怎么办呢?block header 的数据结构里还有哪些域是可以调整的呢?</p>
+<p>如图⑦ 块头里各个域的描述(见第五个视频 第21分钟)<br>第一行:比特币协议的版本号(无法更改的)<br>第二行:前一个区块的块头的哈希值(无法更改)<br>第三行:merkle tree的根哈希值(可以更改)<br>第四行:区块产生的时间(可以调整)比特币系统不要求特别精确的时间，可以在一定范围内调整。<br>第五行:目标预值(编码后的版本)(只能按协议中的要求定期调整)<br>第六行:随机数</p>
+<p>挖矿时只改随机数不够，还可以更改根哈希值。</p>
+<p>2020-01-26 06:282回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第五节课程  第三部分</p>
+<p>如图⑧(见第五节视频 第23分钟)<br>铸币交易没有输入，它有一个coinbase，可以写入任何的内容。也可以把digital commitment里的commit的哈希值写入里面。也可以把第一节讲到的预测股市的内容写入里面，coinbase的内容是没有人会检查的，甚至可以写你的心情。</p>
+<p>那这个域对我们有什么用呢?</p>
+<p>如图⑨(见第五节视频 第24分钟)<br>对应的是最后一个block header里的根哈希值对应的merkle tree，左下角的交易是coinbase，把它的域改了之后，其上的哈希值就发生了变化，然后沿着merkle tree的结构往上传递。最后导致block header里的根哈希值发生变化(merkle root是block header的一部分)。块头里4个字节的nonce不够用，还有其他字节可以用，比如coinbase域的前八个字节当做extra nonce来用，这样子搜索空间就增大到了2的96次方。</p>
+<p>所以真正挖矿的时候只有两层循环，外层循环调整coinbase域的extra nonce。算出block header里的根哈希值之后，内层循环再调整header里的nonce。</p>
+<p>如图⑩ 普通的转账交易的例子(见第五节视频 第26分钟)<br>该交易有两个输入和两个输出。<br>左上角:这里的output其实是输入，指的是之前交易的output。<br>右上角:这里的output都是unspent，都没有被花掉，会保存在UTXO里面。<br>右边表格第一行:输入的总金额。<br>依次往下:输出总金额、两者之间的差值。<br>两表格下面:可以看出输入和输出都是用脚本的形式来指定的。</p>
+<p>比特币系统中验证交易的合法性，就是把input scripts和output script配对后执行来完成的。注意:不是把图中的input scripts<br>和output scripts配对，因为这两个脚本是一个交易中的脚本。不是把同一个交易里的输入脚本和输出脚本配对，而是把这里的输入脚本和前面提供币来源的交易的输出脚本配对。如果输入输出脚本拼接在一起，能顺利执行不出现错误，那么该交易就是合法的。</p>
+<p>2020-01-26 06:296回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>【【【补发】】】  第四节课程  第七部分</p>
+<p>如何判断接收了一个区块?比特币协议中用到了implicit consign，如果沿着这个区块往下继续扩展，就算认可了这个发布的区块。比如在新生成的其中一个区块后面又拓展一个区块，表明就认可了这个新区块。</p>
+<p>等长的临时性的分岔会维持一段时间，直到一个分岔胜出。也就是哪一个链抢先一步生成了新的区块，哪一条就是最长合法链。另一个作废的就叫orphan block。这两个新区块有可能会各自拉拢，两个区块链看谁的算力强，有时候也是看谁的运气好，就会胜出。</p>
+<p>竞争记账权的好处:首先获得记账权的节点本身有一定的权力，可以决定哪些交易写到下一个区块里。但这些不应该被设定为竞争记账权的动力，所以巧妙地建立了一个机制:区块奖励(block reward)。</p>
+<p>比特币协议中规定获得记账权的节点在发布的区块里可以有一个特殊的交易:铸币交易。在这个交易里可以发布一定数量的比特币。</p>
+<p>这里要回到前面的问题①，谁来决定货币的发行?coinbase transaction币基交易是比特币系统中发行新的比特币的唯一方法，后面的交易都是比特币的转移。这个交易不用指出币的来源。</p>
+<p>2020-01-26 06:362回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第五节课程  第四部分</p>
+<p>如图十一，是在求解puzzle的过程。<br>注意:求哈希时只用到了block header的内容，而交易的具体信息在block header里面是没有的。block header里面只有merkle tree 的根哈希值，这个就已经能保证交易是没有被篡改的。</p>
+<p>挖矿过程每次尝试一个nonce可以看作是一个Bernoulli trial(伯努利实验)。每一个随机的伯努利实验就构成了一个伯努利过程。它的一个性质是:无记忆性。</p>
+<p>每尝试一个nonce成功的概率是很小的，要进行大量的实验。这时可以用泊松过程来代替伯努利过程。我们真正关心的是系统出块时间，出块时间是服从指数分布。可以画出一个坐标轴，纵轴表示概率密度，横轴表示出块时间(整个系统的出块时间，并不是每个矿工的出块时间)。具体到每一个矿工，他能挖到下一个区块的时间取决于矿工的算力占系统算力的百分比。</p>
+<p>假如一个人的算力占系统总算力的1%，那么系统出100个区块，就有一个区块是这个人挖的。</p>
+<p>指数分布也是无记忆性的。因为概率分布曲线的特点是:随便从一个地方截断，剩下一部分曲线跟原来是一样的。比如:已经等十分钟了，还没有人找到合法的区块，那么还需要等多久呢?仍然参考概率密度函数分布 ，平均仍然要等十分钟。将来还要挖多长时间，跟过去已经挖了多长时间是没有关系的。这个过程也叫:progress free。</p>
+<p>如果没有progress free ，会出现什么现象:算力强的矿工会有不成比例的优势。因为算力强的矿工过去做的工作是更多的，过去尝试了那么多不成功的nonce之后，后面nonce成功的概率就会增大。以此progress free 是挖矿公平性的保证。</p>
+<p>出块奖励是系统中产生新的比特币的唯一途径。产生的比特币构成的一个几何序列。21万＊50+21万＊25+21万＊12.5+……=21万＊50＊(1+1/2+1/4+……)=2100万</p>
+<p>比特币求解的puzzle，除了比拼算力之外，没有其他实际意义。比特币的稀缺性是人为造成的。</p>
+<p>虽然挖矿求解puzzle本身没有实际意义，但是挖矿的过程对于维护比特币系统的安全性是至关重要的。挖矿提供一种凭借算力投票的有效手段，只要大部分算力是掌握在诚实的节点手里，系统的安全性就能够得到保证。</p>
+<p>第五节课程  第五部分</p>
+<p>虽然挖矿奖励越来越小，难度越来越大，但这几年挖矿的竞争是越来越激烈的，因为比特币的价格是飙升的。最终区块奖励为0了，是不是就没有动力挖矿了呢?不是的，因为还有交易费激励机制。</p>
+<p>假设大部分算力是掌握在诚实的矿工手里，我们能得到什么样的安全保证?能不能保证写入区块链的交易都是合法的。挖矿给出的只是概率上的保证，只能说有比较大的概率下一个区块是由诚实的矿工发布的，但是不能保证记账权不会落到有恶意的节点手里。</p>
+<p>比如好的矿工占90%的算力，坏的矿工占10%的算力。那么10%的概率下记账权会落在有恶意的矿工手里，这时候会出现什么情况?</p>
+<p>先考虑第一个问题:他能不能偷币?能不能把别人账上的钱转给自己?不能，因为他没有办法伪造别人的签名。</p>
+<p>假设M是有恶意的，他想把A账上的钱转走，所以他发布一个A转给M的交易，但这个交易需要有A的签名，M虽然获得记账权，但他不知道A的私钥，所以伪造不了签名。</p>
+<p>如果M把交易硬写在区块链上，诚实的节点不会接受这个区块，因为它包含有非法的交易。所以诚实的节点会继续沿前一个区块挖，生成新的区块代替非法的区块，其他诚实的区块会沿着这个合法的区块继续挖。比特币要求是扩展正常合法链，M生成的不是合法区块，所以该区块作废。这对他造成的代价是很大的，因为没有了区块奖励，又没有偷到钱。</p>
+<p>第二个问题:他能不能把已经花了的币再花一遍(即double spending)?假如他把M→A的交易写在了一个区块里面，现在他获得了记账权，他又发布另一个交易，把这个钱转回给自己，即M→M’。同样，这很明显是double spending，只要是诚实的节点都不会接受这个区块。</p>
+<p>他如果想发布这个区块，只能连在写了M→A交易区块的前一个区块。注意:区块插在哪个位置，在刚挖矿时就是要决定的，因为设置的block header里要填上前一个block header的哈希。所以他想插到那个区块的话，一开始就要认定，而不是等获得记账权以后再认定。</p>
+<p>2020-01-26 15:394回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第五节课程  第六部分</p>
+<p>这样生成的两条区块链，都是合法的。参考图十二(第五节视频  第56分钟处)。要看其他节点沿着哪一个链往下扩展，最后一个胜出一个作废。</p>
+<p>这种攻击的目的是什么?如果M→A的交易，产生了某种不可逆的外部效果，然后M→M’再把M→A的交易回滚了，那么M就可以从中不当获利。</p>
+<p>比如:网上购物时，M购买一些商品，然后该网站接受比特币支付，M发起一个交易把账转给网站。网站监听到交易写入了区块链里，以为支付成功了，所以就把商品给了M。M拿到商品之后，又发起一个交易，把支出的钱转给自己，然后把下面的链拓展成最长合法链。这样的结果是:既得到了商品，又收回了花掉的钱，就达到了double spending的目的。</p>
+<p>如何防范这种攻击呢?如果M→A的交易所在的区块不是最后一个区块，那么这种攻击的难度就会大大增加。要是想回滚M→A的交易，还是要插在它之前的一个区块，然后想办法成为最长合法链。这个难度是很大的。因为诚实的节点，不会沿着它生成的区块往下扩展，因为它不是最长合法链。因此防范这种攻击的方法就是多等几个区块，或者叫多等几个确认confirmation。</p>
+<p>M→A交易刚刚写入区块里时，我们把它叫作one confirmation。这时后面加的区块，依次叫two confirmation、three confirmation…比特币协议当中，缺省(系统默认)的是要等六个confirmation。有了六个confirmation，才认定M→A的交易是不可篡改的。这需要等多长时间呢?平均出块时间是10分钟，因此要等一个小时。</p>
+<p>区块链是不可篡改的账本，那是不是意味着凡是写入区块链中的内容就永远改不了呢?经上述分析可以看出，这种分析只是一种概率上的保证。刚刚写入区块链的内容，还是比较容易被改动的。经过一段等待时间之后，或者后面几个区块被确认之后，被篡改的概率就大幅度下降(指数级别的下降)。</p>
+<p>其实还有一种，叫零确认(其具体位置可见第五节视频  第62分第26秒)。意思是说，这个转账交易发布出去了，但还没又被写入区块链里。即M→A的交易已经发布，但下面包含M→M’的区块还没有被挖出来。</p>
+<p>这个概念相当于电商购物的例子中，在支付时你发布一个转账交易，告诉电商自己已经转过钱了。</p>
+<p>2020-01-26 15:431回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第五节课程  第七部分<br>电商运行一个全节点或委托一个全节点监听区块链上的交易，他收到转账交易之后要验证该交易的合法性(有合法的签名，以前没有被花过)，甚至不用等到该交易写入区块链里。这种操作听起来风险很大，交易刚发布出去，都没往区块链里写呢。其实，零确认在实际当中，用的还是比较普遍的。为什么呢?</p>
+<p>这其中有两个原因:①比特币协议缺省的设置是节点接收最先听到的那个交易。所以在零确认的位置，M→A的节点收到后，再发M→M’的交易，有比较大的概率诚实的节点是不会接受的。<br>②很多购物网站，从支付成功，到发货，是有一定的时间间隔的，即有一定的处理时间。</p>
+<p>回到前面的问题:假设某个有恶意的节点获得记账权，它还能做什么坏事?能不能故意不把某些合法的交易写入区块链里?即发布的区块故意不包含某些交易。这是可以的。</p>
+<p>比特币协议并没有规定获得记账权的节点一定要把那些交易发布到区块里。但出现这种情况问题也不大，因为这些合法的交易一定会被写入下一个区块里，总有诚实的节点愿意发布这些交易。</p>
+<p>其实，区块链在正常工作下，也会出现合法的交易没有被包含进去的情况，可能就是这段时间交易的数目太多了。比特币协议中规定，每个区块的大小是有限制的，最多不能超过一兆字节。所以如果交易的数目太多了，那么有些交易可能就只能等到下一个区块再发布。</p>
+<p>会不会出现这种情况?M→M’的交易所在的区块所在的链条虽然短，但是先偷偷的生成比上面更多的区块，然后等上面的链条公布后再公布，就能够胜过上面的几个区块了?这种方法叫作selfish mining。</p>
+<p>正常情况下挖到一个区块马上就发布，原因是你不发布别人可能就发布了，那样就拿不到区块奖励了。而selfish mining是先藏着不急着发布，这是分岔工具的一种手段。</p>
+<p>但这样成功的概率并不大，因为有恶意的节点本来算力占比就不高，还要生成更多的区块，就非常困难。</p>
+<p>以上是selfish mining的其中一个目的，它还有另一个目的。假如A挖了两个区块都没有发布，而在B挖到一个区块公布后立马公布，这样B挖的区块就作废了。这样的好处就是减少竞争，因为A在挖第二个区块时，别人还在挖第一个区块(前提是A算力足够强)。</p>
+<p>但这样也有不好的地方，假如A挖出一个区块，A以为他能赶在别人面前再挖一个区块，结果这时有人挖出了第一个区块，那这样的话A就要在别人发布之后立马发布，去争取区块奖励。</p>
+<p>2020-01-26 15:443回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第六节课程    第一部分</p>
+<p>比特币网络<br>比特币工作在应用层(application layer:Bitcoin block chain)，它的底层是一个网络层(network layer:P2P overlay network)。</p>
+<p>比特币的P2P网络是非常简单的，所有节点都是对等的。不像有的P2P网络有所谓的超级节点、纸节点。</p>
+<p>要加入P2P网络首先得知道至少有一个种子节点，然后你要跟种子节点联系，它会告诉你它所知道的网络中的其他节点，节点之间是通过TCP通信的，这样有利于穿透防火墙。当你要离开时不需要做任何操作，不用通知其他节点，退出应用程序就行了。别的节点没有听到你的信息，过一段时间之后就会把你删掉。</p>
+<p>比特币网络的设计原则是:简单、鲁棒，而不是高效。每个节点维护一个零度节点的集合，消息传播在网络中采取flooding的方式。节点第一次听到某个消息的时候，把它传播给去他所有的零度节点，同时记录一下这个消息我已经收到过了。下次再收到这个消息的时候，就不用转发给零度节点了。</p>
+<p>零度节点的选取是随机的，没有考虑底层的拓扑结构。比如一个在加利福尼亚的节点，它选的零度节点可能是在阿根廷的。这样设计的好处是增强鲁棒性，它没有考虑底层的拓扑结构，但是牺牲的是效率，你向身边的人转账和向美国的人转账速度是差不多的。</p>
+<p>比特币系统中，每个节点要维护一个等待上链的交易的集合。假如一个集合的交易都是等待写入区块链里的，那么第一次听到某个交易的时候，把这个交易加入这个集合，并且转发这个交易给节点，以后再收到这个交易就不用转发了，这样避免交易会在网络上无线的传播下去。转发的前提是该交易是合法的。</p>
+<p>这里有冲突的情况，有可能你会有两个有冲突的交易，差不多同时被广播到网络上。比如说A→B和A→C，这两个如果同时广播在网络上，那么每个节点根据在网络中的位置的不同，收到两个交易的先后顺序不同。</p>
+<p>比如一个人先收到第一个交易，就写入到集合里，再收到第二个交易的时候就不会写入集合，因为跟上一个交易有冲突，就认定是非法的。假设这两个交易花的是同一个币，那么写入集合的交易就会被删掉。</p>
+<p>2020-01-26 17:374回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第六节课程    第二部分</p>
+<p>比如说节点听到一个新发布的区块，里面包含了A→B的交易，那么这个交易就可以删掉了，因为已经写入到了区块链里。如果节点又听到了A→C的交易，该怎么办?这时候也要把A→B删掉。因为A→C如果已经被写入到了区块里，那么A→B就变成了非法交易，就变成了double spending，这就是冲突的情况。可能某个先收到A→C的节点，抢先挖到了矿，发布了区块。</p>
+<p>新发布的区块在网络上的传播有很多方式，跟新发布的交易是类似的。每个节点除了要检查区块的内容合法性之外，还要查它是不是在最长合法链里。越是大的区块，在网络上传播速度越慢。</p>
+<p>比特币协议对区块的大小有1M字节的限制。比特币系统采用的传播方式是非常耗费带宽的，带宽是瓶颈。按1M的区块大小限制来算的话，一个新发布的区块有可能需要几十秒，才能传输到网络大部分境地，这已经是挺长时间了，所以这个限制值不算小。</p>
+<p>还需要注意的一点:我们讲的比特币网络的传播属于best effort 。一个交易发布到比特币网络上，不一定所以的节点都能收到，而且不同的节点收到这个交易的顺序也不一定是一样的。网络传播存在延迟，而且这个延迟有的时候可能会很长，有的节点也不一定按照比特币协议的要求进行转发。</p>
+<p>可能有的该转发的不转发，导致某些合法的交易收不到，也有的节点可能转发一些不该转发发的消息，比如说有些不合法的交易也被转发了。这就是我们面临的一个实际问题。</p>
+<p>2020-01-26 17:385回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第七节课程    第一部分</p>
+<p>第七节</p>
+<p>比特币的挖矿难度调整</p>
+<p>目标预值越小，挖矿的难度越大。调整挖矿的难度就是调整目标空间在整个输出空间中所占的比例。</p>
+<p>比特币用的哈希算法是SHA-256，这个产生的哈希值是256位。所以整个输出空间是2的256次方。调整这个比例，即目标空间占输出空间的比例，通俗的说，就是哈希值前面要有多少个0。比如说256位的哈希值，要是合法的区块，要求算出来的哈希，前面至少有70个0。当然这只是通俗的说法，因为这个目标预值，并不是说前面都是0，从某一个位置开始，后面都变成了1。</p>
+<p>挖矿的难度跟目标预值是成反比的，公式是:difficulty=difficulty 1 target / target。上面是指挖矿难度等于1的时候所对应的目标预值，挖矿难度最小就是1，这个时候对应的目标预值是个非常大的数。</p>
+<p>即target越大，挖矿是越容易的。所以公式里很大的一个数，除以当前的目标预值，得到的就是当前的挖矿难度。所以difficulty和target大小是成反比的。</p>
+<p>为什么要调整挖矿难度呢?如果不调会有什么问题呢?系统里的总算力越来越强，挖矿难度保持不变的话，出块时间是越来越短的。</p>
+<p>出块时间越来越短，会有什么问题吗?<br>比如说不到一秒就出一个区块，区块在网络上传播的时间可能需要几十秒，底层的比特币网络可能需要几十秒才能让其他节点都收到。别的节点没有收到这个区块之前还是继续沿着已有的区块链往下扩展。如果有两个节点同时都发布一个区块，这个时候就会出现分岔。</p>
+<p>出块时间如果越来越短的话，这种分岔会成为常态，而且不仅会出现二分岔，可能会出现很多的分岔。比如10个区块同时被挖出来，系统可能会出现10分岔。</p>
+<p>分岔如果过多，对于系统达成共识是没有好处的，而且危害了系统的安全性。比特币协议是假设大部分算力掌握在诚实的矿工手里。系统当中的总算力越强，安全性就越好，因为有恶意的节点想掌控51%的算力就越难。如果掌握了51%的算力，它就可以干很多坏事，比如分岔攻击。</p>
+<p>如果后面分岔多的话，前面某个区块里的某个交易，很可能就遭受分岔攻击，恶意节点会试图回滚。因为后面分岔多，算力就会分散，恶意节点得逞的概率更大。这个时候恶意节点就不需要51%的算力了，可能10%的算力就够了，因此出块时间不是越短越好。</p>
+<p>2020-01-27 22:522回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第七节课程   第二部分</p>
+<p>那10分钟的出块时间是不是最优的呢?不一定。改成其他值也可以，有间隔只是说应该有个常数范围。以太坊系统出块时间就降低到了15s，所以以太坊的出块速度是比特币的40倍。</p>
+<p>出块时间大幅度下降之后，以太坊就要设计新的协议，叫ghost。在该协议中，这些分叉，产生的orphan block(即产生最长合法链后另一个要被丢弃的区块)就不能丢弃掉了，而是也要给它们一些奖励，这叫uncle reward。以太坊也要调整挖矿难度，使出块时间保持在15s。</p>
+<p>讲完了为什么要调整挖矿难度，现在讲一下怎么调整挖矿难度。比特币协议中规定，每2016个区块后就要调整目标预值，这大概是每两个星期调整一次。</p>
+<p>具体的调整公式:target =target×(actual time/expected time)。actual time指产生2016个区块实际花费的时间，expected time指产生2016个区块应用的时间，即2016×10min。</p>
+<p>如果实际花费时间超过了两周，即平均出块时间超过了10min。那么这时候挖矿难度要调的低一点，应该让出块更容易。因此该公式算出来的target会变大，则难度会下降。</p>
+<p>实际上，上调和下调都有四倍的限制。假如实际时间超过了8个星期，那么我们计算公式时也只能按4倍算，目标预值增大最多只能增大4倍。</p>
+<p>那怎么才能让所有的矿工同时调整目标预值呢?计算target的方法写在比特币系统的代码里，每挖到2016个区块会自动进行调整。如果有有恶意的节点故意不调，会怎么样?</p>
+<p>如果一个节点不调，将区块发布出去，诚实的节点是不会认的。nBits是target一个编码的版本，在block header里没有直接存储target的域，因为target的域是256位，直接存target的话要32个字节。nBits在header里只有四个字节，所以可以认为是它的一个压缩编码。</p>
+<p>如果遇到有恶意的矿工，该调的时候不调，这时检查区块的合法性就通不过。因为每个节点要独立的验证发布的区块的合法性。检查的内容就包括:nBits，目标预值设的对不对。如果投机取巧设计一个过大的目标预值，使得你自己挖矿容易了，但这个区块是不会被接受的。</p>
+<p>2020-01-27 22:533回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第七节课程   第三部分</p>
+<p>如图(第七节视频  第26分钟)显示的是比特币系统中总算力的变化情况。在比特币没有流行前，有很长一段时间，算力没有太明显的增长，前面这些年的hash rate几乎是0。其实这些年算力也是增长的，只是后面这些年算力增长的太快了，所以前面部分看上去像是一条直线。去年是涨得非常猛的一年，这也体现在了hash rate 的增长上，算力呈现出指数级的增长。即使在这段黄金时期，算力也不是单调递增的，中间也是有很多波动。</p>
+<p>如图(第七节视频  第27分钟)是挖矿难度的变化情况，跟算力的增长基本上是同步的，这也符合难度调整的设计目标。通过调整挖矿难度，使得出块时间保持稳定。注意这个图显示的是挖矿难度，不是目标预值。</p>
+<p>如图(第七节视频 第27分第27秒)是最近半年的难度调整曲线，可以看出很明显是一段一段的。每隔两个星期，难度上一个台阶，说明挖矿的人越来越多，用的设备越来越先进，反应出大家对比特币的热情越来越高。如果出现相反的情况，比如某个加密货币的挖矿难度越调越小，说明挖矿变得越来越容易了。但这不是好事，说明大家对币的热情是逐渐减小的。持续出现这种情况说明这个币将被淘汰。</p>
+<p>如图(第七节视频 第28分第13秒)显示的是每天的出块时间。可以看出，总的来说出块时间稳定在10分钟上下振动。</p>
+<p>如图(第七节视频 第28分第36秒)显示最近半年的出块时间，也是维持在10分钟左右。</p>
+<p>挖矿难度的公式:下一个难度=前一个难度＊两周/挖前2016个区块用的时间(注意:前面的公式是目标预值的公式，不要混淆了)</p>
+<p>2020-01-27 22:533回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第八节课程  第二部分</p>
+<p>挖矿的设备:挖矿设备演化趋势是越来越趋于专业化，最早的时候用的是普通的CPU挖矿，像家里计算机、笔记本电脑。但如果买一台计算机专门用来挖矿是非常不划算的，计算机当中的大部分内存都是闲置的，挖矿只用到其中很小一部分内存，CPU当中的大部分部件也是闲置的，因为挖矿当中计算哈希值的操作只用到了通用CPU当中的很少一部分指令。硬盘和其他很多资源也都是闲置的，所以随着比特币挖矿难度的提高，用CPU挖矿，用通用计算机挖矿显得性价比太低。</p>
+<p>所以挖矿转入第二代设备:GPU。GPU效率相比CPU提高了很多，主要用于大规模的并行计算。但GPU用来挖矿还是有点浪费了，GPU是用于通用并行计算而设计的，用来挖矿的话有很多部件仍然是出于闲置状态，比如说用于浮点数计算的部件。这些部件对于深度学习来说是很重要的，但比特币的操作只用到了整数挖矿。所以GPU虽然效率提高了很多但仍然有不小的浪费。这些年GPU价格涨得很快，有些人归因于深度学习的火热，其实有很多GPU是用来挖矿的。不过有一个好消息，随着比特币挖矿难度的提升，用GPU挖矿已经划不来了，已经超过了GPU的算力范围，所以GPU现在可以更多的用于深度学习、游戏应用的服务。</p>
+<p>有一些新开发的加密货币有的还在用GPU挖矿，而现在更多用ASIC芯片挖矿，这是专门为了挖矿而设计的芯片，上面没有多余的电动逻辑，整个芯片就是为了比特币挖矿、计算哈希值的操作而设计的。它的性价比是最高的，这个芯片除了挖矿什么事都干不了，而且为某一种加密货币设计的ASIC芯片，只能挖这一种加密货币。除非这两个加密货币用同一个mining puzzle。</p>
+<p>有些加密货币刚发行的时候，为了解决能启动问题，会故意用一个已有的加密货币的mining puzzle，比如说跟比特币一样的mining puzzle，这样可以吸引更多的人来挖矿，这种情况叫merge mining。除了这种情况，其他都是一个芯片只能为一个加密货币挖矿。ASIC芯片生产周期需要一年，但跟其他通用芯片相比，ASIC芯片研发速度已经是非常快的了。</p>
+<p>在这么长的生产周期里面，如果比特币价格出现剧烈变化的话，前期投入的研发费用可能就打水漂了。从历史上看，比特币的价格变化是比较剧烈的。曾经发生好几次，比特币的价格在几个月之内，下跌了80%，然后又慢慢恢复。</p>
+<p>2020-01-30 01:173回复</p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815"><img src="https://i2.hdslb.com/bfs/face/b0d9e062cf82dcf6eb52f419e70426ef628e11ee.jpg@52w_52h.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://space.bilibili.com/135777815">苦艾酒_bitter</a>第八节课程  第三部分</p>
+<p>如果比特币价格大幅度下降的话，挖矿可能是赔本的，可能还抵不上电费。即使在比特币发展的黄金时期，价格不断上涨，这时挖矿是有利可图的。但是竞争也是越来越激烈的，定制的ASIC芯片可能用不了几个月就过时了。一款ASIC矿机刚上市的时候大部分的利润是在它上市的前两个月获得的，因为这个时候它的算力在同类产品中是最强的。再往后随着更强的矿机出现，它就可能被淘汰掉。所以购买ASIC矿机的时机很重要，现在都是要提前预定的。有些不良厂商，ASIC矿机生产出来之后，不是立即提供给消费者，而是自己先用来挖矿一段时间，赚取比特币，等到最赚钱的黄金时间即这前两个月过去之后，再把矿机发给用户。当比特币系统中算力突然有一个很大的提升，就说明某个大公司生产出了新一款的ASIC矿机。所以在挖矿热潮中真正赚钱的不一定是挖矿的用户，而可能是卖矿机的大厂商。</p>
+<p>挖矿机的变化趋势，是从通用变得越来越专用，CPU是通用计算，GPU是通用并行计算，ASIC是专用计算。ASIC一旦过时就作废了，不像CPU和GPU还能做其他工作。很多人觉得这是不好的，是跟去中心化的理念是不相符的，也违背了比特币设计的初衷。最民主的情况是，大家都用家里的CPU计算机挖矿。后来改为GPU噪音是很大的。而有些新的加密货币设计的是Alternative mining puzzle。而设计它的出发点是asic resistance(抗asic芯片化)，目的是让通用的计算机也能参与挖矿的过程。</p>
+<p>挖矿的另一个趋势是大型矿池的出现，单个矿工即使用了ASIC芯片，挖矿从平均收益上看是有利可图的，但是收入是非常不稳定的。比特币系统中平均每10分钟出一个区块，这是说比特币系统中所有的矿工做一个整体来看平均10min会产生一个区块。但如果具体到某一个矿工来说，他可能要挖很长时间，如果他用一个矿机可能要挖一两年。这样子就好像是买彩票，挖到了就是中了一个大奖。单矿工还有其他问题，他除了挖矿之外还要承担全节点的其他责任(就是这节课最开始介绍的那些)。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/01/13/%E8%8B%A6%E8%89%BE%E9%85%92%20%E7%AC%94%E8%AE%B0/" data-title="苦艾酒 笔记 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/01/14/快速搭建一个Fabric 1.0的环境/" title="快速搭建一个Fabric 1.0的环境">
+  <strong>上一篇：</strong><br/>
+  <span>
+  快速搭建一个Fabric 1.0的环境</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/01/07/事件溯源/"  title="事件溯源">
+ <strong>下一篇：</strong><br/> 
+ <span>事件溯源
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8B%A6%E8%89%BE%E9%85%92-%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">苦艾酒 笔记</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HEXO/" title="HEXO">HEXO<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
