@@ -1,0 +1,714 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>漫谈SSO | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="文章将由浅入深地探讨SSO（单点登录），涉及SSO的定义、表现、原理、实现细节等方面的阐述，借助大家熟知的淘宝、天猫登录场景，通过对阿里登录的模仿实现，建立一个简单模型，然后不断由该模型进行迭代并对每一个迭代版本进行详细描述，最终得到一个支持跨域的SSO.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漫谈SSO">
+<meta property="og:url" content="https://knightark.github.io/2021/03/09/%E6%BC%AB%E8%B0%88SSO/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="文章将由浅入深地探讨SSO（单点登录），涉及SSO的定义、表现、原理、实现细节等方面的阐述，借助大家熟知的淘宝、天猫登录场景，通过对阿里登录的模仿实现，建立一个简单模型，然后不断由该模型进行迭代并对每一个迭代版本进行详细描述，最终得到一个支持跨域的SSO.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180536789-1003428003.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180537789-2091634657.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180538930-272899367.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180539477-1077679677.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180540180-1837661454.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180541133-1669448082.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180541946-525637317.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180542555-1752541670.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180543227-1296946111.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180544399-122433850.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180547196-1261635872.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180547805-516258740.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180548336-1419099633.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180548774-1363189663.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180549258-1796688221.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180549774-1630772031.png">
+<meta property="article:published_time" content="2021-03-09T05:52:50.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:45:21.673Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="SSO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180536789-1003428003.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/03/09/漫谈SSO/" title="漫谈SSO" itemprop="url">漫谈SSO</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-03-09T05:52:50.000Z" itemprop="datePublished"> Published 2021-03-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%AB%E8%B0%88SSO"><span class="toc-number">1.</span> <span class="toc-text">漫谈SSO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%91%98%E8%A6%81"><span class="toc-number">2.</span> <span class="toc-text">1. 摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%88-%E6%B3%A8%E6%84%8F%EF%BC%9A%E8%AF%B7%E4%BB%94%E7%BB%86%E7%9C%8B%E4%B8%8B%E6%91%98%E8%A6%81%EF%BC%8C%E7%95%99%E5%BF%83%E6%AD%A4%E6%96%87%E6%98%AF%E5%90%A6%E6%98%AF%E6%82%A8%E7%9A%84%E8%8F%9C%EF%BC%8C%E8%8B%A5%E6%B5%AA%E8%B4%B9%E5%AE%9D%E8%B4%B5%E6%97%B6%E9%97%B4%EF%BC%8C%E6%B7%B1%E6%84%9F%E6%AD%89%E6%84%8F%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">（ 注意：请仔细看下摘要，留心此文是否是您的菜，若浪费宝贵时间，深感歉意！！！）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-SSO%E7%AE%80%E4%BB%8B"><span class="toc-number">3.</span> <span class="toc-text">2. SSO简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-SSO%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 SSO定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-SSO%E7%A4%BA%E4%BE%8B%E2%80%94%E2%80%94%E6%B7%98%E5%AE%9D%E3%80%81%E5%A4%A9%E7%8C%AB%E7%9A%84%E7%99%BB%E5%BD%95%E5%9C%BA%E6%99%AF"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 SSO示例——淘宝、天猫的登录场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-SSO%E5%AE%9E%E7%8E%B0%E6%8F%8F%E8%BF%B0"><span class="toc-number">4.</span> <span class="toc-text">3. SSO实现描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%96%B9%E6%A1%881"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 方案1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%96%B9%E6%A1%882"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 方案2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E6%96%B9%E6%A1%883"><span class="toc-number">4.3.</span> <span class="toc-text">3.3 方案3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E6%96%B9%E6%A1%884"><span class="toc-number">4.4.</span> <span class="toc-text">3.4 方案4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E5%B0%8F%E7%BB%93"><span class="toc-number">4.5.</span> <span class="toc-text">3.5 小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.</span> <span class="toc-text">4. 设计与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E9%AA%8C%E8%AF%81%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AE%89%E5%85%A8%E8%80%83%E8%99%91"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 验证信息的安全考虑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-SSO%E7%9A%84%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 SSO的概要设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E6%95%B4%E4%BD%93%E6%80%9D%E8%B7%AF"><span class="toc-number">5.2.1.</span> <span class="toc-text">4.2.1 整体思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-%E6%95%B0%E6%8D%AE%E8%A1%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.2.</span> <span class="toc-text">4.2.2 数据表设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-%E7%AE%80%E8%A6%81%E7%B1%BB%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.3.</span> <span class="toc-text">4.2.3 简要类设计</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="漫谈SSO"><a href="#漫谈SSO" class="headerlink" title="漫谈SSO"></a>漫谈SSO</h1><h1 id="1-摘要"><a href="#1-摘要" class="headerlink" title="1. 摘要"></a>1. 摘要</h1><h2 id="（-注意：请仔细看下摘要，留心此文是否是您的菜，若浪费宝贵时间，深感歉意！！！）"><a href="#（-注意：请仔细看下摘要，留心此文是否是您的菜，若浪费宝贵时间，深感歉意！！！）" class="headerlink" title="（ 注意：请仔细看下摘要，留心此文是否是您的菜，若浪费宝贵时间，深感歉意！！！）"></a>（ 注意：请仔细看下摘要，留心此文是否是您的菜，若浪费宝贵时间，深感歉意！！！）</h2><p>SSO这一概念由来已久，网络上对应不同场景的成熟SSO解决方案比比皆是，从简单到复杂，各式各样应有尽有！开源的有OpenSSO、CAS  ，微软的AD SSO，及基于kerberos  的SSO等等……这些优秀的解决方案尽显开发及使用者的逼格，当然需求所致无谓好坏高低，满足实际之需才是王道！</p>
+<p>本文并不讨论上述提到的方案的整合使用、或者复杂场景如：安全、防火墙、N 多个系统层叠调用这种”巨型项目”里SSO的实现与使用，也并不涉及  C/S 、C/S+B/S 的SSO解决方案，仅关注B/S  上的SSO实现。虽是如此，然而万变不离其宗，这里我们将从一个简而小的登录场景去接触SSO的本质，描述如何原生态地自实现一个轻量、微核的SSO（本文不提供源码）。</p>
+<p>文章将由浅入深地探讨SSO（单点登录），涉及SSO的定义、表现、原理、实现细节等方面的阐述，借助大家熟知的淘宝、天猫登录场景，通过对阿里登录的模仿实现，建立一个简单模型，然后不断由该模型进行迭代并对每一个迭代版本进行详细描述，最终得到一个支持跨域的SSO（  力求条理清晰，层层递进，简单但有深度！！！！开始部分本着让即使从未听过SSO的同学也能够从抽象文字定义的概念印象过渡到具象的视觉认知这一宏（zhuang）伟（bi）理念入手，将会有很多浅显的描述，”老司机” 可以快速掠过）</p>
+<h1 id="2-SSO简介"><a href="#2-SSO简介" class="headerlink" title="2. SSO简介"></a>2. SSO简介</h1><h2 id="2-1-SSO定义"><a href="#2-1-SSO定义" class="headerlink" title="2.1 SSO定义"></a>2.1 SSO定义</h2><p>SSO（ Single Sign-On ），中文意即单点登录，翻译得比较精简，个人觉得 Wiki 上的解释更细腻点—— SSO, is a property of access control of multiple related, but independent  software systems. With this property a user logs with a single ID and  password to gain access to connected system or systems without using  different usernames or passwords, or in some configurations seamlessly  sign on at each system. <strong>( 单点登录是一种控制多个相关但彼此独立的系统的访问权限, 拥有这一权限的用户可以使用单一的ID和密码访问某个或多个系统从而避免使用不同的用户名或密码，或者通过某种配置无缝地登录每个系统 ).</strong> 注：系统，在本文特指WEB 应用或者WEB 服务；用户，下文也会称之为User；ID，用户标识；密码，本文也称其为口令，Password, Passcode 或者 Pin。</p>
+<p>OK，从上面的定义中我们总结出 与 <strong>SSO 交互的2个元素：1. 用户，2. 系统，它的特点是：一次登录，全部访问。</strong>上面提到SSO是访问控制的一种，控制用户能否登录，即验证用户身份，而且是所有其它系统的身份验证都在它这里进行，那么我们是不是可以认为<strong>SSO还是一个****验证中心</strong>。那么<strong>从整个系统层面来看SSO，它的核心就是这3个元素了：1. 用户，2. 系统，3. 验证中心。</strong>可能扯了那么多还是不足以形象地描述我们萌萌的SSO，呐，有图有真相：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180536789-1003428003.png" alt="img"></p>
+<p>既然SSO这么棒，应该如何实现呢？</p>
+<h2 id="2-2-SSO示例——淘宝、天猫的登录场景"><a href="#2-2-SSO示例——淘宝、天猫的登录场景" class="headerlink" title="2.2 SSO示例——淘宝、天猫的登录场景"></a>2.2 SSO示例——淘宝、天猫的登录场景</h2><p>我们暂不考虑细节，先从SSO需要解决的问题入手：使用一个账户通过一次登录，即可在多个相关的系统之间来回访问，为了更加形像我们还是上图：**(多图预警)**</p>
+<p><strong>登录页面，网址：login.taobao.com ….. 我将在 login.taobao.com 所指的系统进行登录</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180537789-2091634657.png" alt="img"></p>
+<p><strong>访问网站，第一张网址：buyertrade.taobao.com…. 访问 buyertrade.taobao.com所指的系统了；然后访问另一张网页网址为：favoriate.taobao.com， *<em>访问**favoriate.taobao.com** 所指系统，两个系统的 Domain 是相同的，请注意这点；*</em></strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180538930-272899367.png" alt="img">   <img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180539477-1077679677.png" alt="img"></p>
+<p><strong>接下来我再分别访问淘宝(<a target="_blank" rel="noopener" href="http://www.taobao.com/">www.taobao.com</a>)和天猫(<a target="_blank" rel="noopener" href="http://www.tmall.com/">www.tmall.com</a>)的首页 ，图中显示我仍旧是登录的( 注意：这里是不同的Domain下，系统之间的来回访问)</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180540180-1837661454.png" alt="img">        <img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180541133-1669448082.png" alt="img"></p>
+<p>可以看到，我除了在第一张网页图那里需要输入用户名（ID）和口令（password）进行登录，再访问其它相关系统时，从图2-5 中所有的访问操作，<strong>无论域名相同还是不同我都不需要再登录了</strong>，它们都知道我叫”望向明天”！对，没错，这就是SSO的作用：<strong>一次登录，全部访问</strong>，读者也可以尝试下看看是不是如此；</p>
+<h1 id="3-SSO实现描述"><a href="#3-SSO实现描述" class="headerlink" title="3. SSO实现描述"></a>3. SSO实现描述</h1><p>好，经过我上面一大段废话，基本上对SSO要解决什么问题有一个清晰的认识。现在我们自行脑（yi）补（yin）下SSO 的原理是什么样的。</p>
+<ol>
+<li>一个账户：嗯，规定所有系统统一使用相同账户，就能保证一个账户了；</li>
+<li>一次登录全部访问：通过SSO登录后，让其告知其它各个系统保存该用户的信息，用户就不用重复多次的登录了；</li>
+</ol>
+<p>嗯，问题解决了，没错，就这样。</p>
+<h2 id="3-1-方案1"><a href="#3-1-方案1" class="headerlink" title="3.1 方案1"></a>3.1 方案1</h2><p>由上面的猜想可以得到第1个解决方案，记为方案1。这里对这个猜想做一点小小的优化，猜想中第2点 “各个系统保存” 好让人闹心，同一份数据保存多份，太浪费，这里我们把每个已登录的用户信息保存到公共缓存中。好，我们再来描述下这个方案：</p>
+<ol>
+<li>User 发送登录请求给SSO，附上自己的 ID 和 password；</li>
+<li>SSO验证成功将用户信息保存在公共缓存 Cache 中；</li>
+<li>User每次发送请求给系统 Ai 时，将 ID 作为请求参数；</li>
+<li>系统 Aj 通过 请求中传过来的 User ID从公共缓存 Cache 中验证 User 是否登录，完成后续动作；</li>
+</ol>
+<p>文字完了，接下来看看方案1的架构图和时序图：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180541946-525637317.png" alt="img"> <img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180542555-1752541670.png" alt="img"> </p>
+<p>**嗯，图文并茂的样子，难道就*<em>这*<em>么大功告成了？ 我们先把方案1中完成的第一版 SSO 记为SSO_V1，接下*<em>来我们来好好地捋一捋。*</em></em></em></p>
+<h2 id="3-2-方案2"><a href="#3-2-方案2" class="headerlink" title="3.2 方案2"></a>3.2 方案2</h2><p><strong>SSO_V1 貌似解决了问题，但是深入思考，细思极恐！因为这个设计有Bug</strong>：每次传 ID 给服务Ai，但是这个ID 每次怎么获取来呢？登录SSO的时候，这倒没有问题，可以让用户填！但第2次请求是发给Ai中的某一个 Aj 时，ID 要怎么来（ 假设百度和新浪是相关但彼此独立的系统，登录百度后，再访问新浪时怎么让新浪取到与登录百度时一样的ID吧）？总不至于每次发请求时都要求用户填一遍ID 吧？</p>
+<p>其实我们把 猜想 中最值得思考的问题之一忽略掉了：</p>
+<blockquote>
+<p><strong>如何让SSO”告知”系统Ai，当前登录的User 的ID和password？</strong> </p>
+</blockquote>
+<p>这问题可以这样来描述：假设有W ( <a target="_blank" rel="noopener" href="http://www.weidai.com/">www.weidai.com</a> )和 T( trade.weidai.com ) 两个系统，W和T 都通过S (login.weidai.com) 系统登录，当由U访问W再转向S 完成登录后，怎样做才能使 U 访问T 时不需要再一次通过 S 进行登录验证？</p>
+<p>对，如果你是WEB 开发的老司机，很自然你会想到用<strong>cookie</strong> ，即把用户信息（ 本文也会称之为UserInfo ）保存在<strong>cookie</strong> 当中，因为 无论W 、T 或者 S 它们的Domain是一样的——都是 weidai.com ——同一Domain，这有何用？用处就在于 W 、T 以及 S 可以共享此路径下的 <strong>cookie</strong>。这里，让我们优化的心再一次燃烧起来——直接保存用户的 ID 和 口令 对于我们这么有逼格，有追求的猿来说有点太不讲究——为什么呢？不太安全，<strong>cookie</strong> 中 最好保存一个 <strong>公共Session ID（ 请和WEB 自己生成的Seesion ID进行区分 ）</strong> ，而我们的公共缓存 Cache 中保存的 UserInfo 是一个由 <strong>公共Session ID为Key</strong> ，<strong>以包含用户标识和口令的数据结构为Value的Map。</strong>最后附上这一流程的时序图及简要说明：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180543227-1296946111.png" alt="img"></p>
+<ol>
+<li>U访问W ，W进行验证，验证失败，跳转至SSO，要求U登录；</li>
+<li>U通过SSO登录，SSO进行验证，成功并生成<strong>SessionID</strong>，随后将UserInfo（ <strong>SessionID</strong>、ID和口令）存储到公共缓存C 中，跳转至W（携带SessionID），并允许U访问W；</li>
+<li>U保存UserInfo （ <strong>SessionID</strong> ） 至 <strong>cookie</strong> ;<strong>（这里请将 U 看成一个浏览器，当下文有提到 U 保存XXX至Cookie时，读者请自行切换）</strong></li>
+<li>U 再访问 T ( 并携带 在3 中保存至<strong>cookie</strong> 中的 UserInfo ) ，T从公共缓存中拉取UserInfo 进行验证，成功则允许访问；</li>
+</ol>
+<p>**嗯，又是图文并茂的样子，难道再一次大功告成？ 我们暂时把刚才的方案记为方案2，并把方案2中完成的升级版SSO记为SSO_V2，接下来我们*<em>再来好好地捋一捋*<em>！</em></em> </p>
+<h2 id="3-3-方案3"><a href="#3-3-方案3" class="headerlink" title="3.3 方案3"></a>3.3 方案3</h2><p><strong>SSO_V2 能够在 Domain 相同的情况下”完美”解决问题，但是在Domain不同的情况下怎么做到免登呢？</strong>如上面图示淘宝（ <a target="_blank" rel="noopener" href="http://www.taobao.com/">www.taobao.com</a> ）和天猫（ <a target="_blank" rel="noopener" href="http://www.tmall.com/">www.tmall.com</a> ）若采用SSO_V2 肯定无法做到免登的，因为我们知道当访问天猫时（Domain 为tmall.com ），淘宝（ Domain 为 taobao.com ）下的 cookie 是无法随访问请求一并传给与天猫相关的系统的。<strong>所以问题变成，怎么让不同Domain下的系统也”知晓”用户已经登录的实事？</strong></p>
+<p>在我们提出SSO_V3前，<strong>我们先看看SSO 本质是什么？通过这么多的文字描述、样图解释，我们可以看到，要让用户”一次登录，全部访问”无非就是让所有的系统共享”一份”（相同）已验证的、安全可靠的验证信息。</strong>所以问题就可以转化为：不同Domain下的系统如何共享一份的验证信息？既然Domain无法做到交叉访问，那我们可以让不同Domain下的WEB应用持有相同的验证信息，这在效果上不就是一份吗！所以最终要解决的问题就是：<strong>SSO系统如何使不同的 Domain 拥有一份相同的cookie？ —— 让SSO在用户进行登录时再去访问其它域下的系统，并让各个系统保存一样的验证信息，这样不同<strong><strong>域下就会有同一份cookie</strong></strong>。</strong></p>
+<p><strong>以下是SSO_V3的时序图和文字说明，</strong>这里我们假设 SSO 的Domain 为 SD，T 的 Domain 为 TD：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180544399-122433850.png" alt="img"></p>
+<ol>
+<li>U第一次访问W，W验证失败，跳转至SSO要求U进行登录验证；</li>
+<li>登录并使各不同Domain下：<ol>
+<li>U 给SSO发送登录请求，SSO验证成功，生成SessionID 并保存UserInfo；</li>
+<li>返回给U的Response 将 UserInfo 存放至cookie中，Domain为SD；</li>
+<li>将 2 中 cookie 内容作为query parameter 重定向至T，T验证后成功返回给U，也在Response 中设置 cookie；Domain为TD；</li>
+<li>U自动访问SSO，SSO将请求重定向至W，完成U对W 的访问；</li>
+</ol>
+</li>
+<li>U 再访问 T，验证成功并允许U进行访问；</li>
+</ol>
+<p>**嗯，还是图文并茂的样子，这下是不是可以完事了呢？我们还是把刚才的方案记为方案3，并把方案3中完成的升级版SSO记为SSO_V3，*<em>然后还是来好好地捋一捋*<em>！</em></em> </p>
+<h2 id="3-4-方案4"><a href="#3-4-方案4" class="headerlink" title="3.4 方案4"></a>3.4 方案4</h2><p>再细细的考虑下SSO_V3的实现方式，有没有感觉它哪里有点不对劲（ 思维一直跟着我来走，是不是被绕晕了，想发现不对劲，怎么可能）？  SSO_V3 使不同 Domain 获取相同的cookie 拷贝时，表面是在U处主动发出向Ｔ的请求（其实是被动）， 但实际上是 SSO 返回给 U 的页面自动完成的（通过 JS、通过页面自动跳转、iframe都可以实现）。<strong>所以方案SSO_V3要求SSO 预先知道有哪些系统是跨域的！！！而且它还有一个很严重的问题：假如与SSO相关但相互独立的系统中，有 20+ 需要跨域才能访问，而SSO要在用户登录时完成20+跳转……现在你是不是要呵呵了？</strong>貌似完美解决跨域的SSO_V3 竟然如此有问题，有没有心好塞！</p>
+<p>SSO_V3 解决的核心问题是：针对跨域的系统，各系统间如何保证获取到的 <strong>验证信息</strong>是一致的，解决方法即是<strong>在用户第一次登录时把验证信息复制给所有跨域的系统。</strong>这种方案在跨域系统少的情况下倒是不需要有太多担心，但是当跨域系统多、且验证步骤比较复杂时用户将会卡在登录界面，最后不得不怒关页面！所以当理清这些逻辑，很自然就会想到接下来要如何对SSO_V3进行优化。<strong>核心思想就是：既然一次性解决会有问题，那就分多次解决！</strong>简单的描述下我们将要看到的SSO_V4，用户登录后，当第一次访问跨域系统W 时，跳到SSO复制一份至W的cookie中，过程结束；当访问T时，重复该处理动作。</p>
+<p>以下为SSO_V4的时序图及简要说明：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180547196-1261635872.png" alt="img"></p>
+<ol>
+<li>用户U访问W ，W进行验证，验证失败，跳转至SSO，要求U登录；</li>
+<li>U通过SSO登录，SSO进行验证，成功并生成<strong>SessionID</strong>，随后将UserInfo（ <strong>SessionID</strong>、ID和口令）存储到公共缓存C 中，跳转至W（携带SessionID），并允许U访问W；U保存UserInfo （ <strong>SessionID</strong> ） 至 <strong>cookie；</strong></li>
+<li>U访问T，T 进行验证，失败跳转至SSO，SSO将触发U请求SSO将验证信息随请求一并发给SSO，经SSO验证成功跳转至Ｔ，允许U对T 的访问；使U保存UserInfo（ SessionID）至cookie；</li>
+</ol>
+<h2 id="3-5-小结"><a href="#3-5-小结" class="headerlink" title="3.5 小结"></a>3.5 小结</h2><p>其实我们通过上面的实用版（SSO_V2，SSO_V3，SSO_V4）SSO，可以看到除了用户的第一次登录某个应用相对来说比较特殊，其它处理都是一致的。所以当我们抛去细节之后，不仿这样联想SSO的实现：<strong>完成登录逻辑并使各系统共享验证信息和验证逻辑</strong>，从这个层次去看SSO，我们发现它其实只负责用户登录和身份验证这2、3个点。</p>
+<p>下面是用户第一次登录及SSO与其它系统交互的简图：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180547805-516258740.png" alt="img"> <img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180548336-1419099633.png" alt="img"> </p>
+<h1 id="4-设计与实现"><a href="#4-设计与实现" class="headerlink" title="4. 设计与实现"></a>4. 设计与实现</h1><h2 id="4-1-验证信息的安全考虑"><a href="#4-1-验证信息的安全考虑" class="headerlink" title="4.1 验证信息的安全考虑"></a>4.1 验证信息的安全考虑</h2><p>第3部分中的身份验证和验证信息方面都做得比较简单，在实际项目中不可能如此使用！在此提出一个方案以供参考（这也是比较流行的一种）。</p>
+<ol>
+<li>使用 HTTPS 进行用户登录；</li>
+<li>为每个用户生成一个对称密钥Ku；</li>
+<li>验证信息由”ID”+ “password”+ SessionID 组成，当然你可以按需设置，比如再加个IP 地址……</li>
+<li>存储在cookie 中的验证信息，ID 和口令部分经由用户密钥Ku和SSO公钥处理后在存放至”客户端”；</li>
+</ol>
+<p>这样处理后相信能够满足大部分应用的需求了！</p>
+<h2 id="4-2-SSO的概要设计"><a href="#4-2-SSO的概要设计" class="headerlink" title="4.2 SSO的概要设计"></a>4.2 SSO的概要设计</h2><h3 id="4-2-1-整体思路"><a href="#4-2-1-整体思路" class="headerlink" title="4.2.1 整体思路"></a>4.2.1 整体思路</h3><p>SSO这一理念到目前为止已经非常成熟，关于它的各种设计、设置都可以定制一套标准了。<strong>然而由于SSO与用户有强关联，所以很多设计在最初时往往会把SSO设计成一个用户管理系统，而使得SSO与业务耦合，随着业务的不断变化和演进，底层数据结构、接口不断的复杂化，又反过来使得上层服务的架构设计变得尴尬。</strong> </p>
+<p><strong>若做更进一层的抽象和划分，SSO只需负责登录这单一功能即可，设计上满足单一职责原则[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Single_responsibility_principle">1]</a>，加上几乎所有网站的登录都大同小异(可能登录界面会变幻无常)且不与业务有过多牵连，这又使得SSO与业务完全分离，无论将来业务怎样演进，产品如何迭代，SSO作为底层应用可以以不变应万变。Really? All problem in computer science can be solved with another level of  indirection，except of course for the problem of too many indirections.[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/David_Wheeler_(British_computer_scientist)">2]</a></strong> 如何在设计中做到复杂与简洁的平衡，需要根据实际情境深度地考量，这可以扯出长篇大论了（按下不表），我们的SSO姑且就搞这几个功能：登录、记录轨迹、登出，以下是用例图：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180548774-1363189663.png" alt="img"></p>
+<p>第3节第5部分有提到”登录交由SSO完成，各系统共享一套验证逻辑”，很自然的验证这一逻辑对SSO也是必须的，在此就由SSO来完成，其它系统只需将其配置到各自系统里即可。再加上SSO是用户”做案的第一现场”，所以记录用户登录信息的事也很自然的就让SSO给干起来了，而且这一功能不仅能够让用户感受到我们对客户的用心，同时也为后期数据分析业务提供数据源！</p>
+<h3 id="4-2-2-数据表设计"><a href="#4-2-2-数据表设计" class="headerlink" title="4.2.2 数据表设计"></a>4.2.2 数据表设计</h3><p>经过上面的讨论，我们着手思考SSO的数据结构——数据表设计（个人认为面向对象编程中数据结构的优劣基本决定整个应用的质量）。从SSO  功能简单及其微服务的定位，SSO的表应该简洁、单一，上层服务若需要对其进行扩展，只需要对基本表进行外键引用即可！这里我们暂时只用3张表，分别为User、Trace（用户轨迹表）和使用平台表，图示与描述如下：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180549258-1796688221.png" alt="img"></p>
+<p>用户表：User</p>
+<ol>
+<li>uid 用户唯一标识，（ varchar 是否有更好）</li>
+<li>name ：账号，可以唯一标识用户，email，phone等都唯一标识用户；</li>
+<li>status：用户状态；（冻结，已删除……）；</li>
+<li>key ：用户密钥；</li>
+<li>info：扩展字段，用以应变需求；</li>
+</ol>
+<p>用户轨迹表：Trace</p>
+<ol>
+<li>type ：轨迹类型，（删除，登录，登出，修改……）；</li>
+<li>time ：操作时间；</li>
+<li>info同上，uid 用户表外键，pid 为Platform的外键；</li>
+</ol>
+<p>使用平台表：Platform</p>
+<ol>
+<li>ip：用户登录ip</li>
+<li>address：用户登录地址，可由IP 解析得到，（手机端可以使用GPS）；</li>
+<li>platform：使用平台的信息，将在请求的head上得到；</li>
+<li>info同上，tid 表示Trace 表的外键；</li>
+</ol>
+<h3 id="4-2-3-简要类设计"><a href="#4-2-3-简要类设计" class="headerlink" title="4.2.3 简要类设计"></a>4.2.3 简要类设计</h3><p>通过上面的整体思路及数据结构的定型，我们可以继续铺开将SSO要涉及到的一些主体类及主要方法定义好，仍旧上图：</p>
+<p><img src="https://images2015.cnblogs.com/blog/899999/201606/899999-20160604180549774-1630772031.png" alt="img"></p>
+<p>写到这里，对于这个图示就不再做过多解释，大家基本可以开始做各种各样的脑补了！额，仅说小小的一个点：验证由Interceptor实现，这样验证逻辑则可以以插件形式配置到其它系统，实现所有系统共享一套验证逻辑，当然你也可以根据具体情况做成Filter，看个人爱好; 访问这方面交给第三方处理，比如由Shiro、Spring Security等来完成……酱紫，结束！</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/SSO/">SSO</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/03/09/%E6%BC%AB%E8%B0%88SSO/" data-title="漫谈SSO | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/05/31/hello-world/" title="Hello World">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hello World</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/03/04/使用 Azure API 管理控制 API 的身份验证/"  title="使用 Azure API 管理控制 API 的身份验证">
+ <strong>下一篇：</strong><br/> 
+ <span>使用 Azure API 管理控制 API 的身份验证
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%AB%E8%B0%88SSO"><span class="toc-number">1.</span> <span class="toc-text">漫谈SSO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%91%98%E8%A6%81"><span class="toc-number">2.</span> <span class="toc-text">1. 摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%88-%E6%B3%A8%E6%84%8F%EF%BC%9A%E8%AF%B7%E4%BB%94%E7%BB%86%E7%9C%8B%E4%B8%8B%E6%91%98%E8%A6%81%EF%BC%8C%E7%95%99%E5%BF%83%E6%AD%A4%E6%96%87%E6%98%AF%E5%90%A6%E6%98%AF%E6%82%A8%E7%9A%84%E8%8F%9C%EF%BC%8C%E8%8B%A5%E6%B5%AA%E8%B4%B9%E5%AE%9D%E8%B4%B5%E6%97%B6%E9%97%B4%EF%BC%8C%E6%B7%B1%E6%84%9F%E6%AD%89%E6%84%8F%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">（ 注意：请仔细看下摘要，留心此文是否是您的菜，若浪费宝贵时间，深感歉意！！！）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-SSO%E7%AE%80%E4%BB%8B"><span class="toc-number">3.</span> <span class="toc-text">2. SSO简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-SSO%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 SSO定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-SSO%E7%A4%BA%E4%BE%8B%E2%80%94%E2%80%94%E6%B7%98%E5%AE%9D%E3%80%81%E5%A4%A9%E7%8C%AB%E7%9A%84%E7%99%BB%E5%BD%95%E5%9C%BA%E6%99%AF"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 SSO示例——淘宝、天猫的登录场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-SSO%E5%AE%9E%E7%8E%B0%E6%8F%8F%E8%BF%B0"><span class="toc-number">4.</span> <span class="toc-text">3. SSO实现描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%96%B9%E6%A1%881"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 方案1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%96%B9%E6%A1%882"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 方案2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E6%96%B9%E6%A1%883"><span class="toc-number">4.3.</span> <span class="toc-text">3.3 方案3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E6%96%B9%E6%A1%884"><span class="toc-number">4.4.</span> <span class="toc-text">3.4 方案4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E5%B0%8F%E7%BB%93"><span class="toc-number">4.5.</span> <span class="toc-text">3.5 小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.</span> <span class="toc-text">4. 设计与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E9%AA%8C%E8%AF%81%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AE%89%E5%85%A8%E8%80%83%E8%99%91"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 验证信息的安全考虑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-SSO%E7%9A%84%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 SSO的概要设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E6%95%B4%E4%BD%93%E6%80%9D%E8%B7%AF"><span class="toc-number">5.2.1.</span> <span class="toc-text">4.2.1 整体思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-%E6%95%B0%E6%8D%AE%E8%A1%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.2.</span> <span class="toc-text">4.2.2 数据表设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-%E7%AE%80%E8%A6%81%E7%B1%BB%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.3.</span> <span class="toc-text">4.2.3 简要类设计</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DDD/" title="DDD">DDD<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>20</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SoA/" title="SoA">SoA<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

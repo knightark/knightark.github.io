@@ -1,0 +1,590 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>利用电脑ADB插件删除安卓手机内置软件（超详细） | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="利用电脑ADB插件删除安卓手机内置软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用电脑ADB插件删除安卓手机内置软件（超详细）">
+<meta property="og:url" content="https://knightark.github.io/2021/06/08/%E5%88%A9%E7%94%A8%E7%94%B5%E8%84%91ADB%E6%8F%92%E4%BB%B6%E5%88%A0%E9%99%A4%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%86%85%E7%BD%AE%E8%BD%AF%E4%BB%B6%EF%BC%88%E8%B6%85%E8%AF%A6%E7%BB%86%EF%BC%89/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="利用电脑ADB插件删除安卓手机内置软件">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-08T06:38:40.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:45:56.430Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="adb">
+<meta property="article:tag" content="andriod">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/06/08/利用电脑ADB插件删除安卓手机内置软件（超详细）/" title="利用电脑ADB插件删除安卓手机内置软件（超详细）" itemprop="url">利用电脑ADB插件删除安卓手机内置软件（超详细）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-06-08T06:38:40.000Z" itemprop="datePublished"> Published 2021-06-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%94%B5%E8%84%91ADB%E6%8F%92%E4%BB%B6%E5%88%A0%E9%99%A4%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%86%85%E7%BD%AE%E8%BD%AF%E4%BB%B6%EF%BC%88%E8%B6%85%E8%AF%A6%E7%BB%86%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">利用电脑ADB插件删除安卓手机内置软件（超详细）</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="利用电脑ADB插件删除安卓手机内置软件（超详细）"><a href="#利用电脑ADB插件删除安卓手机内置软件（超详细）" class="headerlink" title="利用电脑ADB插件删除安卓手机内置软件（超详细）"></a>利用电脑ADB插件删除安卓手机内置软件（超详细）</h1><p>越码有钱 2020-08-28 22:33:35 2610 收藏 3<br>文章标签： adb<br>版权</p>
+<p>这里少说话，我们直接上教程。<br><strong>第1步：</strong>下载adb插件，以及查看手机软件包的apk应用：链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1M5D5tU2DYKWu1v6PTbe6zg">https://pan.baidu.com/s/1M5D5tU2DYKWu1v6PTbe6zg</a><br>提取码：74jc<br><strong>第2步：</strong>解压资源如下图（图1）所示：<br>在这里插入图片描述<br>图1<br>打开platform-tools_r30.0.4-windows文件夹如下图（图2）所示：<br>在这里插入图片描述<br>图2<br><strong>第4步：</strong>打开platform-tools文件夹，如下图（图3）所示：<br>在这里插入图片描述<br>图3<br><strong>第5步：</strong>复制adb.exe所在文件位置的绝对路径如下图（图4）所示：<br>在这里插入图片描述<br>图4<br><strong>第6步：</strong>将该文件地址添加到windows的PATH路径下如下图（图5）所示：<br>在这里插入图片描述<br>在这里插入图片描述</p>
+<p>在这里插入图片描述</p>
+<p>在这里插入图片描述<br>图5<br><strong>第7步：</strong>路径添加好之后依次按确定即可。<br><strong>第8步：</strong>检验adb是否安装成功：<br>win+R -&gt;输入“cmd”进入doc窗口；如下图（图6）所示：<br>在这里插入图片描述<br>在这里插入图片描述</p>
+<p>输入adb所示如下表示安装成功：<br>在这里插入图片描述<br>图6<br><strong>第9步：</strong>打开手机的开发者模式（进入“关于手机”-&gt;“持续点击手机版本号进入开发者模式”-&gt;打开“usb调试”），操作步骤如下图（图7）所示：<br>在这里插入图片描述<br>在这里插入图片描述<br>图7<br><strong>第9步：</strong>检测手机是否接入，命令：adb devices,如下图（图8）所示为成功接入：<br>在这里插入图片描述<br>图8<br><strong>第10步：</strong>查看手机上所有的安装程序包，命令：在这里插入图片描述如下图（图9）所示：<br>在这里插入图片描述<br>图9<br><strong>第11步：</strong>删除软件包，但是可能不知道以上所有英文具体是啥，那么，在手机上安装，第1步里下载的GT.apk软件进行查看，如下图所示：<br>在这里插入图片描述<br><strong>第12步：</strong>删除命令：在这里插入图片描述<br>在这里插入图片描述<br>最后出现Succes表示成功。<br>结束，如果操作成功，请点赞哦，你的点赞是小编前进的动力。下期再见！！！<br>————————————————<br>版权声明：本文为CSDN博主「越码有钱」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_45081336/article/details/108287353">https://blog.csdn.net/m0_45081336/article/details/108287353</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/adb/">adb</a><a href="/tags/andriod/">andriod</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/06/08/%E5%88%A9%E7%94%A8%E7%94%B5%E8%84%91ADB%E6%8F%92%E4%BB%B6%E5%88%A0%E9%99%A4%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%86%85%E7%BD%AE%E8%BD%AF%E4%BB%B6%EF%BC%88%E8%B6%85%E8%AF%A6%E7%BB%86%EF%BC%89/" data-title="利用电脑ADB插件删除安卓手机内置软件（超详细） | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/06/08/DDD之4聚合和聚合根/" title="DDD之4聚合和聚合根">
+  <strong>上一篇：</strong><br/>
+  <span>
+  DDD之4聚合和聚合根</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/06/08/Aras Innovator/"  title="Aras Innovator">
+ <strong>下一篇：</strong><br/> 
+ <span>Aras Innovator
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%94%B5%E8%84%91ADB%E6%8F%92%E4%BB%B6%E5%88%A0%E9%99%A4%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%86%85%E7%BD%AE%E8%BD%AF%E4%BB%B6%EF%BC%88%E8%B6%85%E8%AF%A6%E7%BB%86%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">利用电脑ADB插件删除安卓手机内置软件（超详细）</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DDD/" title="DDD">DDD<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>20</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SoA/" title="SoA">SoA<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

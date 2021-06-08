@@ -1,0 +1,628 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>DDD之4聚合和聚合根 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="DDD之4聚合和聚合根聚合就是归类的意思，把同类事物统一处理； 聚合根也就是最抽象，最普遍的特性； 背景领域建模的过程回顾：  那么问题来了？ 为什么要在限界上下文和实体之间增加聚合和聚合根的概念，即作用是什么？ 如何设计聚合？ 按照一般的研究和学习思路，先弄懂概念，然后结合实际例子理解概念，然后再回答提出的问题。 聚合根聚合根：如果把聚合比作组织，聚合根则是组织的负责人，聚合根也叫做根实体，它不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDD之4聚合和聚合根">
+<meta property="og:url" content="https://knightark.github.io/2021/06/08/DDD%E4%B9%8B4%E8%81%9A%E5%90%88%E5%92%8C%E8%81%9A%E5%90%88%E6%A0%B9/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="DDD之4聚合和聚合根聚合就是归类的意思，把同类事物统一处理； 聚合根也就是最抽象，最普遍的特性； 背景领域建模的过程回顾：  那么问题来了？ 为什么要在限界上下文和实体之间增加聚合和聚合根的概念，即作用是什么？ 如何设计聚合？ 按照一般的研究和学习思路，先弄懂概念，然后结合实际例子理解概念，然后再回答提出的问题。 聚合根聚合根：如果把聚合比作组织，聚合根则是组织的负责人，聚合根也叫做根实体，它不">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-ba39d88b1246653f4f7299b798f84cc5_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-6f2935693fe69f1f7c293592aded7d9e_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-3662bd8a93a4ed3f625289b0665334b4_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/undefined_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-e7acb546c3e79710babde1eada3a554a_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-9ca2e28e015ccb3afeb21a0ec61f3511_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-5221177bdbd91c7006072bb4737cebde_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-358df8f4d1208a4201d79f19676a74cd_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-69033bed69cb83eb2f22b9fb71cdbbf9_720w.jpg">
+<meta property="article:published_time" content="2021-06-08T06:38:51.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:42:35.180Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="DDD">
+<meta property="article:tag" content="聚合根">
+<meta property="article:tag" content="聚合">
+<meta property="article:tag" content="领域">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic2.zhimg.com/80/v2-ba39d88b1246653f4f7299b798f84cc5_720w.jpg">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/06/08/DDD之4聚合和聚合根/" title="DDD之4聚合和聚合根" itemprop="url">DDD之4聚合和聚合根</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-06-08T06:38:51.000Z" itemprop="datePublished"> Published 2021-06-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DDD%E4%B9%8B4%E8%81%9A%E5%90%88%E5%92%8C%E8%81%9A%E5%90%88%E6%A0%B9"><span class="toc-number">1.</span> <span class="toc-text">DDD之4聚合和聚合根</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E6%A0%B9"><span class="toc-number">3.</span> <span class="toc-text">聚合根</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="DDD之4聚合和聚合根"><a href="#DDD之4聚合和聚合根" class="headerlink" title="DDD之4聚合和聚合根"></a>DDD之4聚合和聚合根</h1><p>聚合就是归类的意思，把同类事物统一处理； 聚合根也就是最抽象，最普遍的特性；</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>领域建模的过程回顾：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-ba39d88b1246653f4f7299b798f84cc5_720w.jpg" alt="img"></p>
+<p>那么问题来了？</p>
+<p>为什么要在限界上下文和实体之间增加聚合和聚合根的概念，即作用是什么？</p>
+<p>如何设计聚合？</p>
+<p>按照一般的研究和学习思路，先弄懂概念，然后结合实际例子理解概念，然后再回答提出的问题。</p>
+<h1 id="聚合根"><a href="#聚合根" class="headerlink" title="聚合根"></a>聚合根</h1><p>聚合根：如果把聚合比作组织，聚合根则是组织的负责人，聚合根也叫做根实体，它不仅仅是实体，还是实体的管理者；</p>
+<p>职责： 1，作为实体，具备自己的业务属性，业务行为，业务逻辑 2，作为聚合的管理者， 在聚合内部，负责协调实体和值对象按照固定的业务规则协同完成共同的业务逻辑；      在聚合之间：它是聚合对外的接口人，以聚合根ID的方式接受外部请求和任务，实现上下文中的聚合之间的业务协同；</p>
+<p>聚合之间通过聚合根关联引用，如果需要访问其他聚合的实体，先访问聚合根，再导航到聚合内部的实体；即外部对象不能直接访问聚合内的实体；</p>
+<p>解决的问题： 复杂数据模型缺少统一的业务规则控制而导致的聚合，实体之间数据不一致的问题；</p>
+<p><img src="https://pic3.zhimg.com/80/v2-6f2935693fe69f1f7c293592aded7d9e_720w.jpg" alt="img"></p>
+<h1 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h1><p>在DDD中，实体和值对象都是很基础的领域对象。</p>
+<p>聚合是什么呢？类比一下：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-3662bd8a93a4ed3f625289b0665334b4_720w.jpg" alt="img"></p>
+<p>聚合的另一种视图： 聚合是业务和逻辑紧密关联的实体和值对象组合而成，聚合是数据修改和持久化的基本单元，一个聚合对应一个数据的持久化；</p>
+<p>聚合在DDD分层架构中属于领域层，领域层包含了多个聚合，共同实现核心业务逻辑，聚合内的实体以充血模型实现个体业务能力，以及业务逻辑的高内聚； 跨多个实体的业务逻辑通过领域服务来实现，跨多个聚合的业务逻辑通过应用服务来实现；</p>
+<p><img src="https://pic2.zhimg.com/80/undefined_720w.jpg" alt="img"></p>
+<p>聚合的组成：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-e7acb546c3e79710babde1eada3a554a_720w.jpg" alt="img"></p>
+<p>如何设计聚合？</p>
+<p><img src="https://pic2.zhimg.com/80/v2-9ca2e28e015ccb3afeb21a0ec61f3511_720w.jpg" alt="img"></p>
+<p>例子：保单系统聚合的过程。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-5221177bdbd91c7006072bb4737cebde_720w.jpg" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-358df8f4d1208a4201d79f19676a74cd_720w.jpg" alt="img"></p>
+<p>聚合的设计原则：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-69033bed69cb83eb2f22b9fb71cdbbf9_720w.jpg" alt="img"></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>聚合的特点：高内聚低耦合，是领域模型中最底层的边界，可以作为拆分微服务的最小单位，但是不建议单独对应一个微服务，除非是对性能有极致要求的场景，一个微服务可以包含多个聚合，聚合之间的边界是逻辑最天然的边界，有了这个逻辑边界，就可以在微服务拆分的时候作为拆分和组合依据，微服务架构演进也就不是难事了。</p>
+<p>聚合根的特点：聚合根是实体，具备唯一标识，有独立的生命周期，一个聚合只有一个聚合根，聚合根在聚合之内采用引用依赖的方式对实体和值对象进行组织和协调，聚合根和聚合根之间通过唯一id进行聚合之间的协同；</p>
+<p>实体的特点：具备id标识，可以通过id进行相等性比较，实体在聚合内唯一，但是状态可变，它依附于聚合根，它的生命周期由聚合根管理，实体一般都会持久化，跟数据持久化对象存在多种对应关系（一对一，一对多，多对一，1对0），实体可以引用聚合中的聚合根，实体，值对象；</p>
+<p>值对象特点：无id,不可变，无生命周期，用完即失效，值对象之间通过属性值判断相等性，他的核心是值，是一组概念完整的属性集合，用于描述实体的特征和状态，值对象尽量只引用值对象；</p>
+<p>本篇主要介绍了聚合根，聚合的概念，然后介绍了聚合的设计过程和原则，以及对比了聚合，聚合根，实体，值对象的特点。</p>
+<p>下面我们来回答最初的两个问题？</p>
+<p>为什么要在实体和限界上下文之间增加聚合和聚合根，作用是什么？</p>
+<p>在实体和限界上下文之间增加聚合和聚合根之间的原因是：<strong>让实体和值对象协同工作，在实现公共业务逻辑的时候，可以保证数据的一致性；</strong></p>
+<p>如何设计聚合？</p>
+<p>过程是：通过事件风暴（用例分析，场景分析，用户旅程分析）得到实体和值对象，然后找出聚合根，按照高内聚低耦合的设计原则，找出跟聚合根紧密关联的实体和值对象，即形成聚合，并画出聚合内的实体和值对象的引用依赖关系，最后把业务把关联紧密的聚合画在同一个限界上线文中，即完成了领域建模；</p>
+<p>聚合的设计原则： 高内聚，聚合尽量小，聚合之间通过id关联，边界之外使用最终一致性，在应用层实现跨聚合的调用。</p>
+<p>希望大家可以得到相对完整（高内聚低耦合）的业务领域模型；</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DDD/">DDD</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DDD/">DDD</a><a href="/tags/聚合根/">聚合根</a><a href="/tags/聚合/">聚合</a><a href="/tags/领域/">领域</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/06/08/DDD%E4%B9%8B4%E8%81%9A%E5%90%88%E5%92%8C%E8%81%9A%E5%90%88%E6%A0%B9/" data-title="DDD之4聚合和聚合根 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2021/06/08/利用电脑ADB插件删除安卓手机内置软件（超详细）/"  title="利用电脑ADB插件删除安卓手机内置软件（超详细）">
+ <strong>下一篇：</strong><br/> 
+ <span>利用电脑ADB插件删除安卓手机内置软件（超详细）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DDD%E4%B9%8B4%E8%81%9A%E5%90%88%E5%92%8C%E8%81%9A%E5%90%88%E6%A0%B9"><span class="toc-number">1.</span> <span class="toc-text">DDD之4聚合和聚合根</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E6%A0%B9"><span class="toc-number">3.</span> <span class="toc-text">聚合根</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DDD/" title="DDD">DDD<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>20</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SoA/" title="SoA">SoA<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

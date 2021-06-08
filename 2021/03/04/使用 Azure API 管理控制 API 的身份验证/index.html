@@ -1,0 +1,832 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>使用 Azure API 管理控制 API 的身份验证 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="借助 Azure API 管理，可仔细识别和控制可访问由 API 发布的数据的人员。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Azure API 管理控制 API 的身份验证">
+<meta property="og:url" content="https://knightark.github.io/2021/03/04/%E4%BD%BF%E7%94%A8%20Azure%20API%20%E7%AE%A1%E7%90%86%E6%8E%A7%E5%88%B6%20API%20%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="借助 Azure API 管理，可仔细识别和控制可访问由 API 发布的数据的人员。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/2-subscription-keys.png">
+<meta property="og:image" content="https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/2-key-header-portal.png">
+<meta property="og:image" content="https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/5-inbound-policy.png">
+<meta property="article:published_time" content="2021-03-04T09:51:01.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:44:21.939Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Api">
+<meta property="article:tag" content="身份验证">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/2-subscription-keys.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/03/04/使用 Azure API 管理控制 API 的身份验证/" title="使用 Azure API 管理控制 API 的身份验证" itemprop="url">使用 Azure API 管理控制 API 的身份验证</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-03-04T09:51:01.000Z" itemprop="datePublished"> Published 2021-03-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Azure-API-%E7%AE%A1%E7%90%86%E6%8E%A7%E5%88%B6-API-%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">使用 Azure API 管理控制 API 的身份验证</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-number">2.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">先决条件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-API-%E7%AE%A1%E7%90%86%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">什么是 API 管理？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#API-%E7%AE%A1%E7%90%86%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">API 管理的组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API-%E7%BD%91%E5%85%B3"><span class="toc-number">3.1.1.</span> <span class="toc-text">API 网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Azure-%E9%97%A8%E6%88%B7"><span class="toc-number">3.1.2.</span> <span class="toc-text">Azure 门户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E9%97%A8%E6%88%B7"><span class="toc-number">3.1.3.</span> <span class="toc-text">开发人员门户</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8-Azure-API-%E7%AE%A1%E7%90%86%E4%B8%AD%E5%88%9B%E5%BB%BA%E8%AE%A2%E9%98%85"><span class="toc-number">4.</span> <span class="toc-text">在 Azure API 管理中创建订阅</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A2%E9%98%85%E5%92%8C%E5%AF%86%E9%92%A5"><span class="toc-number">4.1.</span> <span class="toc-text">订阅和密钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%AE%A2%E9%98%85%E5%AF%86%E9%92%A5%E8%B0%83%E7%94%A8-API"><span class="toc-number">4.2.</span> <span class="toc-text">使用订阅密钥调用 API</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0-%E5%9C%A8-Azure-API-%E7%AE%A1%E7%90%86%E4%B8%AD%E5%88%9B%E5%BB%BA%E8%AE%A2%E9%98%85"><span class="toc-number">5.</span> <span class="toc-text">练习 - 在 Azure API 管理中创建订阅</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%A4%A9%E6%B0%94-Web-API"><span class="toc-number">5.1.</span> <span class="toc-text">部署天气 Web API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E5%B7%B2%E4%B8%8A%E4%BC%A0%E5%88%B0-API-%E7%AE%A1%E7%90%86%E7%9A%84%E8%AF%81%E4%B9%A6%E6%A3%80%E6%9F%A5%E6%8C%87%E7%BA%B9"><span class="toc-number">5.1.1.</span> <span class="toc-text">针对已上传到 API 管理的证书检查指纹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%AE%A2%E6%88%B7%E8%AF%81%E4%B9%A6%E7%9A%84%E8%AF%81%E4%B9%A6%E9%A2%81%E5%8F%91%E8%80%85%E5%92%8C%E4%B8%BB%E9%A2%98"><span class="toc-number">5.1.2.</span> <span class="toc-text">检查客户证书的证书颁发者和主题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0-%E4%BD%BF%E7%94%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%81%E4%B9%A6%E6%9D%A5%E4%BF%9D%E6%8A%A4%E5%AF%B9-API-%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-number">6.</span> <span class="toc-text">练习 - 使用客户端证书来保护对 API 的访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6"><span class="toc-number">6.1.</span> <span class="toc-text">创建自签名证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%85%A5%E7%AB%99%E7%AD%96%E7%95%A5%EF%BC%8C%E4%BB%85%E5%85%81%E8%AE%B8%E5%85%B7%E6%9C%89%E6%9C%89%E6%95%88%E8%AF%81%E4%B9%A6%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="toc-number">6.2.</span> <span class="toc-text">编辑入站策略，仅允许具有有效证书的请求</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="使用-Azure-API-管理控制-API-的身份验证"><a href="#使用-Azure-API-管理控制-API-的身份验证" class="headerlink" title="使用 Azure API 管理控制 API 的身份验证"></a>使用 Azure API 管理控制 API 的身份验证</h1><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>5 分钟</li>
+</ul>
+<p>借助 Azure API 管理，可仔细识别和控制可访问由 API 发布的数据的人员。</p>
+<p>假设你为一家气象公司工作，客户可使用该公司所拥有的一个 API 来访问天气数据，从而进行预测和研究。 此数据中包含专有信息，你需要确保只有付费客户才能访问该数据。 需要使用 Azure API 管理来恰当地保护此 API，使其免遭未经授权的使用。</p>
+<p>此模块中将使用两种不同的方法来保护对 Azure API 管理中 API 的访问：</p>
+<ul>
+<li>订阅</li>
+<li>客户端证书</li>
+</ul>
+<p>在本单元结束时，你将能够确保只有具有正确凭据的人员才能访问 API 中的信息。</p>
+<h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><p>在本模块中，你将：</p>
+<ul>
+<li>创建 Azure API 网关</li>
+<li>将 RESTful API 导入网关</li>
+<li>实现策略，保护 API 免受未经授权的使用</li>
+<li>调用 API，测试已应用的策略</li>
+</ul>
+<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><ul>
+<li><p>熟悉 Web API 的基本概念，例如操作和终结点</p>
+</li>
+<li><p>熟悉证书</p>
+</li>
+</ul>
+<h1 id="什么是-API-管理？"><a href="#什么是-API-管理？" class="headerlink" title="什么是 API 管理？"></a>什么是 API 管理？</h1><ul>
+<li>5 分钟</li>
+</ul>
+<p>Azure API 管理 (APIM) 有助于组织通过将 API 发布给外部、合作伙伴和内部开发者，充分发挥其数据和服务的潜力。  各大企业都想创建新渠道、挖掘新客户并深化与现有客户的契合，从而作为数字平台来扩大自身的运营规模。 APIM  通过开发人员参与、商业洞察力、分析、安全性和保护提供核心竞争力，以确保成功的 API 程序。 可以使用 APIM  处理任何后端，并基于它发布成熟的 API 程序。</p>
+<p>要使用 APIM，管理员需要在门户中定义 API。 每个 API 都包括一个或多个操作，并可以将每个 API 添加到一个或多个产品。  要使用 API，开发人员需要订阅包含该 API 的产品，然后调用该 API 的操作，并遵循任何可能生效的使用策略。 常见方案包括：</p>
+<ul>
+<li>通过使用 API 密钥控制访问、使用限制阻止拒绝服务攻击 (DoS) 或使用高级安全策略（如 JSON Web 令牌 (JWT) 令牌验证）来保护移动基础结构。</li>
+<li>通过开发人员门户提供快速的合作伙伴加入，并构建 API 外观使其与未准备好供合作伙伴使用的内部实现分离，从而实现独立软件供应商 (ISV) 合作伙伴生态系统。</li>
+<li>运行内部的 API 程序，方法是通过为组织提供一个集中的位置，以便在 API 网关和后端之间的安全通道上沟通 API 的可用性和最新更改，并根据组织帐户控制访问。</li>
+</ul>
+<h2 id="API-管理的组件"><a href="#API-管理的组件" class="headerlink" title="API 管理的组件"></a>API 管理的组件</h2><p>APIM 由以下组件构成：</p>
+<h3 id="API-网关"><a href="#API-网关" class="headerlink" title="API 网关"></a>API 网关</h3><p>API 网关是具有以下功能的终结点：</p>
+<ul>
+<li>接受 API 调用，并将调用路由到后端。</li>
+<li>验证 API 密钥、JWT 令牌、证书和其他凭据。</li>
+<li>强制实施使用配额和速率限制。</li>
+<li>无需修改代码即可动态转换 API。</li>
+<li>在设置的位置缓存后端响应。</li>
+<li>记录调用元数据以用于分析。</li>
+</ul>
+<h3 id="Azure-门户"><a href="#Azure-门户" class="headerlink" title="Azure 门户"></a>Azure 门户</h3><p>Azure 门户是一个管理界面，可以在其中设置 API 程序。 也可以使用它完成以下操作：</p>
+<ul>
+<li>定义或导入 API 架构。</li>
+<li>将 API 打包到产品中。</li>
+<li>设置策略，如 API 的配额或转换。</li>
+<li>从分析中获得见解。</li>
+<li>管理用户。</li>
+</ul>
+<h3 id="开发人员门户"><a href="#开发人员门户" class="headerlink" title="开发人员门户"></a>开发人员门户</h3><p>开发人员门户是面向开发人员的主要 Web 平台。 开发人员可以在其中执行以下操作：</p>
+<ul>
+<li>阅读 API 文档。</li>
+<li>通过交互式控制台试用 API。</li>
+<li>创建帐户并订阅，以获取 API 密钥。</li>
+<li>访问他们自己的使用情况分析。</li>
+</ul>
+<h1 id="在-Azure-API-管理中创建订阅"><a href="#在-Azure-API-管理中创建订阅" class="headerlink" title="在 Azure API 管理中创建订阅"></a>在 Azure API 管理中创建订阅</h1><ul>
+<li>10 分钟</li>
+</ul>
+<p>使用 APIM 发布 API 时，可定义通过网关访问该 API 的人员。</p>
+<p>对于气象应用，通过发布订阅密钥，你希望确保只有订阅了你的服务的客户才能访问 API 并使用预测数据。</p>
+<p> 重要</p>
+<p>此上下文中的订阅与用于管理 Azure 帐户的 Azure 订阅完全不同</p>
+<p>接下来，你将了解如何使用订阅密钥保护 API。</p>
+<h2 id="订阅和密钥"><a href="#订阅和密钥" class="headerlink" title="订阅和密钥"></a>订阅和密钥</h2><p>可选择免费发布 API 及其包含的信息，但通常你希望限制对已付款的用户或与你有工作关系的组织的访问。 可通过使用订阅来控制对 API 的访问。 订阅用于对 API 的访问级别进行细分。</p>
+<p>订阅密钥构成用于允许访问这些订阅的授权。 每当客户端向受保护的 API 发出请求时，客户端都必须在 HTTP 请求中包含有效的订阅密钥，否则调用将遭到拒绝。</p>
+<p>订阅密钥是唯一自动生成的密钥，可以通过客户端请求的标头进行传递，也可以作为查询字符串参数进行传递。 密钥与订阅直接相关，后者可限定到不同的区域。 订阅使你能够精确地控制权限和策略。</p>
+<p>三个主要订阅范围是：</p>
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所有 API</td>
+<td>适用于每个可从网关访问的 API</td>
+</tr>
+<tr>
+<td>单个 API</td>
+<td>此范围适用于单个导入的 API 及其所有终结点</td>
+</tr>
+<tr>
+<td>产品</td>
+<td>产品是你在 API 管理中配置的一个或多个 API 的集合。 可以将 API 分配给多个产品。 产品可具有不同的访问规则、使用配额和使用条款。 因此，如果希望合作伙伴和供应商对 <strong>WeatherData</strong> API 拥有不同的访问权限，请将 API 分配给产品。 使用 Azure 门户将 API 与产品关联。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>用于调用受保护 API 的应用程序必须在每个请求中包含密钥。</p>
+<p>随时都可重新生成这些订阅密钥，例如怀疑已与未经授权的用户共享密钥时。</p>
+<p><img src="https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/2-subscription-keys.png" alt="订阅密钥"></p>
+<p>每个订阅具有两个密钥，即主要密钥和辅助密钥。 具有两个密钥可为重新生成密钥提供便利。 例如，如果希望更改主要密钥并避免停机，可在应用中使用辅助密钥。</p>
+<p>对于已启用订阅的产品，客户端必须在调用该产品中的 API 时提供密钥。 开发人员可通过提交订阅请求来获取密钥。 如果你批准该请求，则必须安全地向他们发送订阅密钥，例如，通过加密邮件。 此步骤是 API 管理工作流的核心部分。</p>
+<h2 id="使用订阅密钥调用-API"><a href="#使用订阅密钥调用-API" class="headerlink" title="使用订阅密钥调用 API"></a>使用订阅密钥调用 API</h2><p>调用受订阅保护的 API 终结点时，应用程序必须在所有 HTTP 请求中包含有效的密钥。 密钥可在请求标头中传递，也可以在 URL 中以查询字符串的形式传递。</p>
+<p>默认标头名称为 Ocp-Apim-Subscription-Key，默认查询字符串为 subscription-key。</p>
+<p>若要测试 API 调用，可以使用开发人员门户或 curl 等命令行工具。 以下是使用开发人员门户的 <code>GET</code> 请求示例，其中显示了订阅密钥标头：</p>
+<p><img src="https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/2-key-header-portal.png" alt="从开发人员门户调用 API。">  </p>
+<p>以下是使用 <strong>curl</strong> 在请求标头中传递密钥的方式：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --header <span class="string">&quot;Ocp-Apim-Subscription-Key: &lt;key string&gt;&quot;</span> https://&lt;apim gateway&gt;.azure-api.net/api/path</span><br></pre></td></tr></table></figure>
+
+<p>以下是以查询字符串形式在 URL 中传递密钥的 curl 命令示例：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://&lt;apim gateway&gt;.azure-api.net/api/path?subscription-key=&lt;key string&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果密钥没有在标头中传递，也没有以查询字符串形式在 URL 中传递，则 API 网关会发出“401 拒绝访问”响应。</p>
+<h1 id="练习-在-Azure-API-管理中创建订阅"><a href="#练习-在-Azure-API-管理中创建订阅" class="headerlink" title="练习 - 在 Azure API 管理中创建订阅"></a>练习 - 在 Azure API 管理中创建订阅</h1><ul>
+<li>10 分钟</li>
+</ul>
+<p>​                      <strong>65%</strong>          正在创建存储帐户… </p>
+<p>可使用 Azure 门户中的 Azure API 管理用户界面来创建订阅并获取用于客户端应用的订阅密钥。</p>
+<p>假设你就职的天气公司已决定向订阅此服务并付费的客户提供其气象数据。 关键要求是仅允许访问分配了密钥的客户端。 你作为首席开发者，需要创建  API 网关。 你将使用网关来发布公开 OpenAPI 终结点的 RESTful 天气 API。 然后，保护该终结点并分配客户端密钥。</p>
+<p>在本单元中，你将学习以下内容：</p>
+<ul>
+<li>发布 RESTful 天气 API</li>
+<li>部署 API 管理网关</li>
+<li>通过网关终结点公开天气 API</li>
+<li>根据订阅密钥限制访问</li>
+</ul>
+<h2 id="部署天气-Web-API"><a href="#部署天气-Web-API" class="headerlink" title="部署天气 Web API"></a>部署天气 Web API</h2><p>你已开发了用于返回天气信息的 .NET Core 应用。 该应用包括用于生成 OpenAPI 文档的 Swashbuckle。</p>
+<p>为节约时间，先运行在 Azure 中托管 API 的脚本。 此脚本执行以下步骤：</p>
+<ul>
+<li>在免费层创建 Azure 应用服务计划</li>
+<li>在 Azure 应用服务中创建 Web API，从本地存储库针对 Git 部署进行配置</li>
+<li>为应用设置帐户级别部署凭据</li>
+<li>本地配置 Git</li>
+<li>将 Web API 部署到应用服务实例</li>
+</ul>
+<ol>
+<li><p>在 Cloud Shell 中运行以下 git clone 命令，克隆包含应用源代码以及 GitHub 中的设置脚本的存储库。</p>
+<p>Bash</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/MicrosoftDocs/mslearn-control-authentication-with-apim.git</span><br></pre></td></tr></table></figure>
+
+<p>通过运行以下 cd 命令，本地导航到存储库文件夹。</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> mslearn-control-authentication-with-apim</span><br></pre></td></tr></table></figure>
+
+<p>顾名思义，<code>setup.sh</code> 是创建 API 时将运行的脚本。 它将生成公开 OpenAPI 接口的公共 Web 应用：</p>
+<p>Bash</p>
+<ol>
+<li>```bash<br>bash setup.sh<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   运行脚本大约需要一分钟时间。 脚本结束运行时，它将显示两个可用于测试应用部署的 URL。 注意，部署期间应用运行所需的所有依赖项都会在远程应用服务上自动安装。</span><br><span class="line"></span><br><span class="line">2. 若要测试应用是否正确部署，请将 Cloud Shell 输出中的第一个 URL 复制并粘贴到首选浏览器。 浏览器应显示应用的 Swagger UI，并声明以下 RESTful 终结点：</span><br><span class="line"></span><br><span class="line">   - **api/weather/&#123;latitude&#125;/&#123;longitude&#125;**，返回指定纬度和经度（双精度值）处当天的气象数据。</span><br><span class="line">   - **api/weather/&#123;date&#125;/&#123;latitude&#125;/&#123;longitude&#125;**，返回指定纬度和经度（双进度值）处指定日期（日期值）的气象数据。</span><br><span class="line"></span><br><span class="line">   ![Swagger 视图](https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/3-swagger.png)</span><br><span class="line"></span><br><span class="line">3. 最后，从 Cloud Shell 输出中复制最后一个 URL。 此位置是 Swagger JSON URL。 本练习中稍后会用到它。</span><br><span class="line"></span><br><span class="line">## 部署 API 网关</span><br><span class="line"></span><br><span class="line">本练习的下一步是在 Azure 门户中创建 API 网关。 在下一个练习中，将使用此网关来发布 API。</span><br><span class="line"></span><br><span class="line">1. 使用激活沙盒时所用的同一帐户登录到 [Azure 门户](https://portal.azure.com/learn.docs.microsoft.com)。</span><br><span class="line"></span><br><span class="line">2. 在“Azure 门户”菜单上或在门户“主页”中，选择“创建资源”。</span><br><span class="line"></span><br><span class="line">3. 在搜索栏中，键入“API 管理”。</span><br><span class="line"></span><br><span class="line">4. 在“创建 API 管理”页中，输入以下详细信息，然后选择“创建”。</span><br><span class="line"></span><br><span class="line">   | 设置                                 | 值                                                           |</span><br><span class="line">   | ------------------------------------ | ------------------------------------------------------------ |</span><br><span class="line">   | 在“基本”选项卡中的“项目详细信息”下： |                                                              |</span><br><span class="line">   | **订阅**                             | Concierge 订阅                                               |</span><br><span class="line">   | **资源组**                           | 选择现有“资源组”**[沙盒资源组名称]**。                       |</span><br><span class="line">   | 在“实例详细信息”部分下：             |                                                              |</span><br><span class="line">   | **区域**                             | 选择以下位置之一：美国中北部、美国西部、欧洲西部、欧洲北部、东南亚、澳大利亚东部。 本练习所用的消耗层仅在这些区域中可用。 |</span><br><span class="line">   | **资源名称**                         | 输入 `apim-WeatherData`；该随机数字旨在确保名称全局唯一。 记下此 API 网关名称。 稍后将需要该名称来发出请求。 |</span><br><span class="line">   | 组织名称                             | 输入 `Weather-Company`。                                     |</span><br><span class="line">   | **管理员电子邮件**                   | 输入自己的电子邮件地址。                                     |</span><br><span class="line">   | 在“定价层”部分下：                   |                                                              |</span><br><span class="line">   | **定价层**                           | 选择 `Consumption`。                                         |</span><br><span class="line">   |                                      |                                                              |</span><br><span class="line"></span><br><span class="line">5. 选择“查看 + 创建”，然后在验证通过后选择“创建”。</span><br><span class="line"></span><br><span class="line">    备注</span><br><span class="line"></span><br><span class="line">   你使用的是消耗层，因为它可在测试时更快地进行创建。 整体体验与其他定价层非常类似。</span><br><span class="line"></span><br><span class="line">## 导入 API</span><br><span class="line"></span><br><span class="line">部署完成后，将天气 API 导入 API 管理网关。</span><br><span class="line"></span><br><span class="line">1. 在 Azure 门户菜单上或在主页中，选择“所有资源”，然后选择 API 网关。</span><br><span class="line"></span><br><span class="line">2. 在导航栏中的“API”下，选择“API”。</span><br><span class="line"></span><br><span class="line">3. 在“添加新 API”页上，选择“OpenAPI”。</span><br><span class="line"></span><br><span class="line">4. 在“根据 OpenAPI 规范创建”页上的“OpenAPI 规范”文本框中，粘贴之前在该练习中保存的 Swagger JSON URL。 在退出该框时，会填充一些其他字段。 此数据是从 Swagger 所创建的 OpenAPI 规范中导入的。</span><br><span class="line"></span><br><span class="line">5. 将其他设置保留默认值，然后选择“创建”。</span><br><span class="line"></span><br><span class="line">   ![在 API 管理中导入此 API](https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/3-import-the-api.png)</span><br><span class="line"></span><br><span class="line">## 添加用于访问天气 API 的订阅密钥</span><br><span class="line"></span><br><span class="line">最后一步是添加天气 API 的订阅密钥。</span><br><span class="line"></span><br><span class="line">1. 在左侧导航栏中的“API”下，选择“订阅”，然后从顶部菜单栏中选择“添加订阅”。</span><br><span class="line"></span><br><span class="line">   ![显示如何添加新订阅的屏幕截图](https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/3-subscriptions.png)</span><br><span class="line"></span><br><span class="line">2. 在“新建订阅”面板中，输入以下详细信息，然后选择“保存”。</span><br><span class="line"></span><br><span class="line">   | 字段         | 详细信息                         |</span><br><span class="line">   | ------------ | -------------------------------- |</span><br><span class="line">   | **名称**     | 输入 `weather-data-subscription` |</span><br><span class="line">   | **显示名称** | 输入 `Weather Data Subscription` |</span><br><span class="line">   | **允许跟踪** | 选择 `No`                        |</span><br><span class="line">   | **范围**     | API                              |</span><br><span class="line">   | **API**      | 从列表中选择天气数据 API         |</span><br><span class="line"></span><br><span class="line">   ![显示如何添加新订阅的屏幕截图](https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/3-add-subscription.png)</span><br><span class="line"></span><br><span class="line">3. 选择“保存”。</span><br><span class="line"></span><br><span class="line">4. 最后，将新添加的订阅中的第一个密钥复制到剪贴板。 在下一步骤中需要用到此密钥。</span><br><span class="line"></span><br><span class="line">## 测试订阅密钥</span><br><span class="line"></span><br><span class="line">现在通过密钥保护 API，我们可通过使用和不使用密钥的方式来测试 API。</span><br><span class="line"></span><br><span class="line">1. 若要在不传递订阅密钥的情况下发出请求，请在 Cloud Shell 中复制并粘贴以下 cURL 命令，并替换之前所创建的 API 网关的名称。</span><br><span class="line"></span><br><span class="line">   Bash</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">curl -X GET https://[Name Of Gateway].azure-api.net/api/Weather/53/-1</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>此命令应返回 401 拒绝访问错误，类似于以下错误。</p>
+<p>JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attr">&quot;statusCode&quot;</span>: <span class="number">401</span>, <span class="attr">&quot;message&quot;</span>: <span class="string">&quot;Access denied due to missing subscription key. Make sure to include subscription key when making requests to an API.&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，将订阅密钥添加到请求并重新运行。 请记住替换 API 网关的名称。</p>
+<p>Azure</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET https://[Name Of Gateway].azure-api.net/api/Weather/53/-1 \</span><br><span class="line">  -H &#x27;Ocp-Apim-Subscription-Key: [Subscription Key]&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>此命令应导致与以下类似的成功响应。</p>
+<p>JSON</p>
+<ol>
+<li>```json<br>{“mainOutlook”:{“temperature”:32,”humidity”:34},”wind”:{“speed”:11,”direction”:239.0},”date”:”2019-05-16T00:00:00+00:00”,”latitude”:53.0,”longitude”:-1.0}<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line"># 使用客户端证书来保护对 API 的访问</span><br><span class="line"></span><br><span class="line">- 10 分钟</span><br><span class="line"></span><br><span class="line">证书可用于在客户端和 API 网关之间提供 TLS 相互身份验证。 可将 API 管理网关配置为仅允许使用包含特定指纹的证书进行请求。 网关级别的授权通过入站策略进行处理。</span><br><span class="line"></span><br><span class="line">对于气象应用，你的一些客户拥有由你信任的证书颁发机构颁发的客户端证书。 你要允许这些客户通过传递这些证书来进行身份验证。</span><br><span class="line"></span><br><span class="line">在此，你将了解如何配置 API 管理，使其接受客户端证书。</span><br><span class="line"></span><br><span class="line">## TLS 客户端身份验证</span><br><span class="line"></span><br><span class="line">借助 TLS 客户端身份验证，API 管理网关可以检查客户端请求中包含的证书，并检查以下类似属性：</span><br><span class="line"></span><br><span class="line">| 属性                  | 原因                       |</span><br><span class="line">| --------------------- | -------------------------- |</span><br><span class="line">| **证书颁发机构 (CA)** | 仅允许由特定 CA 签发的证书 |</span><br><span class="line">| **指纹**              | 允许包含指定指纹的证书     |</span><br><span class="line">| **主题**              | 仅允许具有指定主题的证书   |</span><br><span class="line">| **到期日期**          | 仅允许未过期的证书         |</span><br><span class="line">|                       |                            |</span><br><span class="line"></span><br><span class="line">这些属性并不互斥，可以混合在一起形成你自己的策略要求。 例如，可指定请求中传递的证书由某个证书颁发机构签发且不得过期。</span><br><span class="line"></span><br><span class="line">客户端证书经过签发，才能确保证书不被篡改。 合作伙伴向你发送证书时，请确认证书来自合作伙伴而不是来自冒名顶替者。 常用的证书验证方法有两种：</span><br><span class="line"></span><br><span class="line">- 检查证书颁发者。 如果颁发者是你信任的证书颁发机构，则可使用该证书。 可在 Azure 门户中配置受信任的证书颁发机构，从而自动执行此过程。</span><br><span class="line">- 如果证书由合作伙伴颁发，请确认证书来自合作伙伴。 例如，如果合作伙伴亲自交付证书，你可以确定其真实性。 这些称为自签名证书。</span><br><span class="line"></span><br><span class="line">## 接受消耗层中的客户端证书</span><br><span class="line"></span><br><span class="line">API 管理中的消耗层旨在符合无服务器设计原则。 如果使用 Azure Functions 等无服务器技术生成 API，则此层非常适合。 在消耗层中，必须显式启用客户端证书的使用，可在“自定义域”页面执行此操作。 其他层级不需要此步骤。</span><br><span class="line"></span><br><span class="line">![配置网关以请求证书](https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/5-config-request-certificates.png)</span><br><span class="line"></span><br><span class="line">## 证书授权策略</span><br><span class="line"></span><br><span class="line">在 API 管理网关内的入站处理策略文件中创建这些策略：</span><br><span class="line"></span><br><span class="line">![“入站处理”策略按钮](https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/5-inbound-policy.png)</span><br><span class="line"></span><br><span class="line">### 检查客户端证书的指纹</span><br><span class="line"></span><br><span class="line">每个客户端证书都包含一个指纹，该指纹为根据其他证书属性计算得出的哈希值。 指纹确保，自证书颁发机构颁发证书以来，证书中的值未经变更。 可在策略中查看指纹。 以下示例检查请求中传递的证书的指纹。</span><br><span class="line"></span><br><span class="line">XML</span><br><span class="line"></span><br><span class="line">```XML</span><br><span class="line">&lt;choose&gt;</span><br><span class="line">    &lt;when condition=&quot;@(context.Request.Certificate == null || context.Request.Certificate.Thumbprint != &quot;desired-thumbprint&quot;)&quot; &gt;</span><br><span class="line">        &lt;return-response&gt;</span><br><span class="line">            &lt;set-status code=&quot;403&quot; reason=&quot;Invalid client certificate&quot; /&gt;</span><br><span class="line">        &lt;/return-response&gt;</span><br><span class="line">    &lt;/when&gt;</span><br><span class="line">&lt;/choose&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="针对已上传到-API-管理的证书检查指纹"><a href="#针对已上传到-API-管理的证书检查指纹" class="headerlink" title="针对已上传到 API 管理的证书检查指纹"></a>针对已上传到 API 管理的证书检查指纹</h3><p>在前面的示例中，只有一个指纹有效，因此只验证一个证书。 通常，每个客户或合作伙伴公司都会传递具有不同指纹的不同证书。  要支持此方案，请从合作伙伴处获取证书，并使用 Azure 门户中的“客户端证书”页面将其上传到 API 管理资源。 然后将此代码添加到策略中。</p>
+<p>XML</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">choose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">condition</span>=<span class="string">&quot;@(context.Request.Certificate == null || !context.Request.Certificate.Verify()  || !context.Deployment.Certificates.Any(c =&gt; c.Value.Thumbprint == context.Request.Certificate.Thumbprint))&quot;</span> &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">return-response</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">set-status</span> <span class="attr">code</span>=<span class="string">&quot;403&quot;</span> <span class="attr">reason</span>=<span class="string">&quot;Invalid client certificate&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">return-response</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">choose</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="检查客户证书的证书颁发者和主题"><a href="#检查客户证书的证书颁发者和主题" class="headerlink" title="检查客户证书的证书颁发者和主题"></a>检查客户证书的证书颁发者和主题</h3><p>此示例检查请求中传递的证书的证书颁发者和主题。</p>
+<p>XML</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">choose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">condition</span>=<span class="string">&quot;@(context.Request.Certificate == null || context.Request.Certificate.Issuer != &quot;</span><span class="attr">trusted-issuer</span>&quot; || <span class="attr">context.Request.Certificate.SubjectName.Name</span> != <span class="string">&quot;expected-subject-name&quot;</span>)&quot; &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">return-response</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">set-status</span> <span class="attr">code</span>=<span class="string">&quot;403&quot;</span> <span class="attr">reason</span>=<span class="string">&quot;Invalid client certificate&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">return-response</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">choose</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="练习-使用客户端证书来保护对-API-的访问"><a href="#练习-使用客户端证书来保护对-API-的访问" class="headerlink" title="练习 - 使用客户端证书来保护对 API 的访问"></a>练习 - 使用客户端证书来保护对 API 的访问</h1><ul>
+<li>10 分钟</li>
+</ul>
+<p>沙盒已激活！ 剩余时间：</p>
+<p>​            </p>
+<p>​                 </p>
+<p>你今天已用完 2 个沙盒，共 10 个。 明天将会提供更多沙盒。</p>
+<p>通过使用入站策略，可将 API 管理配置为接受客户端证书。</p>
+<p>假设你就职的天气公司已决定通过证书身份验证来保护某些客户端的 API。 这些客户端已在其他系统中使用证书身份验证。 此设置将允许客户端使用其现有证书自行对 API 管理网关进行身份验证。</p>
+<p>在本单元中，你将学习以下内容：</p>
+<ul>
+<li>创建自签名证书</li>
+<li>配置网关以请求客户端证书</li>
+<li>获取证书的指纹</li>
+<li>编辑入站策略，仅允许在其请求中使用具有指定证书的客户端</li>
+<li>使用 <code>curl</code> 调用 API 管理网关并传递证书</li>
+</ul>
+<h2 id="创建自签名证书"><a href="#创建自签名证书" class="headerlink" title="创建自签名证书"></a>创建自签名证书</h2><p>首先，使用 Cloud Shell 创建自签名证书，该证书将用于在客户端和 API 管理网关之间进行身份验证。</p>
+<ol>
+<li><p>若要创建私钥和证书，请在 Cloud Shell 中运行以下命令：</p>
+<p>Bash</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pwd</span>=<span class="string">&#x27;Pa$$w0rd&#x27;</span></span><br><span class="line">pfxFilePath=<span class="string">&#x27;selfsigncert.pfx&#x27;</span></span><br><span class="line">openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout privateKey.key -out selfsigncert.crt -subj /CN=localhost</span><br></pre></td></tr></table></figure>
+
+<p>为使此示例易于理解，之前提供的命令包括用于保护私钥的密码。 每当生成供自己使用的私钥时，请确保正确地生成安全密码并适当地控制对其的访问。</p>
+<p>现将证书转换为 <code>curl</code> 工具可使用的 PEM 格式。 运行以下命令。</p>
+<p>Bash</p>
+<ol>
+<li><p>```bash<br>openssl pkcs12 -export -out $pfxFilePath -inkey privateKey.key -in selfsigncert.crt -password pass:$pwd<br>openssl pkcs12 -in selfsigncert.pfx -out selfsigncert.pem -nodes</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   系统提示输入密码时，请输入 Pa$$w0rd，然后按Enter。</span><br><span class="line"></span><br><span class="line">## 配置网关以请求客户端证书</span><br><span class="line"></span><br><span class="line">由于要将消耗层用于 API 管理，因此必须将网关配置为接受客户端证书。 请执行以下步骤。</span><br><span class="line"></span><br><span class="line">1. 使用激活沙盒时所用的同一帐户登录到 [Azure 门户](https://portal.azure.com/learn.docs.microsoft.com)。</span><br><span class="line"></span><br><span class="line">2. 在 Azure 门户菜单上或在门户主页中，选择“所有资源”，然后选择 API 管理网关。</span><br><span class="line"></span><br><span class="line">3. 在“部署和基础结构”下，选择“自定义域”。</span><br><span class="line"></span><br><span class="line">4. 对于“请求客户端证书”选项，选择“是”，然后选择“保存”。</span><br><span class="line"></span><br><span class="line">   ![配置网关以请求证书](https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/5-config-request-certificates.png)</span><br><span class="line"></span><br><span class="line">## 获取证书的指纹</span><br><span class="line"></span><br><span class="line">在下一部分中，你将配置 API 管理，使其仅在请求包含带特定指纹的证书时才接受请求。 让我们从证书中获取指纹：</span><br><span class="line"></span><br><span class="line">1. 请在 Cloud Shell 中运行以下命令。</span><br><span class="line"></span><br><span class="line">   Bash</span><br><span class="line"></span><br><span class="line">1. ```bash</span><br><span class="line">   Fingerprint=&quot;$(openssl x509 -in selfsigncert.pem -noout -fingerprint)&quot;</span><br><span class="line">   Fingerprint=&quot;$&#123;Fingerprint//:&#125;&quot;</span><br><span class="line">   echo $&#123;Fingerprint#*=&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>将最终命令的完整输出复制到文本文件。 输出应该是十六进制字符串，不附带任何文本，也不具有冒号。</p>
+</li>
+</ol>
+<h2 id="编辑入站策略，仅允许具有有效证书的请求"><a href="#编辑入站策略，仅允许具有有效证书的请求" class="headerlink" title="编辑入站策略，仅允许具有有效证书的请求"></a>编辑入站策略，仅允许具有有效证书的请求</h2><p>现在，在 API 管理网关中创建身份验证策略。</p>
+<ol>
+<li><p>在 <a target="_blank" rel="noopener" href="https://portal.azure.com/learn.docs.microsoft.com">Azure 门户</a>菜单上或在门户主页中，选择“所有资源”，然后选择 API 网关。</p>
+</li>
+<li><p>选择“API”，然后选择“天气数据”，然后选择“入站处理”策略按钮。</p>
+<p><img src="https://docs.microsoft.com/zh-cn/learn/modules/control-authentication-with-apim/media/5-inbound-policy.png" alt="“入站处理”策略按钮"></p>
+</li>
+<li><p>使用以下 XML 替换策略文件的 `` 节点，替代先前为 <code>desired-thumbprint</code> 复制的指纹：</p>
+<p>XML</p>
+</li>
+<li><p>```XML</p>
+<inbound>
+    <choose>
+        <when condition="@(context.Request.Certificate == null || context.Request.Certificate.Thumbprint != " desired-thumbprint")">
+            <return-response>
+                <set-status code="403" reason="Invalid client certificate">
+            </set-status></return-response>
+        </when>
+    </choose>
+    <base>
+</inbound>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 选择“保存”。</span><br><span class="line"></span><br><span class="line">## 调用网关并传递客户端证书</span><br><span class="line"></span><br><span class="line">最后，可测试新的身份验证策略。 可在不具有证书但具有新身份验证策略的情况下进行测试。</span><br><span class="line"></span><br><span class="line">1. 若要在不具有证书的情况下测试 API，请在 Cloud Shell 中运行以下命令。</span><br><span class="line"></span><br><span class="line">   PowerShell</span><br><span class="line"></span><br><span class="line">```PowerShell</span><br><span class="line">curl -X GET https://[api-gateway-name].azure-api.net/api/Weather/53/-1 \</span><br><span class="line">  -H &#x27;Ocp-Apim-Subscription-Key: [Subscription Key]&#x27;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>此命令应返回 403 客户端证书错误，并且不会返回任何数据。</p>
+<p>在 Azure Cloud Shell 中，要使用证书测试 API，请使用第一个练习中的订阅密钥复制并粘贴以下 cURL 命令。</p>
+<p>PowerShell</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">curl</span> <span class="literal">-X</span> GET https://[<span class="type">gateway</span>-<span class="type">name</span>].azure<span class="literal">-api</span>.net/api/Weather/<span class="number">53</span>/<span class="literal">-1</span> \</span><br><span class="line">  <span class="literal">-H</span> <span class="string">&#x27;Ocp-Apim-Subscription-Key: [subscription-key]&#x27;</span> \</span><br><span class="line">  -<span class="literal">-cert</span><span class="literal">-type</span> pem \</span><br><span class="line">  -<span class="literal">-cert</span> selfsigncert.pem</span><br></pre></td></tr></table></figure>
+
+<p>此命令应导致与以下类似的成功响应。</p>
+<p>JSON</p>
+<ol>
+<li><pre><code class="json">&#123;&quot;mainOutlook&quot;:&#123;&quot;temperature&quot;:32,&quot;humidity&quot;:34&#125;,&quot;wind&quot;:&#123;&quot;speed&quot;:11,&quot;direction&quot;:239.0&#125;,&quot;date&quot;:&quot;2019-05-16T00:00:00+00:00&quot;,&quot;latitude&quot;:53.0,&quot;longitude&quot;:-1.0&#125;
+</code></pre>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/Azure/">Azure</a><a href="/tags/Api/">Api</a><a href="/tags/身份验证/">身份验证</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/03/04/%E4%BD%BF%E7%94%A8%20Azure%20API%20%E7%AE%A1%E7%90%86%E6%8E%A7%E5%88%B6%20API%20%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/" data-title="使用 Azure API 管理控制 API 的身份验证 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/03/09/漫谈SSO/" title="漫谈SSO">
+  <strong>上一篇：</strong><br/>
+  <span>
+  漫谈SSO</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/02/24/1_利用标识框架来保护 ASP.NET Core web 应用/"  title="利用标识框架来保护 ASP.NET Core web 应用">
+ <strong>下一篇：</strong><br/> 
+ <span>利用标识框架来保护 ASP.NET Core web 应用
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Azure-API-%E7%AE%A1%E7%90%86%E6%8E%A7%E5%88%B6-API-%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">使用 Azure API 管理控制 API 的身份验证</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-number">2.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">先决条件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-API-%E7%AE%A1%E7%90%86%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">什么是 API 管理？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#API-%E7%AE%A1%E7%90%86%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">API 管理的组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API-%E7%BD%91%E5%85%B3"><span class="toc-number">3.1.1.</span> <span class="toc-text">API 网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Azure-%E9%97%A8%E6%88%B7"><span class="toc-number">3.1.2.</span> <span class="toc-text">Azure 门户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E9%97%A8%E6%88%B7"><span class="toc-number">3.1.3.</span> <span class="toc-text">开发人员门户</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8-Azure-API-%E7%AE%A1%E7%90%86%E4%B8%AD%E5%88%9B%E5%BB%BA%E8%AE%A2%E9%98%85"><span class="toc-number">4.</span> <span class="toc-text">在 Azure API 管理中创建订阅</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A2%E9%98%85%E5%92%8C%E5%AF%86%E9%92%A5"><span class="toc-number">4.1.</span> <span class="toc-text">订阅和密钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%AE%A2%E9%98%85%E5%AF%86%E9%92%A5%E8%B0%83%E7%94%A8-API"><span class="toc-number">4.2.</span> <span class="toc-text">使用订阅密钥调用 API</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0-%E5%9C%A8-Azure-API-%E7%AE%A1%E7%90%86%E4%B8%AD%E5%88%9B%E5%BB%BA%E8%AE%A2%E9%98%85"><span class="toc-number">5.</span> <span class="toc-text">练习 - 在 Azure API 管理中创建订阅</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%A4%A9%E6%B0%94-Web-API"><span class="toc-number">5.1.</span> <span class="toc-text">部署天气 Web API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E5%B7%B2%E4%B8%8A%E4%BC%A0%E5%88%B0-API-%E7%AE%A1%E7%90%86%E7%9A%84%E8%AF%81%E4%B9%A6%E6%A3%80%E6%9F%A5%E6%8C%87%E7%BA%B9"><span class="toc-number">5.1.1.</span> <span class="toc-text">针对已上传到 API 管理的证书检查指纹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%AE%A2%E6%88%B7%E8%AF%81%E4%B9%A6%E7%9A%84%E8%AF%81%E4%B9%A6%E9%A2%81%E5%8F%91%E8%80%85%E5%92%8C%E4%B8%BB%E9%A2%98"><span class="toc-number">5.1.2.</span> <span class="toc-text">检查客户证书的证书颁发者和主题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0-%E4%BD%BF%E7%94%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%81%E4%B9%A6%E6%9D%A5%E4%BF%9D%E6%8A%A4%E5%AF%B9-API-%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-number">6.</span> <span class="toc-text">练习 - 使用客户端证书来保护对 API 的访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6"><span class="toc-number">6.1.</span> <span class="toc-text">创建自签名证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%85%A5%E7%AB%99%E7%AD%96%E7%95%A5%EF%BC%8C%E4%BB%85%E5%85%81%E8%AE%B8%E5%85%B7%E6%9C%89%E6%9C%89%E6%95%88%E8%AF%81%E4%B9%A6%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="toc-number">6.2.</span> <span class="toc-text">编辑入站策略，仅允许具有有效证书的请求</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DDD/" title="DDD">DDD<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>20</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SoA/" title="SoA">SoA<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

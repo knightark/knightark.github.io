@@ -1,0 +1,1221 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>利用标识框架来保护 ASP.NET Core web 应用 | 个人博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="knightark">
+    
+
+    
+    <meta name="description" content="利用标识框架来保护 ASP.NET Core web 应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用标识框架来保护 ASP.NET Core web 应用">
+<meta property="og:url" content="https://knightark.github.io/2021/02/24/1_%E5%88%A9%E7%94%A8%E6%A0%87%E8%AF%86%E6%A1%86%E6%9E%B6%E6%9D%A5%E4%BF%9D%E6%8A%A4%20ASP.NET%20Core%20web%20%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="利用标识框架来保护 ASP.NET Core web 应用">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://docs.microsoft.com/zh-cn/learn/aspnetcore/secure-aspnet-core-identity/media/2-architecture-diagram-pg.png">
+<meta property="og:image" content="https://docs.microsoft.com/zh-cn/learn/aspnetcore/secure-aspnet-core-identity/media/3-identity-tables.png">
+<meta property="og:image" content="https://docs.microsoft.com/zh-cn/learn/aspnetcore/secure-aspnet-core-identity/media/4-contosopetsuser.png">
+<meta property="article:published_time" content="2021-02-24T07:50:49.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:41:37.414Z">
+<meta property="article:author" content="knightark">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="dotnetcore">
+<meta property="article:tag" content="azure">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://docs.microsoft.com/zh-cn/learn/aspnetcore/secure-aspnet-core-identity/media/2-architecture-diagram-pg.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="个人博客" title="个人博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="个人博客">个人博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:knightark.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/02/24/1_利用标识框架来保护 ASP.NET Core web 应用/" title="利用标识框架来保护 ASP.NET Core web 应用" itemprop="url">利用标识框架来保护 ASP.NET Core web 应用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="knightark" target="_blank" itemprop="author">knightark</a>
+		
+  <p class="article-time">
+    <time datetime="2021-02-24T07:50:49.000Z" itemprop="datePublished"> Published 2021-02-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E4%B8%80"><span class="toc-number">1.</span> <span class="toc-text">单元一</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">1.1.</span> <span class="toc-text">设置开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B-ASP-NET-Core-%E6%A0%87%E8%AF%86%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">查看 ASP.NET Core 标识体系结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%A1%B9%E7%9B%AE%E8%A6%81%E6%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">查看项目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%B5%B7%E5%A7%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">查看起始代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.5.</span> <span class="toc-text">验证数据库连接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E4%BA%8C"><span class="toc-number">2.</span> <span class="toc-text">单元二</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E9%A1%B9%E7%9B%AE%E6%B7%BB%E5%8A%A0%E6%A0%87%E8%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">向项目添加标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.2.</span> <span class="toc-text">配置数据库连接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E4%B8%89"><span class="toc-number">3.</span> <span class="toc-text">单元三</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E5%B8%90%E6%88%B7%E6%95%B0%E6%8D%AE"><span class="toc-number">3.1.</span> <span class="toc-text">自定义用户帐户数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E8%A1%A8%E5%8D%95"><span class="toc-number">3.2.</span> <span class="toc-text">自定义配置文件管理表单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%A4%9A%E9%87%8D%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">3.3.</span> <span class="toc-text">测试多重身份验证</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0-%E5%B0%86%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%9F%BA%E4%BA%8E%E7%AD%96%E7%95%A5%E7%9A%84%E6%8E%88%E6%9D%83%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">练习 - 将声明与基于策略的授权结合使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E4%BA%A7%E5%93%81%E7%9B%AE%E5%BD%95"><span class="toc-number">4.1.</span> <span class="toc-text">保护产品目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%B3%A8%E5%86%8C%E9%A1%B5"><span class="toc-number">4.2.</span> <span class="toc-text">修改注册页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AE%A1%E7%90%86%E5%91%98%E5%A3%B0%E6%98%8E"><span class="toc-number">4.3.</span> <span class="toc-text">测试管理员声明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6"><span class="toc-number">5.1.</span> <span class="toc-text">下载项目文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4"><span class="toc-number">5.2.</span> <span class="toc-text">清除</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>利用标识框架来保护 ASP.NET Core web 应用](<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/learn/modules/secure-aspnet-core-identity/">https://docs.microsoft.com/zh-cn/learn/modules/secure-aspnet-core-identity/</a>)</p>
+<h1 id="单元一"><a href="#单元一" class="headerlink" title="单元一"></a>单元一</h1><h2 id="设置开发环境"><a href="#设置开发环境" class="headerlink" title="设置开发环境"></a>设置开发环境</h2><p>在命令行界面中运行以下命令。 此命令反映了使用上方开关选择的数据存储。 请耐心等待，设置可能需要几分钟才能完成。 运行脚本时继续读取。</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. &lt;(wget -q -O - https://aka.ms/secure-aspnet-core-identity-setup) <span class="string">&quot;pg&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p> 提示</p>
+<p>可以使用“复制”按钮将命令复制到剪贴板。 若要粘贴，请右键单击 Cloud Shell 窗口中的新行，然后选择“粘贴”或使用 Shift+Insert 键盘快捷方式（macOS 上为 ⌘+V）。</p>
+<p>上述命令从 GitHub 存储库检索并运行设置脚本。 该脚本完成以下步骤：</p>
+<ul>
+<li>克隆 GitHub 存储库中的 ASP.NET Core 起始代码。</li>
+<li>构建和部署 ASP.NET Core Web API，为 Web 应用提供数据。</li>
+<li>预配用于存储标识框架实体的数据库。</li>
+<li>设置本模块所需的环境变量。</li>
+<li>显示 Azure 资源的连接信息。</li>
+<li>启动 Cloud Shell 编辑器以查看起始代码。</li>
+</ul>
+<h2 id="查看-ASP-NET-Core-标识体系结构"><a href="#查看-ASP-NET-Core-标识体系结构" class="headerlink" title="查看 ASP.NET Core 标识体系结构"></a>查看 ASP.NET Core 标识体系结构</h2><p>ASP.NET Core 标识是一个成员身份系统，可将用户注册和登录功能添加到 ASP.NET Core Web UI。 成员身份系统处理身份验证和授权问题。 身份验证涉及你的身份。 授权涉及允许你进行的操作。 因此，身份验证是授权的先决条件。</p>
+<p>作为本地帐户创建的替代方案，标识支持 Facebook 和 Twitter 等外部登录提供程序。 使用基于 Cookie 的身份验证保存用户会话。 默认情况下，在登录时会创建 Cookie，并在注销时销毁。</p>
+<p>使用所选的数据存储和数据访问技术保存成员身份数据。 默认数据访问技术是称为 Entity Framework (EF) Core 的对象关系映射程序 (O/RM)。 默认数据存储是 SQL Server。</p>
+<p>EF Core 简化了与基础数据库的交互。 因此，EF Core 通常可以通过标识使用任何数据库提供程序。 数据库提供程序可用于  PostgreSQL、SQLite 和其他几种数据存储。 但是，PostgreSQL 是第三方提供商，因此没有资格获得 Microsoft  的支持。 标识还使你可以灵活使用所选的数据访问技术。 Dapper 是一种常用的替代选项。</p>
+<p>下图描述了本模块中使用的标识体系结构：</p>
+<p><img src="https://docs.microsoft.com/zh-cn/learn/aspnetcore/secure-aspnet-core-identity/media/2-architecture-diagram-pg.png" alt="体系结构示意图"></p>
+<p>在上图中：</p>
+<ul>
+<li>ASP.NET Core Razor Pages 应用表示将在本模块中向其添加标识支持的 Web UI。</li>
+<li>Identity Manager 层包含 <code>Microsoft.AspNetCore.Identity</code> 命名空间中使用的类。 本模块中显式使用的此类的示例是 <code>SignInManager</code> 和 <code>UserManager</code>。</li>
+<li>EF Core 标识存储区层包含 <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> 命名空间中的类。 本模块中隐式使用的此类的示例是 <code>UserStore</code>。</li>
+<li>数据库提供程序是一种特定于数据库的库，它接受来自 EF Core 提供程序（未示出）的 SQL 并执行它。</li>
+</ul>
+<h2 id="查看项目要求"><a href="#查看项目要求" class="headerlink" title="查看项目要求"></a>查看项目要求</h2><p>你的利益干系人已定义了以下业务要求：</p>
+<ul>
+<li>系统有两类经过身份验证的用户：员工和管理员。</li>
+<li>不允许匿名用户查看产品目录。</li>
+<li>员工只能查看产品目录。</li>
+<li>管理员可以修改产品。</li>
+<li>成功登录后，用户的名字和姓氏应显示在应用的标头中。</li>
+</ul>
+<p>你的开发团队做出以下技术决策：</p>
+<ul>
+<li>标识数据应隔离在其自己的数据库中。</li>
+<li>支持标识的数据库表应属于默认架构。</li>
+<li>管理员将使用一次性令牌自行注册。</li>
+<li>应用必须支持使用 TOTP 身份验证器应用通过多重身份验证登录。</li>
+<li>数据库凭据应存储在 Azure Key Vault 中。</li>
+</ul>
+<h2 id="查看起始代码"><a href="#查看起始代码" class="headerlink" title="查看起始代码"></a>查看起始代码</h2><p>应用包含名为 ContosoPets.Ui 的 ASP.NET Core Razor Pages 项目。 该项目包含用于查看和管理产品数据的用户界面。 产品数据通过外部 ASP.NET Core Web API 获取。</p>
+<p>特别要注意的是 ContosoPets.Ui 中的以下文件和目录：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>Controllers/AdminTokenController.cs</em></td>
+<td>将 <code>AdminRegistrationTokenService</code> 作为 HTTP 终结点公开。 直到单元 6 才使用。</td>
+</tr>
+<tr>
+<td><em>Pages/Products/</em></td>
+<td>包含用于 CRUD 操作的 Web UI。</td>
+</tr>
+<tr>
+<td><em>Services/AdminRegistrationTokenService.cs</em></td>
+<td>生成允许管理员自行注册的令牌。 直到单元 6 才使用。</td>
+</tr>
+<tr>
+<td><em>Services/ProductService.cs</em></td>
+<td>管理与外部 ASP.NET Core web API 的所有交互。</td>
+</tr>
+<tr>
+<td><em>Services/QRCodeService.cs</em></td>
+<td>管理用于支持多重身份验证的 QR 码的创建。 直到单元 5 才使用。</td>
+</tr>
+<tr>
+<td><em>wwwroot/js/product.js</em></td>
+<td>无需服务器端回发即可从 Pages/Products/Index.cshtml 中删除产品。</td>
+</tr>
+<tr>
+<td><em>Program.cs</em></td>
+<td>充当应用的主入口点并注册 Azure Key Vault 配置提供程序。</td>
+</tr>
+<tr>
+<td><em>Startup.cs</em></td>
+<td>配置服务和应用的 HTTP 请求管道。</td>
+</tr>
+</tbody></table>
+<p> 备注</p>
+<p>Azure Key Vault 用于安全地存储和检索敏感数据。 起始代码将其实现为演示一种可能的保护数据库凭据的方法。 它与标识无关，因此不在本模块的涵盖范围内。 如需了解 Key Vault 的注册代码，请参阅 Program.cs 文件中的 <code>ConfigureKeyVault</code> 方法。</p>
+<h2 id="验证数据库连接"><a href="#验证数据库连接" class="headerlink" title="验证数据库连接"></a>验证数据库连接</h2><p>运行以下命令：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db -c <span class="string">&quot;SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != &#x27;pg_catalog&#x27; AND schemaname != &#x27;information_schema&#x27;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>该脚本已创建 <code>db</code> 别名。 该别名对应于带有 <code>--host</code>（服务器主机名）、<code>--port</code>（端口号）、<code>--username</code> 和 <code>--dbname</code>（数据库名称）选项的 <code>psql</code>。 psql 从名为 <code>PGPASSWORD</code> 的环境变量中获取密码。 <strong>PSQL</strong> 是跨平台命令行工具，用于管理和查询 PostgreSQL 数据库。 上述命令从之前创建的 PostgreSQL 数据库中检索非系统表的列表。</p>
+<p>按照预期，该列表应为空，因为数据库仅包含系统表。</p>
+<p>控制台</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> tablename </span><br><span class="line">-----------</span><br><span class="line">(0 rows)</span><br></pre></td></tr></table></figure>
+
+<h1 id="单元二"><a href="#单元二" class="headerlink" title="单元二"></a>单元二</h1><p>标识无需任何自定义，开箱即可使用。 标准标识 UI 组件打包在 .NET Standard Razor 类库 (RCL) 中。 由于使用了 RCL，因此只需向项目添加少量文件。</p>
+<p>应用初始 EF Core 迁移后，将创建支持的数据库表。 下图描述了支持的表的架构：</p>
+<p><img src="https://docs.microsoft.com/zh-cn/learn/aspnetcore/secure-aspnet-core-identity/media/3-identity-tables.png" alt="数据库关系图"></p>
+<p> 备注</p>
+<p>上图显示了数据库中的键和关系。 键为“一”，无限大（横着的数字 8）为“多”。  一个数据库可具有一对一关系、一对多关系和多对多关系类型。  键是唯一的。  此图显示这些联接是如何创建的以及相关关系。</p>
+<p>在本单元中，将向现有的 ASP.NET Core Razor Pages 项目添加标识。</p>
+<h2 id="向项目添加标识"><a href="#向项目添加标识" class="headerlink" title="向项目添加标识"></a>向项目添加标识</h2><ol>
+<li><p>安装 ASP.NET Core 代码基架：</p>
+<p>.NET Core CLI</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet tool install dotnet-aspnet-codegenerator --version 3.1.2</span><br></pre></td></tr></table></figure>
+
+<p>随即显示以下输出：</p>
+<p>控制台</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">You can invoke the tool from this directory using the following commands: &#x27;dotnet tool run dotnet-aspnet-codegenerator&#x27; or &#x27;dotnet dotnet-aspnet-codegenerator&#x27;.</span><br><span class="line">Tool &#x27;dotnet-aspnet-codegenerator&#x27; (version &#x27;3.1.2&#x27;) was successfully installed. Entry is added to the manifest file /home/&lt;USER&gt;/aspnet-learn/src/ContosoPets.Ui/.config/dotnet-tools.json.</span><br></pre></td></tr></table></figure>
+
+<p>基架是一个 .NET Core 工具，它将：</p>
+<ul>
+<li>用于向项目添加默认标识组件。</li>
+<li>在下一单元中启用标识 UI 组件的自定义。</li>
+<li>在本模块中通过 <code>dotnet aspnet-codegenerator</code> 调用。</li>
+</ul>
+<p>向项目添加以下 NuGet 包：</p>
+<p>.NET Core CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 3.1.2 &amp;&amp; \</span><br><span class="line">    dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 3.1.3 &amp;&amp; \</span><br><span class="line">    dotnet add package Microsoft.AspNetCore.Identity.UI --version 3.1.3 &amp;&amp; \</span><br><span class="line">    dotnet add package Microsoft.EntityFrameworkCore.Design --version 3.1.3 &amp;&amp; \</span><br><span class="line">    dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 3.1.3</span><br></pre></td></tr></table></figure>
+
+<p>这些包会安装基架使用的代码生成模板和依赖项。</p>
+<p> 提示</p>
+<p>要查看可用的生成器，请执行以下操作：</p>
+<ul>
+<li>在命令 shell 中，运行 <code>dotnet aspnet-codegenerator -h</code>。</li>
+<li>在 Visual Studio 中，右键单击解决方案资源管理器中的项目，然后选择“添加” &gt; “新建基架项”。</li>
+</ul>
+<p>使用基架向项目添加默认标识组件。 在项目根目录中，运行以下命令：</p>
+<p>.NET Core CLI</p>
+<ol>
+<li>```dotnetcli<br>dotnet aspnet-codegenerator identity \<pre><code>--useDefaultUI \
+--dbContext ContosoPetsAuth
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   在上面的命令中：</span><br><span class="line"></span><br><span class="line">   - 标识为 `identity` 的生成器用于向项目添加标识框架。</span><br><span class="line">   - `--useDefaultUI` 选项指示将使用包含默认 UI 元素的 RCL。 Bootstrap 将用于设置组件的样式。</span><br><span class="line">   - `--dbContext` 选项指示要生成的 EF Core 数据库上下文类的名称。</span><br><span class="line"></span><br><span class="line">2. 单击编辑器的刷新图标，更新文件资源管理器。</span><br><span class="line"></span><br><span class="line">   ![Cloud Shell 刷新图标](https://docs.microsoft.com/zh-cn/learn/aspnetcore/media/cloud-shell-refresh-files.png)</span><br><span class="line"></span><br><span class="line">   项目根目录中会显示 Areas 目录：</span><br><span class="line"></span><br><span class="line">   - Areas</span><br><span class="line">     - Identity</span><br><span class="line">       - Data</span><br><span class="line">         - *ContosoPetsAuth.cs*</span><br><span class="line">       - Pages</span><br><span class="line">         - *_ValidationScriptsPartial.cshtml*</span><br><span class="line">         - *_ViewStart.cshtml*</span><br><span class="line">       - *IdentityHostingStartup.cs*</span><br><span class="line"></span><br><span class="line">   Areas 提供了将 ASP.NET Core Web 应用分区为较小功能组的方法。</span><br><span class="line"></span><br><span class="line">## 添加 PostgreSQL 数据库提供程序</span><br><span class="line"></span><br><span class="line">在项目根目录中，运行以下命令以安装 EF Core 的 PostgreSQL 数据库提供程序：</span><br><span class="line"></span><br><span class="line">.NET Core CLI</span><br><span class="line"></span><br><span class="line">```dotnetcli</span><br><span class="line">dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 3.1.3</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>此 NuGet 包让 EF Core 了解如何与 PostgreSQL 数据库交互。</p>
+<h2 id="配置数据库连接"><a href="#配置数据库连接" class="headerlink" title="配置数据库连接"></a>配置数据库连接</h2><ol>
+<li><p>将 Areas/Identity/IdentityHostingStartup.cs 的 <code>Configure</code> 方法替换为以下代码：</p>
+<p>C#</p>
+</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IWebHostBuilder builder</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    builder.ConfigureServices((context, services) =&gt; &#123;</span><br><span class="line">        <span class="keyword">var</span> connBuilder = <span class="keyword">new</span> NpgsqlConnectionStringBuilder(</span><br><span class="line">            context.Configuration.GetConnectionString(<span class="string">&quot;ContosoPetsAuthConnection&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            Username = context.Configuration[<span class="string">&quot;DbUsername&quot;</span>],</span><br><span class="line">            Password = context.Configuration[<span class="string">&quot;DbPassword&quot;</span>]</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        services.AddDbContext&lt;ContosoPetsAuth&gt;(options =&gt;</span><br><span class="line">            options.UseNpgsql(connBuilder.ConnectionString));</span><br><span class="line"></span><br><span class="line">        services.AddDefaultIdentity&lt;IdentityUser&gt;()</span><br><span class="line">            .AddDefaultUI()</span><br><span class="line">            .AddEntityFrameworkStores&lt;ContosoPetsAuth&gt;();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上述代码中：</p>
+<ul>
+<li><p>Azure Key Vault 配置提供程序将隐式用于检索数据库用户名和密码：</p>
+<p>C#</p>
+</li>
+<li><p>```csharp<br>Username = context.Configuration[“DbUsername”],<br>Password = context.Configuration[“DbPassword”]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 数据库用户名和密码将注入存储在 appsettings.json 中的连接字符串中。</span><br><span class="line"></span><br><span class="line">- 使用相应连接字符串配置名为 `ContosoPetsAuth` 的 EF Core 数据库上下文类。</span><br><span class="line"></span><br><span class="line">- 标识服务已注册，包括默认 UI、令牌提供程序和基于 cookie 的身份验证。</span><br><span class="line"></span><br><span class="line">同样在 IdentityHostingStartup.cs 中，将以下代码添加到顶部的 `using` 语句块中。 保存所做更改。</span><br><span class="line"></span><br><span class="line">C#</span><br><span class="line"></span><br><span class="line">```csharp</span><br><span class="line">using Npgsql;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>上面的代码解析了对 <code>Configure</code> 方法中 <code>NpgsqlConnectionStringBuilder</code> 类的引用。</p>
+<p>在 Startup.cs 的 <code>Configure</code> 方法中，使用以下代码替换 <code>// Add the app.UseAuthentication code</code> 注释。 保存所做更改。</p>
+<p>C#</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.UseAuthentication();</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码启用了身份验证功能。 更具体地说，向应用的 HTTP 请求处理管道添加了 ASP.NET Core 身份验证中间件的一个实例。</p>
+<p>运行以下命令，将数据库连接字符串输出到控制台。 将连接字符串复制到剪贴板。</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$dbConnectionString</span></span><br></pre></td></tr></table></figure>
+
+<p>在 appsettings.json 中，将 <code>ContosoPetsAuthConnection</code> 的连接字符串替换为上一步骤中的连接字符串。 保存所做更改。</p>
+<p><code>ConnectionStrings</code> 部分应类似于以下 JSON：</p>
+<p>JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;ConnectionStrings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;ContosoPetsAuthConnection&quot;</span>: <span class="string">&quot;Server=&#123;HOST NAME&#125;.postgres.database.azure.com;Database=contosopets;Port=5432;Ssl Mode=Require;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行以下命令以生成应用：</p>
+<p>.NET Core CLI</p>
+<ol>
+<li>```dotnetcli<br>dotnet build<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   生成成功，且没有任何警告。 如果生成失败，请检查输出以获取故障排除信息。</span><br><span class="line"></span><br><span class="line">## 更新数据库</span><br><span class="line"></span><br><span class="line">1. 安装 EEntity Framework Core 迁移工具：</span><br><span class="line"></span><br><span class="line">   .NET Core CLI</span><br><span class="line"></span><br><span class="line">```dotnetcli</span><br><span class="line">dotnet tool install dotnet-ef --version 3.1.3</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>随即显示以下输出：</p>
+<p>控制台</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">You can invoke the tool from this directory using the following commands: &#x27;dotnet tool run dotnet-ef&#x27; or &#x27;dotnet dotnet-ef&#x27;.</span><br><span class="line">Tool &#x27;dotnet-ef&#x27; (version &#x27;3.1.3&#x27;) was successfully installed. Entry is added to the manifest file /home/&lt;USER&gt;/aspnet-learn/src/ContosoPets.Ui/.config/dotnet-tools.json.</span><br></pre></td></tr></table></figure>
+
+<p>迁移工具是一个 .NET Core 工具，它将：</p>
+<ul>
+<li>生成名为迁移的代码，用于创建和更新支持标识实体模型的数据库。</li>
+<li>针对现有数据库执行迁移。</li>
+<li>在本模块中通过 <code>dotnet ef</code> 调用。</li>
+</ul>
+<p>创建并运行 EF Core 迁移以更新数据库：</p>
+<p>.NET Core CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add CreateIdentitySchema &amp;&amp; \</span><br><span class="line">    dotnet ef database update</span><br></pre></td></tr></table></figure>
+
+<p><code>CreateIdentitySchema</code> EF Core 迁移应用了数据定义语言 (DDL) 更改脚本来创建支持标识的表。 例如，以下摘录描述了迁移生成的 <code>CREATE TABLE</code> 语句：</p>
+<p>控制台</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">info: Microsoft.EntityFrameworkCore.Database.Command[20101]</span><br><span class="line">  Executed DbCommand (329ms) [Parameters=[], CommandType=&#x27;Text&#x27;, CommandTimeout=&#x27;30&#x27;]</span><br><span class="line">  CREATE TABLE &quot;AspNetUsers&quot; (</span><br><span class="line">      &quot;Id&quot; text NOT NULL,</span><br><span class="line">      &quot;UserName&quot; character varying(256) NULL,</span><br><span class="line">      &quot;NormalizedUserName&quot; character varying(256) NULL,</span><br><span class="line">      &quot;Email&quot; character varying(256) NULL,</span><br><span class="line">      &quot;NormalizedEmail&quot; character varying(256) NULL,</span><br><span class="line">      &quot;EmailConfirmed&quot; boolean NOT NULL,</span><br><span class="line">      &quot;PasswordHash&quot; text NULL,</span><br><span class="line">      &quot;SecurityStamp&quot; text NULL,</span><br><span class="line">      &quot;ConcurrencyStamp&quot; text NULL,</span><br><span class="line">      &quot;PhoneNumber&quot; text NULL,</span><br><span class="line">      &quot;PhoneNumberConfirmed&quot; boolean NOT NULL,</span><br><span class="line">      &quot;TwoFactorEnabled&quot; boolean NOT NULL,</span><br><span class="line">      &quot;LockoutEnd&quot; timestamp with time zone NULL,</span><br><span class="line">      &quot;LockoutEnabled&quot; boolean NOT NULL,</span><br><span class="line">      &quot;AccessFailedCount&quot; integer NOT NULL,</span><br><span class="line">      CONSTRAINT &quot;PK_AspNetUsers&quot; PRIMARY KEY (&quot;Id&quot;)</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+
+<p>运行以下命令，列出数据库中的表：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db -c <span class="string">&quot;SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != &#x27;pg_catalog&#x27; AND schemaname != &#x27;information_schema&#x27; ORDER BY tablename&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出确认表的创建：</p>
+<p>控制台</p>
+<ol>
+<li>```console<pre><code>   tablename
+</code></pre>
+<hr>
+ AspNetRoleClaims<br> AspNetRoles<br> AspNetUserClaims<br> AspNetUserLogins<br> AspNetUserRoles<br> AspNetUserTokens<br> AspNetUsers<br> __EFMigrationsHistory<br>(8 rows)<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 添加登录名和注册链接</span><br><span class="line"></span><br><span class="line">1. 在 Pages/Shared/_Layout.cshtml 中，使用以下内容替换 `@* Add the _LoginPartial partial view *@` 注释。 保存所做更改。</span><br><span class="line"></span><br><span class="line">   CSHTML</span><br><span class="line"></span><br><span class="line">```cshtml</span><br><span class="line">&lt;partial name=&quot;_LoginPartial&quot; /&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>前面的标记在使用默认布局的任何页面的标头内呈现 <code>_LoginPartial</code> 分部视图。 <code>_LoginPartial</code> 由标识基架添加。 如果用户未登录，则此分部视图会向用户显示“登录”和“注册”链接。</p>
+<p>运行以下命令以生成应用：</p>
+<p>.NET Core CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet build --no-restore</span><br></pre></td></tr></table></figure>
+
+<p>包含 <code>--no-restore</code> 选项，因为自上次构建以来未添加任何 NuGet 包。 生成过程会跳过 NuGet 包的恢复过程，并且在成功后不会发出任何警告。 如果生成失败，请检查输出以获取故障排除信息。</p>
+<p>运行以下命令，将应用部署到 Azure 应用服务：</p>
+<p>Azure CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp up</span><br></pre></td></tr></table></figure>
+
+<p> 备注</p>
+<p>项目根目录中的 .azure/config 文件包含 <code>az webapp up</code> 使用的配置值。</p>
+<p>运行以下命令，查看应用的 URL。 在浏览器中导航到该 URL。</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$webAppUrl</span></span><br></pre></td></tr></table></figure>
+
+<p>单击应用标头中的“注册”链接。 填写表单以创建新帐户。</p>
+<p>注册成功后：</p>
+<ul>
+<li>随即重定向到主页。</li>
+<li>应用标头显示“Hello [电子邮件地址]!” 和“注销”链接。</li>
+<li>创建名为 .AspNetCore.Identity.Application 的 Cookie。 标识使用基于 Cookie 的身份验证保存用户会话。</li>
+</ul>
+<p>单击应用标头中的“注销”链接。</p>
+<p>成功注销后，将删除 .AspNetCore.Identity.Application Cookie 以终止用户会话。</p>
+<h1 id="单元三"><a href="#单元三" class="headerlink" title="单元三"></a>单元三</h1><p>默认情况下，标识表示具有 <code>IdentityUser</code> 类的用户。 扩展在注册时捕获的数据的一种方法是创建从 <code>IdentityUser</code> 派生的类。 在本单元中，将创建名为 <code>ContosoPetsUser</code> 的派生类。 <code>ContosoPetsUser</code> 将包含用于存储用户的名字和姓氏的属性。</p>
+<p><img src="https://docs.microsoft.com/zh-cn/learn/aspnetcore/secure-aspnet-core-identity/media/4-contosopetsuser.png" alt="派生的 IdentityUser 类"></p>
+<p>此外，还需要更改 UI 来收集其他用户配置文件信息。 以下步骤说明了收集已注册用户的名字和姓氏的过程。</p>
+<h2 id="自定义用户帐户数据"><a href="#自定义用户帐户数据" class="headerlink" title="自定义用户帐户数据"></a>自定义用户帐户数据</h2><ol>
+<li><p>将要修改的用户注册文件添加到项目中：</p>
+<p>.NET Core CLI</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dotnet aspnet-codegenerator identity \</span><br><span class="line">    --dbContext ContosoPetsAuth \</span><br><span class="line">    --files &quot;Account.Manage.EnableAuthenticator;Account.Manage.Index;Account.Register&quot; \</span><br><span class="line">    --userClass ContosoPetsUser \</span><br><span class="line">    --force</span><br></pre></td></tr></table></figure>
+
+<p>在上面的命令中：</p>
+<ul>
+<li><code>--dbContext</code> 选项让工具了解名为 <code>ContosoPetsAuth</code> 的现有 <code>DbContext</code> 派生类。</li>
+<li><code>--files</code> 选项指定要添加到 Identity 区域的以分号分隔的唯一文件列表。</li>
+<li><code>--userClass</code> 选项将创建名为 <code>ContosoPetsUser</code> 的 <code>IdentityUser</code> 派生类。</li>
+<li><code>--force</code> 选项将覆盖 Identity 区域中的现有文件。</li>
+</ul>
+<p> 提示</p>
+<p>在项目根目录中，运行以下命令以查看 <code>--files</code> 选项的有效值：</p>
+<p>.NET Core CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet aspnet-codegenerator identity --listFiles</span><br></pre></td></tr></table></figure>
+
+<p>将以下文件添加到 Areas/Identity 目录中：</p>
+<ul>
+<li>Data/<ul>
+<li><em>ContosoPetsUser.cs</em></li>
+</ul>
+</li>
+<li>Pages/<ul>
+<li><em>_ViewImports.cshtml</em></li>
+<li>Account/<ul>
+<li><em>_ViewImports.cshtml</em></li>
+<li><em>Register.cshtml</em></li>
+<li><em>Register.cshtml.cs</em></li>
+<li>Manage/<ul>
+<li><em>_ManageNav.cshtml</em></li>
+<li><em>_ViewImports.cshtml</em></li>
+<li><em>EnableAuthenticator.cshtml</em></li>
+<li><em>EnableAuthenticator.cshtml.cs</em></li>
+<li><em>Index.cshtml</em></li>
+<li><em>Index.cshtml.cs</em></li>
+<li><em>ManageNavPages.cs</em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>此外，由于使用了 <code>--force</code> 选项，因此将覆盖在运行上面的命令之前就存在的 Data/ContosoPetsAuth.cs 文件。 <code>ContosoPetsAuth</code> 类声明现在引用新创建的 <code>ContosoPetsUser</code> 用户类型：</p>
+<p>C#</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ContosoPetsAuth</span> : <span class="title">IdentityDbContext</span>&lt;<span class="title">ContosoPetsUser</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>EnableAuthenticator Razor 页已搭建，但是在本模块的后面部分才会对它进行修改。</p>
+<p>在 Areas/Identity/IdentityHostingStartup.cs 的 <code>Configure</code> 方法中，需要知道新的标识用户类型才能对 <code>AddDefaultIdentity</code> 进行调用。 纳入以下突出显示的更改，并保存文件。</p>
+<p>C#</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services.AddDefaultIdentity&lt;ContosoPetsUser&gt;()</span><br><span class="line">    .AddDefaultUI()</span><br><span class="line">    .AddEntityFrameworkStores&lt;ContosoPetsAuth&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>更新 Pages/Shared/_LoginPartial.cshtml 以纳入以下突出显示的更改。 保存所做更改。</p>
+<p>CSHTML</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@using Microsoft.AspNetCore.Identity</span><br><span class="line">@using ContosoPets.Ui.Areas.Identity.Data</span><br><span class="line">@inject SignInManager&lt;ContosoPetsUser&gt; SignInManager</span><br><span class="line">@inject UserManager&lt;ContosoPetsUser&gt; UserManager</span><br><span class="line"></span><br><span class="line">&lt;ul class=&quot;navbar-nav&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上述更改将更新传递给 <code>@inject</code> 指令中的 <code>SignInManager</code> 和 <code>UserManager</code> 的用户类型。 现在引用 <code>ContosoPetsUser</code> 用户，而非默认的 <code>IdentityUser</code> 类型。 添加了 <code>@using</code> 指令以解析 <code>ContosoPetsUser</code> 引用。</p>
+<p>Pages/Shared/_LoginPartial.cshtml 实际位于 Identity 区域之外。 因此，基架工具不会自动更新该文件。 已手动进行相应更改。</p>
+<p> 提示</p>
+<p>除手动编辑 _LoginPartial.cshtml 文件外，还可以在运行基架工具之前将其删除。 将通过对新的 <code>ContosoPetsUser</code> 类的引用重新创建 _LoginPartial.cshtml 文件。</p>
+<p>更新 Areas/Identity/Data/ContosoPetsUser.cs 以支持存储和检索其他用户配置文件数据。 进行以下更改：</p>
+<ol>
+<li><p>添加 <code>FirstName</code> 和 <code>LastName</code> 属性：</p>
+<p>C#</p>
+</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ContosoPetsUser</span> : <span class="title">IdentityUser</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">MaxLength(100)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> FirstName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">MaxLength(100)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> LastName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面代码片段中的属性表示要在基础 <code>AspNetUsers</code> 表中创建的其他列。 这两个属性都是必需的，因此使用 <code>[Required]</code> 属性进行注释。 <code>[Required]</code> 属性还会在基础数据库表列中生成非 NULL 约束。 此外，<code>[MaxLength]</code> 属性表示允许的最大长度为 100 个字符。 相应地定义基础表列的数据类型。</p>
+<p>将下面的 <code>using</code> 语句添加到文件顶部。 保存所做更改。</p>
+<p>C#</p>
+<ol>
+<li><ol>
+<li>```csharp<br>using System.ComponentModel.DataAnnotations;<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">      上面的代码解析了应用于 `FirstName` 和 `LastName` 属性的数据注释属性。</span><br><span class="line"></span><br><span class="line">## 更新数据库</span><br><span class="line"></span><br><span class="line">1. 创建并应用 EF Core 迁移，以更新基础数据存储：</span><br><span class="line"></span><br><span class="line">   .NET Core CLI</span><br><span class="line"></span><br><span class="line">```dotnetcli</span><br><span class="line">dotnet ef migrations add UpdateUser &amp;&amp; \</span><br><span class="line">    dotnet ef database update</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<p><code>UpdateUser</code> EF Core 迁移已将 DDL 更改脚本应用于 <code>AspNetUsers</code> 表的架构。 具体而言，添加了 <code>FirstName</code> 和 <code>LastName</code> 列，如以下迁移输出摘录所示：</p>
+<p>控制台</p>
+<ol>
+<li>```console<br>info: Microsoft.EntityFrameworkCore.Database.Command[20101]<br>  Executed DbCommand (1,005ms) [Parameters=[], CommandType=’Text’, CommandTimeout=’30’]<br>  ALTER TABLE “AspNetUsers” ADD “FirstName” character varying(100) NOT NULL DEFAULT ‘’;<br>info: Microsoft.EntityFrameworkCore.Database.Command[20101]<pre><code>Executed DbCommand (517ms) [Parameters=[], CommandType=&#39;Text&#39;, CommandTimeout=&#39;30&#39;]
+ALTER TABLE &quot;AspNetUsers&quot; ADD &quot;LastName&quot; character varying(100) NOT NULL DEFAULT &#39;&#39;;
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   完成以下步骤，分析 `UpdateUser` EF Core 迁移对 `AspNetUsers` 表的架构的影响。 你将了解扩展标识数据模型对基础数据存储的影响。</span><br><span class="line"></span><br><span class="line">1. 运行以下命令，以查看表架构：</span><br><span class="line"></span><br><span class="line">   Bash</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">db -c &#x27;\d &quot;AspNetUsers&quot;&#x27;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>随即显示以下输出：</p>
+<p>控制台</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">                                    Table &quot;public.AspNetUsers&quot;</span><br><span class="line">        Column        |           Type           | Collation | Nullable |        Default</span><br><span class="line">----------------------+--------------------------+-----------+----------+-----------------------</span><br><span class="line"> Id                   | text                     |           | not null |</span><br><span class="line"> UserName             | character varying(256)   |           |          |</span><br><span class="line"> NormalizedUserName   | character varying(256)   |           |          |</span><br><span class="line"> Email                | character varying(256)   |           |          |</span><br><span class="line"> NormalizedEmail      | character varying(256)   |           |          |</span><br><span class="line"> EmailConfirmed       | boolean                  |           | not null |</span><br><span class="line"> PasswordHash         | text                     |           |          |</span><br><span class="line"> SecurityStamp        | text                     |           |          |</span><br><span class="line"> ConcurrencyStamp     | text                     |           |          |</span><br><span class="line"> PhoneNumber          | text                     |           |          |</span><br><span class="line"> PhoneNumberConfirmed | boolean                  |           | not null |</span><br><span class="line"> TwoFactorEnabled     | boolean                  |           | not null |</span><br><span class="line"> LockoutEnd           | timestamp with time zone |           |          |</span><br><span class="line"> LockoutEnabled       | boolean                  |           | not null |</span><br><span class="line"> AccessFailedCount    | integer                  |           | not null |</span><br><span class="line"> FirstName            | character varying(100)   |           | not null | &#x27;&#x27;::character varying</span><br><span class="line"> LastName             | character varying(100)   |           | not null | &#x27;&#x27;::character varying</span><br></pre></td></tr></table></figure>
+
+<p><code>ContosoPetsUser</code> 类中的 <code>FirstName</code> 和 <code>LastName</code> 属性对应于前面输出中的 <code>FirstName</code> 和 <code>LastName</code> 列。 由于 <code>[MaxLength(100)]</code> 属性，因此向这两列中的每一列都分配了 <code>character varying(100)</code> 数据类型。 由于 <code>[Required]</code> 属性，因此添加了非 NULL 约束。</p>
+<p>在命令 shell 中向下滚动，直到显示以下索引信息：</p>
+<p>控制台</p>
+<ol>
+<li>```console<br>Indexes:<pre><code>&quot;PK_AspNetUsers&quot; PRIMARY KEY, btree (&quot;Id&quot;)
+&quot;UserNameIndex&quot; UNIQUE, btree (&quot;NormalizedUserName&quot;)
+&quot;EmailIndex&quot; btree (&quot;NormalizedEmail&quot;)
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   `PK_AspNetUsers` 索引显示 `Id` 列是用户帐户的唯一标识符。</span><br><span class="line"></span><br><span class="line">2. 按 q 键退出命令 shell 中的文本查看器。</span><br><span class="line"></span><br><span class="line">## 自定义用户注册表单</span><br><span class="line"></span><br><span class="line">1. 在 Areas/Identity/Pages/Account/Register.cshtml 中，添加以下突出显示的标记：</span><br><span class="line"></span><br><span class="line">   CSHTML</span><br><span class="line"></span><br><span class="line">```cshtml</span><br><span class="line">&lt;form asp-route-returnUrl=&quot;@Model.ReturnUrl&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    &lt;h4&gt;Create a new account.&lt;/h4&gt;</span><br><span class="line">    &lt;hr /&gt;</span><br><span class="line">    &lt;div asp-validation-summary=&quot;All&quot; class=&quot;text-danger&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label asp-for=&quot;Input.FirstName&quot;&gt;&lt;/label&gt;</span><br><span class="line">        &lt;input asp-for=&quot;Input.FirstName&quot; class=&quot;form-control&quot; /&gt;</span><br><span class="line">        &lt;span asp-validation-for=&quot;Input.FirstName&quot; class=&quot;text-danger&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label asp-for=&quot;Input.LastName&quot;&gt;&lt;/label&gt;</span><br><span class="line">        &lt;input asp-for=&quot;Input.LastName&quot; class=&quot;form-control&quot; /&gt;</span><br><span class="line">        &lt;span asp-validation-for=&quot;Input.LastName&quot; class=&quot;text-danger&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label asp-for=&quot;Input.Email&quot;&gt;&lt;/label&gt;</span><br><span class="line">        &lt;input asp-for=&quot;Input.Email&quot; class=&quot;form-control&quot; /&gt;</span><br><span class="line">        &lt;span asp-validation-for=&quot;Input.Email&quot; class=&quot;text-danger&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>使用上述标记，向用户注册表单添加“名”和“姓”文本框。</p>
+<p>在 Areas/Identity/Pages/Account/Register.cshtml.cs 中，添加对“名称”文本框的支持。</p>
+<ol>
+<li><p>将 <code>FirstName</code> 和 <code>LastName</code> 属性添加到 <code>InputModel</code> 嵌套类：</p>
+<p>C#</p>
+</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">InputModel</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 1)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;First name&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> FirstName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 1)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Last name&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> LastName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">EmailAddress</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Email&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 6)</span>]</span><br><span class="line">    [<span class="meta">DataType(DataType.Password)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Password&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Password &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">DataType(DataType.Password)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Confirm password&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">Compare(<span class="meta-string">&quot;Password&quot;</span>, ErrorMessage = <span class="meta-string">&quot;The password and confirmation password do not match.&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> ConfirmPassword &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>[Display]</code> 属性定义与文本框关联的标签文本。</p>
+<p>修改 <code>OnPostAsync</code> 方法，以设置 <code>ContosoPetsUser</code> 对象上的 <code>FirstName</code> 和 <code>LastName</code> 属性。 进行以下突出显示的更改：</p>
+<p>C#</p>
+<ol>
+<li><ol>
+<li>```csharp<br>public async Task<IActionResult> OnPostAsync(string returnUrl = null)<br>{<pre><code>returnUrl = returnUrl ?? Url.Content(&quot;~/&quot;);
+if (ModelState.IsValid)
+&#123;
+    var user = new ContosoPetsUser
+    &#123;
+        FirstName = Input.FirstName,
+        LastName = Input.LastName,
+        UserName = Input.Email,
+        Email = Input.Email,
+    &#125;;
+    var result = await _userManager.CreateAsync(user, Input.Password);
+    if (result.Succeeded)
+    &#123;
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">      上述更改将 `FirstName` 和 `LastName` 属性设置为注册表单中的用户输入。</span><br><span class="line"></span><br><span class="line">## 自定义站点标头</span><br><span class="line"></span><br><span class="line">更新 Pages/Shared/_LoginPartial.cshtml 以显示用户注册期间收集的名字和姓氏。 需要以下代码片段中突出显示的行：</span><br><span class="line"></span><br><span class="line">CSHTML</span><br><span class="line"></span><br><span class="line">```cshtml</span><br><span class="line">@using Microsoft.AspNetCore.Identity</span><br><span class="line">@using ContosoPets.Ui.Areas.Identity.Data</span><br><span class="line">@inject SignInManager&lt;ContosoPetsUser&gt; SignInManager</span><br><span class="line">@inject UserManager&lt;ContosoPetsUser&gt; UserManager</span><br><span class="line"></span><br><span class="line">&lt;ul class=&quot;navbar-nav&quot;&gt;</span><br><span class="line">@if (SignInManager.IsSignedIn(User))</span><br><span class="line">&#123;</span><br><span class="line">    ContosoPetsUser user = await UserManager.GetUserAsync(User);</span><br><span class="line">    var fullName = $&quot;&#123;user.FirstName&#125; &#123;user.LastName&#125;&quot;;</span><br><span class="line"></span><br><span class="line">    &lt;li class=&quot;nav-item&quot;&gt;</span><br><span class="line">        &lt;a id=&quot;manage&quot; class=&quot;nav-link text-dark&quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Manage/Index&quot; title=&quot;Manage&quot;&gt;Hello, @fullName!&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;nav-item&quot;&gt;</span><br><span class="line">        &lt;form id=&quot;logoutForm&quot; class=&quot;form-inline&quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Logout&quot; asp-route-returnUrl=&quot;@Url.Page(&quot;/Index&quot;, new &#123; area = &quot;&quot; &#125;)&quot;&gt;</span><br><span class="line">            &lt;button id=&quot;logout&quot; type=&quot;submit&quot; class=&quot;nav-link btn btn-link text-dark&quot;&gt;Logout&lt;/button&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    &lt;li class=&quot;nav-item&quot;&gt;</span><br><span class="line">        &lt;a class=&quot;nav-link text-dark&quot; id=&quot;register&quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Register&quot;&gt;Register&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;nav-item&quot;&gt;</span><br><span class="line">        &lt;a class=&quot;nav-link text-dark&quot; id=&quot;login&quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Login&quot;&gt;Login&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure></IActionResult></li>
+</ol>
+</li>
+</ol>
+<h2 id="自定义配置文件管理表单"><a href="#自定义配置文件管理表单" class="headerlink" title="自定义配置文件管理表单"></a>自定义配置文件管理表单</h2><ol>
+<li><p>在 Areas/Identity/Pages/Account/Manage/Index.cshtml 中，添加以下突出显示的标记。 保存所做更改。</p>
+<p>CSHTML</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;form id=&quot;profile-form&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    &lt;div asp-validation-summary=&quot;All&quot; class=&quot;text-danger&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label asp-for=&quot;Input.FirstName&quot;&gt;&lt;/label&gt;</span><br><span class="line">        &lt;input asp-for=&quot;Input.FirstName&quot; class=&quot;form-control&quot; /&gt;</span><br><span class="line">        &lt;span asp-validation-for=&quot;Input.FirstName&quot; class=&quot;text-danger&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label asp-for=&quot;Input.LastName&quot;&gt;&lt;/label&gt;</span><br><span class="line">        &lt;input asp-for=&quot;Input.LastName&quot; class=&quot;form-control&quot; /&gt;</span><br><span class="line">        &lt;span asp-validation-for=&quot;Input.LastName&quot; class=&quot;text-danger&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label asp-for=&quot;Username&quot;&gt;&lt;/label&gt;</span><br><span class="line">        &lt;input asp-for=&quot;Username&quot; class=&quot;form-control&quot; disabled /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在 Areas/Identity/Pages/Account/Manage/Index.cshtml.cs 中，进行以下更改以支持“姓名”文本框。</p>
+<ol>
+<li><p>将 <code>FirstName</code> 和 <code>LastName</code> 属性添加到 <code>InputModel</code> 嵌套类：</p>
+<p>C#</p>
+</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">InputModel</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 1)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;First name&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> FirstName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 1)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Last name&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> LastName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Phone</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Phone number&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> PhoneNumber &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>纳入 <code>LoadAsync</code> 方法中突出显示的更改：</p>
+<p>C#</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task <span class="title">LoadAsync</span>(<span class="params">ContosoPetsUser user</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> userName = <span class="keyword">await</span> _userManager.GetUserNameAsync(user);</span><br><span class="line">    <span class="keyword">var</span> phoneNumber = <span class="keyword">await</span> _userManager.GetPhoneNumberAsync(user);</span><br><span class="line"></span><br><span class="line">    Username = userName;</span><br><span class="line"></span><br><span class="line">    Input = <span class="keyword">new</span> InputModel</span><br><span class="line">    &#123;</span><br><span class="line">        PhoneNumber = phoneNumber,</span><br><span class="line">        FirstName = user.FirstName,</span><br><span class="line">        LastName = user.LastName,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码支持检索显示在配置文件管理表单的相应文本框中的名字和姓氏。</p>
+<p>纳入 <code>OnPostAsync</code> 方法中突出显示的更改。 保存所做更改。</p>
+<p>C#</p>
+<ol>
+<li><ol>
+<li>```csharp<br>public async Task<IActionResult> OnPostAsync()<br>{<pre><code>var user = await _userManager.GetUserAsync(User);
+if (user == null)
+&#123;
+    return NotFound($&quot;Unable to load user with ID &#39;&#123;_userManager.GetUserId(User)&#125;&#39;.&quot;);
+&#125;
+
+if (!ModelState.IsValid)
+&#123;
+    await LoadAsync(user);
+    return Page();
+&#125;
+
+user.FirstName = Input.FirstName;
+user.LastName = Input.LastName;
+await _userManager.UpdateAsync(user);
+
+var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+if (Input.PhoneNumber != phoneNumber)
+&#123;
+    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+    if (!setPhoneResult.Succeeded)
+    &#123;
+        var userId = await _userManager.GetUserIdAsync(user);
+        throw new InvalidOperationException($&quot;Unexpected error occurred setting phone number for user with ID &#39;&#123;userId&#125;&#39;.&quot;);
+    &#125;
+&#125;
+
+await _signInManager.RefreshSignInAsync(user);
+StatusMessage = &quot;Your profile has been updated&quot;;
+return RedirectToPage();
+</code></pre>
+}<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">      上述代码支持更新数据库的 `AspNetUsers` 表中的名字和姓氏。</span><br><span class="line"></span><br><span class="line">## 生成、部署和测试</span><br><span class="line"></span><br><span class="line">1. 运行以下命令以生成应用：</span><br><span class="line"></span><br><span class="line">   .NET Core CLI</span><br><span class="line"></span><br><span class="line">```dotnetcli</span><br><span class="line">dotnet build --no-restore</span><br></pre></td></tr></table></figure></IActionResult></li>
+</ol>
+</li>
+</ol>
+<p>包含 <code>--no-restore</code> 选项，因为自上次构建以来未添加任何 NuGet 包。 生成过程会跳过 NuGet 包的恢复过程，并且在成功后不会发出任何警告。 如果生成失败，请检查输出以获取故障排除信息。</p>
+<p>运行以下命令，将应用部署到 Azure 应用服务：</p>
+<p>Azure CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp up</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器中导航到应用。 如果仍为登录状态，请选择“注销”。</p>
+<p> 提示</p>
+<p>如果需要应用的 URL，请通过以下命令来显示它：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$webAppUrl</span></span><br></pre></td></tr></table></figure>
+
+<p>选择“注册”并使用更新的表单注册新用户。</p>
+<p> 备注</p>
+<p>“名”和“姓”字段的验证约束反映了 <code>InputModel</code> 的 <code>FirstName</code> 和 <code>LastName</code> 属性上的数据注释。</p>
+<p>注册后，将重定向到主页。 应用标头现在包含“Hello, [姓] [名]!”。</p>
+<p>运行以下命令，确认名字和姓氏存储在数据库中：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db -c <span class="string">&#x27;SELECT &quot;UserName&quot;, &quot;Email&quot;, &quot;FirstName&quot;, &quot;LastName&quot; FROM &quot;AspNetUsers&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>随即显示以下输出的变体：</p>
+<p>控制台</p>
+<ol>
+<li>```console<pre><code>     UserName          |            Email          | FirstName | LastName
+</code></pre>
+—————————+—————————+———–+———-<br> <a href="mailto:&#x6b;&#97;&#105;&#x2e;&#x6b;&#x6c;&#101;&#x69;&#x6e;&#x40;&#99;&#111;&#110;&#116;&#111;&#115;&#x6f;&#x2e;&#99;&#111;&#x6d;">&#x6b;&#97;&#105;&#x2e;&#x6b;&#x6c;&#101;&#x69;&#x6e;&#x40;&#99;&#111;&#110;&#116;&#111;&#115;&#x6f;&#x2e;&#99;&#111;&#x6d;</a>     | <a href="mailto:&#107;&#x61;&#x69;&#46;&#x6b;&#x6c;&#101;&#105;&#110;&#x40;&#99;&#x6f;&#x6e;&#116;&#x6f;&#115;&#x6f;&#46;&#99;&#x6f;&#x6d;">&#107;&#x61;&#x69;&#46;&#x6b;&#x6c;&#101;&#105;&#110;&#x40;&#99;&#x6f;&#x6e;&#116;&#x6f;&#115;&#x6f;&#46;&#99;&#x6f;&#x6d;</a>     |           |<br> <a href="mailto:&#106;&#97;&#x6e;&#97;&#x2e;&#104;&#x65;&#x69;&#x6e;&#114;&#105;&#99;&#104;&#x40;&#99;&#x6f;&#110;&#116;&#x6f;&#x73;&#x6f;&#x2e;&#x63;&#x6f;&#109;">&#106;&#97;&#x6e;&#97;&#x2e;&#104;&#x65;&#x69;&#x6e;&#114;&#105;&#99;&#104;&#x40;&#99;&#x6f;&#110;&#116;&#x6f;&#x73;&#x6f;&#x2e;&#x63;&#x6f;&#109;</a> | <a href="mailto:&#x6a;&#97;&#x6e;&#x61;&#x2e;&#x68;&#x65;&#x69;&#110;&#114;&#x69;&#99;&#104;&#64;&#x63;&#111;&#x6e;&#x74;&#111;&#115;&#x6f;&#46;&#99;&#111;&#x6d;">&#x6a;&#97;&#x6e;&#x61;&#x2e;&#x68;&#x65;&#x69;&#110;&#114;&#x69;&#99;&#104;&#64;&#x63;&#111;&#x6e;&#x74;&#111;&#115;&#x6f;&#46;&#99;&#111;&#x6d;</a> | Jana      | Heinrich<br>(2 rows)<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   第一个用户是在将 `FirstName` 和 `LastName` 添加到架构之前注册的。 因此，关联的 `AspNetUsers` 表记录在这些列中没有数据。</span><br><span class="line"></span><br><span class="line">## 测试对配置文件管理表单的更改</span><br><span class="line"></span><br><span class="line">1. 在 Web 应用中，使用创建的第一个用户登录。</span><br><span class="line"></span><br><span class="line">2. 单击“Hello, !” 链接，导航到配置文件管理表单。</span><br><span class="line"></span><br><span class="line">    备注</span><br><span class="line"></span><br><span class="line">   该链接无法正确显示，因为此用户的 `AspNetUsers` 表的行不包含 `FirstName` 和 `LastName` 的值。</span><br><span class="line"></span><br><span class="line">3. 对于“名”和“姓”，请输入有效值。 选择“保存”。</span><br><span class="line"></span><br><span class="line">   应用标头更新为“Hello, [姓] [名]!”。</span><br><span class="line"></span><br><span class="line"># 练习 - 配置多重身份验证</span><br><span class="line"></span><br><span class="line">默认情况下，使用标识的 ASP.NET Core 项目模板包括对 TOTP 身份验证器应用的多重身份验证支持。 Razor Pages  模板的“配置验证器应用”表单提供了一个 32 个字符的注册密钥，用于为令牌值设定种子。  在本单元中，将自定义“配置验证器应用”表单以提供包含注册密钥的 QR 码。 QR 码将充当 32 个字符的密钥的替代身份验证机制。</span><br><span class="line"></span><br><span class="line">存在生成 QR 码的多种策略。 示例包括使用第三方 JavaScript 库。 但是，在本单元中，第三方 NuGet 包用于通过 C# 生成 QR 码。 生成的 QR 码图像以 base-64 编码字符串的形式注入 HTML 占位符元素。</span><br><span class="line"></span><br><span class="line">## 检查 QR 码生成基础结构</span><br><span class="line"></span><br><span class="line">为避免分散对标识的注意力，我们提供了支持 QR 码生成的样板。 支持的更改包括：</span><br><span class="line"></span><br><span class="line">- NuGet 包 `QRCoder`，已安装在项目中。</span><br><span class="line"></span><br><span class="line">- 与 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+QRCoder<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">库的所有交互都已在 Services/QRCodeService.cs 文件中分离出来。 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+QRCodeService<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   类：</span><br><span class="line"></span><br><span class="line">  - 使用构造函数注入访问库的 `QRCodeGenerator` 类的实例。</span><br><span class="line">  - 公开 `GetQRCodeAsBase64` 方法以返回 base-64 编码字符串。 QR 码维度由传递给 `GetGraphic` 的整数值确定。 在此情况下，生成的 QR 码将由大小为四个像素的块组成。</span><br><span class="line"></span><br><span class="line">- `QRCodeService` 在 Startup.cs 内的 IoC 容器中注册为单一服务。</span><br><span class="line"></span><br><span class="line">## 自定义多重身份验证</span><br><span class="line"></span><br><span class="line">1. 打开 Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml.cs，进行以下更改并保存：</span><br><span class="line"></span><br><span class="line">   1. 将以下属性添加到 `EnableAuthenticatorModel` 类，以存储 QR 码的 base-64 字符串表示形式：</span><br><span class="line"></span><br><span class="line">      C#</span><br><span class="line"></span><br><span class="line">```csharp</span><br><span class="line">public class EnableAuthenticatorModel : PageModel</span><br><span class="line">&#123;</span><br><span class="line">    private readonly UserManager&lt;ContosoPetsUser&gt; _userManager;</span><br><span class="line">    private readonly ILogger&lt;EnableAuthenticatorModel&gt; _logger;</span><br><span class="line">    private readonly UrlEncoder _urlEncoder;</span><br><span class="line"></span><br><span class="line">    public string QrCodeAsBase64 &#123; get; set; &#125;      </span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>纳入 <code>OnGetAsync</code> 页处理程序中突出显示的更改：</p>
+<p>C#</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">OnGetAsync</span>(<span class="params">[FromServices] QRCodeService qrCodeService</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> user = <span class="keyword">await</span> _userManager.GetUserAsync(User);</span><br><span class="line">    <span class="keyword">if</span> (user == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> NotFound(<span class="string">$&quot;Unable to load user with ID &#x27;<span class="subst">&#123;_userManager.GetUserId(User)&#125;</span>&#x27;.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> LoadSharedKeyAndQrCodeUriAsync(user);</span><br><span class="line">    QrCodeAsBase64 = qrCodeService.GetQRCodeAsBase64(AuthenticatorUri);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Page();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在前面的页处理程序中，参数注入提供对 <code>QRCodeService</code> 单一服务的引用。 <code>QRCodeService</code> 负责与生成 QR 码的第三方库进行交互。</p>
+<p>将以下 <code>using</code> 语句添加到文件顶部，以解析对 <code>QRCodeService</code> 的引用。 保存所做更改。</p>
+<p>C#</p>
+<ol>
+<li><p>```csharp<br>using ContosoPets.Ui.Services;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在 Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml 中，进行以下突出显示的更改并保存：</span><br><span class="line"></span><br><span class="line">CSHTML</span><br><span class="line"></span><br><span class="line">1. ```cshtml</span><br><span class="line">   &lt;li&gt;</span><br><span class="line">       &lt;p&gt;Scan the QR Code or enter this key &lt;kbd&gt;@Model.SharedKey&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter.&lt;/p&gt;</span><br><span class="line">       &lt;div class=&quot;alert alert-info&quot;&gt;Learn how to &lt;a href=&quot;https://go.microsoft.com/fwlink/?Linkid=852423&quot;&gt;enable QR code generation&lt;/a&gt;.&lt;/div&gt;</span><br><span class="line">       &lt;div id=&quot;qrCode&quot;&gt;</span><br><span class="line">           &lt;img alt=&quot;embedded QR code&quot; src=&quot;data:image/png;base64,@Model.QrCodeAsBase64&quot; /&gt;</span><br><span class="line">       &lt;/div&gt;</span><br><span class="line">       &lt;div id=&quot;qrCodeData&quot; data-url=&quot;@Html.Raw(@Model.AuthenticatorUri)&quot;&gt;&lt;/div&gt;</span><br><span class="line">   &lt;/li&gt;</span><br></pre></td></tr></table></figure>
+
+<p>前面的标记将 base-64 编码图像嵌入页中。</p>
+</li>
+</ol>
+<h2 id="测试多重身份验证"><a href="#测试多重身份验证" class="headerlink" title="测试多重身份验证"></a>测试多重身份验证</h2><ol>
+<li><p>运行以下命令以生成应用：</p>
+<p>.NET Core CLI</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet build --no-restore</span><br></pre></td></tr></table></figure>
+
+<p>包含 <code>--no-restore</code> 选项，因为自上次构建以来未添加任何 NuGet 包。 生成过程会跳过 NuGet 包的恢复过程，并且在成功后不会发出任何警告。 如果生成失败，请检查输出以获取故障排除信息。</p>
+<p>运行以下命令，将应用部署到 Azure 应用服务：</p>
+<p>Azure CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp up</span><br></pre></td></tr></table></figure>
+
+<p>导航到该站点并使用任一注册的用户登录（如果尚未登录）。 选择“Hello, [姓] [名]!” 链接以导航到配置文件管理页面，然后选择“双因素身份验证”。</p>
+<p>请注意查看页上是否显示以下消息：</p>
+<p>控制台</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Privacy and cookie policy have not been accepted.</span><br><span class="line">You must accept the policy before you can enable two factor authentication.</span><br></pre></td></tr></table></figure>
+
+<p>单击隐私和 Cookie 使用策略横幅中的“接受”链接，以接受该策略。 刷新页面。</p>
+<p>创建名为 .AspNet.Consent 的 Cookie，以标记接受该策略。 该 Cookie 自接受日期起的一年后过期。</p>
+<p>选择“添加验证器应用”按钮。</p>
+<p>按照屏幕上的说明为此用户注册并验证身份验证器应用。</p>
+<p>以 Android 上的 Microsoft Authenticator 为例，请按照以下步骤将该帐户添加到应用：</p>
+<ol>
+<li>打开 Microsoft Authenticator 应用。</li>
+<li>选择右上角的 kebab 菜单（竖省略号）。</li>
+<li>选择“添加帐户”。</li>
+<li>选择“其他帐户(Google、Facebook 等)”。</li>
+<li>按照指示扫描 QR 码。</li>
+<li>选择“完成”以验证 32 个字符的密钥。</li>
+</ol>
+<p>在“验证码”文本框中输入 TOTP 应用提供的验证码。</p>
+<p>选择“验证”。</p>
+<p>验证成功后，页面会显示“你的身份验证器应用已经过验证”横幅和一些恢复代码。</p>
+<p>运行以下命令，查看 <code>AspNetUsers</code> 表的 <code>TwoFactorEnabled</code> 列的效果：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db -c <span class="string">&#x27;SELECT &quot;FirstName&quot;, &quot;LastName&quot;, &quot;Email&quot;, &quot;TwoFactorEnabled&quot; FROM &quot;AspNetUsers&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于已登录的用户，输出显示 <code>TwoFactorEnabled</code> 列等于 <code>t</code>。 由于尚未为其他已注册的用户启用多重身份验证，因此记录的列值为 <code>f</code>。</p>
+<p>选择“注销”，然后使用同一用户重新登录。</p>
+<p>在“验证器代码”文本框中输入 TOTP 验证器应用提供的验证码。 选择“登录”按钮。</p>
+<p>选择“Hello, [姓] [名]!”。 然后，选择“双因素身份验证”选项卡。</p>
+<p>由于已设置 Microsoft Authenticator，因此会显示以下按钮：</p>
+<ul>
+<li><strong>禁用 2FA</strong></li>
+<li><strong>重置恢复代码</strong></li>
+<li><strong>设置验证器应用</strong></li>
+<li><strong>重置验证器应用</strong></li>
+</ul>
+<h1 id="练习-将声明与基于策略的授权结合使用"><a href="#练习-将声明与基于策略的授权结合使用" class="headerlink" title="练习 - 将声明与基于策略的授权结合使用"></a>练习 - 将声明与基于策略的授权结合使用</h1><p>在本单元中，你将创建具有管理权限的新用户。 演示用户声明的创建和存储过程。 此外，还会定义授权策略，以确定经过身份验证的用户在 UI 中是否具有提升的权限。</p>
+<h2 id="保护产品目录"><a href="#保护产品目录" class="headerlink" title="保护产品目录"></a>保护产品目录</h2><p>产品目录页面应仅对经过身份验证的用户可见。 但是，只有管理员可以编辑、创建和删除产品。</p>
+<ol>
+<li><p>在 Pages/Products/Index.cshtml.cs 中，应用以下更改：</p>
+<ol>
+<li><p>使用以下属性替换 <code>// Add [Authorize] attribute</code> 注释：</p>
+<p>C#</p>
+</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Authorize</span>]</span><br></pre></td></tr></table></figure>
+
+<p>上述属性描述了该页面的用户身份验证要求。 在此例中，除进行用户身份验证之外没有任何要求。 匿名用户无法查看该页面并将重定向到登录页面。</p>
+<p>取消注释文件顶部的 <code>//using Microsoft.AspNetCore.Authorization;</code> 行。</p>
+<p>上述更改解析了上一步中的 <code>[Authorize]</code> 属性。</p>
+<p>使用以下属性替换 <code>// Add IsAdmin property</code> 注释：</p>
+<p>C#</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">bool</span> IsAdmin =&gt;</span><br><span class="line">    HttpContext.User.HasClaim(<span class="string">&quot;IsAdmin&quot;</span>, <span class="built_in">bool</span>.TrueString);</span><br></pre></td></tr></table></figure>
+
+<p>上述代码确定经过身份验证的用户是否具有值为 <code>True</code> 的 <code>IsAdmin</code> 声明。 可以通过名为 <code>IsAdmin</code> 的只读属性访问此评估的结果。</p>
+<p>在 <code>OnDelete</code> 方法中，使用以下代码替换 <code>// Add IsAdmin check</code> 注释：</p>
+<p>C#</p>
+<ol>
+<li>```csharp<br>if (!IsAdmin)<br>{<pre><code>return Forbid();
+</code></pre>
+}<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   当经过身份验证的员工尝试通过 UI 删除产品或手动向此页面发送 HTTP DELETE 请求时，将返回 HTTP 403 状态代码。</span><br><span class="line"></span><br><span class="line">在 Pages/Products/Index.cshtml 中，使用突出显示的代码更新“编辑”、“删除”和“添加产品”链接：</span><br><span class="line"></span><br><span class="line">**编辑和删除链接**：</span><br><span class="line"></span><br><span class="line">CSHTML</span><br><span class="line"></span><br><span class="line">```cshtml</span><br><span class="line">&lt;td&gt;</span><br><span class="line">    @if (Model.IsAdmin)</span><br><span class="line">    &#123;</span><br><span class="line">    &lt;a asp-page=&quot;Edit&quot; asp-route-id=&quot;@product.Id&quot;&gt;Edit&lt;/a&gt; &lt;span&gt;|&lt;/span&gt;</span><br><span class="line">    &lt;a href=&quot;#&quot; onclick=&quot;deleteProduct(&#x27;@product.Id&#x27;, antiForgeryToken())&quot;&gt;Delete&lt;/a&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/td&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>添加产品链接：</p>
+<p>CSHTML</p>
+<ol>
+<li>```cshtml<br>@if (Model.IsAdmin)<br>{<br><a asp-page="./Create">Add Product</a><br>}<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   通过上述更改，使链接仅在经过身份验证的用户是管理员时才会呈现。</span><br><span class="line"></span><br><span class="line">## 注册并应用授权策略</span><br><span class="line"></span><br><span class="line">只有管理员才能访问“创建产品”和“编辑产品”页面。 为封装此类页面的授权条件，将创建 `Admin` 策略。</span><br><span class="line"></span><br><span class="line">1. 在 Startup.cs 的 `ConfigureServices` 方法中进行如下更改：</span><br><span class="line"></span><br><span class="line">   1. 使用下面的代码替换 `// Add call to AddAuthorization` 注释：</span><br><span class="line"></span><br><span class="line">      C#</span><br><span class="line"></span><br><span class="line">```csharp</span><br><span class="line">services.AddAuthorization(options =&gt;</span><br><span class="line">    options.AddPolicy(&quot;Admin&quot;, policy =&gt;</span><br><span class="line">        policy.RequireAuthenticatedUser()</span><br><span class="line">            .RequireClaim(&quot;IsAdmin&quot;, bool.TrueString)));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>上述代码定义了名为 <code>Admin</code> 的授权策略。 该策略要求对用户进行身份验证并将 <code>IsAdmin</code> 声明设置为 <code>True</code>。</p>
+<p>纳入以下突出显示的代码：</p>
+<p>C#</p>
+<ol>
+<li><p>```csharp<br>services.AddAntiforgery(options =&gt; options.HeaderName = “X-CSRF-TOKEN”);<br>services.AddRazorPages(options =&gt;</p>
+<pre><code>options.Conventions.AuthorizePage(&quot;/Products/Edit&quot;, &quot;Admin&quot;));
+</code></pre>
+<p>services.AddControllers();</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   `AuthorizePage` 方法调用通过应用 `Admin` 策略来保护  /Products/Edit Razor Page 路由。 此方法的优点是，受保护的 Razor Page 无需修改。 授权方面改为在  Startup.cs 中进行管理。 匿名用户将被重定向到登录页面。 经过身份验证但不满足策略要求的用户将收到“拒绝访问”消息。</span><br><span class="line"></span><br><span class="line">在 Pages/Products/Create.cshtml.cs 中，应用以下更改：</span><br><span class="line"></span><br><span class="line">1. 使用以下属性替换 `// Add [Authorize(Policy = &quot;Admin&quot;)] attribute` 注释：</span><br><span class="line"></span><br><span class="line">   C#</span><br><span class="line"></span><br><span class="line">1. 1. ```csharp</span><br><span class="line">      [Authorize(Policy = &quot;Admin&quot;)]</span><br></pre></td></tr></table></figure>
+
+<p>   上述代码表示 Startup.cs 中 <code>AuthorizePage</code> 方法调用的替代方法。 <code>[Authorize]</code> 属性强制要求满足 <code>Admin</code> 策略要求。 匿名用户将被重定向到登录页面。 经过身份验证但不满足策略要求的用户将收到“拒绝访问”消息。</p>
+<ol start="2">
+<li><p>取消注释文件顶部的 <code>//using Microsoft.AspNetCore.Authorization;</code> 行。</p>
+<p>上述更改解析了上一步中的 <code>[Authorize(Policy = &quot;Admin&quot;)]</code> 属性。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="修改注册页"><a href="#修改注册页" class="headerlink" title="修改注册页"></a>修改注册页</h2><p>修改注册页，允许管理员使用以下步骤进行注册。</p>
+<ol>
+<li><p>在 Areas/Identity/Pages/Account/Register.cshtml.cs 中，进行以下更改：</p>
+<ol>
+<li><p>将以下属性添加到 <code>InputModel</code> 嵌套类：</p>
+<p>C#</p>
+</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">InputModel</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">DataType(DataType.Password)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Admin enrollment key&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">ulong</span>? AdminEnrollmentKey &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 1)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;First name&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> FirstName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 1)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Last name&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> LastName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">EmailAddress</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Email&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(100, ErrorMessage = <span class="meta-string">&quot;The &#123;0&#125; must be at least &#123;2&#125; and at max &#123;1&#125; characters long.&quot;</span>, MinimumLength = 6)</span>]</span><br><span class="line">    [<span class="meta">DataType(DataType.Password)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Password&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Password &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">DataType(DataType.Password)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">&quot;Confirm password&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">Compare(<span class="meta-string">&quot;Password&quot;</span>, ErrorMessage = <span class="meta-string">&quot;The password and confirmation password do not match.&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> ConfirmPassword &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将突出显示的更改应用于 <code>OnPostAsync</code> 方法：</p>
+<p>C#</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">OnPostAsync</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    [FromServices] AdminRegistrationTokenService tokenService,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="built_in">string</span> returnUrl = <span class="literal">null</span></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    returnUrl = returnUrl ?? Url.Content(<span class="string">&quot;~/&quot;</span>);</span><br><span class="line">    ExternalLogins = (<span class="keyword">await</span> _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();</span><br><span class="line">    <span class="keyword">if</span> (ModelState.IsValid)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> user = <span class="keyword">new</span> ContosoPetsUser</span><br><span class="line">        &#123;</span><br><span class="line">            FirstName = Input.FirstName,</span><br><span class="line">            LastName = Input.LastName,</span><br><span class="line">            UserName = Input.Email,</span><br><span class="line">            Email = Input.Email,</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">var</span> result = <span class="keyword">await</span> _userManager.CreateAsync(user, Input.Password);</span><br><span class="line">        <span class="keyword">if</span> (result.Succeeded)</span><br><span class="line">        &#123;</span><br><span class="line">            _logger.LogInformation(<span class="string">&quot;User created a new account with password.&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">await</span> _userManager.AddClaimAsync(user, </span><br><span class="line">                <span class="keyword">new</span> Claim(<span class="string">&quot;IsAdmin&quot;</span>, </span><br><span class="line">                    (Input.AdminEnrollmentKey == tokenService.CreationKey).ToString()));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> code = <span class="keyword">await</span> _userManager.GenerateEmailConfirmationTokenAsync(user);</span><br><span class="line">            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));</span><br><span class="line">            <span class="keyword">var</span> callbackUrl = Url.Page(</span><br><span class="line">                <span class="string">&quot;/Account/ConfirmEmail&quot;</span>,</span><br><span class="line">                pageHandler: <span class="literal">null</span>,</span><br><span class="line">                values: <span class="keyword">new</span> &#123; area = <span class="string">&quot;Identity&quot;</span>, userId = user.Id, code = code &#125;,</span><br><span class="line">                protocol: Request.Scheme);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">await</span> _emailSender.SendEmailAsync(Input.Email, <span class="string">&quot;Confirm your email&quot;</span>,</span><br><span class="line">                <span class="string">$&quot;Please confirm your account by &lt;a href=&#x27;<span class="subst">&#123;HtmlEncoder.Default.Encode(callbackUrl)&#125;</span>&#x27;&gt;clicking here&lt;/a&gt;.&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (_userManager.Options.SignIn.RequireConfirmedAccount)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> RedirectToPage(<span class="string">&quot;RegisterConfirmation&quot;</span>, <span class="keyword">new</span> &#123; email = Input.Email &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">await</span> _signInManager.SignInAsync(user, isPersistent: <span class="literal">false</span>);</span><br><span class="line">                <span class="keyword">return</span> LocalRedirect(returnUrl);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> error <span class="keyword">in</span> result.Errors)</span><br><span class="line">        &#123;</span><br><span class="line">            ModelState.AddModelError(<span class="built_in">string</span>.Empty, error.Description);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If we got this far, something failed, redisplay form</span></span><br><span class="line">    <span class="keyword">return</span> Page();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上述代码中：</p>
+<ul>
+<li><code>[FromServices]</code> 属性提供 IoC 容器中的 <code>AdminRegistrationTokenService</code> 实例。</li>
+<li>调用 <code>UserManager</code> 类的 <code>AddClaimAsync</code> 方法，以在 <code>AspNetUserClaims</code> 表中保存 <code>IsAdmin</code> 声明。</li>
+</ul>
+<p>在文件顶部添加以下代码。 它可解析 <code>OnPostAsync</code> 方法中的 <code>AdminRegistrationTokenService</code> 和 <code>Claim</code> 类引用：</p>
+<p>C#</p>
+<ol>
+<li>```csharp<br>using ContosoPets.Ui.Services;<br>using System.Security.Claims;<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在 Areas/Identity/Pages/Account/Register.cshtml 中添加以下标记：</span><br><span class="line"></span><br><span class="line">CSHTML</span><br><span class="line"></span><br><span class="line">1. ```cshtml</span><br><span class="line">   &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">       &lt;label asp-for=&quot;Input.ConfirmPassword&quot;&gt;&lt;/label&gt;</span><br><span class="line">       &lt;input asp-for=&quot;Input.ConfirmPassword&quot; class=&quot;form-control&quot; /&gt;</span><br><span class="line">       &lt;span asp-validation-for=&quot;Input.ConfirmPassword&quot; class=&quot;text-danger&quot;&gt;&lt;/span&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line">   &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">       &lt;label asp-for=&quot;Input.AdminEnrollmentKey&quot;&gt;&lt;/label&gt;</span><br><span class="line">       &lt;input asp-for=&quot;Input.AdminEnrollmentKey&quot; class=&quot;form-control&quot; /&gt;</span><br><span class="line">       &lt;span asp-validation-for=&quot;Input.AdminEnrollmentKey&quot; class=&quot;text-danger&quot;&gt;&lt;/span&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line">   &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Register&lt;/button&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="测试管理员声明"><a href="#测试管理员声明" class="headerlink" title="测试管理员声明"></a>测试管理员声明</h2><ol>
+<li><p>运行以下命令以生成应用：</p>
+<p>.NET Core CLI</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet build --no-restore</span><br></pre></td></tr></table></figure>
+
+<p>包含 <code>--no-restore</code> 选项，因为自上次构建以来未添加任何 NuGet 包。 生成过程会跳过 NuGet 包的恢复过程，并且在成功后不会发出任何警告。 如果生成失败，请检查输出以获取故障排除信息。</p>
+<p>运行以下命令，将应用部署到 Azure 应用服务：</p>
+<p>Azure CLI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp up</span><br></pre></td></tr></table></figure>
+
+<p>导航到应用并使用现有用户登录（如果尚未登录）。 在标头中选择“产品”。 请注意，未向用户显示编辑、删除或创建产品的链接。</p>
+<p>在浏览器的地址栏中，直接导航到“创建产品”页面。 运行以下命令，可以获取该页面的 URL：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$webAppUrl</span>/Products/Create&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>禁止用户导航到该页面。 将显示“拒绝访问”消息。 同样，将禁止用户导航到 /Products/Edit/1 等路由。</p>
+<p>选择“注销”。</p>
+<p>使用以下命令获取管理员自行注册令牌：</p>
+<p>Bash</p>
+<ol>
+<li>```bash<br>echo $(wget -q -O - $webAppUrl/admintoken)<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    警告</span><br><span class="line"></span><br><span class="line">   管理员自行注册机制仅为演示之用。 在生产环境中使用 /api/Admin 终结点获取令牌之前，应先对其加以保护。</span><br><span class="line"></span><br><span class="line">2. 在 Web 应用中，注册新用户。 应在“管理员注册密钥”文本框中提供上一步中的令牌。</span><br><span class="line"></span><br><span class="line">3. 使用新管理用户登录后，单击标头中的“产品”链接。</span><br><span class="line"></span><br><span class="line">   管理用户可以查看、编辑和创建产品。</span><br><span class="line"></span><br><span class="line">## 检查 AspNetUserClaims 表</span><br><span class="line"></span><br><span class="line">运行以下命令：</span><br><span class="line"></span><br><span class="line">Bash</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">db -c &#x27;SELECT u.&quot;Email&quot;, c.&quot;ClaimType&quot;, c.&quot;ClaimValue&quot; FROM &quot;AspNetUserClaims&quot; AS c INNER JOIN &quot;AspNetUsers&quot; AS u ON c.&quot;UserId&quot; = u.&quot;Id&quot;&#x27;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>随即显示以下输出的变体：</p>
+<p>控制台</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        Email         | ClaimType | ClaimValue</span><br><span class="line">----------------------+-----------+------------</span><br><span class="line"> scott@contoso.com    | IsAdmin   | True</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+
+<p><code>IsAdmin</code> 声明作为键值对存储在 <code>AspNetUserClaims</code> 表中。 <code>AspNetUserClaims</code> 记录与 <code>AspNetUsers</code> 表中的用户记录相关联。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在本模块中，你已向现有的 ASP.NET Core Razor Pages 项目添加标识。 自定义了默认的标识 UI 组件以满足业务和技术需求。 创建了授权策略以保护应用的某些功能。 最后，采用了授权策略来限制访问权限，以便只有管理员才能管理产品数据。</p>
+<h2 id="下载项目文件"><a href="#下载项目文件" class="headerlink" title="下载项目文件"></a>下载项目文件</h2><p>使用以下命令来打包和下载项目文件：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pushd</span> ~/aspnet-learn/src &amp;&amp; \</span><br><span class="line">    zip -r ~/aspnet-learn.zip . &amp;&amp; \</span><br><span class="line">    <span class="built_in">popd</span> &amp;&amp; \</span><br><span class="line">    download ~/aspnet-learn.zip</span><br></pre></td></tr></table></figure>
+
+<h2 id="清除"><a href="#清除" class="headerlink" title="清除"></a>清除</h2><p>完成本模块后，沙盒会自动清理资源。</p>
+<p>使用自己的订阅时，最好在项目结束时确定是否仍然需要所创建的资源。 持续运行资源可能会产生费用。 可以逐个删除资源，也可以删除资源组以删除整个资源集。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C#</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a><a href="/tags/dotnetcore/">dotnetcore</a><a href="/tags/azure/">azure</a><a href="/tags/web/">web</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://knightark.github.io/2021/02/24/1_%E5%88%A9%E7%94%A8%E6%A0%87%E8%AF%86%E6%A1%86%E6%9E%B6%E6%9D%A5%E4%BF%9D%E6%8A%A4%20ASP.NET%20Core%20web%20%E5%BA%94%E7%94%A8/" data-title="利用标识框架来保护 ASP.NET Core web 应用 | 个人博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/03/04/使用 Azure API 管理控制 API 的身份验证/" title="使用 Azure API 管理控制 API 的身份验证">
+  <strong>上一篇：</strong><br/>
+  <span>
+  使用 Azure API 管理控制 API 的身份验证</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/02/24/C# Newtownsoft.Json的使用方式/"  title="C# Newtownsoft.Json的使用方式">
+ <strong>下一篇：</strong><br/> 
+ <span>C# Newtownsoft.Json的使用方式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E4%B8%80"><span class="toc-number">1.</span> <span class="toc-text">单元一</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">1.1.</span> <span class="toc-text">设置开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B-ASP-NET-Core-%E6%A0%87%E8%AF%86%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">查看 ASP.NET Core 标识体系结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%A1%B9%E7%9B%AE%E8%A6%81%E6%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">查看项目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%B5%B7%E5%A7%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">查看起始代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.5.</span> <span class="toc-text">验证数据库连接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E4%BA%8C"><span class="toc-number">2.</span> <span class="toc-text">单元二</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E9%A1%B9%E7%9B%AE%E6%B7%BB%E5%8A%A0%E6%A0%87%E8%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">向项目添加标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.2.</span> <span class="toc-text">配置数据库连接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E4%B8%89"><span class="toc-number">3.</span> <span class="toc-text">单元三</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E5%B8%90%E6%88%B7%E6%95%B0%E6%8D%AE"><span class="toc-number">3.1.</span> <span class="toc-text">自定义用户帐户数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E8%A1%A8%E5%8D%95"><span class="toc-number">3.2.</span> <span class="toc-text">自定义配置文件管理表单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%A4%9A%E9%87%8D%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">3.3.</span> <span class="toc-text">测试多重身份验证</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0-%E5%B0%86%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%9F%BA%E4%BA%8E%E7%AD%96%E7%95%A5%E7%9A%84%E6%8E%88%E6%9D%83%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">练习 - 将声明与基于策略的授权结合使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E4%BA%A7%E5%93%81%E7%9B%AE%E5%BD%95"><span class="toc-number">4.1.</span> <span class="toc-text">保护产品目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%B3%A8%E5%86%8C%E9%A1%B5"><span class="toc-number">4.2.</span> <span class="toc-text">修改注册页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AE%A1%E7%90%86%E5%91%98%E5%A3%B0%E6%98%8E"><span class="toc-number">4.3.</span> <span class="toc-text">测试管理员声明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6"><span class="toc-number">5.1.</span> <span class="toc-text">下载项目文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4"><span class="toc-number">5.2.</span> <span class="toc-text">清除</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C#">C#<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/CI-CD/" title="CI/CD">CI/CD<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DDD/" title="DDD">DDD<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JAVA/" title="JAVA">JAVA<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WPF/" title="WPF">WPF<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linx/" title="linx">linx<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/装机/" title="装机">装机<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件/" title="软件">软件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件开发过程/" title="软件开发过程">软件开发过程<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>20</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WPF/" title="WPF">WPF<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具/" title="工具">工具<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dotnetcore/" title="dotnetcore">dotnetcore<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/通信/" title="通信">通信<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM/" title="MVVM">MVVM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVVM-light/" title="MVVM light">MVVM light<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ci-cd/" title="ci/cd">ci/cd<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CI-CD/" title="CI/CD">CI/CD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/reactor/" title="reactor">reactor<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chart/" title="chart">chart<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SoA/" title="SoA">SoA<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/生产者消费者/" title="生产者消费者">生产者消费者<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息通信/" title="消息通信">消息通信<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Knight Ark. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="knightark">knightark</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
